@@ -6,6 +6,13 @@
 * VPS cloud server
 * Office secondary/spare laptop
 
+Sops-nix secrets live in a private repository `nixos-secrets`.
+
+History for this repository starts as of when I removed the last of my
+secrets/keys/etc (2024-03-25). Prior history exists but only in local branches.
+This branch is kept updated using `git cherry-pick` (unless I decide to just
+delete the existing history).
+
 ## Tips
 
 1. Generate hostId: `head -c4 /dev/urandom | od -A none -t x4`
