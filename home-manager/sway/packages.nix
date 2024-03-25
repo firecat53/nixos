@@ -1,0 +1,22 @@
+{
+  pkgs,
+  ...
+}:{
+  home.packages = with pkgs; [
+    brightnessctl
+    grim
+    pkgs.stable.j4-dmenu-desktop
+    networkmanager_dmenu
+    pavucontrol
+    playerctl
+    rofi-wayland
+    shotman
+    slurp
+    swayimg
+    wdisplays
+    wofi
+    wtype
+    xdotool
+    ydotool
+  ];
+}
