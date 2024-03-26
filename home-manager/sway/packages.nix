@@ -5,7 +5,7 @@
   home.packages = with pkgs; [
     brightnessctl
     grim
-    pkgs.stable.j4-dmenu-desktop
+    j4-dmenu-desktop
     networkmanager_dmenu
     pavucontrol
     playerctl
