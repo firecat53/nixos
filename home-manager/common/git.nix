@@ -1,16 +1,4 @@
 {
-  programs.gh = {
-    enable = true;
-    settings = {
-      version = 1;
-      git_protocol = "ssh";
-      aliases = {
-        co = "pr checkout";
-        pv = "pr view";
-      };
-    };
-  };
-
   programs.git = {
     enable = true;
     aliases = {
@@ -82,4 +70,79 @@
       signByDefault = true;
     };
   };
+
+  ## GH github CLI tool
+  programs.gh = {
+    enable = true;
+    settings = {
+      version = 1;
+      git_protocol = "ssh";
+      aliases = {
+        co = "pr checkout";
+        pv = "pr view";
+      };
+    };
+  };
+
+  ## gh-dash
+  programs.gh-dash = {
+    enable = true;
+    settings = {
+      prSections = [
+        {
+          title = "Open PRs";
+          filters = "is:open user:firecat53";
+        }
+        {
+          title = "Needs My Review";
+          filters = "is:open review-requested:@me";
+        }
+        {
+          title = "My PRs";
+          filters = "is:open author:@me";
+        }
+      ];
+      issuesSections = [
+        {
+          title = "Bitwarden-menu";
+          filters = "is:open repo:firecat53/bitwarden-menu";
+        }
+        {
+          title = "Keepmenu";
+          filters = "is:open repo:firecat53/keepmenu";
+        }
+        {
+          title = "Networkmanager-Dmenu";
+          filters = "is:open repo:firecat53/networkmanager-dmenu";
+        }
+        {
+          title = "Urlscan";
+          filters = "is:open repo:firecat53/urlscan";
+        }
+        {
+          title = "Watson-Dmenu";
+          filters = "is:open repo:firecat53/watson-dmenu";
+        }
+      ];
+      defaults = {
+        view = "issues";
+        layout = {
+          issues = {};
+          prs = {};
+        };
+        preview = {
+          open = true;
+          width = 60;
+        };
+      };
+      pager = {
+        diff = "delta";
+      };
+      repoPaths = {
+        ":owner/:repo" = "~/.local/tmp/:repo";
+        "firecat53/*" = "~/docs/family/scott/src/projects/*";
+      };
+    };
+  };
+
 }
