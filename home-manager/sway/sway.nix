@@ -102,6 +102,7 @@ in {
           brightness = "${pkgs.brightnessctl}/bin/brightnessctl";
           browser = "${pkgs.firefox}/bin/firefox";
           bottom = "${pkgs.bottom}/bin/btm";
+          gh-dash = "${pkgs.gh-dash}/bin/gh-dash";
           ikhal = "${pkgs.kahl}/bin/ikhal";
           keepmenu = "keepmenu";
           nmdm = "${pkgs.networkmanager_dmenu}/bin/networkmanager_dmenu";
@@ -131,6 +132,7 @@ in {
           "${mod}+Shift+z" = "exec ${term} --class Term --title Term";
           "${mod}+${mod1}+space" = "exec ${pass}";
           "${mod}+${mod1}+k" = "exec ${keepmenu}";
+          "${mod}+${mod1}+g" = "exec ${term} --title ${bottom} -e ${gh-dash}";
 
           ## Notifications
           "Control+grave" = "exec ${notify} dismiss";
