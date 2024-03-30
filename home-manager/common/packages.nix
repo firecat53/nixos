@@ -11,7 +11,6 @@
       ipython
       ipdb
       pip
-      pipx
       podman
       python-lsp-ruff
     ];
@@ -54,6 +53,7 @@ in {
     hatch
     highlight
     (python311.withPackages my-python-packages)
+    pipx
     ruff
     tig
     # Gui applications
