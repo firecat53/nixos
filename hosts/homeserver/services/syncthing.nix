@@ -87,6 +87,7 @@
           path = "/home/firecat53/nixos";
           devices = ["scott-laptop" "scott-office" "backup" "vps"];
           id = "smqlq-yhrua";
+          type = "receiveonly";
         };
         "pictures-chrystie" = {
           path = "/home/chryspie/pictures";

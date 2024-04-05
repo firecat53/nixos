@@ -38,6 +38,7 @@
           path = "/home/firecat53/nixos";
           devices = ["scott-laptop" "scott-office" "homeserver" "vps"];
           id = "smqlq-yhrua";
+          type = "receiveonly";
         };
       };
     };

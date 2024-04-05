@@ -61,6 +61,7 @@
           path = "/home/firecat53/nixos";
           devices = ["homeserver" "scott-office" "backup" "vps"];
           id = "smqlq-yhrua";
+          type = "sendonly";
         };
         "shared" = {
           path = "/home/firecat53/shared";
