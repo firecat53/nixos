@@ -109,6 +109,7 @@ in {
           notify = "${pkgs.mako}/bin/makoctl";
           pass = "bwm";
           pass_gui = "${pkgs.keepassxc}/bin/keepassxc";
+          rofimoji = "${pkgs.rofimoji}/bin/rofimoji --selector fuzzel --skin-tone light";
           swaylock = "${pkgs.swaylock}/bin/swaylock";
           term = "${pkgs.alacritty}/bin/alacritty";
           tmux = "${pkgs.tmux}/bin/tmux";
@@ -116,23 +117,28 @@ in {
           vol = "${pkgs.wireplumber}/bin/wpctl";
           vol_gui = "${pkgs.pwvucontrol}/bin/pwvucontrol";
         in lib.mkOptionDefault {
-          "${mod}+${mod1}+c" = "exec ${term} --title calendar -e ikhal";
+          ## General keybindings/apps
           "${mod}+i" = "exec ${nmdm}";
-          "${mod}+${mod1}+l" = "exec ${swaylock} -i /tmp/wall.png";
-          "${mod}+${mod1}+Shift+l" = "exec systemctl suspend";
           "${mod}+m" = "exec ${term} --class comms --title comms -e ${tmux} new -d -A -s comms";
-          "${mod}+Shift+m" = "exec ${term} --class music --title music -e ${tmux} new -d -A -s music";
           "${mod}+n" = "exec ${term} --title Notes -e ${vim} '/home/firecat53/docs/family/scott/wiki/QuickNote.md'";
           "${mod}+p" = "exec ${term} --title ${bottom} -e btm";
-          "${mod}+Shift+p" = "exec ${pass_gui}";
+          "${mod}+z" = "exec ${term} --class Terminal --title Terminal -e ${tmux} new -d -A -s term";
+
+          "${mod}+${mod1}+c" = "exec ${term} --title calendar -e ikhal";
+          "${mod}+${mod1}+g" = "exec ${term} --title ${bottom} -e ${gh-dash}";
+          "${mod}+${mod1}+j" = "exec ${rofimoji}";
+          "${mod}+${mod1}+k" = "exec ${keepmenu}";
+          "${mod}+${mod1}+l" = "exec ${swaylock} -i /tmp/wall.png";
           "${mod}+${mod1}+s" = "exec watson_dmenu";
           "${mod}+${mod1}+w" = ''exec ${term} --class Wiki --title Wiki -e ${vim} "/home/firecat53/docs/family/scott/wiki/Home.md"'';
-          "${mod}+Shift+w" = "exec ${browser}";
-          "${mod}+z" = "exec ${term} --class Terminal --title Terminal -e ${tmux} new -d -A -s term";
-          "${mod}+Shift+z" = "exec ${term} --class Term --title Term";
           "${mod}+${mod1}+space" = "exec ${pass}";
-          "${mod}+${mod1}+k" = "exec ${keepmenu}";
-          "${mod}+${mod1}+g" = "exec ${term} --title ${bottom} -e ${gh-dash}";
+
+          "${mod}+${mod1}+Shift+l" = "exec systemctl suspend";
+
+          "${mod}+Shift+m" = "exec ${term} --class music --title music -e ${tmux} new -d -A -s music";
+          "${mod}+Shift+p" = "exec ${pass_gui}";
+          "${mod}+Shift+w" = "exec ${browser}";
+          "${mod}+Shift+z" = "exec ${term} --class Term --title Term";
 
           ## Notifications
           "Control+grave" = "exec ${notify} dismiss";

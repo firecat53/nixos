@@ -4,6 +4,7 @@
 }:{
   home.packages = with pkgs; [
     brightnessctl
+    fuzzel
     grim
     j4-dmenu-desktop
     networkmanager_dmenu
