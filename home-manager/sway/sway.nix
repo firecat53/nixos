@@ -87,13 +87,7 @@ in {
         "1739:52619:SYNA8006:00_06CB:CD8B_Touchpad" = {
           tap = "enabled";
         };
-        "1:1:AT_Translated_Set_2_keyboard" = {
-          xkb_options = "caps:escape";
-        };
-        "1452:591:Keychron_K12" = {
-          xkb_options = "caps:escape";
-        };
-        "1155:22288:STMicroelectronics_obins_anne_keyboard" = {
+        "type:keyboard" = {
           xkb_options = "caps:escape";
         };
       };
