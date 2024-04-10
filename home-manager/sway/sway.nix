@@ -12,6 +12,7 @@ in {
 
   wayland.windowManager.sway = {
     enable = true;
+    package = null;  # use sway nixos package, not home-manager package
     systemd.enable = true;
     config = {
 
