@@ -2,7 +2,7 @@
   pkgs,
   ...
 }:{
-  services.xserver.displayManager = {
+  services.displayManager = {
     defaultSession = "sway";
     sessionPackages = [pkgs.sway];
   };
