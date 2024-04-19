@@ -49,7 +49,7 @@
       wanip = "curl ipinfo.io/ip";
     };
     initExtra = ''
-      export HCLOUD_TOKEN=$(cat "/run/user/$(id -u ${config.home.username})/secrets/hcloud-token")
+      export HCLOUD_TOKEN=$(cat "$HOME/.config/sops-nix/secrets/hcloud-token")
     '';
   };
 
