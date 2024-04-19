@@ -5,6 +5,7 @@
     ./bemenu.nix
     ./git.nix
     ./gpg.nix
+    ./imv.nix
     ./nix.nix
     ./packages.nix
     ./ruff.nix
