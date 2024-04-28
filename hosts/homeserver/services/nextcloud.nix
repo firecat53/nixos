@@ -95,4 +95,23 @@
   systemd.services."nextcloud-cron" = {
     path = [pkgs.perl];
   };
+
+  ## Collabora (Nextcloud Office)
+  virtualisation.oci-containers.containers.collabora = {
+    image = "docker.io/collabora/code";
+    autoStart = true;
+    environment = {
+      aliasgroup1 = "https://nc.firecat53.net:443";
+      extra_params = "--o:ssl.enable=false --o:ssl.termination=true";
+    };
+    extraOptions = [
+      "--cap-add=MKNOD"
+      "--label=traefik.enable=true"
+      "--label=traefik.http.routers.collabora.rule=Host(`office.firecat53.net`) && (PathPrefix(`/lool`) || PathPrefix(`/cool`) || PathPrefix(`/browser`) || PathPrefix(`/hosting/discovery`) || PathPrefix(`/hosting/capabilities`) || PathPrefix(`/loleaflet`))"
+      "--label=traefik.http.routers.collabora.entrypoints=websecure"
+      "--label=traefik.http.routers.collabora.tls.certResolver=le"
+      "--label=traefik.http.routers.collabora.middlewares=headers@file"
+      "--label=traefik.http.services.collabora.loadbalancer.server.port=9980"
+    ];
+  };
 }
