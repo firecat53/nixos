@@ -73,6 +73,7 @@ in {
     pinentry-qt
     spotify
     ungoogled-chromium
+    inputs.urlscan.packages.${pkgs.system}.default
     ventoy
     wl-clipboard
     zathura

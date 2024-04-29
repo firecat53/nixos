@@ -134,7 +134,8 @@
         "my-secrets": "my-secrets",
         "nixpkgs": "nixpkgs",
         "nixpkgs-stable": "nixpkgs-stable",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "urlscan": "urlscan"
       }
     },
     "sops-nix": {
@@ -157,6 +158,26 @@
       "original": {
         "owner": "Mic92",
         "repo": "sops-nix",
+        "type": "github"
+      }
+    },
+    "urlscan": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1714415898,
+        "narHash": "sha256-Xva8DphSTLsXesX0Ki01NmkDsJB98y5CINLu3k1AAro=",
+        "owner": "firecat53",
+        "repo": "urlscan",
+        "rev": "c44184ef9160bc17625c77a2705ac24e3f7bb5d1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "firecat53",
+        "repo": "urlscan",
         "type": "github"
       }
     }

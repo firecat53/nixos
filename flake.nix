@@ -23,6 +23,9 @@
     keepmenu.url = "github:firecat53/keepmenu";
     keepmenu.inputs.nixpkgs.follows = "nixpkgs";
 
+    urlscan.url = "github:firecat53/urlscan";
+    urlscan.inputs.nixpkgs.follows = "nixpkgs";
+
     my-secrets.url = "/home/firecat53/nixos/nixos-secrets";
     my-secrets.flake = false;
   };
