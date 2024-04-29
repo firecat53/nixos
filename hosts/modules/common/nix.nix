@@ -9,7 +9,11 @@
   flakePath = "/home/${user}/nixos/nixos";
 in {
   # Enable flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    # Trusted users
+    trusted-users = [ "root" "${user}" ];
+  };
 
   # Enable git
   programs.git.enable = true;

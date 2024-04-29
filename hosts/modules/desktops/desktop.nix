@@ -44,7 +44,7 @@
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
+  services.libinput.enable = true;
 
   # Enable flatpak support
   # See home-manager/bash.nix for exports/bin and $XDG_DATA_DIRS config
