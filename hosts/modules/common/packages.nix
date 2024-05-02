@@ -10,6 +10,8 @@
     fd
     curl
     git
+    jq
+    nix-tree
     python3
     ranger
     ripgrep
