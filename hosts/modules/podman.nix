@@ -1,5 +1,6 @@
 # Podman monitoring and setup
 {
+  lib,
   pkgs,
   ...
 }: let
@@ -19,7 +20,7 @@ in {
 
   virtualisation.containers.storage.settings = {
     storage = {
-      driver = "zfs";
+      driver = lib.mkDefault "zfs";
       graphroot = "/var/lib/containers/storage";
       runroot = "/run/containers/storage";
     };
