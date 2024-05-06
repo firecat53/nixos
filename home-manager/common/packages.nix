@@ -52,7 +52,7 @@ in {
     ctags
     hatch
     highlight
-    (python311.withPackages my-python-packages)
+    (python312.withPackages my-python-packages)
     pipx
     ruff
     tig
