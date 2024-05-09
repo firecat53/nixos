@@ -20,7 +20,7 @@ in {
 
   virtualisation.containers.storage.settings = {
     storage = {
-      driver = lib.mkDefault "zfs";
+      driver = lib.mkForce "zfs";
       graphroot = "/var/lib/containers/storage";
       runroot = "/run/containers/storage";
     };
