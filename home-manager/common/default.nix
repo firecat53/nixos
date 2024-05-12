@@ -3,6 +3,7 @@
     ./alacritty.nix
     ./bash.nix
     ./bemenu.nix
+    ./fonts.nix
     ./git.nix
     ./gpg.nix
     ./imv.nix
