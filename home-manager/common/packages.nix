@@ -50,7 +50,7 @@ in {
     # Development tools
     alejandra
     ctags
-    hatch
+    pkgs.stable.hatch
     highlight
     (python312.withPackages my-python-packages)
     pipx
