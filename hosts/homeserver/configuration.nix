@@ -19,7 +19,7 @@
 
   networking.hostName = "homeserver"; # Define your hostname.
   networking.hostId = "abcd1234";
-  networking.firewall.trustedInterfaces = ["enp4s0" "wg0"];
+  networking.firewall.trustedInterfaces = ["wg0"];
   networking.useDHCP = false;
 
   systemd.network = {

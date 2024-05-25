@@ -18,7 +18,7 @@
   networking.hostName = "backup"; # Define your hostname.
   networking.hostId = "fedd1234";
   networking.useDHCP = false;
-  networking.firewall.trustedInterfaces = ["eno1" "wg0"];
+  networking.firewall.trustedInterfaces = ["wg0"];
   systemd.network = {
     enable = true;
     networks."10-lan" = {

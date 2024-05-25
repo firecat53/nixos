@@ -38,7 +38,7 @@
   networking.hostName = "vps"; # Define your hostname.
   networking.hostId = "6a315305";
   networking.useDHCP = false;
-  networking.firewall.trustedInterfaces = ["enp1s0" "wg0"];
+  networking.firewall.trustedInterfaces = ["wg0"];
   systemd.network = {
     enable = true;
     networks."10-lan" = {
