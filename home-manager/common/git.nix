@@ -48,6 +48,9 @@
         changed = "green";
         untracked = "cyan";
       };
+      safe = {
+        directory = "/home/firecat53/nixos/nixos/.git";
+      };
     };
     ignores = [
       "*.[oa]"
