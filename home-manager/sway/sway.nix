@@ -296,7 +296,7 @@ in {
           }
           {
             block = "net";
-            device = "^wg.*|^ivpn.*";
+            device = "^wg.*|^AirVPN.*";
             format = "$device";
             missing_format = "";
             interval = 3;
