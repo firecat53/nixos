@@ -142,6 +142,14 @@
         ":owner/:repo" = "~/.local/tmp/:repo";
         "firecat53/*" = "~/docs/family/scott/src/projects/*";
       };
+      keybindings = {
+        issues = [
+          {
+            key = "C";
+            command = "gh issue comment {{.IssueNumber}} --repo {{.RepoName}}";
+          }
+        ];
+      };
     };
   };
 
