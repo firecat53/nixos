@@ -4,7 +4,7 @@
   ...
 }:{
   services.audiobookshelf = {
-    package = pkgs.unstable.audiobookshelf;
+    package = pkgs.audiobookshelf;
     enable = true;
     user = "firecat53";
     group = "users";

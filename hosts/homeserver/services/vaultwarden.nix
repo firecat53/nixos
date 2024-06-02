@@ -9,7 +9,7 @@
 
   services.vaultwarden = {
     enable = true;
-    package = pkgs.unstable.vaultwarden;
+    package = pkgs.vaultwarden;
     dbBackend = "sqlite";
     config = {
       DOMAIN = "https://bw.lan.firecat53.net";

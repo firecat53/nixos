@@ -4,7 +4,7 @@
   ...
 }:{
   services.radarr = {
-    package = pkgs.unstable.radarr;
+    package = pkgs.radarr;
     enable = true;
     user = "firecat53";
     group = "users";

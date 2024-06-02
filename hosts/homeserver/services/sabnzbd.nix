@@ -6,7 +6,7 @@
   ...
 }:{
   services.sabnzbd = {
-    package = pkgs.unstable.sabnzbd;
+    package = pkgs.sabnzbd;
     enable = true;
   };
   # Override sabnzbd default

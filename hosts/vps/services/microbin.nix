@@ -14,7 +14,7 @@
     serviceConfig = {
       Type = "simple";
       User = "firecat53";
-      ExecStart = "${pkgs.unstable.microbin}/bin/microbin";
+      ExecStart = "${pkgs.microbin}/bin/microbin";
     };
     environment = {
       #MICROBIN_ADMIN_USERNAME = "firecat53";

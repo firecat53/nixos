@@ -2,15 +2,15 @@
   description = "System configurations";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
 
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
 
     sops-nix.url = "github:Mic92/sops-nix";
-    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
-    sops-nix.inputs.nixpkgs-stable.follows = "nixpkgs-stable";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    sops-nix.inputs.nixpkgs-stable.follows = "nixpkgs";
 
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -34,7 +34,7 @@
     self,
     disko,
     nixpkgs,
-    nixpkgs-stable,
+    nixpkgs-unstable,
     sops-nix,
     home-manager,
     ...
@@ -43,7 +43,7 @@
     system = "x86_64-linux";
   in {
     nixosConfigurations = {
-      backup = nixpkgs-stable.lib.nixosSystem {
+      backup = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs outputs;
         };
@@ -51,7 +51,7 @@
           ./hosts/backup/configuration.nix
         ];
       };
-      homeserver = nixpkgs-stable.lib.nixosSystem {
+      homeserver = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs outputs;
         };
@@ -75,7 +75,7 @@
           ./hosts/office/configuration.nix
         ];
       };
-      vps  = nixpkgs-stable.lib.nixosSystem {
+      vps  = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs outputs;
         };

@@ -4,7 +4,7 @@
   ...
 }:{
   services.jackett = {
-    package = pkgs.unstable.jackett;
+    package = pkgs.jackett;
     enable = true;
     user = "firecat53";
     group = "users";

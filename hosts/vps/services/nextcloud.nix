@@ -25,13 +25,13 @@
       adminuser = "firecat53";
       adminpassFile = "${config.sops.secrets.nextcloud-admin-password.path}";
       dbtype = "mysql";
-      defaultPhoneRegion = "US";
-      trustedProxies = ["127.0.0.1"];
     };
-    extraOptions = {
+    settings = {
+      default_phone_region = "US";
       mail_smtpmode = "sendmail";
       mail_sendmailmode = "pipe";
       mysql.utf8mb4 = true;
+      trusted_proxies = ["127.0.0.1"];
     };
     maxUploadSize = "2G"; # also sets post_max_size and memory_limit
     phpOptions = {

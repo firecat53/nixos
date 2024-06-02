@@ -26,11 +26,11 @@ in {
   nixpkgs.config = {
     allowUnfree = true;
     packageOverrides = pkgs: {
-      stable = import inputs.nixpkgs-stable {
+      stable = import inputs.nixpkgs {
         config = config.nixpkgs.config;
         system = "x86_64-linux";
       };
-      unstable = import inputs.nixpkgs {
+      unstable = import inputs.nixpkgs-unstable {
         config = config.nixpkgs.config;
         system = "x86_64-linux";
       };

@@ -35,10 +35,9 @@
       adminuser = "firecat53";
       adminpassFile = "${config.sops.secrets.nextcloud-admin-password.path}";
       dbtype = "mysql";
-      defaultPhoneRegion = "US";
-      trustedProxies = ["127.0.0.1"];
     };
-    extraOptions = {
+    settings = {
+      default_phone_region = "US";
       mail_smtpmode = "sendmail";
       mail_sendmailmode = "pipe";
       mysql.utf8mb4 = true;
@@ -46,6 +45,7 @@
       memories.vod.ffmpeg = "${lib.getExe pkgs.ffmpeg-headless}";
       memories.vod.ffprobe = "${pkgs.ffmpeg-headless}/bin/ffprobe";
       preview_ffmpeg_path = "${pkgs.ffmpeg-headless}/bin/ffmpeg";
+      trusted_proxies = ["127.0.0.1"];
     };
     maxUploadSize = "10G"; # also sets post_max_size and memory_limit
     phpOptions = {
