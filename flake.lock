@@ -47,11 +47,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1717097707,
-        "narHash": "sha256-HC5vJ3oYsjwsCaSbkIPv80e4ebJpNvFKQTBOGlHvjLs=",
+        "lastModified": 1717316182,
+        "narHash": "sha256-Xi0EpZcu39N0eW7apLjFfUOR9y80toyjYizez7J1wMI=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "0eb314b4f0ba337e88123e0b1e57ef58346aafd9",
+        "rev": "9b53a10f4c91892f5af87cf55d08fba59ca086af",
         "type": "github"
       },
       "original": {
@@ -83,7 +83,7 @@
     "my-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1717022263,
+        "lastModified": 1717246588,
         "narHash": "sha256-UvxQpXHd3sIldi7FQ98L05fsX9vlH3h5Mj6zrPrXaSI=",
         "path": "/home/firecat53/nixos/nixos-secrets",
         "type": "path"
@@ -111,11 +111,11 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1716991068,
-        "narHash": "sha256-Av0UWCCiIGJxsZ6TFc+OiKCJNqwoxMNVYDBChmhjNpo=",
+        "lastModified": 1717159533,
+        "narHash": "sha256-oamiKNfr2MS6yH64rUn99mIZjc45nGJlj9eGth/3Xuw=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "25cf937a30bf0801447f6bf544fc7486c6309234",
+        "rev": "a62e6edd6d5e1fa0329b8653c801147986f8d446",
         "type": "github"
       },
       "original": {
@@ -148,11 +148,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1716692524,
-        "narHash": "sha256-sALodaA7Zkp/JD6ehgwc0UCBrSBfB4cX66uFGTsqeFU=",
+        "lastModified": 1717297459,
+        "narHash": "sha256-cZC2f68w5UrJ1f+2NWGV9Gx0dEYmxwomWN2B0lx0QRA=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "962797a8d7f15ed7033031731d0bb77244839960",
+        "rev": "ab2a43b0d21d1d37d4d5726a892f714eaeb4b075",
         "type": "github"
       },
       "original": {
@@ -168,11 +168,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1714415898,
-        "narHash": "sha256-Xva8DphSTLsXesX0Ki01NmkDsJB98y5CINLu3k1AAro=",
+        "lastModified": 1717301635,
+        "narHash": "sha256-8OvAUT8paPxPEsbQzPBdWnze0LyvsdxqO0Z3od70gkY=",
         "owner": "firecat53",
         "repo": "urlscan",
-        "rev": "c44184ef9160bc17625c77a2705ac24e3f7bb5d1",
+        "rev": "1ec81ec801b35069a5bb1205af25b6d0a84d6905",
         "type": "github"
       },
       "original": {
