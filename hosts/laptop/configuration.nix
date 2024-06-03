@@ -40,5 +40,5 @@
   # Polkit - for home-manager sway
   security.polkit.enable = true;
 
-  system.stateVersion = "23.05";
+  system.stateVersion = "24.05";
 }

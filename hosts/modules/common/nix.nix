@@ -18,9 +18,8 @@ in {
   # Enable git
   programs.git.enable = true;
 
-  # Pin nixpkgs to local version for searches
-  nix.registry.nixpkgs.flake = inputs.nixpkgs;
-  nix.registry.nixpkgs-stable.flake = inputs.nixpkgs-stable;
+  # Add unstable to flake registry to use locally (e.g. `nix run nixpkgs-unstable#hatch`)
+  nix.registry.nixpkgs-unstable.flake = inputs.nixpkgs-unstable;
 
   # Allow unfree packages and pulling some packages from stable
   nixpkgs.config = {
