@@ -14,6 +14,7 @@
       ../modules/desktops
       ../modules/avahi.nix
       ../modules/boot.nix
+      ../modules/docker.nix
       ../modules/libvirt.nix
       ../modules/podman.nix
       ../modules/power.nix

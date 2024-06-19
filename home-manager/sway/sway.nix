@@ -215,6 +215,7 @@ in {
       export _JAVA_AWT_WM_NONREPARENTING="1"
       export LESS="QiR"
       export LIBVIRT_DEFAULT_URI="qemu:///system"
+      export NIXOS_OZONE_WL="1"
       export OPENWEATHERMAP_API_KEY=$(cat "$HOME/.config/sops-nix/secrets/openweathermap_api")
       export OPENWEATHERMAP_ZIP=$(cat "$HOME/.config/sops-nix/secrets/openweathermap_zip")
       export QT_AUTO_SCREEN_SCALE_FACTOR="1"
