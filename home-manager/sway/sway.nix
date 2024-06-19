@@ -163,7 +163,9 @@ in {
           "${mod}+${mod1}+y" = "exec shotman --capture output";
 
           ## Motion bindings
-          "${mod}+Tab" =  "workspace back_and_forth";
+          "${mod}+Tab" =  "workspace next";
+          "${mod1}+Tab" =  "focus next";
+          "${mod1}+Shift+Tab" =  "focus prev";
         };
 
       modifier = "${mod}";
