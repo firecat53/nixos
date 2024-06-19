@@ -10,7 +10,7 @@
     ];
 in {
   environment.systemPackages = with pkgs; [
-    (python311.withPackages podman-py // {meta.priority = 1;})
+    (python312.withPackages podman-py // {meta.priority = 1;})
   ];
 
   virtualisation.podman = {
