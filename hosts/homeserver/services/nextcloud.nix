@@ -14,7 +14,7 @@
   users.users.nextcloud.extraGroups = ["render" "users"];
  
   environment.systemPackages = with pkgs; [
-    nodejs_18  # required for Recognize
+    nodejs_20  # required for Recognize
     ffmpeg  # required for Memories
   ];
   # Allow using /dev/dri for Memories
