@@ -102,7 +102,7 @@
     autoStart = true;
     environment = {
       aliasgroup1 = "https://nc.firecat53.net:443";
-      extra_params = "--o:ssl.enable=false --o:ssl.termination=true";
+      extra_params = "--o:ssl.enable=false --o:ssl.termination=true --o:mount_namespaces=false";
     };
     extraOptions = [
       "--cap-add=MKNOD"
