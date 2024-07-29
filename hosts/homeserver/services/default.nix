@@ -11,7 +11,6 @@
     ./misc.nix
     ./nextcloud.nix
     ./nginx.nix
-    ./plex.nix
     ./qbittorrent.nix
     ./radarr.nix
     ./sabnzbd.nix
