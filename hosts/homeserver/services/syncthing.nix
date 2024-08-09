@@ -41,6 +41,12 @@
         "chrystie-laptop" = {
           id = "OK2Y6E5-MITMIEJ-YHQHSZ2-VKJV2MA-GZUIAUD-UT2MW2T-QCQ4J6W-AAGILQN";
         };
+        "peggy-laptop" = {
+          id = "XH5MYSV-DBHQQT3-DBUIAWQ-O7ZW33E-Z5RBBOP-HM6OL7T-2DOEGES-CJB3GQE";
+        };
+        "peggy-phone" = {
+          id = "32XWZC3-SZMQKCY-UMIUIDY-FULNDAW-VD3MQED-Z3TL4FZ-QVGPVVP-JTOCEQX";
+        };
       };
       folders = {
         "blackhole" = {
@@ -78,16 +84,21 @@
           devices = ["scott-laptop" "scott-office"];
           id = "sdgpi-zh6rd";
         };
-        "mom_books" = {
-          path = "/home/firecat53/.local/tmp/mom_books";
-          devices = ["scott-laptop" "scott-office"];
-          id = "quhfj-7uvtc";
-        };
         "nixos" = {
           path = "/home/firecat53/nixos";
           devices = ["scott-laptop" "scott-office" "backup" "vps"];
           id = "smqlq-yhrua";
           type = "receiveonly";
+        };
+        "peggy-all" = {
+          path = "/home/peggy";
+          devices = ["peggy-laptop"];
+          id = "wcwjd-rxyrv";
+        };
+        "peggy-camera" = {
+          path = "/mnt/media/cameras-peggy";
+          devices = ["peggy-phone"];
+          id = "uvdv3-yhbx0";
         };
         "pictures-chrystie" = {
           path = "/home/chryspie/pictures";

@@ -52,11 +52,6 @@
           devices = ["homeserver" "scott-office"];
           id = "sdgpi-zh6rd";
         };
-        "mom_books" = {
-          path = "/home/firecat53/.local/tmp/mom_books";
-          devices = ["homeserver" "scott-office"];
-          id = "quhfj-7uvtc";
-        };
         "nixos" = {
           path = "/home/firecat53/nixos";
           devices = ["homeserver" "scott-office" "backup" "vps"];

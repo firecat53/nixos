@@ -60,10 +60,10 @@ delete the existing history).
         systemctl reboot
 
 4. `sudo smbpass -a jamia`
-8. `ssh-keygen -f /etc/ssh/backup && chown backup: /etc/ssh/backup`. Change
+5. `ssh-keygen -f /etc/ssh/backup && chown backup: /etc/ssh/backup`. Change
    authorized_keys backup user in `backups.nix` for applicable machines and
    rebuild their flakes.
-9. `sudo -i -u backup ssh -i /etc/ssh/backup <backup source hostname(s)>` and accept fingerprint
+6. `sudo -i -u backup ssh -i /etc/ssh/backup <backup source hostname(s)>` and accept fingerprint
 
 # LAPTOP with encrypted ZFS root (single disk)
 

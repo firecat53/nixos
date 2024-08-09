@@ -95,6 +95,12 @@ in {
         options = ["X-mount.mkdir"];
       };
 
+      "/mnt/media/cameras-peggy" = {
+        device = "rpool/data/cameras-peggy";
+        fsType = "zfs";
+        options = ["X-mount.mkdir"];
+      };
+
       "/mnt/media/ebooks" = {
         device = "rpool/data/ebooks";
         fsType = "zfs";
