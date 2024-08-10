@@ -92,7 +92,7 @@
         };
         "peggy-all" = {
           path = "/home/peggy";
-          devices = ["peggy-laptop"];
+          devices = ["peggy-laptop" "peggy-phone"];
           id = "wcwjd-rxyrv";
         };
         "peggy-camera" = {
