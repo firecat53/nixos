@@ -7,6 +7,7 @@
     ./jackett.nix
     ./jellyfin.nix
     ./lidarr.nix
+    ./lubelogger.nix
     ./miniflux.nix
     ./misc.nix
     ./nextcloud.nix
