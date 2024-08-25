@@ -84,7 +84,7 @@
     "my-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1724126016,
+        "lastModified": 1724551404,
         "narHash": "sha256-cRN/Zn4E2mbQKmYtGWMic+E4kVPpkzNyFRCoOCOu+Vs=",
         "path": "/home/firecat53/nixos/nixos-secrets",
         "type": "path"
