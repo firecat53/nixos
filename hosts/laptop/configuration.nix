@@ -23,6 +23,7 @@
       ../../home-manager/home-manager.nix
       inputs.home-manager.nixosModules.home-manager
       inputs.sops-nix.nixosModules.sops
+      inputs.catppuccin.nixosModules.catppuccin
     ];
 
   home-manager.users.firecat53 = {

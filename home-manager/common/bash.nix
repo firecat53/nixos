@@ -56,9 +56,6 @@
   ## Bat
   programs.bat = {
     enable = true;
-    config = {
-      theme = "Monokai Extended";
-    };
   };
 
   ## Fzf
@@ -77,6 +74,4 @@
     enable = true;
     enableBashIntegration = true;
   };
-
-
 }

@@ -15,6 +15,8 @@
     home-manager.url = "github:nix-community/home-manager/release-24.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    catppuccin.url = "github:catppuccin/nix";
+
     # Personal project flakes and secrets
 
     bwm.url = "github:firecat53/bitwarden-menu";
@@ -37,6 +39,7 @@
     nixpkgs-unstable,
     sops-nix,
     home-manager,
+    catppuccin,
     ...
   }: let
     inherit (self) outputs;

@@ -13,6 +13,7 @@ in {
   wayland.windowManager.sway = {
     enable = true;
     systemd.enable = true;
+
     config = {
 
       assigns = {
@@ -47,31 +48,6 @@ in {
             size = 15.0;
           };
           statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs /home/firecat53/.config/i3status-rust/config-top.toml";
-          colors = {
-              separator = "#666666";
-              background = "#222222";
-              statusline = "#dddddd";
-              focusedWorkspace = {
-                background = "#0088CC";
-                border = "#0088CC";
-                text = "#ffffff";
-              };
-              activeWorkspace = {
-                background = "#333333";
-                border = "#333333";
-                text = "#ffffff";
-              };
-              inactiveWorkspace = {
-                background = "#333333";
-                border = "#333333";
-                text = "#888888";
-              };
-              urgentWorkspace = {
-                background = "#ff0000";
-                border = "#900000";
-                text = "#ffffff";
-              };
-            };
           workspaceButtons = true;
           workspaceNumbers = true;
         }
@@ -262,7 +238,7 @@ in {
     bars = {
       top = {
         icons = "awesome4";
-        theme = "slick";
+        theme = "ctp-mocha";
         blocks = [
           {
             block = "custom";
@@ -354,23 +330,6 @@ in {
           }
         ];
       };
-    };
-  };
-  home.pointerCursor = {
-    name = "Adwaita";
-    package = pkgs.gnome.adwaita-icon-theme;
-    size = 24;
-    gtk.enable = true;
-    x11 = {
-      enable = true;
-      defaultCursor = "Adwaita";
-    };
-  };
-  gtk = {
-    enable = true;
-    theme = {
-      package = pkgs.gnome.gnome-themes-extra;
-      name = "Adwaita";
     };
   };
 }

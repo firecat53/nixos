@@ -1,6 +1,9 @@
 {
+  pkgs,
+  ...
+}:{
   services.displayManager = {
     sddm.enable = true;
-    sddm.theme = "elarun";
+    sddm.package = pkgs.kdePackages.sddm;
   };
 }

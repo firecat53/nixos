@@ -1,4 +1,7 @@
 {
+  pkgs,
+  ...
+}:{
   programs.tmux = {
     enable = true;
     baseIndex = 1;
@@ -28,23 +31,33 @@
       bind C-p previous-window
       bind v run "tmux show-buffer | wl-paste > /dev/null"
 
-      # Highlighting the active window in status bar
-      setw -g window-status-current-style bg=red
-      set -g status-bg blue
-      set -g status-fg black
-
-      # Add uptime to status bar
-      set -g status-interval 5
-      set -g status-right-length 100
-      set -g status-right "#(uptime | awk -F 'up |,' '{print \"up\",$2}' | sed 's/  / /g') \"#H\" #(date '+%H:%M %a %m-%d')"
-
-      # Neovim adjustments
-      set-option -g focus-events on
-
       # Define sessions
       new -s term -n term -d -A
       new -s comms -n comms -d -A mutt
       new -s music -n music -d -A
     '';
+    plugins = with pkgs; [
+      {
+        plugin = tmuxPlugins.catppuccin;
+        extraConfig = ''
+          set -g @catppuccin_flavor 'mocha' # latte,frappe, macchiato or mocha
+
+          set -g @catppuccin_window_left_separator ""
+          set -g @catppuccin_window_right_separator " "
+          set -g @catppuccin_window_middle_separator " █"
+          set -g @catppuccin_window_number_position "right"
+
+          set -g @catppuccin_window_default_fill "number"
+
+          set -g @catppuccin_window_current_fill "number"
+
+          set -g @catppuccin_status_modules_right "host uptime date_time"
+          set -g @catppuccin_status_left_separator  ""
+          set -g @catppuccin_status_right_separator " "
+          set -g @catppuccin_status_fill "all"
+          set -g @catppuccin_status_connect_separator "yes"
+        '';
+      }
+    ];
   };
 }

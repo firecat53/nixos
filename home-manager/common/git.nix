@@ -6,14 +6,8 @@
     };
     delta.enable = true;
     delta.options = {
-      features = "line-numbers decorations wooly-mammoth";
       whitespace-error-style = "22 reverse";
       navigate = true;
-      decorations = {
-        commit-decoration-style = "bold yellow box ul";
-        file-style = "bold yellow ul";
-        file-decoration-style = "none";
-      };
     };
     extraConfig = {
       user = {
@@ -31,22 +25,6 @@
       };
       pull = {
         rebase = "false";
-      };
-      color.branch = {
-        current = "yellow reverse";
-        local = "yellow";
-        remote = "green";
-      };
-      color.diff = {
-        meta = "yellow bold";
-        frag = "magenta bold";
-        old = "red";
-        new = "cyan";
-      };
-      color.status = {
-        added = "yellow";
-        changed = "green";
-        untracked = "cyan";
       };
     };
     ignores = [
