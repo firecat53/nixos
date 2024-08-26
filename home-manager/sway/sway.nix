@@ -398,6 +398,13 @@ in {
       };
     };
   };
+  home.pointerCursor = {
+    size = 32;
+    gtk.enable = true;
+    x11 = {
+      enable = true;
+    };
+  };
   gtk = {
     enable = true;
   };
