@@ -50,8 +50,74 @@ in {
           statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs /home/firecat53/.config/i3status-rust/config-top.toml";
           workspaceButtons = true;
           workspaceNumbers = true;
+          colors = {
+              background = "$base";
+              statusline = "$text";
+              focusedStatusline = "$text";
+              focusedSeparator = "$base";
+              
+              focusedWorkspace = {
+                background = "$sapphire";
+                border = "$base";
+                text = "$crust";
+              };
+              activeWorkspace = {
+                background = "$surface2";
+                border = "$base";
+                text = "$text";
+              };
+              inactiveWorkspace = {
+                background = "$base";
+                border = "$base";
+                text = "$text";
+              };
+              urgentWorkspace = {
+                background = "$red";
+                border = "$base";
+                text = "$crust";
+              };
+          };
         }
       ];
+
+      colors = {
+        background = "$base";
+        focused = {
+          childBorder = "$lavender";
+          background = "$base";
+          text = "$text";
+          indicator = "$rosewater";
+          border = "$lavender";
+        };
+        focusedInactive = {
+          childBorder = "$overlay0";
+          background = "$base";
+          text = "$text";
+          indicator = "$rosewater";
+          border = "$overlay0";
+        };
+        unfocused = {
+          childBorder = "$overlay0";
+          background = "$base";
+          text = "$text";
+          indicator = "$rosewater";
+          border = "$overlay0";
+        };
+        urgent = {
+          childBorder = "$peach";
+          background = "$base";
+          text = "$peach";
+          indicator = "$overlay0";
+          border = "$peach";
+        };
+        placeholder = {
+          childBorder = "$overlay0";
+          background = "$base";
+          text = "$text";
+          indicator = "$overlay0";
+          border = "$overlay0";
+        };
+      };
       floating.modifier = "${mod}";
 
       fonts = {
@@ -331,5 +397,8 @@ in {
         ];
       };
     };
+  };
+  gtk = {
+    enable = true;
   };
 }
