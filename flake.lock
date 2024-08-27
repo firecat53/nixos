@@ -99,7 +99,7 @@
     "my-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1724618830,
+        "lastModified": 1724688014,
         "narHash": "sha256-cRN/Zn4E2mbQKmYtGWMic+E4kVPpkzNyFRCoOCOu+Vs=",
         "path": "/home/firecat53/nixos/nixos-secrets",
         "type": "path"
@@ -111,11 +111,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1724316499,
-        "narHash": "sha256-Qb9MhKBUTCfWg/wqqaxt89Xfi6qTD3XpTzQ9eXi3JmE=",
+        "lastModified": 1724531977,
+        "narHash": "sha256-XROVLf9ti4rrNCFLr+DmXRZtPjCQTW4cYy59owTEmxk=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "797f7dc49e0bc7fab4b57c021cdf68f595e47841",
+        "rev": "2527da1ef492c495d5391f3bcf9c1dd9f4514e32",
         "type": "github"
       },
       "original": {
