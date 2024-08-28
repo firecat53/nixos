@@ -42,11 +42,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1724639687,
-        "narHash": "sha256-L2h46/z8WExNvtCEdZ8YuMu5TwfAGsKXXgM7pyIShvs=",
+        "lastModified": 1724769572,
+        "narHash": "sha256-K+HQbC2/hnGngIB019mX6f4XUrf7dB1eBfiUHW4Vx48=",
         "owner": "nix-community",
         "repo": "disko",
-        "rev": "b09eb605e376c9e95c87c0ef3fcb8008e11c8368",
+        "rev": "b89a61129f3976d6440e2356ac5d3e30930f7012",
         "type": "github"
       },
       "original": {
@@ -99,7 +99,7 @@
     "my-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1724688014,
+        "lastModified": 1724772131,
         "narHash": "sha256-cRN/Zn4E2mbQKmYtGWMic+E4kVPpkzNyFRCoOCOu+Vs=",
         "path": "/home/firecat53/nixos/nixos-secrets",
         "type": "path"
