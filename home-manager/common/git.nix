@@ -101,6 +101,14 @@
           title = "Watson-Dmenu";
           filters = "is:open repo:firecat53/watson-dmenu";
         }
+        {
+          title = "Todocalmenu";
+          filters = "is:open repo:firecat53/todocalmenu";
+        }
+        {
+          title = "Todotxtmenu";
+          filters = "is:open repo:firecat53/todotxtmenu";
+        }
       ];
       defaults = {
         view = "issues";
