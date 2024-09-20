@@ -17,6 +17,8 @@
 
     catppuccin.url = "github:catppuccin/nix";
 
+    cursor.url = "github:omarcresp/cursor-flake/main";
+
     # Personal project flakes and secrets
 
     bwm.url = "github:firecat53/bitwarden-menu";
@@ -40,6 +42,7 @@
     sops-nix,
     home-manager,
     catppuccin,
+    cursor,
     ...
   }: let
     inherit (self) outputs;

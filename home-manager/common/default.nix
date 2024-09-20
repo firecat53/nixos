@@ -4,6 +4,7 @@
     ./bash.nix
     ./bemenu.nix
     ./catppuccin.nix
+    ./cursor-editor.nix
     ./fonts.nix
     ./git.nix
     ./gpg.nix
