@@ -71,6 +71,7 @@ in {
     mpv
     pinentry-qt
     spotify
+    inputs.todocalmenu.packages.${pkgs.system}.default
     ungoogled-chromium
     inputs.urlscan.packages.${pkgs.system}.default
     ventoy

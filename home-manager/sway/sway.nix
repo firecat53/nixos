@@ -1,11 +1,16 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
 }: let
   mod = "Mod4";
   mod1 = "Mod1";
+  ## Ensure correct path to my flake-installed projects
+  bwm = inputs.bwm.packages.${pkgs.system}.default;
+  km = inputs.keepmenu.packages.${pkgs.system}.default;
+  tdcm = inputs.todocalmenu.packages.${pkgs.system}.default;
 in {
   sops.secrets.openweathermap_api = {};
   sops.secrets.openweathermap_zip = {};
@@ -140,15 +145,16 @@ in {
           bottom = "${pkgs.bottom}/bin/btm";
           gh-dash = "${pkgs.gh-dash}/bin/gh-dash";
           ikhal = "${pkgs.kahl}/bin/ikhal";
-          keepmenu = "keepmenu";
+          keepmenu = "${km}/bin/keepmenu";
           nmdm = "${pkgs.networkmanager_dmenu}/bin/networkmanager_dmenu";
           notify = "${pkgs.mako}/bin/makoctl";
-          pass = "bwm";
+          pass = "${bwm}/bin/bwm";
           pass_gui = "${pkgs.keepassxc}/bin/keepassxc";
           rofimoji = "${pkgs.rofimoji}/bin/rofimoji --selector fuzzel --skin-tone light";
           swaylock = "${pkgs.swaylock}/bin/swaylock";
           term = "${pkgs.alacritty}/bin/alacritty";
           tmux = "${pkgs.tmux}/bin/tmux";
+          todocalmenu = "${tdcm}/bin/todocalmenu -cmd bemenu -todo /home/firecat53/.local/share/calendars/todo";
           vim = "${pkgs.vim}/bin/vim";
           vol = "${pkgs.wireplumber}/bin/wpctl";
           vol_gui = "${pkgs.pwvucontrol}/bin/pwvucontrol";
@@ -166,6 +172,7 @@ in {
           "${mod}+${mod1}+k" = "exec ${keepmenu}";
           "${mod}+${mod1}+l" = "exec ${swaylock} -i /tmp/wall.png";
           "${mod}+${mod1}+s" = "exec watson_dmenu";
+          "${mod}+${mod1}+t" = "exec ${todocalmenu}";
           "${mod}+${mod1}+w" = ''exec ${term} --class Wiki --title Wiki -e ${vim} "/home/firecat53/docs/family/scott/wiki/Home.md"'';
           "${mod}+${mod1}+space" = "exec ${pass}";
 

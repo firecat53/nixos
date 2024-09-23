@@ -27,6 +27,9 @@
     keepmenu.url = "github:firecat53/keepmenu";
     keepmenu.inputs.nixpkgs.follows = "nixpkgs";
 
+    todocalmenu.url = "github:firecat53/todocalmenu";
+    todocalmenu.inputs.nixpkgs.follows = "nixpkgs";
+
     urlscan.url = "github:firecat53/urlscan";
     urlscan.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -42,7 +45,6 @@
     sops-nix,
     home-manager,
     catppuccin,
-    cursor,
     ...
   }: let
     inherit (self) outputs;
