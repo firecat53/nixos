@@ -1,5 +1,6 @@
 {
   imports = [
+    ./akkoma.nix
     ./audiobookshelf.nix
     ./backups.nix
     ./gollum.nix
