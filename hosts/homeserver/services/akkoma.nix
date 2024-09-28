@@ -22,8 +22,16 @@
         "Pleroma.Web.WebFinger" = {
           domain = "firecat53.net";
         };
+        # Strips GPS, deduplicates and anonymizes filenames for uploaded files
+        "Pleroma.Upload".filters = map (pkgs.formats.elixirConf { }).lib.mkRaw [
+          "Pleroma.Upload.Filter.Exiftool"
+          "Pleroma.Upload.Filter.Dedupe"
+          "Pleroma.Upload.Filter.AnonymizeFilename"
+        ];
       };
     };
+    # use default ffmpeg instead of the module default ffmpeg_5
+    extraPackages = with pkgs; [ exiftool ffmpeg-headless graphicsmagick-imagemagick-compat ];
   };
   services.traefik.dynamicConfigOptions.http = {
     middlewares.well-known-redirect.redirectRegex = {
@@ -54,7 +62,11 @@
         }
       ];
 
-      dummy-well-known.loadBalancer.servers = [ {} ];
+      dummy-well-known.loadBalancer.servers = [
+        {
+          # Redirect to nginx
+          url = "http://localhost:${builtins.toString config.services.nginx.defaultHTTPListenPort}";
+        } ];
     };
   };
 }
