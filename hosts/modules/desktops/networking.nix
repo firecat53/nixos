@@ -27,7 +27,7 @@
       PublicKey = gPdBMM+fw4z7XFep7C1WNyLf+jY7433E/RJu+7daJ2w=
       PresharedKey = ${config.sops.placeholder.wg-preshared-key}
       AllowedIPs = ${config.sops.placeholder.wg-allowed-ips}
-      Endpoint = firecat53.net:51820
+      Endpoint = wg.firecat53.net:51820
       PersistentKeepalive = 25
     '';
     path = "/etc/wireguard/wg0.conf";

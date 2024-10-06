@@ -33,7 +33,7 @@
               PublicKey = "gPdBMM+fw4z7XFep7C1WNyLf+jY7433E/RJu+7daJ2w=";
               PresharedKeyFile = "${config.sops.secrets.wg-preshared-key.path}";
               AllowedIPs = ["10.200.200.1/24"];
-              Endpoint = "firecat53.net:51820";
+              Endpoint = "wg.firecat53.net:51820";
             };
           }
         ];
