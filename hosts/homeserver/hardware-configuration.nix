@@ -65,6 +65,12 @@ in {
         options = ["X-mount.mkdir"];
       };
 
+      "/var/lib/containers/storage" = {
+        device = "rpool/nixos/var/lib/containers/storage";
+        fsType = "zfs";
+        options = ["X-mount.mkdir"];
+      };
+
       "/var/lib/containers/storage/volumes" = {
         device = "rpool/data/podman_volumes";
         fsType = "zfs";
