@@ -125,6 +125,29 @@
         "--skip-parent"
       ];
     };
+    commands.backup-var-lib = {
+      source = "rpool/nixos/var/lib";
+      target = "backup/var_lib";
+      service = {
+        after = ["syncoid-backup1-var-lib.service"];
+        wants = ["syncoid-backup1-var-lib.service"];
+      };
+      recursive = false;
+      extraArgs = [
+        "--skip-parent"
+      ];
+    };
+    commands.backup1-var-lib = {
+      source = "rpool/nixos/var/lib";
+      target = "backup1/var_lib";
+      service = {
+        before = ["syncoid-backup-var-lib.service"];
+      };
+      recursive = false;
+      extraArgs = [
+        "--skip-parent"
+      ];
+    };
   };
 
   ### Restic
