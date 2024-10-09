@@ -119,6 +119,8 @@
       target = "backup1";
       service = {
         before = ["syncoid-backup-data.service"];
+        after = ["syncoid-backup-var-lib.service"];
+        wants = ["syncoid-backup-var-lib.service"];
       };
       recursive = true;
       extraArgs = [
@@ -131,6 +133,7 @@
       service = {
         after = ["syncoid-backup1-var-lib.service"];
         wants = ["syncoid-backup1-var-lib.service"];
+        before = ["syncoid-backup1-data.service"];
       };
       recursive = false;
       extraArgs = [
