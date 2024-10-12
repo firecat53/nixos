@@ -30,6 +30,13 @@
       useTemplate = ["downloads"];
       process_children_only = false;
     };
+    datasets."backuppool/vps" = {
+      useTemplate = ["data"];
+      process_children_only = true;
+      recursive = true;
+      autosnap = false;
+      autoprune = true;
+    };
     templates."data" = {
       hourly = 48;
       daily = 30;
