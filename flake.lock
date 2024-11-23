@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1732251864,
-        "narHash": "sha256-X/o1NZjvvZxl9KZuHfDHjSd4iXWGf/yvLg1X0ktsP78=",
+        "lastModified": 1732300348,
+        "narHash": "sha256-TYCCGfIKvGdPaubcQCqFSLFnHQV1tdMu2yZnJmJDpm4=",
         "owner": "firecat53",
         "repo": "bitwarden-menu",
-        "rev": "eb98c12754200884300e19996566a9498bae3bea",
+        "rev": "65a77b346d6074ca3e7e3db18d9dd883d3f557c8",
         "type": "github"
       },
       "original": {
@@ -137,7 +137,7 @@
     "my-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1732252995,
+        "lastModified": 1732322636,
         "narHash": "sha256-F/M1buuYZa7M8cZDtnY44XveUTbpEBzcMKuIDvfpUEY=",
         "path": "/home/firecat53/nixos/nixos-secrets",
         "type": "path"
@@ -273,11 +273,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1731953833,
-        "narHash": "sha256-Jpj+eSYQRBdJL14zbfcB2T2VxGZr0nPGAdfZOnjU04E=",
+        "lastModified": 1732299819,
+        "narHash": "sha256-VbpKMaEjchfpLECCt1YtmiVynYgSLgAVP1iuHL7t8FQ=",
         "owner": "firecat53",
         "repo": "urlscan",
-        "rev": "555f3306fa9741c2e0ffec0c3f21527b053fc841",
+        "rev": "90dfe4413fedf54f370fb8aab38f245364217a19",
         "type": "github"
       },
       "original": {
