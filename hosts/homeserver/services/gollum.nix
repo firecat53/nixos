@@ -9,7 +9,6 @@
     user = "firecat53";
     group = "users";
     stateDir = "/home/firecat53/docs/family/scott/wiki";
-    local-time = true;
     emoji = true;
     branch = "main";
     allowUploads = "page";

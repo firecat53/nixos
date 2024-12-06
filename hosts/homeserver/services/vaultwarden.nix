@@ -17,7 +17,7 @@
       ROCKET_PORT = "8082";
     };
     environmentFile = "${config.sops.secrets.vaultwarden-env.path}"; 
-    backupDir = "/var/lib/bitwarden_rs/backups";
+    backupDir = "/var/lib/vaultwarden";
   };
 
   services.traefik.dynamicConfigOptions.http.routers.vaultwarden = {

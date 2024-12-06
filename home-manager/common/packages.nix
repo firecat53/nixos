@@ -61,7 +61,7 @@ in {
     dmenu
     electrum
     firefox
-    gnome.simple-scan
+    simple-scan
     hunspell
     hunspellDicts.en-us-large
     imv

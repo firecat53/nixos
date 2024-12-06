@@ -5,7 +5,7 @@
   programs.alacritty = {
     enable = true;
     settings = {
-      import = ["~/.config/alacritty/kolor.toml"];
+      general.import = ["~/.config/alacritty/kolor.toml"];
       window = {
         decorations = "none";
         opacity = 1;

@@ -32,18 +32,17 @@
   services.samba = {
     enable = true;
     openFirewall = true;
-    securityType = "user";
-    extraConfig = ''
-      workgroup = HOME
-      server string = backup
-      netbios name = backup
-      security = user 
-      hosts allow = 192.168.200. 10.200.200. 127.0.0.1 localhost
-      hosts deny = 0.0.0.0/0
-      guest account = nobody
-      map to guest = bad user
-    '';
-    shares = {
+    settings = {
+      global = {
+        workgroup = "HOME";
+        "server string" = "backup";
+        "netbios name" = "backup";
+        "hosts allow" = "192.168.200. 10.200.200. 127.0.0.1 localhost";
+        "hosts deny" = "0.0.0.0/0";
+        "guest account" = "nobody";
+        "map to guest" = "bad user";
+        security = "user";
+      };
       backups = {
         comment = "Backup directory";
         path = "/home/jamia/backups";
