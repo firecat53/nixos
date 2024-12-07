@@ -15,7 +15,7 @@ in {
         StartLimitBurst = 5;
       };
       serviceConfig = {
-        ExecStart = "${pkgs.nix}/bin/nix flake update --commit-lock-file ${flakePath}";
+        ExecStart = "${pkgs.nix}/bin/nix flake update --commit-lock-file --flake ${flakePath}";
         Restart = "on-failure";
         RestartSec = "30";
         Type = "oneshot"; # Ensure that it finishes before starting nixos-upgrade
