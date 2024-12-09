@@ -188,7 +188,7 @@
     "my-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1733583831,
+        "lastModified": 1733714765,
         "narHash": "sha256-F/M1buuYZa7M8cZDtnY44XveUTbpEBzcMKuIDvfpUEY=",
         "path": "/home/firecat53/nixos/nixos-secrets",
         "type": "path"
@@ -292,11 +292,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1733412085,
-        "narHash": "sha256-FillH0qdWDt/nlO6ED7h4cmN+G9uXwGjwmCnHs0QVYM=",
+        "lastModified": 1733550349,
+        "narHash": "sha256-NcGumB4Lr6KSDq+nIqXtNA8QwAQKDSZT7N9OTGWbTrs=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "4dc2fc4e62dbf62b84132fe526356fbac7b03541",
+        "rev": "e2605d0744c2417b09f8bf850dfca42fcf537d34",
         "type": "github"
       },
       "original": {
@@ -468,11 +468,11 @@
         "systems": "systems_3"
       },
       "locked": {
-        "lastModified": 1733489853,
-        "narHash": "sha256-Ir2dsp+e3xTVSmpV+et6DjsVyoaVgctARir+D8hn7Xg=",
+        "lastModified": 1733756359,
+        "narHash": "sha256-kb+VxvBkGx9pVb0XUTBUoumqAigj2Am23X5WCjl9Yjw=",
         "owner": "notashelf",
         "repo": "nvf",
-        "rev": "f672d3cdee3617ad1321808f51929b2d2dbb5133",
+        "rev": "48bcd5d695794cb693e3a82d55f6742b6010d6bc",
         "type": "github"
       },
       "original": {
