@@ -13,6 +13,7 @@ in
     ./common
     ./sway
     inputs.catppuccin.homeManagerModules.catppuccin
+    inputs.nvf.homeManagerModules.default
   ];
 
   home.username = "firecat53";
@@ -33,5 +34,5 @@ in
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = "23.05";
+  home.stateVersion = "24.11";
 }

@@ -17,7 +17,7 @@ in {
       gnumake
       openssl.dev
       pkg-config
-      (python312.withPackages my-python-packages)
+      (python3.withPackages my-python-packages)
       zlib
     ]);
   };

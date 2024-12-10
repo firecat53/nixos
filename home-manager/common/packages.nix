@@ -51,7 +51,7 @@ in {
     alejandra
     ctags
     highlight
-    (python312.withPackages my-python-packages)
+    (python3.withPackages my-python-packages)
     pipx
     ruff
     tig
