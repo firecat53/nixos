@@ -181,6 +181,7 @@
         "!/var/lib/containers/storage"
         "/var/lib/containers/storage/*"
         "!/var/lib/containers/storage/volumes"
+        "/var/lib/private/open-webui/*"
       ];
       timerConfig = {
         OnBootSec = "15m";
