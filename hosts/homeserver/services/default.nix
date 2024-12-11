@@ -13,6 +13,7 @@
     ./misc.nix
     ./nextcloud.nix
     ./nginx.nix
+    ./openwebui.nix
     ./peggy.nix
     ./qbittorrent.nix
     ./radarr.nix
