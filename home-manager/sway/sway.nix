@@ -385,7 +385,7 @@ in {
           {
             block = "maildir";
             interval = 20;
-            inboxes = ["~/mail/scottandchrystie/INBOX" "~/mail/firecat4153/INBOX" "~/mail/firecat53.net/Inbox"];
+            inboxes = ["~/mail/firecat4153/INBOX" "~/mail/firecat53.net/Inbox"];
             threshold_warning = 1;
             threshold_critical = 10;
             display_type = "new";

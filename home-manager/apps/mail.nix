@@ -31,7 +31,6 @@
     text = ''
       base=/home/firecat53/mail
       maildir=firecat4153/archive
-      maildir=scottandchrystie/archive
       maildir=firecat53.net/Archive
       mfolder=.search
       database=$XDG_DATA_HOME/mairix/mairix_database
