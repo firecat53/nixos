@@ -10,6 +10,7 @@
     ./gpg.nix
     ./imv.nix
     ./nix.nix
+    ./nvf.nix
     ./packages.nix
     ./ruff.nix
     ./ssh.nix
