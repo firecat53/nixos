@@ -13,7 +13,6 @@ in
     ./common
     ./sway
     inputs.catppuccin.homeManagerModules.catppuccin
-    inputs.nvf.homeManagerModules.default
   ];
 
   home.username = "firecat53";
