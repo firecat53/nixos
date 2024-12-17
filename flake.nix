@@ -18,6 +18,8 @@
 
     cursor.url = "github:omarcresp/cursor-flake/main";
 
+    nvf.url = "github:notashelf/nvf";
+
     # Personal project flakes and secrets
 
     bwm.url = "github:firecat53/bitwarden-menu";
@@ -38,12 +40,13 @@
 
   outputs = inputs@{
     self,
+    catppuccin,
     disko,
+    home-manager,
     nixpkgs,
     nixpkgs-unstable,
+    nvf,
     sops-nix,
-    home-manager,
-    catppuccin,
     ...
   }: let
     inherit (self) outputs;
