@@ -3,7 +3,7 @@
     enable = true;
     flavor = "mocha";
     accent = "sapphire";
-    pointerCursor.enable = true;
-    pointerCursor.accent = "sapphire";
+    cursors.enable = true;
+    cursors.accent = "sapphire";
   };
 }

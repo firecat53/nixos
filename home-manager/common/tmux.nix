@@ -36,24 +36,24 @@
       new -s comms -n comms -d -A mutt
       new -s music -n music -d -A
     '';
-    catppuccin = {
-      enable = true;
-      extraConfig = ''
-        set -g status-left ""
-        set -g status-right-length 50
-        set -g status-right "#{E:@catppuccin_status_host}"
-        set -ga status-right "#{E:@catppuccin_status_uptime}"
-        set -ga status-right "#{E:@catppuccin_status_date_time}"
+  };
+  catppuccin.tmux = {
+    enable = true;
+    extraConfig = ''
+      set -g status-left ""
+      set -g status-right-length 50
+      set -g status-right "#{E:@catppuccin_status_host}"
+      set -ga status-right "#{E:@catppuccin_status_uptime}"
+      set -ga status-right "#{E:@catppuccin_status_date_time}"
 
-        set -g @catppuccin_window_status_style "rounded"
-        set -g @catppuccin_window_number_position "right"
-        set -g @catppuccin_window_text " #{window_name}"
+      set -g @catppuccin_window_status_style "rounded"
+      set -g @catppuccin_window_number_position "right"
+      set -g @catppuccin_window_text " #{window_name}"
 
-        set -g @catppuccin_window_current_text " #{window_name}"
-        set -g @catppuccin_window_current_text_color "#{@thm_mauve}"
+      set -g @catppuccin_window_current_text " #{window_name}"
+      set -g @catppuccin_window_current_text_color "#{@thm_mauve}"
 
-        set -g @catppuccin_status_connect_separator "yes"
-      '';
-    };
+      set -g @catppuccin_status_connect_separator "yes"
+    '';
   };
 }
