@@ -6,7 +6,7 @@
   ...
 }: let
   user = "firecat53";
-  flakePath = "/home/${user}/nixos/nixos";
+  flakePath = "/home/${user}/nixos/nixos?ref=dev";
 in {
   # Enable flakes
   nix.settings = {
