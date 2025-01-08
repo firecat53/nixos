@@ -34,6 +34,9 @@
 
     my-secrets.url = "/home/firecat53/nixos/nixos-secrets";
     my-secrets.flake = false;
+
+    neovim.url = "github:firecat53/nix-neovim";
+    neovim.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 
   outputs = inputs@{

@@ -11,6 +11,7 @@
     curl
     git
     jq
+    unstable.neovim
     nix-tree
     python3
     ranger
@@ -18,7 +19,6 @@
     rsync
     screen
     tmux
-    vim
     wget
     wireguard-tools
   ];

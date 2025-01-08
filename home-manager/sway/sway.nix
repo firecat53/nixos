@@ -155,7 +155,7 @@ in {
           term = "${pkgs.alacritty}/bin/alacritty";
           tmux = "${pkgs.tmux}/bin/tmux";
           todocalmenu = "${tdcm}/bin/todocalmenu -cmd bemenu -todo /home/firecat53/.local/share/calendars/todo";
-          vim = "${pkgs.vim}/bin/vim";
+          vim = "${pkgs.nvim-pkg}/bin/vim";
           vol = "${pkgs.wireplumber}/bin/wpctl";
           vol_gui = "${pkgs.pwvucontrol}/bin/pwvucontrol";
         in lib.mkOptionDefault {

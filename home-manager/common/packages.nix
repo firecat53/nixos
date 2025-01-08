@@ -45,7 +45,6 @@ in {
     sshfs
     tabview
     todoman
-    vim-full # TODO
     w3m
     # Development tools
     alejandra
