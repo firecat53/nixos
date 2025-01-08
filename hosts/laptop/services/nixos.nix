@@ -3,7 +3,7 @@
   ...
 }: let
   user = "firecat53";
-  flakePath = "/home/${user}/nixos/nixos?ref=dev";
+  flakePath = "/home/${user}/nixos/nixos";
 in {
   ## Update flake inputs daily
   systemd.services = {
