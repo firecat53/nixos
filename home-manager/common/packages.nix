@@ -56,6 +56,7 @@ in {
     tig
     # Gui applications
     alacritty
+    anydesk
     inputs.bwm.packages.${pkgs.system}.default
     dmenu
     electrum
@@ -76,5 +77,6 @@ in {
     ventoy
     wl-clipboard
     zathura
+    zoom-us
   ];
 }
