@@ -56,6 +56,9 @@
   ## Bat
   programs.bat = {
     enable = true;
+    config = {
+      style = "plain";
+    };
   };
 
   ## Fzf
