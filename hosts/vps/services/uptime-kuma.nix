@@ -43,12 +43,17 @@
   };
 
   # Add script to check AirVPN exit IP and update Uptime Kuma
+  # *NOTE* This may break with Uptime Kuma 2.x. API has not been updated in 2 years
   sops.secrets.airvpn-api-key = {};
   sops.secrets.kuma-monitor-id = {};
+  sops.secrets.kuma-username = {};
+  sops.secrets.kuma-password = {};
+
   environment.systemPackages = [
     (let
       pythonEnv = pkgs.python3.withPackages (ps: with ps; [
         requests
+        uptime-kuma-api
       ]);
     in pkgs.writeScriptBin "check-airvpn-ip" ''
       #!${pythonEnv}/bin/python3
@@ -56,10 +61,8 @@
       import os
       import requests
       import sys
-      import sqlite3
-      from pathlib import Path
-
-      KUMA_DB = "/var/lib/uptime-kuma/kuma.db"
+      from uptime_kuma_api import UptimeKumaApi
+      from uptime_kuma_api.exceptions import UptimeKumaException
 
       def get_sops_secret(key):
           with open(f"/run/secrets/{key}", "r") as f:
@@ -69,6 +72,8 @@
           # Get secrets from sops-nix
           airvpn_api_key = get_sops_secret("airvpn-api-key")
           kuma_monitor_id = get_sops_secret("kuma-monitor-id")
+          kuma_username = get_sops_secret("kuma-username")
+          kuma_password = get_sops_secret("kuma-password")
 
           # Get AirVPN status
           try:
@@ -97,24 +102,16 @@
               print("Could not find Server(QBT) connection")
               sys.exit(1)
 
-          # Update the Uptime Kuma database
-          if not Path(KUMA_DB).exists():
-              print(f"Uptime Kuma database not found at {KUMA_DB}")
-              sys.exit(1)
-
+          # Update Uptime Kuma monitor
           try:
-              conn = sqlite3.connect(KUMA_DB)
-              cursor = conn.cursor()
-              cursor.execute("UPDATE monitor SET hostname = ? WHERE id = ?", 
-                           (server_ip, kuma_monitor_id))
-              conn.commit()
-              conn.close()
-          except sqlite3.OperationalError as e:
-              print(f"Database error: {str(e)}")
+              api = UptimeKumaApi("https://up.firecat53.com")
+              api.login(kuma_username, kuma_password)
+              api.edit_monitor(id_=int(kuma_monitor_id), hostname=server_ip)
+          except UptimeKumaException as e:
+              print(f"Failed to update Uptime Kuma: {str(e)}")
               sys.exit(1)
           finally:
-              if conn:
-                  conn.close()
+              api.disconnect()
 
           print(f"Successfully updated IP address to {server_ip}")
 
@@ -126,7 +123,7 @@
   systemd.services.check-airvpn-ip = {
     description = "Check AirVPN IP and update Uptime Kuma";
     path = [
-      (pkgs.python3.withPackages (ps: with ps; [ requests ]))
+      (pkgs.python3.withPackages (ps: with ps; [ requests uptime-kuma-api ]))
     ];
     serviceConfig = {
       Type = "oneshot";
