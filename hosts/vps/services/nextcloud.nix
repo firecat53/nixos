@@ -2,13 +2,12 @@
 {
   config,
   pkgs,
-  sops,
   ...
 }:{
   sops.secrets.nextcloud-admin-password = {
     # This has to be world readable because I can't set ACLs with sops-nix for the 
     #   alertmanager systemd dynamic user. TODO
-    mode = "0444";
+    mode = "0440";
     owner = config.users.users.nextcloud.name;
     group = config.users.users.nextcloud.group;
   };
