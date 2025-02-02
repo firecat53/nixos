@@ -3,7 +3,6 @@
   config,
   lib,
   pkgs,
-  sops,
   ...
 }:{
   sops.secrets.nextcloud-admin-password = {

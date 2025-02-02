@@ -1,8 +1,5 @@
 # Syncthing
 {
-  lib,
-  ...
-}:{
   services.syncthing = {
     enable = true;
     user = "firecat53";

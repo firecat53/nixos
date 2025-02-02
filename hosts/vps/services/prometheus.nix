@@ -1,7 +1,6 @@
 # Prometheus and alertmanager
 {
   config,
-  sops,
   ...
 }:{
   ## Prometheus 

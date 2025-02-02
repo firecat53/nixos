@@ -1,7 +1,6 @@
 # Traefik
 {
   config,
-  sops,
   ...
 }: {
   networking.firewall.allowedTCPPorts = [80 443];

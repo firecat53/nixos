@@ -1,6 +1,5 @@
 {
   config,
-  sops,
   ...
 }:{
   # Backup user for pull backups from backup server

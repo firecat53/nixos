@@ -2,7 +2,6 @@
 {
   config,
   pkgs,
-  sops,
   ...
 }:{
   sops.secrets.vaultwarden-env = {};

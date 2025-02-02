@@ -1,7 +1,6 @@
 # Miniflux
 {
   config,
-  sops,
   ...
 }:{
   sops.secrets.miniflux-env = {};

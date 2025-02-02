@@ -1,6 +1,5 @@
 {
   config,
-  sops,
   ...
 }:{
   # Sanoid

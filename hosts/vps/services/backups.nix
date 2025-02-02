@@ -1,6 +1,5 @@
 {
   config,
-  sops,
   ...
 }:{
   # For pull backups from backup server

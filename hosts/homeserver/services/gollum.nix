@@ -1,7 +1,6 @@
 # Gollum
 {
   config,
-  lib,
   ...
 }:{
   services.gollum = {
