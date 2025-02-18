@@ -93,6 +93,14 @@
           ./hosts/vps/configuration.nix
         ];
       };
+      minimal  = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs;
+        };
+        modules = [
+          ./hosts/minimal/configuration.nix
+        ];
+      };
     };
   }; 
 }

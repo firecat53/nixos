@@ -1,9 +1,7 @@
 # Main configuration
 {
-  config,
   inputs,
   lib,
-  pkgs,
   ...
 }: {
   # adjust according to your platform, such as
@@ -13,6 +11,7 @@
     ./services
     ../modules/common
     ../modules/servers
+    ../modules/zfs.nix
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
   ];

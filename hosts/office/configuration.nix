@@ -18,6 +18,7 @@
       ../modules/gnome.nix
       ../modules/podman.nix
       ../modules/sway.nix
+      ../modules/zfs.nix
       ../../home-manager/home-manager.nix
       ./paul.nix
       inputs.disko.nixosModules.disko

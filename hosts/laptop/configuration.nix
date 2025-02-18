@@ -20,6 +20,7 @@
       ../modules/power.nix
       ../modules/sddm.nix
       ../modules/sway.nix
+      ../modules/zfs.nix
       ../../home-manager/home-manager.nix
       inputs.home-manager.nixosModules.home-manager
       inputs.sops-nix.nixosModules.sops

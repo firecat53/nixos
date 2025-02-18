@@ -14,6 +14,7 @@
     ../modules/avahi.nix
     ../modules/libvirt.nix
     ../modules/podman.nix
+    ../modules/zfs.nix
     inputs.sops-nix.nixosModules.sops
   ];
 

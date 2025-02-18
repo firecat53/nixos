@@ -1,9 +1,5 @@
 {
-  config,
-  lib,
-  ...
-}:{
-  # Grub Configuration with plymouth and ZFS
+  # Grub Configuration with plymouth
   boot = {
     consoleLogLevel = 0;
     kernelParams = ["quiet" "udev.log_level=3"];
@@ -18,15 +14,6 @@
         enable = true;
         configurationLimit = 10;
       };
-    };
-    plymouth = lib.mkIf (config.networking.hostName == "office") {
-      enable = true;
-    };
-    supportedFilesystems = ["zfs"];
-    zfs = {
-      requestEncryptionCredentials = true;
-      forceImportRoot = false;
-      devNodes = "/dev/disk/by-id";
     };
   };
 }

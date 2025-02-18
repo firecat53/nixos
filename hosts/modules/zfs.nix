@@ -3,6 +3,15 @@
   pkgs,
   ...
 }:{
+  boot = {
+    supportedFilesystems = ["zfs"];
+    zfs = {
+      requestEncryptionCredentials = true;
+      forceImportRoot = false;
+      devNodes = "/dev";
+    };
+  };
+
   environment.systemPackages = with pkgs; [
     lzop
     mbuffer

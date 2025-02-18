@@ -11,6 +11,7 @@
     ../modules/common
     ../modules/servers
     ../modules/boot.nix
+    ../modules/zfs.nix
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops
   ];

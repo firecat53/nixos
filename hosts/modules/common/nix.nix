@@ -13,6 +13,7 @@ in {
     experimental-features = [ "nix-command" "flakes" ];
     # Trusted users
     trusted-users = [ "root" "${user}" ];
+    download-buffer-size = 500000000;
   };
 
   # Enable git
