@@ -8,7 +8,7 @@
     zfs = {
       requestEncryptionCredentials = true;
       forceImportRoot = false;
-      devNodes = "/dev";
+      devNodes = "/dev/disk/by-id/";
     };
   };
 

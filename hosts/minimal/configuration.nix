@@ -22,6 +22,7 @@
 
   networking.hostName = "nixos";
   networking.hostId = "65b44e8b";
+  networking.networkmanager.enable = true;
 
   # Swap (zram)
   zramSwap.enable = true;

@@ -21,7 +21,7 @@
               size = "100%";
               content = {
                 type = "luks";
-                name = "crypted";
+                name = "luks";
                 settings = {
                   allowDiscards = true;
                 };
