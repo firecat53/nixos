@@ -21,10 +21,32 @@
         defaultBranch = "main";
       };
       push = {
-        default = "current";
+        default = "simple";
+        autoSetupRemote = "true";
+        followTags = "true";
       };
       pull = {
         rebase = "false";
+      };
+      column = {
+        ui = "auto";
+      };
+      branch = {
+        sort = "-committerdate";
+      };
+      tag = {
+        sort = "version:refname";
+      };
+      diff = {
+        algorithm = "histogram";
+        colorMoved = "plain";
+        mnemonicPrefix = "true";
+        renames = "true";
+      };
+      fetch = {
+        prune = "tags";
+        pruneTags = "true";
+        all = "true";
       };
     };
     ignores = [
