@@ -44,7 +44,7 @@
         renames = "true";
       };
       fetch = {
-        prune = "tags";
+        prune = "true";
         pruneTags = "true";
         all = "true";
       };

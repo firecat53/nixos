@@ -47,13 +47,13 @@ in {
     todoman
     w3m
     # Development tools
-    alejandra
     ctags
     highlight
     (python3.withPackages my-python-packages)
     pipx
     ruff
     tig
+    uv
     # Gui applications
     alacritty
     anydesk
