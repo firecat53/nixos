@@ -2,7 +2,7 @@
   description = "System configurations";
 
   inputs = {
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/?shallow=1&ref=nixos-unstable";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
 
     disko.url = "github:nix-community/disko";
@@ -49,58 +49,31 @@
     sops-nix,
     ...
   }: let
-    inherit (self) outputs;
-    system = "x86_64-linux";
+  inherit (self) outputs;
+    # Helper function to create a nixos system configuration
+    # Usage:
+    #   Default x86_64:  mkSystem { host = "hostname"; };
+    #   Custom system:   mkSystem { host = "hostname"; system = "aarch64-linux"; };
+  mkSystem = { host, system ? "x86_64-linux"}:
+    nixpkgs.lib.nixosSystem {
+      system = system;
+      specialArgs = {
+        inherit inputs outputs;
+      };
+      modules = [
+        ./hosts/${host}/configuration.nix
+      ];
+    };
   in {
     nixosConfigurations = {
-      backup = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs outputs;
-        };
-        modules = [
-          ./hosts/backup/configuration.nix
-        ];
-      };
-      homeserver = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs outputs;
-        };
-        modules = [
-          ./hosts/homeserver/configuration.nix
-        ];
-      };
-      laptop = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs outputs;
-        };
-        modules = [
-          ./hosts/laptop/configuration.nix
-        ];
-      };
-      office = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs outputs;
-        };
-        modules = [
-          ./hosts/office/configuration.nix
-        ];
-      };
-      vps  = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs outputs;
-        };
-        modules = [
-          ./hosts/vps/configuration.nix
-        ];
-      };
-      minimal  = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs outputs;
-        };
-        modules = [
-          ./hosts/minimal/configuration.nix
-        ];
-      };
+      backup = mkSystem { host = "backup";};
+      homeserver = mkSystem { host = "homeserver"; };
+      laptop = mkSystem { host = "laptop"; };
+      office = mkSystem { host = "office"; };
+      vps = mkSystem { host = "vps"; };
+      minimal = mkSystem { host = "minimal"; };
+      base-btrfs = mkSystem { host = "base-btrfs"; };
+      base-zfs = mkSystem { host = "base-zfs"; };
     };
   }; 
 }
