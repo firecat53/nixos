@@ -16,6 +16,7 @@
       ../modules/boot.nix
       ../modules/docker.nix
       ../modules/libvirt.nix
+      ../modules/nix-ld.nix
       ../modules/podman.nix
       ../modules/power.nix
       ../modules/sddm.nix
