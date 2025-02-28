@@ -46,7 +46,7 @@
       ];
       exclude = [
         "/home/firecat53/.cache"
-        "/home/firecat53/.local/pipx/"
+        "/home/firecat53/.local/uv/"
         "/home/firecat53/.local/state/"
         "/home/firecat53/.local/tmp/iso"
       ];
