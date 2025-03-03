@@ -14,12 +14,12 @@
     unstable.neovim
     nix-tree
     python3
-    ranger
     ripgrep
     rsync
     screen
     tmux
     wget
     wireguard-tools
+    unstable.yazi
   ];
 } 

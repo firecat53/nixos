@@ -26,7 +26,9 @@ in {
     elinks
     eternal-terminal
     fd
+    file
     mosh
+    p7zip
     ripgrep
     sops
     stow
@@ -41,7 +43,6 @@ in {
     mediainfo
     ncspot
     pianobar
-    ranger
     sshfs
     tabview
     todoman
@@ -54,7 +55,6 @@ in {
     tig
     uv
     # Gui applications
-    alacritty
     anydesk
     inputs.bwm.packages.${pkgs.system}.default
     dmenu

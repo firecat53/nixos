@@ -1,19 +1,20 @@
 {
-  config,
   inputs,
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   mod = "Mod4";
   mod1 = "Mod1";
   ## Ensure correct path to my flake-installed projects
   bwm = inputs.bwm.packages.${pkgs.system}.default;
   km = inputs.keepmenu.packages.${pkgs.system}.default;
   tdcm = inputs.todocalmenu.packages.${pkgs.system}.default;
-in {
-  sops.secrets.openweathermap_api = {};
-  sops.secrets.openweathermap_zip = {};
+in
+{
+  sops.secrets.openweathermap_api = { };
+  sops.secrets.openweathermap_zip = { };
 
   wayland.windowManager.sway = {
     enable = true;
@@ -49,38 +50,38 @@ in {
         {
           position = "top";
           fonts = {
-            names = ["pango:SauceCodePro Nerd Font"];
+            names = [ "pango:SauceCodePro Nerd Font" ];
             size = 15.0;
           };
           statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs /home/firecat53/.config/i3status-rust/config-top.toml";
           workspaceButtons = true;
           workspaceNumbers = true;
           colors = {
+            background = "$base";
+            statusline = "$text";
+            focusedStatusline = "$text";
+            focusedSeparator = "$base";
+
+            focusedWorkspace = {
+              background = "$sapphire";
+              border = "$base";
+              text = "$crust";
+            };
+            activeWorkspace = {
+              background = "$surface2";
+              border = "$base";
+              text = "$text";
+            };
+            inactiveWorkspace = {
               background = "$base";
-              statusline = "$text";
-              focusedStatusline = "$text";
-              focusedSeparator = "$base";
-              
-              focusedWorkspace = {
-                background = "$sapphire";
-                border = "$base";
-                text = "$crust";
-              };
-              activeWorkspace = {
-                background = "$surface2";
-                border = "$base";
-                text = "$text";
-              };
-              inactiveWorkspace = {
-                background = "$base";
-                border = "$base";
-                text = "$text";
-              };
-              urgentWorkspace = {
-                background = "$red";
-                border = "$base";
-                text = "$crust";
-              };
+              border = "$base";
+              text = "$text";
+            };
+            urgentWorkspace = {
+              background = "$red";
+              border = "$base";
+              text = "$crust";
+            };
           };
         }
       ];
@@ -126,7 +127,7 @@ in {
       floating.modifier = "${mod}";
 
       fonts = {
-        names = ["pango:Hack"];
+        names = [ "pango:Hack" ];
         size = 9.0;
       };
 
@@ -139,12 +140,13 @@ in {
         };
       };
 
-      keybindings = let
+      keybindings =
+        let
           brightness = "${pkgs.brightnessctl}/bin/brightnessctl";
           browser = "${pkgs.firefox}/bin/firefox";
           bottom = "${pkgs.bottom}/bin/btm";
           gh-dash = "${pkgs.gh-dash}/bin/gh-dash";
-          ikhal = "${pkgs.kahl}/bin/ikhal";
+          ikhal = "${pkgs.khal}/bin/ikhal";
           keepmenu = "${km}/bin/keepmenu";
           nmdm = "${pkgs.networkmanager_dmenu}/bin/networkmanager_dmenu";
           notify = "${pkgs.mako}/bin/makoctl";
@@ -152,36 +154,39 @@ in {
           pass_gui = "${pkgs.keepassxc}/bin/keepassxc";
           rofimoji = "${pkgs.rofimoji}/bin/rofimoji --selector fuzzel --skin-tone light";
           swaylock = "${pkgs.swaylock}/bin/swaylock";
-          term = "${pkgs.alacritty}/bin/alacritty";
+          term = "${pkgs.foot}/bin/footclient";
           tmux = "${pkgs.tmux}/bin/tmux";
           todocalmenu = "${tdcm}/bin/todocalmenu -cmd bemenu -todo /home/firecat53/.local/share/calendars/todo";
           vim = "${pkgs.nvim-pkg}/bin/vim";
           vol = "${pkgs.wireplumber}/bin/wpctl";
           vol_gui = "${pkgs.pwvucontrol}/bin/pwvucontrol";
-        in lib.mkOptionDefault {
+        in
+        lib.mkOptionDefault {
           ## General keybindings/apps
           "${mod}+i" = "exec ${nmdm}";
-          "${mod}+m" = "exec ${term} --class comms --title comms -e ${tmux} new -d -A -s comms";
-          "${mod}+n" = "exec ${term} --title Notes -e ${vim} '/home/firecat53/docs/family/scott/wiki/QuickNote.md'";
+          "${mod}+m" = "exec ${term} --app-id comms --title comms -e ${tmux} new -d -A -s comms";
+          "${mod}+n" =
+            "exec ${term} --title Notes -e ${vim} '/home/firecat53/docs/family/scott/wiki/QuickNote.md'";
           "${mod}+p" = "exec ${term} --title ${bottom} -e btm";
-          "${mod}+z" = "exec ${term} --class Terminal --title Terminal -e ${tmux} new -d -A -s term";
+          "${mod}+z" = "exec ${term} --app-id Terminal --title Terminal -e ${tmux} new -d -A -s term";
 
-          "${mod}+${mod1}+c" = "exec ${term} --title calendar -e ikhal";
+          "${mod}+${mod1}+c" = "exec ${term} --title calendar -e ${ikhal}";
           "${mod}+${mod1}+g" = "exec ${term} --title ${bottom} -e ${gh-dash}";
           "${mod}+${mod1}+j" = "exec ${rofimoji}";
           "${mod}+${mod1}+k" = "exec ${keepmenu}";
           "${mod}+${mod1}+l" = "exec ${swaylock} -i /tmp/wall.png";
           "${mod}+${mod1}+s" = "exec watson_dmenu";
           "${mod}+${mod1}+t" = "exec ${todocalmenu}";
-          "${mod}+${mod1}+w" = ''exec ${term} --class Wiki --title Wiki -e ${vim} "/home/firecat53/docs/family/scott/wiki/Home.md"'';
+          "${mod}+${mod1}+w" =
+            ''exec ${term} --app-id Wiki --title Wiki -e ${vim} "/home/firecat53/docs/family/scott/wiki/Home.md"'';
           "${mod}+${mod1}+space" = "exec ${pass}";
 
           "${mod}+${mod1}+Shift+l" = "exec systemctl suspend";
 
-          "${mod}+Shift+m" = "exec ${term} --class music --title music -e ${tmux} new -d -A -s music";
+          "${mod}+Shift+m" = "exec ${term} --app-id music --title music -e ${tmux} new -d -A -s music";
           "${mod}+Shift+p" = "exec ${pass_gui}";
           "${mod}+Shift+w" = "exec ${browser}";
-          "${mod}+Shift+z" = "exec ${term} --class Term --title Term";
+          "${mod}+Shift+z" = "exec ${term} --app-id Term --title Term";
 
           ## Notifications
           "Control+grave" = "exec ${notify} dismiss";
@@ -212,9 +217,9 @@ in {
           "${mod}+${mod1}+y" = "exec shotman --capture output";
 
           ## Motion bindings
-          "${mod}+Tab" =  "workspace back_and_forth";
-          "${mod1}+Tab" =  "focus next";
-          "${mod1}+Shift+Tab" =  "focus prev";
+          "${mod}+Tab" = "workspace back_and_forth";
+          "${mod1}+Tab" = "focus next";
+          "${mod1}+Shift+Tab" = "focus prev";
         };
 
       modifier = "${mod}";
@@ -231,7 +236,7 @@ in {
         { command = "systemctl --user restart wallpaper.service"; }
       ];
 
-      terminal = "${pkgs.alacritty}/bin/alacritty";
+      terminal = "${pkgs.foot}/bin/footclient";
 
       window.commands = [
         {
@@ -261,7 +266,7 @@ in {
           };
         }
       ];
-        
+
       workspaceLayout = "tabbed";
     };
     extraSessionCommands = ''
@@ -290,7 +295,7 @@ in {
   services.swayidle = {
     enable = true;
     events = [
-      { 
+      {
         event = "before-sleep";
         command = "${pkgs.swaylock}/bin/swaylock";
       }
@@ -385,7 +390,10 @@ in {
           {
             block = "maildir";
             interval = 20;
-            inboxes = ["~/mail/firecat4153/INBOX" "~/mail/firecat53.net/Inbox"];
+            inboxes = [
+              "~/mail/firecat4153/INBOX"
+              "~/mail/firecat53.net/Inbox"
+            ];
             threshold_warning = 1;
             threshold_critical = 10;
             display_type = "new";

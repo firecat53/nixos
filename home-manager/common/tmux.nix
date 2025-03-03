@@ -13,7 +13,6 @@
     shortcut = "a";
     terminal = "tmux-256color";
     extraConfig = ''
-      set-option -ga terminal-overrides ",alacritty:Tc"
       set -s copy-command 'wl-copy'
 
       # Capture URL's from tmux and pass to urlscan

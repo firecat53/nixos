@@ -1,11 +1,11 @@
 {
   imports = [
-    ./alacritty.nix
     ./bash.nix
     ./bemenu.nix
     ./catppuccin.nix
     ./cursor-editor.nix
     ./fonts.nix
+    ./foot.nix
     ./git.nix
     ./gpg.nix
     ./imv.nix
@@ -17,6 +17,8 @@
     ./udiskie.nix
     ./watson.nix
     ./xdg.nix
+    ./yazi.nix
     ./ydotool.nix
+    ./zoxide.nix
   ];
 }
