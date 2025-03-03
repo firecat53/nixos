@@ -12,7 +12,6 @@
     curl
     git
     jq
-    unstable.neovim
     nix-tree
     python3
     ripgrep
