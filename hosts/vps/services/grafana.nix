@@ -13,8 +13,8 @@
   services.traefik.dynamicConfigOptions.http.routers.grafana = {
     rule = "Host(`grafana.firecat53.com`)";
     service = "grafana";
-    middlewares = ["headers"];
-    entrypoints = ["websecure"];
+    middlewares = [ "headers" ];
+    entrypoints = [ "websecure" ];
     tls = {
       certResolver = "le";
     };

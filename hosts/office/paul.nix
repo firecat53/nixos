@@ -1,7 +1,8 @@
 {
   pkgs,
   ...
-}:{
+}:
+{
   # Normal user
   users.users.paul = {
     isNormalUser = true;

@@ -1,8 +1,5 @@
 ### Lubelogger
 {
-  pkgs,
-  ...
-}:{
   virtualisation.oci-containers.containers.lubelogger = {
     image = "ghcr.io/hargata/lubelogger:latest";
     autoStart = true;

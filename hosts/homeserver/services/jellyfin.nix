@@ -2,15 +2,19 @@
 {
   pkgs,
   ...
-}:{
+}:
+{
   services.jellyfin = {
     enable = true;
     user = "firecat53";
     group = "users";
   };
 
-  users.users.firecat53.extraGroups = ["render"];  
-  networking.firewall.allowedUDPPorts = [1900 7359];
+  users.users.firecat53.extraGroups = [ "render" ];
+  networking.firewall.allowedUDPPorts = [
+    1900
+    7359
+  ];
 
   ## Enable OpenGL hardware transcoding for Jellyfin
   nixpkgs.config.packageOverrides = pkgs: {
@@ -30,8 +34,8 @@
   services.traefik.dynamicConfigOptions.http.routers.jellyfin = {
     rule = "Host(`jellyfin.lan.firecat53.net`)";
     service = "jellyfin";
-    middlewares = ["headers"];
-    entrypoints = ["websecure"];
+    middlewares = [ "headers" ];
+    entrypoints = [ "websecure" ];
     tls = {
       certResolver = "le";
     };

@@ -2,8 +2,12 @@
 {
   config,
   ...
-}: {
-  networking.firewall.allowedTCPPorts = [80 443];
+}:
+{
+  networking.firewall.allowedTCPPorts = [
+    80
+    443
+  ];
 
   sops.secrets.basic-auth = {
     mode = "0440";
@@ -58,8 +62,11 @@
           dashboard = {
             rule = "Host(`monitor.firecat53.com`)";
             service = "api@internal";
-            middlewares = ["auth" "headers"];
-            entrypoints = ["websecure"];
+            middlewares = [
+              "auth"
+              "headers"
+            ];
+            entrypoints = [ "websecure" ];
             tls = {
               certResolver = "le";
             };
@@ -92,7 +99,10 @@
           default = {
             minVersion = "VersionTLS13";
             sniStrict = true;
-            curvePreferences = ["CurveP521" "CurveP384"];
+            curvePreferences = [
+              "CurveP521"
+              "CurveP384"
+            ];
           };
         };
       };

@@ -1,9 +1,9 @@
 # Note: remember to run smbpasswd -a jamia to add allowed user
 {
-  config,
   pkgs,
   ...
-}:{
+}:
+{
   users.users.jamia = {
     isNormalUser = true;
     # password: jamia
@@ -20,7 +20,7 @@
     "/home/jamia/backups" = {
       device = "backuppool/jamia";
       fsType = "zfs";
-      options = ["X-mount.mkdir"];
+      options = [ "X-mount.mkdir" ];
     };
   };
 

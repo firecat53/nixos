@@ -2,15 +2,22 @@
 {
   pkgs,
   ...
-}:{
+}:
+{
   systemd.tmpfiles.rules = [
     "d /var/lib/microbin 0755 firecat53 users -"
   ];
   systemd.services.microbin = {
     enable = true;
-    wantedBy = ["multi-user.target"];
-    wants = ["network-online.target" "traefik.service"];
-    after = ["network-online.target" "traefik.service"];
+    wantedBy = [ "multi-user.target" ];
+    wants = [
+      "network-online.target"
+      "traefik.service"
+    ];
+    after = [
+      "network-online.target"
+      "traefik.service"
+    ];
     serviceConfig = {
       Type = "simple";
       User = "firecat53";
@@ -45,8 +52,8 @@
   services.traefik.dynamicConfigOptions.http.routers.microbin = {
     rule = "Host(`mb.firecat53.com`)";
     service = "microbin";
-    middlewares = ["headers"];
-    entrypoints = ["websecure"];
+    middlewares = [ "headers" ];
+    entrypoints = [ "websecure" ];
     tls = {
       certResolver = "le";
     };

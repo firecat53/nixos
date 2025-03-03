@@ -1,7 +1,8 @@
 {
   pkgs,
   ...
-}:{
+}:
+{
   ## Enable OpenGL accelerated video playback
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };

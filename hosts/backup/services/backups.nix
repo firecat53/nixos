@@ -14,24 +14,24 @@
   services.sanoid = {
     enable = true;
     datasets."backuppool/homeserver/data" = {
-      useTemplate = ["data"];
+      useTemplate = [ "data" ];
       process_children_only = true;
       recursive = true;
       autosnap = false;
       autoprune = true;
     };
     datasets."backuppool/homeserver/var/lib" = {
-      useTemplate = ["data"];
+      useTemplate = [ "data" ];
       process_children_only = false;
       autosnap = false;
       autoprune = true;
     };
     datasets."backuppool/homeserver/downloads" = {
-      useTemplate = ["downloads"];
+      useTemplate = [ "downloads" ];
       process_children_only = false;
     };
     datasets."backuppool/vps" = {
-      useTemplate = ["data"];
+      useTemplate = [ "data" ];
       process_children_only = true;
       recursive = true;
       autosnap = false;
@@ -59,7 +59,7 @@
     commonArgs = [
       "--no-privilege-elevation"
       "--no-sync-snap"
-      "--sshoption=StrictHostKeyChecking=no"  # TODO - one of the systemd hardening options is causing this
+      "--sshoption=StrictHostKeyChecking=no" # TODO - one of the systemd hardening options is causing this
     ];
     interval = "*-*-* *:30:00";
     commands.backuppool-homeserver-var-lib = {

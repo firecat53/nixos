@@ -12,7 +12,7 @@
         workgroup = "HOME";
         "server string" = "homeserver";
         "netbios name" = "homeserver";
-        "hosts allow"= "192.168.200. 10.200.200. 127.0.0.1 localhost";
+        "hosts allow" = "192.168.200. 10.200.200. 127.0.0.1 localhost";
         "hosts deny" = "0.0.0.0/0";
         "guest account" = "nobody";
         "map to guest" = "bad user";

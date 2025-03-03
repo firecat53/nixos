@@ -1,7 +1,8 @@
 {
   config,
   ...
-}:{
+}:
+{
   # For pull backups from backup server
   users.users.backup = {
     isNormalUser = true;
@@ -20,7 +21,7 @@
   services.sanoid = {
     enable = true;
     datasets."datapool" = {
-      useTemplate = ["data"];
+      useTemplate = [ "data" ];
       process_children_only = true;
       recursive = true;
     };
@@ -35,16 +36,16 @@
   };
 
   ### Restic
-  sops.secrets.restic_env = {};
-  sops.secrets.restic_repo = {};
-  sops.secrets.restic_password = {};
+  sops.secrets.restic_env = { };
+  sops.secrets.restic_repo = { };
+  sops.secrets.restic_password = { };
 
   services.restic = {
     backups.vps = {
       user = "root";
       environmentFile = "${config.sops.secrets.restic_env.path}";
-      repositoryFile =  "${config.sops.secrets.restic_repo.path}";
-      passwordFile =  "${config.sops.secrets.restic_password.path}";
+      repositoryFile = "${config.sops.secrets.restic_repo.path}";
+      passwordFile = "${config.sops.secrets.restic_password.path}";
       paths = [
         "/var/lib"
       ];

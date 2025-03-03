@@ -3,7 +3,8 @@
   inputs,
   lib,
   ...
-}: {
+}:
+{
   # adjust according to your platform, such as
   imports = [
     ./disko-config.nix
@@ -18,26 +19,26 @@
 
   # Grub needed for Hetzner VPS with ZFS on root
   boot.loader.grub.enable = true;
-  boot.supportedFilesystems= ["zfs"];
-  boot.zfs.extraPools = ["datapool"];
+  boot.supportedFilesystems = [ "zfs" ];
+  boot.zfs.extraPools = [ "datapool" ];
 
-  fileSystems = { 
+  fileSystems = {
     "/var/lib" = {
       device = "datapool/var-lib";
       fsType = "zfs";
-      options = ["X-mount.mkdir"];
+      options = [ "X-mount.mkdir" ];
     };
     "/home/firecat53/shared" = {
       device = "datapool/shared";
       fsType = "zfs";
-      options = ["X-mount.mkdir"];
+      options = [ "X-mount.mkdir" ];
     };
   };
 
   networking.hostName = "vps"; # Define your hostname.
   networking.hostId = "6a315305";
   networking.useDHCP = false;
-  networking.firewall.trustedInterfaces = ["wg0"];
+  networking.firewall.trustedInterfaces = [ "wg0" ];
   systemd.network = {
     enable = true;
     networks."10-lan" = {
@@ -45,11 +46,11 @@
       networkConfig.DHCP = "yes";
       linkConfig.RequiredForOnline = "routable";
     };
-    networks."wg0".address = ["10.200.200.5/24"];
+    networks."wg0".address = [ "10.200.200.5/24" ];
   };
 
   # Override default smartmon enable
   services.smartd.enable = lib.mkForce false;
- 
+
   system.stateVersion = "23.05"; # Did you read the comment?
 }

@@ -2,8 +2,9 @@
 {
   config,
   ...
-}:{
-  ## Prometheus 
+}:
+{
+  ## Prometheus
   services.prometheus = {
     enable = true;
     extraFlags = [
@@ -12,39 +13,47 @@
     scrapeConfigs = [
       {
         job_name = "node-exporter";
-        static_configs = [{
-          targets = [
-            "127.0.0.1:${toString config.services.prometheus.exporters.node.port}"
-            "10.200.200.4:9100"
-            "10.200.200.6:9100"
-          ];
-        }];
+        static_configs = [
+          {
+            targets = [
+              "127.0.0.1:${toString config.services.prometheus.exporters.node.port}"
+              "10.200.200.4:9100"
+              "10.200.200.6:9100"
+            ];
+          }
+        ];
       }
       {
         job_name = "zfs-exporter";
-        static_configs = [{
-          targets = [
-            "127.0.0.1:${toString config.services.prometheus.exporters.zfs.port}"
-            "10.200.200.4:9134"
-            "10.200.200.6:9134"
-          ];
-        }];
+        static_configs = [
+          {
+            targets = [
+              "127.0.0.1:${toString config.services.prometheus.exporters.zfs.port}"
+              "10.200.200.4:9134"
+              "10.200.200.6:9134"
+            ];
+          }
+        ];
       }
       {
         job_name = "podman-exporter";
-        static_configs = [{
-          targets = [
-            "10.200.200.6:9882"
-          ];
-        }];
+        static_configs = [
+          {
+            targets = [
+              "10.200.200.6:9882"
+            ];
+          }
+        ];
       }
       {
         job_name = "prometheus";
-        static_configs = [{
-          targets = [
-            "127.0.0.1:${toString config.services.prometheus.port}"
-          ];
-        }];
+        static_configs = [
+          {
+            targets = [
+              "127.0.0.1:${toString config.services.prometheus.port}"
+            ];
+          }
+        ];
       }
     ];
     rules = [
@@ -176,10 +185,10 @@
       enable = true;
       listenAddress = "localhost";
       webExternalUrl = "https://alerts.firecat53.com";
-      extraFlags = ["--cluster.listen-address="];
+      extraFlags = [ "--cluster.listen-address=" ];
       configuration = {
         route = {
-          group_by = ["alertname"];
+          group_by = [ "alertname" ];
           repeat_interval = "24h";
           receiver = "default";
         };
@@ -208,7 +217,7 @@
               "127.0.0.1:${toString config.services.prometheus.alertmanager.port}"
             ];
           }
-        ];  
+        ];
       }
     ];
   };
@@ -217,8 +226,11 @@
   services.traefik.dynamicConfigOptions.http.routers.prometheus = {
     rule = "Host(`prom.firecat53.com`)";
     service = "prometheus";
-    middlewares = ["auth" "headers"];
-    entrypoints = ["websecure"];
+    middlewares = [
+      "auth"
+      "headers"
+    ];
+    entrypoints = [ "websecure" ];
     tls = {
       certResolver = "le";
     };
@@ -235,8 +247,11 @@
   services.traefik.dynamicConfigOptions.http.routers.alertmanager = {
     rule = "Host(`alerts.firecat53.com`)";
     service = "alertmanager";
-    middlewares = ["auth" "headers"];
-    entrypoints = ["websecure"];
+    middlewares = [
+      "auth"
+      "headers"
+    ];
+    entrypoints = [ "websecure" ];
     tls = {
       certResolver = "le";
     };
@@ -254,7 +269,7 @@
   ## Exporters
   services.prometheus.exporters.node = {
     enable = true;
-    enabledCollectors = ["zfs"];
+    enabledCollectors = [ "zfs" ];
   };
   services.prometheus.exporters.systemd.enable = true;
   services.prometheus.exporters.zfs.enable = true;

@@ -3,7 +3,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   services.akkoma = {
     enable = true;
     config = {
@@ -31,7 +32,11 @@
       };
     };
     # use default ffmpeg instead of the module default ffmpeg_5
-    extraPackages = with pkgs; [ exiftool ffmpeg-headless graphicsmagick-imagemagick-compat ];
+    extraPackages = with pkgs; [
+      exiftool
+      ffmpeg-headless
+      graphicsmagick-imagemagick-compat
+    ];
   };
   services.traefik.dynamicConfigOptions.http = {
     middlewares.well-known-redirect.redirectRegex = {
@@ -43,15 +48,18 @@
       akkoma = {
         rule = "Host(`s.firecat53.net`)";
         service = "akkoma";
-        middlewares = ["headers"];
-        entrypoints = ["websecure"];
+        middlewares = [ "headers" ];
+        entrypoints = [ "websecure" ];
         tls.certResolver = "le";
       };
       well-known-redirect = {
         rule = "Host(`firecat53.net`)";
         service = "dummy-well-known";
-        middlewares = ["headers" "well-known-redirect"];
-        entrypoints = ["websecure"];
+        middlewares = [
+          "headers"
+          "well-known-redirect"
+        ];
+        entrypoints = [ "websecure" ];
         tls.certResolver = "le";
       };
     };
@@ -66,7 +74,8 @@
         {
           # Redirect to nginx
           url = "http://localhost:${builtins.toString config.services.nginx.defaultHTTPListenPort}";
-        } ];
+        }
+      ];
     };
   };
 }

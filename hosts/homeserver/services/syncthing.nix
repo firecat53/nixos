@@ -24,7 +24,10 @@
         };
         "vps" = {
           id = "EPFW7TB-MUV25YB-P2SM66L-ENLRREJ-UJIRELD-QC2FWM4-RVSLFJY-7YWXCQ6";
-          addresses = ["quic://firecat53.com:22000" "tcp://firecat53.com:22000"];
+          addresses = [
+            "quic://firecat53.com:22000"
+            "tcp://firecat53.com:22000"
+          ];
         };
         "scott-laptop" = {
           id = "ERJHQAD-KWQH5ZJ-CAV3ZFL-IR6ECOQ-EHVL7GY-6MY5A5M-IORUVXI-NSBYOQE";
@@ -48,73 +51,113 @@
       folders = {
         "blackhole" = {
           path = "/mnt/downloads/blackhole";
-          devices = ["chrystie-laptop"];
+          devices = [ "chrystie-laptop" ];
           id = "lduvp-dcpju";
         };
         "camera-chrystie" = {
           path = "/mnt/media/cameras/chrystie";
-          devices = ["chrystie-laptop" "chrystie-cell"];
+          devices = [
+            "chrystie-laptop"
+            "chrystie-cell"
+          ];
           id = "camera";
         };
         "camera-scotty" = {
           path = "/mnt/media/cameras/scotty";
-          devices = ["scott-laptop" "scott-cell" "scott-office"];
+          devices = [
+            "scott-laptop"
+            "scott-cell"
+            "scott-office"
+          ];
           id = "camera-scotty";
         };
         "docs-scotty" = {
           path = "/home/firecat53/docs";
-          devices = ["scott-laptop" "scott-cell" "scott-office"];
+          devices = [
+            "scott-laptop"
+            "scott-cell"
+            "scott-office"
+          ];
           id = "docs";
         };
         "docs-chrystie" = {
           path = "/home/chryspie/Christina-docs";
-          devices = ["chrystie-laptop"];
+          devices = [ "chrystie-laptop" ];
           id = "wxbmh-jtaq9";
         };
         "file_xfer" = {
           path = "/home/firecat53/.local/tmp/file_xfer";
-          devices = ["scott-cell" "scott-laptop" "scott-office"];
+          devices = [
+            "scott-cell"
+            "scott-laptop"
+            "scott-office"
+          ];
           id = "file_xfer";
         };
         "mail" = {
           path = "/home/firecat53/mail";
-          devices = ["scott-laptop" "scott-office"];
+          devices = [
+            "scott-laptop"
+            "scott-office"
+          ];
           id = "sdgpi-zh6rd";
         };
         "nixos" = {
           path = "/home/firecat53/nixos";
-          devices = ["scott-laptop" "scott-office" "backup" "vps"];
+          devices = [
+            "scott-laptop"
+            "scott-office"
+            "backup"
+            "vps"
+          ];
           id = "smqlq-yhrua";
           type = "receiveonly";
         };
         "peggy-all" = {
           path = "/home/peggy";
-          devices = ["peggy-laptop" "peggy-phone"];
+          devices = [
+            "peggy-laptop"
+            "peggy-phone"
+          ];
           id = "wcwjd-rxyrv";
         };
         "peggy-camera" = {
           path = "/mnt/media/cameras-peggy";
-          devices = ["peggy-phone"];
+          devices = [ "peggy-phone" ];
           id = "uvdv3-yhbx0";
         };
         "pictures-chrystie" = {
           path = "/home/chryspie/pictures";
-          devices = ["chrystie-laptop"];
+          devices = [ "chrystie-laptop" ];
           id = "efadj-qkslz";
         };
         "shared" = {
           path = "/home/firecat53/shared";
-          devices = ["scott-cell" "vps" "scott-laptop" "chrystie-laptop" "chrystie-cell" "scott-office"];
+          devices = [
+            "scott-cell"
+            "vps"
+            "scott-laptop"
+            "chrystie-laptop"
+            "chrystie-cell"
+            "scott-office"
+          ];
           id = "shared";
         };
         "srv" = {
           path = "/srv";
-          devices = ["vps" "scott-laptop" "scott-office"];
+          devices = [
+            "vps"
+            "scott-laptop"
+            "scott-office"
+          ];
           id = "srv";
         };
         "wallpaper" = {
           path = "/mnt/media/wallpaper";
-          devices = ["scott-laptop" "scott-office"];
+          devices = [
+            "scott-laptop"
+            "scott-office"
+          ];
           id = "wallpaper";
         };
       };
@@ -123,8 +166,11 @@
   services.traefik.dynamicConfigOptions.http.routers.syncthing = {
     rule = "Host(`syncthing.lan.firecat53.net`)";
     service = "syncthing";
-    middlewares = ["auth" "headers"];
-    entrypoints = ["websecure"];
+    middlewares = [
+      "auth"
+      "headers"
+    ];
+    entrypoints = [ "websecure" ];
     tls = {
       certResolver = "le";
     };

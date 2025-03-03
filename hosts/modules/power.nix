@@ -1,7 +1,8 @@
 {
   pkgs,
   ...
-}:{
+}:
+{
   # Power management
   powerManagement.powertop.enable = true;
   services.tlp.enable = true;
@@ -9,7 +10,7 @@
   systemd.services.setBatteryChargeLimit = {
     description = "Set battery charge limit to 75% when started and 96% when stopped";
     enable = true;
-    wantedBy = ["multi-user.target"];
+    wantedBy = [ "multi-user.target" ];
 
     serviceConfig = {
       Type = "oneshot";

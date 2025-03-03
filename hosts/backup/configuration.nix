@@ -2,7 +2,8 @@
 {
   inputs,
   ...
-}: {
+}:
+{
   # adjust according to your platform, such as
   imports = [
     ./disko-config.nix
@@ -19,7 +20,7 @@
   networking.hostName = "backup"; # Define your hostname.
   networking.hostId = "fedd1234";
   networking.useDHCP = false;
-  networking.firewall.trustedInterfaces = ["wg0"];
+  networking.firewall.trustedInterfaces = [ "wg0" ];
   systemd.network = {
     enable = true;
     networks."10-lan" = {
@@ -27,10 +28,10 @@
       networkConfig.DHCP = "yes";
       linkConfig.RequiredForOnline = "routable";
     };
-    networks."wg0".address = ["10.200.200.4/24"];
+    networks."wg0".address = [ "10.200.200.4/24" ];
   };
 
-  boot.zfs.extraPools = ["backuppool"];
+  boot.zfs.extraPools = [ "backuppool" ];
 
   system.stateVersion = "23.11";
 }

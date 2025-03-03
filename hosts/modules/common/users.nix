@@ -8,7 +8,11 @@
   users.users.firecat53 = {
     isNormalUser = true;
     group = "firecat53";
-    extraGroups = ["wheel" "networkmanager" "libvirtd"];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "libvirtd"
+    ];
     uid = 1000;
     # initial password: firecat53
     initialHashedPassword = "$6$4uca2AGtTNxwo1bt$JJwaaNTqKF6ddXE9xLqWdmTZpElZZ5KNHEbj4jqAVY5QVknWKB4lCvzlMPZ0VLivh8FcmpGbkx5bVJhT1URpz0";

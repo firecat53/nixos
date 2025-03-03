@@ -18,7 +18,7 @@
               };
             };
             zfs = {
-              end = "-8G";  # CHANGEME if necessary. Swap size.
+              end = "-8G"; # CHANGEME if necessary. Swap size.
               content = {
                 type = "zfs";
                 pool = "rpool";

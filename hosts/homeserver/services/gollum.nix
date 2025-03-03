@@ -2,7 +2,8 @@
 {
   config,
   ...
-}:{
+}:
+{
   services.gollum = {
     enable = true;
     user = "firecat53";
@@ -14,7 +15,9 @@
     address = "127.0.0.1";
   };
   # These next four lines are to work around a bug in the gollum module when a user other than `gollum` is assigned
-  users.groups = { gollum = {}; };
+  users.groups = {
+    gollum = { };
+  };
   users.users.gollum.isSystemUser = true;
   users.users.gollum.group = "gollum";
   systemd.tmpfiles.rules = [
@@ -23,8 +26,11 @@
   services.traefik.dynamicConfigOptions.http.routers.gollum = {
     rule = "Host(`gollum.lan.firecat53.net`)";
     service = "gollum";
-    middlewares = ["auth" "headers"];
-    entrypoints = ["websecure"];
+    middlewares = [
+      "auth"
+      "headers"
+    ];
+    entrypoints = [ "websecure" ];
     tls = {
       certResolver = "le";
     };

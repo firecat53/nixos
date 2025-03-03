@@ -17,8 +17,8 @@
   services.traefik.dynamicConfigOptions.http.routers.nginx = {
     rule = "Host(`firecat53.com`) && PathPrefix(`/`)";
     service = "nginx";
-    middlewares = ["headers"];
-    entrypoints = ["websecure"];
+    middlewares = [ "headers" ];
+    entrypoints = [ "websecure" ];
     tls = {
       certResolver = "le";
     };

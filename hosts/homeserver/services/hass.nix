@@ -3,8 +3,8 @@
   services.traefik.dynamicConfigOptions.http.routers.hass = {
     rule = "Host(`hass.lan.firecat53.net`)";
     service = "hass";
-    middlewares = ["headers"];
-    entrypoints = ["websecure"];
+    middlewares = [ "headers" ];
+    entrypoints = [ "websecure" ];
     tls = {
       certResolver = "le";
     };

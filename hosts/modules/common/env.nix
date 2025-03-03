@@ -1,8 +1,8 @@
 {
   # Systemwide ENV variables
   environment.variables = {
-    EDITOR = "vim";
-    VISUAL = "vim";
+    EDITOR = "nvim";
+    VISUAL = "nvim";
   };
 
   ## Add ~/.local/bin to $PATH

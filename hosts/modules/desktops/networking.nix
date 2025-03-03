@@ -1,19 +1,20 @@
 {
   config,
   ...
-}:{
+}:
+{
   # Networking
   networking.networkmanager.enable = true;
-  networking.firewall.checkReversePath = "loose";  # Allow tunneling all wireguard traffic
-  networking.firewall.allowedUDPPorts = [51820];
+  networking.firewall.checkReversePath = "loose"; # Allow tunneling all wireguard traffic
+  networking.firewall.allowedUDPPorts = [ 51820 ];
 
   # Wireguard
   #   To create wireguard connection:
   # `nmcli connection import type wireguard file /etc/wireguard/wg0.conf`
-  sops.secrets.wg-private-key = {};
-  sops.secrets.wg-preshared-key = {};
-  sops.secrets.wg-address = {};
-  sops.secrets.wg-allowed-ips = {};
+  sops.secrets.wg-private-key = { };
+  sops.secrets.wg-preshared-key = { };
+  sops.secrets.wg-address = { };
+  sops.secrets.wg-allowed-ips = { };
   sops.templates."wg0.conf" = {
     content = ''
       [Interface]

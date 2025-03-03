@@ -2,9 +2,10 @@
 {
   pkgs,
   ...
-}:{
+}:
+{
   boot = {
-    supportedFilesystems = ["zfs"];
+    supportedFilesystems = [ "zfs" ];
     zfs = {
       requestEncryptionCredentials = true;
       forceImportRoot = false;

@@ -2,9 +2,10 @@
   inputs,
   pkgs,
   ...
-}: let
-  my-python-packages = ps:
-    with ps; [
+}:
+let
+  my-python-packages =
+    ps: with ps; [
       ansible
       ansible-core
       grip
@@ -14,7 +15,8 @@
       podman
       python-lsp-ruff
     ];
-in {
+in
+{
   home.packages = with pkgs; [
     # Terminal tools
     age

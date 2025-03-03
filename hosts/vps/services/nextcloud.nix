@@ -3,17 +3,23 @@
   config,
   pkgs,
   ...
-}:{
+}:
+{
   sops.secrets.nextcloud-admin-password = {
-    # This has to be world readable because I can't set ACLs with sops-nix for the 
+    # This has to be world readable because I can't set ACLs with sops-nix for the
     #   alertmanager systemd dynamic user. TODO
     mode = "0440";
     owner = config.users.users.nextcloud.name;
     group = config.users.users.nextcloud.group;
   };
-  users.users.nextcloud.extraGroups = ["users"];
-  services.nginx.virtualHosts."nc.firecat53.com".listen = [ { addr = "127.0.0.1"; port = 8082; } ];
- 
+  users.users.nextcloud.extraGroups = [ "users" ];
+  services.nginx.virtualHosts."nc.firecat53.com".listen = [
+    {
+      addr = "127.0.0.1";
+      port = 8082;
+    }
+  ];
+
   services.nextcloud = {
     enable = true;
     package = pkgs.nextcloud30;
@@ -30,7 +36,7 @@
       mail_smtpmode = "sendmail";
       mail_sendmailmode = "pipe";
       mysql.utf8mb4 = true;
-      trusted_proxies = ["127.0.0.1"];
+      trusted_proxies = [ "127.0.0.1" ];
     };
     maxUploadSize = "2G"; # also sets post_max_size and memory_limit
     phpOptions = {
@@ -41,8 +47,8 @@
   services.traefik.dynamicConfigOptions.http.routers.nextcloud = {
     rule = "Host(`nc.firecat53.com`)";
     service = "nextcloud";
-    middlewares = ["headers"];
-    entrypoints = ["websecure"];
+    middlewares = [ "headers" ];
+    entrypoints = [ "websecure" ];
     tls = {
       certResolver = "le";
     };

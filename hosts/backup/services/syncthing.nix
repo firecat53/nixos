@@ -1,8 +1,5 @@
 # Syncthing
 {
-  lib,
-  ...
-}:{
   services.syncthing = {
     enable = true;
     user = "firecat53";
@@ -21,7 +18,10 @@
       devices = {
         "vps" = {
           id = "EPFW7TB-MUV25YB-P2SM66L-ENLRREJ-UJIRELD-QC2FWM4-RVSLFJY-7YWXCQ6";
-          addresses = ["quic://firecat53.com:22000" "tcp://firecat53.com:22000"];
+          addresses = [
+            "quic://firecat53.com:22000"
+            "tcp://firecat53.com:22000"
+          ];
         };
         "scott-laptop" = {
           id = "ERJHQAD-KWQH5ZJ-CAV3ZFL-IR6ECOQ-EHVL7GY-6MY5A5M-IORUVXI-NSBYOQE";
@@ -36,7 +36,12 @@
       folders = {
         "nixos" = {
           path = "/home/firecat53/nixos";
-          devices = ["scott-laptop" "scott-office" "homeserver" "vps"];
+          devices = [
+            "scott-laptop"
+            "scott-office"
+            "homeserver"
+            "vps"
+          ];
           id = "smqlq-yhrua";
           type = "receiveonly";
         };

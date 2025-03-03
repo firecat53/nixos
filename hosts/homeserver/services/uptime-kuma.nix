@@ -5,8 +5,8 @@
   services.traefik.dynamicConfigOptions.http.routers.up = {
     rule = "Host(`up.lan.firecat53.net`)";
     service = "up";
-    middlewares = ["headers"];
-    entrypoints = ["websecure"];
+    middlewares = [ "headers" ];
+    entrypoints = [ "websecure" ];
     tls = {
       certResolver = "le";
     };

@@ -1,18 +1,25 @@
 {
   config,
   inputs,
-  lib,
   pkgs,
   ...
-}: let
+}:
+let
   user = "firecat53";
   flakePath = "/home/${user}/nixos/nixos?ref=dev";
-in {
+in
+{
   # Enable flakes
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     # Trusted users
-    trusted-users = [ "root" "${user}" ];
+    trusted-users = [
+      "root"
+      "${user}"
+    ];
     download-buffer-size = 500000000;
   };
 
@@ -58,7 +65,7 @@ in {
   };
   # Allow nixos-upgrade to restart on failure (e.g. when laptop wakes up before network connection is set)
   systemd.services.nixos-upgrade = {
-    preStart = "${pkgs.host}/bin/host firecat53.net";  # Check network connectivity
+    preStart = "${pkgs.host}/bin/host firecat53.net"; # Check network connectivity
     serviceConfig = {
       Restart = "on-failure";
       RestartSec = "120";
@@ -67,9 +74,9 @@ in {
       StartLimitIntervalSec = 600;
       StartLimitBurst = 2;
     };
-    after = ["flake-update.service"];
-    wants = ["flake-update.service"];
-    path = [pkgs.host];
+    after = [ "flake-update.service" ];
+    wants = [ "flake-update.service" ];
+    path = [ pkgs.host ];
   };
   nix.gc = {
     automatic = true;

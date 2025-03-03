@@ -2,5 +2,5 @@
   ### Eternal Terminal
   services.eternal-terminal.enable = true;
 
-  networking.firewall.allowedTCPPorts = [2022];
+  networking.firewall.allowedTCPPorts = [ 2022 ];
 }

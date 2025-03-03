@@ -2,7 +2,8 @@
 {
   pkgs,
   ...
-}:{
+}:
+{
   services.audiobookshelf = {
     package = pkgs.audiobookshelf;
     enable = true;
@@ -13,8 +14,8 @@
   services.traefik.dynamicConfigOptions.http.routers.audiobookshelf = {
     rule = "Host(`books.lan.firecat53.net`)";
     service = "audiobookshelf";
-    middlewares = ["headers"];
-    entrypoints = ["websecure"];
+    middlewares = [ "headers" ];
+    entrypoints = [ "websecure" ];
     tls = {
       certResolver = "le";
     };

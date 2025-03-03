@@ -1,7 +1,8 @@
 {
   pkgs,
   ...
-}:{
+}:
+{
   # Note: /dev/uinput needs 'user' group access. Add this to udev rules (or
   # system Nix config):
   #  services.udev.extraRules = ''

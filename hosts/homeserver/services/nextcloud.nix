@@ -4,24 +4,33 @@
   lib,
   pkgs,
   ...
-}:{
+}:
+{
   sops.secrets.nextcloud-admin-password = {
     mode = "0440";
     owner = config.users.users.nextcloud.name;
     group = config.users.users.nextcloud.group;
   };
-  users.users.nextcloud.extraGroups = ["render" "users"];
- 
+  users.users.nextcloud.extraGroups = [
+    "render"
+    "users"
+  ];
+
   environment.systemPackages = with pkgs; [
-    nodejs_20  # required for Recognize
-    ffmpeg  # required for Memories
+    nodejs_20 # required for Recognize
+    ffmpeg # required for Memories
   ];
   # Allow using /dev/dri for Memories
   systemd.services.phpfpm-nextcloud.serviceConfig = {
     PrivateDevices = lib.mkForce false;
   };
 
-  services.nginx.virtualHosts."nc.firecat53.net".listen = [ { addr = "127.0.0.1"; port = 8180; } ];
+  services.nginx.virtualHosts."nc.firecat53.net".listen = [
+    {
+      addr = "127.0.0.1";
+      port = 8180;
+    }
+  ];
 
   services.nextcloud = {
     enable = true;
@@ -44,7 +53,7 @@
       memories.vod.ffmpeg = "${lib.getExe pkgs.ffmpeg-headless}";
       memories.vod.ffprobe = "${pkgs.ffmpeg-headless}/bin/ffprobe";
       preview_ffmpeg_path = "${pkgs.ffmpeg-headless}/bin/ffmpeg";
-      trusted_proxies = ["127.0.0.1"];
+      trusted_proxies = [ "127.0.0.1" ];
     };
     maxUploadSize = "10G"; # also sets post_max_size and memory_limit
     phpOptions = {
@@ -55,8 +64,8 @@
   services.traefik.dynamicConfigOptions.http.routers.nextcloud = {
     rule = "Host(`nc.firecat53.net`)";
     service = "nextcloud";
-    middlewares = ["headers"];
-    entrypoints = ["websecure"];
+    middlewares = [ "headers" ];
+    entrypoints = [ "websecure" ];
     tls = {
       certResolver = "le";
     };
@@ -72,7 +81,7 @@
   };
 
   systemd.timers."nextcloud-files-update" = {
-    wantedBy = ["timers.target"];
+    wantedBy = [ "timers.target" ];
     timerConfig = {
       OnBootSec = "2m";
       OnUnitActiveSec = "15m";
@@ -80,8 +89,14 @@
     };
   };
   systemd.services."nextcloud-files-update" = {
-    bindsTo = ["mysql.service" "phpfpm-nextcloud.service"];
-    after = ["mysql.service" "phpfpm-nextcloud.service"];
+    bindsTo = [
+      "mysql.service"
+      "phpfpm-nextcloud.service"
+    ];
+    after = [
+      "mysql.service"
+      "phpfpm-nextcloud.service"
+    ];
     script = ''
       ${config.services.nextcloud.occ}/bin/nextcloud-occ files:scan -q --all
       ${config.services.nextcloud.occ}/bin/nextcloud-occ preview:pre-generate
@@ -89,10 +104,13 @@
     serviceConfig = {
       User = "nextcloud";
     };
-    path = ["config.services.nextcloud" pkgs.perl];
+    path = [
+      "config.services.nextcloud"
+      pkgs.perl
+    ];
   };
   systemd.services."nextcloud-cron" = {
-    path = [pkgs.perl];
+    path = [ pkgs.perl ];
   };
 
   ## Collabora (Nextcloud Office)

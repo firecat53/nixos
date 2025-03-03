@@ -1,12 +1,12 @@
 {
   config,
-  home,
   lib,
   pkgs,
   ...
-}:{
+}:
+{
   home.packages = with pkgs; [
-    isync ## TODO mbsync
+    isync # # TODO mbsync
     mairix
     mutt
   ];
@@ -17,7 +17,7 @@
   };
   systemd.user.services.mbsync = {
     Service = {
-      Environment = "PATH=$PATH:${lib.makeBinPath [pkgs.isync]}";
+      Environment = "PATH=$PATH:${lib.makeBinPath [ pkgs.isync ]}";
       ExecStart = lib.mkForce "${pkgs.isync}/bin/mbsync -a";
     };
   };
@@ -65,7 +65,7 @@
         OnBootSec = "5m";
       };
       Install = {
-        WantedBy = ["timers.target"];
+        WantedBy = [ "timers.target" ];
       };
     };
     mairix-purge = {
@@ -78,7 +78,7 @@
         OnBootSec = "15m";
       };
       Install = {
-        WantedBy = ["timers.target"];
+        WantedBy = [ "timers.target" ];
       };
     };
   };

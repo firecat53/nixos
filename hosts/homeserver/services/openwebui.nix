@@ -2,7 +2,8 @@
 {
   pkgs,
   ...
-}:{
+}:
+{
   services.open-webui = {
     package = pkgs.unstable.open-webui;
     enable = true;
@@ -11,8 +12,8 @@
   services.traefik.dynamicConfigOptions.http.routers.openwebui = {
     rule = "Host(`ai.lan.firecat53.net`)";
     service = "openwebui";
-    middlewares = ["headers"];
-    entrypoints = ["websecure"];
+    middlewares = [ "headers" ];
+    entrypoints = [ "websecure" ];
     tls = {
       certResolver = "le";
     };

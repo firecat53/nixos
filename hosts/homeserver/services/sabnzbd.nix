@@ -4,7 +4,8 @@
   lib,
   pkgs,
   ...
-}:{
+}:
+{
   services.sabnzbd = {
     package = pkgs.sabnzbd;
     enable = true;
@@ -24,8 +25,8 @@
   services.traefik.dynamicConfigOptions.http.routers.sabnzbd = {
     rule = "Host(`sabnzbd.lan.firecat53.net`)";
     service = "sabnzbd";
-    middlewares = ["headers"];
-    entrypoints = ["websecure"];
+    middlewares = [ "headers" ];
+    entrypoints = [ "websecure" ];
     tls = {
       certResolver = "le";
     };

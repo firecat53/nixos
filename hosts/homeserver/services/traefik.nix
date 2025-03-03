@@ -2,8 +2,12 @@
 {
   config,
   ...
-}: {
-  networking.firewall.allowedTCPPorts = [80 443];
+}:
+{
+  networking.firewall.allowedTCPPorts = [
+    80
+    443
+  ];
 
   sops.secrets.basic-auth = {
     mode = "0440";
@@ -16,9 +20,9 @@
     group = config.users.users.traefik.group;
   };
   systemd.services.traefik.environment = {
-    CF_DNS_API_TOKEN_FILE = "${config.sops.secrets.cf-api-token.path}"; 
+    CF_DNS_API_TOKEN_FILE = "${config.sops.secrets.cf-api-token.path}";
   };
-  users.users.traefik.extraGroups = ["podman"];
+  users.users.traefik.extraGroups = [ "podman" ];
   services.traefik = {
     enable = true;
     staticConfigOptions = {
@@ -62,7 +66,7 @@
             storage = "/var/lib/traefik/acme.json";
             dnsChallenge = {
               provider = "cloudflare";
-              resolvers = ["1.1.1.1:53"];
+              resolvers = [ "1.1.1.1:53" ];
             };
           };
         };
@@ -74,8 +78,11 @@
           dashboard = {
             rule = "Host(`monitor.lan.firecat53.net`)";
             service = "api@internal";
-            middlewares = ["auth" "headers"];
-            entrypoints = ["websecure"];
+            middlewares = [
+              "auth"
+              "headers"
+            ];
+            entrypoints = [ "websecure" ];
             tls = {
               certResolver = "le";
             };
@@ -108,7 +115,10 @@
           default = {
             minVersion = "VersionTLS13";
             sniStrict = true;
-            curvePreferences = ["CurveP521" "CurveP384"];
+            curvePreferences = [
+              "CurveP521"
+              "CurveP384"
+            ];
           };
         };
       };

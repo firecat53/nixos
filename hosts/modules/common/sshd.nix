@@ -1,7 +1,7 @@
 {
   ### SSH
   services.openssh.enable = true;
-  services.openssh.authorizedKeysFiles = ["/etc/ssh/%u"];
+  services.openssh.authorizedKeysFiles = [ "/etc/ssh/%u" ];
   services.openssh.settings.KbdInteractiveAuthentication = false;
   services.openssh.settings.PasswordAuthentication = false;
   services.openssh.settings.PermitRootLogin = "no";
@@ -14,5 +14,5 @@
     ClientAliveCountMax 1000
   '';
 
-  networking.firewall.allowedTCPPorts = [22];
+  networking.firewall.allowedTCPPorts = [ 22 ];
 }

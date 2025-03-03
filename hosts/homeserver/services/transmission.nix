@@ -1,7 +1,7 @@
 # Transmission
 {
-  networking.firewall.allowedTCPPorts = [30020];
-  networking.firewall.allowedUDPPorts = [30020];
+  networking.firewall.allowedTCPPorts = [ 30020 ];
+  networking.firewall.allowedUDPPorts = [ 30020 ];
 
   services.transmission = {
     enable = true;
@@ -28,8 +28,11 @@
   services.traefik.dynamicConfigOptions.http.routers.transmission = {
     rule = "Host(`transmission.lan.firecat53.net`)";
     service = "transmission";
-    middlewares = ["auth" "headers"];
-    entrypoints = ["websecure"];
+    middlewares = [
+      "auth"
+      "headers"
+    ];
+    entrypoints = [ "websecure" ];
     tls = {
       certResolver = "le";
     };

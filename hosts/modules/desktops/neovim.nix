@@ -2,7 +2,8 @@
   inputs,
   pkgs,
   ...
-}:{
+}:
+{
   nixpkgs.overlays = [
     inputs.neovim.overlays.default
   ];

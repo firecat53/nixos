@@ -1,7 +1,8 @@
 {
   pkgs,
   ...
-}:{
+}:
+{
   services.xserver.enable = true;
 
   # Fingerprint login

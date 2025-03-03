@@ -26,7 +26,10 @@
         };
         "homeserver" = {
           id = "3WS2YZY-BCZNA5N-ZNBCA5G-JNPVFLA-FJQI2VQ-BAM5LK5-UVLWWGM-4DWTRQM";
-          addresses = ["quic://firecat53.net:22000" "tcp://firecat53.net:22000"];
+          addresses = [
+            "quic://firecat53.net:22000"
+            "tcp://firecat53.net:22000"
+          ];
         };
         "scott-laptop" = {
           id = "ERJHQAD-KWQH5ZJ-CAV3ZFL-IR6ECOQ-EHVL7GY-6MY5A5M-IORUVXI-NSBYOQE";
@@ -38,17 +41,31 @@
       folders = {
         "nixos" = {
           path = "/home/firecat53/nixos";
-          devices = ["homeserver" "scott-laptop" "backup" "scott-office"];
+          devices = [
+            "homeserver"
+            "scott-laptop"
+            "backup"
+            "scott-office"
+          ];
           id = "smqlq-yhrua";
           type = "receiveonly";
         };
         "shared" = {
           path = "~/shared";
-          devices = ["scott-cell" "homeserver" "scott-laptop" "scott-office"];
+          devices = [
+            "scott-cell"
+            "homeserver"
+            "scott-laptop"
+            "scott-office"
+          ];
         };
         "srv" = {
           path = "/srv";
-          devices = ["homeserver" "scott-laptop" "scott-office"];
+          devices = [
+            "homeserver"
+            "scott-laptop"
+            "scott-office"
+          ];
         };
       };
     };
@@ -56,8 +73,11 @@
   services.traefik.dynamicConfigOptions.http.routers.syncthing = {
     rule = "Host(`syncthing.firecat53.com`)";
     service = "syncthing";
-    middlewares = ["auth" "headers"];
-    entrypoints = ["websecure"];
+    middlewares = [
+      "auth"
+      "headers"
+    ];
+    entrypoints = [ "websecure" ];
     tls = {
       certResolver = "le";
     };

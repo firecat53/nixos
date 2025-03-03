@@ -1,13 +1,12 @@
 {
   config,
   inputs,
-  sops-nix,
   ...
 }:
 let
   secretspath = builtins.toString inputs.my-secrets;
 in
-  {
+{
   imports = [
     ./apps
     ./common

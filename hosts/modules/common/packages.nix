@@ -1,7 +1,8 @@
 {
   pkgs,
   ...
-}:{
+}:
+{
   # General systemwide packages
   environment.systemPackages = with pkgs; [
     bottom
@@ -22,4 +23,4 @@
     wireguard-tools
     unstable.yazi
   ];
-} 
+}

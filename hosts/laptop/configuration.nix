@@ -2,31 +2,32 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
 
-{ 
+{
   inputs,
   ...
-}:{
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./services
-      ../modules/common
-      ../modules/desktops
-      ../modules/avahi.nix
-      ../modules/boot.nix
-      ../modules/docker.nix
-      ../modules/libvirt.nix
-      ../modules/nix-ld.nix
-      ../modules/podman.nix
-      ../modules/power.nix
-      ../modules/sddm.nix
-      ../modules/sway.nix
-      ../modules/zfs.nix
-      ../../home-manager/home-manager.nix
-      inputs.home-manager.nixosModules.home-manager
-      inputs.sops-nix.nixosModules.sops
-      inputs.catppuccin.nixosModules.catppuccin
-    ];
+}:
+{
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./services
+    ../modules/common
+    ../modules/desktops
+    ../modules/avahi.nix
+    ../modules/boot.nix
+    ../modules/docker.nix
+    ../modules/libvirt.nix
+    ../modules/nix-ld.nix
+    ../modules/podman.nix
+    ../modules/power.nix
+    ../modules/sddm.nix
+    ../modules/sway.nix
+    ../modules/zfs.nix
+    ../../home-manager/home-manager.nix
+    inputs.home-manager.nixosModules.home-manager
+    inputs.sops-nix.nixosModules.sops
+    inputs.catppuccin.nixosModules.catppuccin
+  ];
 
   home-manager.users.firecat53 = {
     imports = [

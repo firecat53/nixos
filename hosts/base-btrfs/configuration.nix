@@ -1,18 +1,19 @@
 {
   inputs,
   ...
-}:{
-  imports =
-    [ # Include the results of the hardware scan.
-      ./disko-config.nix
-      ./hardware-configuration.nix
-      ../modules/common
-      ../modules/boot.nix
-      ../../home-manager/home-manager.nix
-      inputs.disko.nixosModules.disko
-      inputs.home-manager.nixosModules.home-manager
-      inputs.sops-nix.nixosModules.sops
-    ];
+}:
+{
+  imports = [
+    # Include the results of the hardware scan.
+    ./disko-config.nix
+    ./hardware-configuration.nix
+    ../modules/common
+    ../modules/boot.nix
+    ../../home-manager/home-manager.nix
+    inputs.disko.nixosModules.disko
+    inputs.home-manager.nixosModules.home-manager
+    inputs.sops-nix.nixosModules.sops
+  ];
 
   home-manager.users.firecat53 = {
     imports = [

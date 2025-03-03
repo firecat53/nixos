@@ -157,7 +157,7 @@ in
           term = "${pkgs.foot}/bin/footclient";
           tmux = "${pkgs.tmux}/bin/tmux";
           todocalmenu = "${tdcm}/bin/todocalmenu -cmd bemenu -todo /home/firecat53/.local/share/calendars/todo";
-          vim = "${pkgs.nvim-pkg}/bin/vim";
+          vim = "${pkgs.nvim-pkg}/bin/nvim";
           vol = "${pkgs.wireplumber}/bin/wpctl";
           vol_gui = "${pkgs.pwvucontrol}/bin/pwvucontrol";
         in
@@ -272,7 +272,7 @@ in
     extraSessionCommands = ''
       export AWT_TOOLKIT="MToolkit"
       export BEMENU_BACKEND="$XDG_SESSION_TYPE"
-      export EDITOR="vim"
+      export EDITOR="nvim"
       export GDK_DPI_SCALE="1.25"
       export _JAVA_AWT_WM_NONREPARENTING="1"
       export LESS="QiR"

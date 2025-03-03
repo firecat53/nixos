@@ -1,14 +1,16 @@
 {
   pkgs,
   ...
-}: let
+}:
+let
   user = "firecat53";
   flakePath = "/home/${user}/nixos/nixos";
-in {
+in
+{
   ## Update flake inputs daily
   systemd.services = {
     flake-update = {
-      preStart = "${pkgs.host}/bin/host firecat53.net";  # Check network connectivity
+      preStart = "${pkgs.host}/bin/host firecat53.net"; # Check network connectivity
       unitConfig = {
         Description = "Update flake inputs";
         StartLimitIntervalSec = 300;
@@ -21,8 +23,12 @@ in {
         Type = "oneshot"; # Ensure that it finishes before starting nixos-upgrade
         User = "${user}";
       };
-      before = ["nixos-upgrade.service"];
-      path = [pkgs.nix pkgs.git pkgs.host];
+      before = [ "nixos-upgrade.service" ];
+      path = [
+        pkgs.nix
+        pkgs.git
+        pkgs.host
+      ];
     };
   };
 }

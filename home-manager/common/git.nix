@@ -135,8 +135,8 @@
       defaults = {
         view = "issues";
         layout = {
-          issues = {};
-          prs = {};
+          issues = { };
+          prs = { };
         };
         preview = {
           open = true;

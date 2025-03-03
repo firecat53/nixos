@@ -1,7 +1,8 @@
 {
   config,
   ...
-}:{
+}:
+{
   services.autossh.sessions = [
     {
       name = "wg";

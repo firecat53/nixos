@@ -1,7 +1,8 @@
 {
   pkgs,
   ...
-}:{
+}:
+{
   services.gpg-agent = {
     enable = true;
     defaultCacheTtl = 60480000;

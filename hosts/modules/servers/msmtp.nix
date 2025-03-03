@@ -1,10 +1,11 @@
 {
   config,
   ...
-}:{
+}:
+{
   ### Msmtp
   sops.secrets.email-password = {
-    # This has to be world readable because I can't set ACLs with sops-nix for the 
+    # This has to be world readable because I can't set ACLs with sops-nix for the
     #   systemd dynamic users. TODO
     mode = "0444";
   };

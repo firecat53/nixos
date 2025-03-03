@@ -2,29 +2,30 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
 
-{ 
+{
   inputs,
   ...
-}:{
-  imports =
-    [ # Include the results of the hardware scan.
-      ./disko-config.nix
-      ./hardware-configuration.nix
-      ./services
-      ../modules/common
-      ../modules/desktops
-      ../modules/avahi.nix
-      ../modules/boot-grub.nix
-      ../modules/gnome.nix
-      ../modules/podman.nix
-      ../modules/sway.nix
-      ../modules/zfs.nix
-      ../../home-manager/home-manager.nix
-      ./paul.nix
-      inputs.disko.nixosModules.disko
-      inputs.home-manager.nixosModules.home-manager
-      inputs.sops-nix.nixosModules.sops
-    ];
+}:
+{
+  imports = [
+    # Include the results of the hardware scan.
+    ./disko-config.nix
+    ./hardware-configuration.nix
+    ./services
+    ../modules/common
+    ../modules/desktops
+    ../modules/avahi.nix
+    ../modules/boot-grub.nix
+    ../modules/gnome.nix
+    ../modules/podman.nix
+    ../modules/sway.nix
+    ../modules/zfs.nix
+    ../../home-manager/home-manager.nix
+    ./paul.nix
+    inputs.disko.nixosModules.disko
+    inputs.home-manager.nixosModules.home-manager
+    inputs.sops-nix.nixosModules.sops
+  ];
 
   home-manager.users.firecat53 = {
     imports = [

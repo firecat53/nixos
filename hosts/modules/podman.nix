@@ -1,16 +1,16 @@
 # Podman monitoring and setup
 {
-  lib,
   pkgs,
   ...
-}: let
-  podman-py = p:
-    [
-      p.podman
-    ];
-in {
+}:
+let
+  podman-py = p: [
+    p.podman
+  ];
+in
+{
   environment.systemPackages = with pkgs; [
-    (python3.withPackages podman-py // {meta.priority = 1;})
+    (python3.withPackages podman-py // { meta.priority = 1; })
   ];
 
   virtualisation.podman = {
@@ -23,7 +23,7 @@ in {
       runroot = "/run/containers/storage";
     };
   };
- 
+
   environment.shellAliases = {
     pps = "podman ps --format 'table {{ .Names }}\t{{ .Status }}' --sort names";
     pclean = "podman ps -a | grep -v 'CONTAINER\|_config\|_data\|_run' | cut -c-12 | xargs podman rm 2>/dev/null";

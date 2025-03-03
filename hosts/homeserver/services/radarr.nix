@@ -2,7 +2,8 @@
 {
   pkgs,
   ...
-}:{
+}:
+{
   services.radarr = {
     package = pkgs.radarr;
     enable = true;
@@ -13,8 +14,8 @@
   services.traefik.dynamicConfigOptions.http.routers.radarr = {
     rule = "Host(`radarr.lan.firecat53.net`)";
     service = "radarr";
-    middlewares = ["headers"];
-    entrypoints = ["websecure"];
+    middlewares = [ "headers" ];
+    entrypoints = [ "websecure" ];
     tls = {
       certResolver = "le";
     };

@@ -1,11 +1,11 @@
 {
   config,
-  sops,
   ...
-}:{
+}:
+{
   # Wireguard systemd-networkd
-  networking.firewall.checkReversePath = "loose";  # Allow tunneling all wireguard traffic
-  networking.firewall.allowedUDPPorts = [51820];
+  networking.firewall.checkReversePath = "loose"; # Allow tunneling all wireguard traffic
+  networking.firewall.allowedUDPPorts = [ 51820 ];
 
   sops.secrets.wg-private-key = {
     owner = "systemd-network";
@@ -31,7 +31,7 @@
             # Pfsense
             PublicKey = "gPdBMM+fw4z7XFep7C1WNyLf+jY7433E/RJu+7daJ2w=";
             PresharedKeyFile = "${config.sops.secrets.wg-preshared-key.path}";
-            AllowedIPs = ["10.200.200.1/24"];
+            AllowedIPs = [ "10.200.200.1/24" ];
             Endpoint = "wg.firecat53.net:51820";
           }
         ];
@@ -41,7 +41,7 @@
       matchConfig.Name = "wg0";
       #address = ["10.200.200.6/32"]; Set in configuration.nix for each host
       DHCP = "no";
-      dns = ["10.200.200.1"];
+      dns = [ "10.200.200.1" ];
       linkConfig.RequiredForOnline = "no";
       networkConfig = {
         IPv4Forwarding = "yes";

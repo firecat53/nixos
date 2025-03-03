@@ -2,8 +2,9 @@
 {
   config,
   ...
-}:{
-  sops.secrets.miniflux-env = {};
+}:
+{
+  sops.secrets.miniflux-env = { };
   services.miniflux = {
     enable = true;
     config = {
@@ -16,8 +17,8 @@
   services.traefik.dynamicConfigOptions.http.routers.miniflux = {
     rule = "Host(`rss.lan.firecat53.net`)";
     service = "miniflux";
-    middlewares = ["headers"];
-    entrypoints = ["websecure"];
+    middlewares = [ "headers" ];
+    entrypoints = [ "websecure" ];
     tls = {
       certResolver = "le";
     };

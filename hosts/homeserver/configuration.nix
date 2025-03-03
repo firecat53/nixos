@@ -1,10 +1,10 @@
 # Main configuration
 {
   inputs,
-  lib,
   pkgs,
   ...
-}: {
+}:
+{
   # adjust according to your platform, such as
   imports = [
     ./hardware-configuration.nix
@@ -20,7 +20,7 @@
 
   networking.hostName = "homeserver"; # Define your hostname.
   networking.hostId = "abcd1234";
-  networking.firewall.trustedInterfaces = ["wg0"];
+  networking.firewall.trustedInterfaces = [ "wg0" ];
   networking.useDHCP = false;
 
   systemd.network = {
@@ -41,14 +41,14 @@
       };
       "40-br0" = {
         matchConfig.Name = "br0";
-        address = ["192.168.200.101/24"];
-        gateway = ["192.168.200.1"];
-        bridgeConfig = {};
+        address = [ "192.168.200.101/24" ];
+        gateway = [ "192.168.200.1" ];
+        bridgeConfig = { };
         linkConfig = {
           RequiredForOnline = "routable";
         };
       };
-      "wg0".address = ["10.200.200.6/24"];
+      "wg0".address = [ "10.200.200.6/24" ];
     };
   };
 
