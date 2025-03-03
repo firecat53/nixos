@@ -19,6 +19,11 @@
           on = "<Enter>";
           desc = "Enter child directory or open file";
         }
+        {
+          run = "shell $SHELL --block";
+          on = "!";
+          desc = "Open shell here";
+        }
       ];
     };
   };
