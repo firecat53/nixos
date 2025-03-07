@@ -2,6 +2,15 @@
   config,
   ...
 }:
+let
+  externalServers = [ "vps" ]; # Add server names to list that are not in the LAN
+
+  wgEndpoint =
+    if builtins.elem config.networking.hostName externalServers then
+      "wg.firecat53.net:51820"
+    else
+      "192.168.200.1:51820";
+in
 {
   # Wireguard systemd-networkd
   networking.firewall.checkReversePath = "loose"; # Allow tunneling all wireguard traffic
@@ -28,11 +37,11 @@
         };
         wireguardPeers = [
           {
-            # Pfsense
-            PublicKey = "gPdBMM+fw4z7XFep7C1WNyLf+jY7433E/RJu+7daJ2w=";
+            # Opnsense
+            PublicKey = "ADZLBwickizf71ZNv4QpcdFtyHVpe81WnzW8sMPK1Wg=";
             PresharedKeyFile = "${config.sops.secrets.wg-preshared-key.path}";
             AllowedIPs = [ "10.200.200.1/24" ];
-            Endpoint = "wg.firecat53.net:51820";
+            Endpoint = wgEndpoint;
           }
         ];
       };

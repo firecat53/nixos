@@ -43,6 +43,7 @@
         matchConfig.Name = "br0";
         address = [ "192.168.200.101/24" ];
         gateway = [ "192.168.200.1" ];
+        dns = [ "192.168.200.1" ];
         bridgeConfig = { };
         linkConfig = {
           RequiredForOnline = "routable";

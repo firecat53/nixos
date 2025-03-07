@@ -24,8 +24,8 @@
       DNS = 10.200.200.1
 
       [Peer]
-      # pfsense
-      PublicKey = gPdBMM+fw4z7XFep7C1WNyLf+jY7433E/RJu+7daJ2w=
+      # OPNsense
+      PublicKey = ADZLBwickizf71ZNv4QpcdFtyHVpe81WnzW8sMPK1Wg=
       PresharedKey = ${config.sops.placeholder.wg-preshared-key}
       AllowedIPs = ${config.sops.placeholder.wg-allowed-ips}
       Endpoint = wg.firecat53.net:51820
