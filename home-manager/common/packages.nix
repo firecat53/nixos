@@ -71,6 +71,7 @@ in
     libreoffice
     mpv
     pinentry-qt
+    ripdrag
     spotify
     inputs.todocalmenu.packages.${pkgs.system}.default
     ungoogled-chromium

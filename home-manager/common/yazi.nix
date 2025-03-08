@@ -7,8 +7,48 @@
     enable = true;
     package = pkgs.unstable.yazi;
     enableBashIntegration = true;
+    settings = {
+      manager = {
+        ratio = [
+          1
+          3
+          4
+        ];
+      };
+      opener = {
+        extract = [
+          {
+            run = "ya pub extract --list \"$@\"";
+            desc = "Extract here";
+            for = "unix";
+          }
+        ];
+      };
+      plugin.prepend_fetchers = [
+        {
+          id = "git";
+          name = "*";
+          run = "git";
+        }
+        {
+          id = "git";
+          name = "*/";
+          run = "git";
+        }
+      ];
+    };
     keymap = {
       manager.prepend_keymap = [
+        {
+          run = "close";
+          on = "q";
+          desc = "Close tab or quit on last tab";
+        }
+        {
+          run = "shell 'ripdrag -bx \"$@\" 2>/dev/null &' --confirm";
+          on = "<C-d>";
+          desc = "Activate ripdrag for current selection";
+        }
         {
           run = "plugin smart-enter";
           on = "l";
@@ -24,7 +64,15 @@
           on = "!";
           desc = "Open shell here";
         }
+        {
+          run = "plugin toggle-pane max-preview";
+          on = "i";
+          desc = "Maximize or restore the preview pane";
+        }
       ];
     };
+    initLua = ''
+      require("git"):setup()
+    '';
   };
 }
