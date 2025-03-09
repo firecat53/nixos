@@ -2,6 +2,8 @@
   programs.bemenu = {
     enable = true;
     settings = {
+      border = 5;
+      border-radius = 15;
       ignorecase = true;
       index = 0;
       list = 25;

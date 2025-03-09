@@ -70,10 +70,10 @@
         user = "aur";
         identityFile = "~/.ssh/aur";
       };
-      "pfsense" = {
+      "router" = {
         hostname = "192.168.200.1";
-        user = "admin";
-        port = 3001;
+        user = "firecat53";
+        port = 22;
         identityFile = "~/.ssh/id_ed25519";
       };
       "wg" = {

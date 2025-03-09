@@ -69,6 +69,11 @@
           on = "i";
           desc = "Maximize or restore the preview pane";
         }
+        {
+          run = "shell 'wl-copy < \"$@\"'";
+          on = "C";
+          desc = "Copy file contents to clipboard";
+        }
       ];
     };
     initLua = ''
