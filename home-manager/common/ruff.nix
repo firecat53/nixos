@@ -2,7 +2,7 @@
   programs.ruff = {
     enable = true;
     settings = {
-      line-length = 100;
+      line-length = 80;
     };
   };
 }
