@@ -62,4 +62,29 @@
       ];
     };
   };
+  # Rules for the NextPush app for matrix notifications
+  services.traefik.dynamicConfigOptions.http.routers.matrix-gateway = {
+    rule = "Host(`nc.firecat53.com`) && Path(`/_matrix/push/v1/notify`)";
+    service = "nextcloud";
+    middlewares = [
+      "headers"
+      "matrix-gateway"
+    ];
+    entrypoints = [ "websecure" ];
+    tls = {
+      certResolver = "le";
+    };
+  };
+  services.traefik.dynamicConfigOptions.http.middlewares.matrix-gateway = {
+    replacePath = {
+      path = "/index.php/apps/uppush/gateway/matrix";
+    };
+  };
+  services.traefik.staticConfigOptions.entryPoints.http.transport = {
+    respondingTimeouts = {
+      readTimeout = "10m";
+      writeTimeout = "10m";
+      idleTimeout = "10m";
+    };
+  };
 }
