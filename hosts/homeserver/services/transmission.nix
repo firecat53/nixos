@@ -14,7 +14,7 @@
       rpc-port = 9091;
       rpc-bind-address = "127.0.0.1";
       rpc-host-whitelist-enabled = true;
-      rpc-host-whitelist = "transmission.lan.firecat53.net";
+      rpc-host-whitelist = "transmission.lan.firecat53.net,transmission.firecat53.me";
       rpc-whitelist-enabled = true;
       rpc-whitelist = "127.0.0.1";
       peer-port-random-on-start = false;
