@@ -4,6 +4,7 @@
     image = "ghcr.io/hargata/lubelogger:latest";
     autoStart = true;
     user = "1000:100";
+    ports = [ "8881:8080" ];
     environment = {
       LC_ALL = "en_US.UTF-8";
       LANG = "en_US.UTF-8";

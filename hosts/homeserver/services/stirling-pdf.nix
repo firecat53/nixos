@@ -3,6 +3,7 @@
   virtualisation.oci-containers.containers.stirling-pdf = {
     image = "frooodle/s-pdf:latest";
     autoStart = true;
+    ports = [ "8880:8080" ];
     environment = {
       DOCKER_ENABLE_SECURITY = "False";
     };
