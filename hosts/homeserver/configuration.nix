@@ -13,6 +13,7 @@
     ../modules/servers
     ../modules/avahi.nix
     ../modules/libvirt.nix
+    ../modules/newt.nix
     ../modules/podman.nix
     ../modules/zfs.nix
     inputs.sops-nix.nixosModules.sops
