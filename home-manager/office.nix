@@ -10,7 +10,7 @@ in
   imports = [
     ./common
     ./sway
-    inputs.catppuccin.homeManagerModules.catppuccin
+    inputs.catppuccin.homeModules.catppuccin
   ];
 
   home.username = "firecat53";
