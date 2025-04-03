@@ -49,6 +49,12 @@
         port = 22;
         identityFile = "~/.ssh/id_ed25519";
       };
+      "pangolin" = {
+        hostname = "firecat53.me";
+        user = "firecat53";
+        port = 22;
+        identityFile = "~/.ssh/id_ed25519";
+      };
       "github" = {
         hostname = "github.com";
         user = "git";
