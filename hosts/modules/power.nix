@@ -9,7 +9,7 @@
 
   systemd.services.setBatteryChargeLimit = {
     description = "Set battery charge limit to 75% when started and 96% when stopped";
-    enable = true;
+    enable = false;
     wantedBy = [ "multi-user.target" ];
 
     serviceConfig = {
