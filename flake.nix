@@ -18,7 +18,7 @@
 
     cursor.url = "github:omarcresp/cursor-flake/main";
 
-    newt.url = "github:fosrl/newt";
+    newt.url = "github:firecat53/newt";
     newt.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     # Personal project flakes and secrets
