@@ -7,7 +7,7 @@
         content = {
           type = "gpt";
           partitions = {
-            BOOT = {
+            EFI = {
               size = "512M";
               type = "EF00";
               content = {

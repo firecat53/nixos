@@ -3,21 +3,18 @@
     disk = {
       main = {
         type = "disk";
-        device = "/dev/disk/by-id/ata-Samsung_SSD_840_EVO_120GB_S1D7NEAF411408R";
+        device = "/dev/disk/by-id/nvme-Corsair_MP700_ELITE_AA0AB510009A7K";
         content = {
           type = "gpt";
           partitions = {
-            GRUB = {
-              size = "1M";
-              type = "EF02";
-            };
-            BOOT = {
+            EFI = {
               size = "512M";
-              type = "0700";
+              type = "EF00";
               content = {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
+                mountOptions = [ "umask=0077" ];
               };
             };
             zfs = {

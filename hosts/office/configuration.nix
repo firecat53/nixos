@@ -15,13 +15,14 @@
     ../modules/common
     ../modules/desktops
     ../modules/avahi.nix
-    ../modules/boot-grub.nix
+    ../modules/boot.nix
     ../modules/gnome.nix
+    ../modules/libvirt.nix
+    ../modules/nix-ld.nix
+    ../modules/opengl-amd.nix
     ../modules/podman.nix
-    ../modules/sway.nix
     ../modules/zfs.nix
     ../../home-manager/home-manager.nix
-    ./paul.nix
     inputs.disko.nixosModules.disko
     inputs.home-manager.nixosModules.home-manager
     inputs.sops-nix.nixosModules.sops
@@ -43,5 +44,5 @@
   # Polkit - for home-manager sway
   security.polkit.enable = true;
 
-  system.stateVersion = "23.11";
+  system.stateVersion = "24.11";
 }

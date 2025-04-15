@@ -1,7 +1,9 @@
 {
-  catppuccin = {
-    enable = true;
-    flavor = "mocha";
-    accent = "sapphire";
-  };
+  pkgs,
+  ...
+}:
+{
+  environment.systemPackages = [
+    pkgs.catppuccin
+  ];
 }

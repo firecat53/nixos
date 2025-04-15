@@ -10,7 +10,7 @@
           partitions = {
             EFI = {
               size = "512M";
-              type = "0700";
+              type = "EF00";
               content = {
                 type = "filesystem";
                 format = "vfat";

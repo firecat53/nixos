@@ -18,6 +18,7 @@
     ../modules/docker.nix
     ../modules/libvirt.nix
     ../modules/nix-ld.nix
+    ../modules/opengl-intel.nix
     ../modules/podman.nix
     ../modules/power.nix
     ../modules/sddm.nix
