@@ -67,6 +67,7 @@ git add .sops.yaml <homename>/ && git commit -m 'Update sops keys'
    for laptops/desktops
 5. Update syncthing device ID's if necessary. Re-add servers on phones and
    wife's laptop if needed.
+6. `echo nixos/flake.lock > ~/nixos/.stignore` (keep flake.lock from syncing)
         
 ## Minimal and Base Installs
 

@@ -6,7 +6,17 @@
 }:
 let
   user = "firecat53";
-  flakePath = "/home/${user}/nixos/nixos?ref=dev";
+  ref =
+    if
+      builtins.elem config.networking.hostName [
+        "office"
+        "laptop"
+      ]
+    then
+      "dev"
+    else
+      "main";
+  flakePath = "/home/${user}/nixos/nixos?ref=${ref}";
   secretspath = builtins.toString inputs.my-secrets;
 in
 {
@@ -98,5 +108,29 @@ in
   ## Show installed packages
   environment.shellAliases = {
     ni = "nix-store --query --requisites /run/current-system/sw | cut -d- -f2- | sort | less";
+  };
+  ## Update flake inputs daily
+  systemd.services = {
+    flake-update = {
+      preStart = "${pkgs.host}/bin/host firecat53.net"; # Check network connectivity
+      unitConfig = {
+        Description = "Update flake inputs";
+        StartLimitIntervalSec = 300;
+        StartLimitBurst = 5;
+      };
+      serviceConfig = {
+        ExecStart = "${pkgs.nix}/bin/nix flake update --flake ${flakePath}";
+        Restart = "on-failure";
+        RestartSec = "30";
+        Type = "oneshot"; # Ensure that it finishes before starting nixos-upgrade
+        User = "${user}";
+      };
+      before = [ "nixos-upgrade.service" ];
+      path = [
+        pkgs.nix
+        pkgs.git
+        pkgs.host
+      ];
+    };
   };
 }
