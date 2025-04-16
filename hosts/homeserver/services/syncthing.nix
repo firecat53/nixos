@@ -33,7 +33,7 @@
           id = "ERJHQAD-KWQH5ZJ-CAV3ZFL-IR6ECOQ-EHVL7GY-6MY5A5M-IORUVXI-NSBYOQE";
         };
         "scott-office" = {
-          id = "JJEHDJM-7EXVS6I-U5LIV3G-QH56XUA-77WXQZA-PXI4GIF-6ATNTOZ-5JA2FQV";
+          id = "4L73OQJ-4T6KOAR-5TJLKKY-ANBRCCB-KAOBFM7-LWVGPFK-QQ643GT-H4LIXAH";
         };
         "chrystie-cell" = {
           id = "FIQHWMF-VUVWCGQ-BPUNYV5-5COXF36-OB6D52M-FSKLCYX-MWS7RWZ-KWQ56QK";
@@ -98,7 +98,6 @@
           path = "/home/firecat53/mail";
           devices = [
             "scott-laptop"
-            "scott-office"
           ];
           id = "sdgpi-zh6rd";
         };
