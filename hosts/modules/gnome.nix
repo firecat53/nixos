@@ -8,6 +8,9 @@
     desktopManager.gnome.enable = true;
   };
   ### Ensure system tray icons are visible
-  environment.systemPackages = with pkgs; [ gnomeExtensions.appindicator ];
+  environment.systemPackages = with pkgs; [
+    gnomeExtensions.appindicator
+    seahorse
+  ];
   services.udev.packages = with pkgs; [ gnome-settings-daemon ];
 }
