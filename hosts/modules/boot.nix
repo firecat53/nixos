@@ -27,8 +27,10 @@
         canTouchEfiVariables = true;
       };
     };
-    plymouth = lib.mkIf (config.networking.hostName == "laptop") {
-      enable = true;
-    };
+    plymouth =
+      lib.mkIf (config.networking.hostName == "laptop" || config.networking.hostName == "office")
+        {
+          enable = true;
+        };
   };
 }

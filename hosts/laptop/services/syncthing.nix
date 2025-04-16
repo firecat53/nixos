@@ -27,7 +27,7 @@
           id = "6LDX7IF-D2MWKOW-APU3AUX-WXNBWFG-PNIUAPB-QKTWZHF-7MKLPBI-M6E6AQE";
         };
         "scott-office" = {
-          id = "JJEHDJM-7EXVS6I-U5LIV3G-QH56XUA-77WXQZA-PXI4GIF-6ATNTOZ-5JA2FQV";
+          id = "4L73OQJ-4T6KOAR-5TJLKKY-ANBRCCB-KAOBFM7-LWVGPFK-QQ643GT-H4LIXAH";
         };
         "vps" = {
           id = "EPFW7TB-MUV25YB-P2SM66L-ENLRREJ-UJIRELD-QC2FWM4-RVSLFJY-7YWXCQ6";
@@ -82,7 +82,7 @@
             "vps"
           ];
           id = "smqlq-yhrua";
-          type = "sendonly";
+          type = "sendreceive";
         };
         "shared" = {
           path = "/home/firecat53/shared";

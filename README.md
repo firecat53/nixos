@@ -80,6 +80,20 @@ git add .sops.yaml <homename>/ && git commit -m 'Update sops keys'
    rebuild their flakes.
 4. `sudo -i -u backup ssh -i /etc/ssh/backup <backup source hostname(s)>` and accept fingerprint
 
+## OFFICE desktop
+
+1. See above [[#Installing on a New machine]]
+2. Login to Vaultwarden
+3. Login to Firefox Sync
+4. Open Syncthing on this machine and other machines. Ensure syncing is setup.
+5. Add yazi plugins
+```bash
+ya pack -a yazi-rs/plugins:git
+ya pack -a yazi-rs/plugins:smart-enter
+ya pack -a yazi-rs/plugins:toggle-pane
+```
+6. Dotfiles
+
 ## LAPTOP with encrypted ZFS root (single disk)
 
 * Creates 4 partitions: 1-1Gb EFI, 2-2Gb bpool, 3-rpool, 4-1 Mib BIOS

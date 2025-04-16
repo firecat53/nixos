@@ -65,22 +65,6 @@
           ];
           id = "file_xfer";
         };
-        "mail" = {
-          path = "/home/firecat53/mail";
-          devices = [
-            "homeserver"
-            "scott-laptop"
-          ];
-          id = "sdgpi-zh6rd";
-        };
-        "mom_books" = {
-          path = "/home/firecat53/.local/tmp/mom_books";
-          devices = [
-            "homeserver"
-            "scott-laptop"
-          ];
-          id = "quhfj-7uvtc";
-        };
         "nixos" = {
           path = "/home/firecat53/nixos";
           devices = [
@@ -90,7 +74,7 @@
             "vps"
           ];
           id = "smqlq-yhrua";
-          type = "receiveonly";
+          type = "sendreceive";
         };
         "shared" = {
           path = "/home/firecat53/shared";

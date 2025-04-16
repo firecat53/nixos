@@ -41,8 +41,5 @@
   # Swap (zram)
   zramSwap.enable = true;
 
-  # Polkit - for home-manager sway
-  security.polkit.enable = true;
-
   system.stateVersion = "24.11";
 }
