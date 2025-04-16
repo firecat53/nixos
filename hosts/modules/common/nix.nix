@@ -13,10 +13,10 @@ let
         "laptop"
       ]
     then
-      "dev"
+      ""
     else
-      "main";
-  flakePath = "/home/${user}/nixos/nixos?ref=${ref}";
+      "?ref=main";
+  flakePath = "/home/${user}/nixos/nixos${ref}";
   secretspath = builtins.toString inputs.my-secrets;
 in
 {
