@@ -72,24 +72,24 @@
             options.mountpoint = "legacy";
             mountpoint = "/";
           };
-          "nixos/root/var" = {
+          "nixos/var" = {
             type = "zfs_fs";
             options.mountpoint = "none";
           };
-          "nixos/root/var/lib" = {
+          "nixos/var/lib" = {
             type = "zfs_fs";
             options.mountpoint = "legacy";
             mountpoint = "/var/lib";
           };
-          "nixos/root/var/lib/containers" = {
+          "nixos/var/lib/containers" = {
             type = "zfs_fs";
             options.mountpoint = "none";
           };
-          "nixos/root/var/lib/containers/storage" = {
+          "nixos/var/lib/containers/storage" = {
             type = "zfs_fs";
             options.mountpoint = "none";
           };
-          "nixos/root/var/lib/containers/storage/volumes" = {
+          "nixos/var/lib/containers/storage/volumes" = {
             type = "zfs_fs";
             options.mountpoint = "legacy";
             mountpoint = "/var/lib/containers/storage/volumes";
