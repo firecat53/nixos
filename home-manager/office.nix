@@ -11,6 +11,7 @@ in
     ./apps/calibre.nix
     ./apps/vscode.nix
     ./common
+    ./sway
     inputs.catppuccin.homeModules.catppuccin
   ];
 

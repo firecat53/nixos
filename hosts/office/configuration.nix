@@ -16,11 +16,12 @@
     ../modules/desktops
     ../modules/avahi.nix
     ../modules/boot.nix
-    ../modules/gnome.nix
     ../modules/libvirt.nix
     ../modules/nix-ld.nix
     ../modules/opengl-amd.nix
     ../modules/podman.nix
+    ../modules/sddm.nix
+    ../modules/sway.nix
     ../modules/zfs.nix
     ../../home-manager/home-manager.nix
     inputs.disko.nixosModules.disko

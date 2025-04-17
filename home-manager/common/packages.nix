@@ -62,7 +62,6 @@ in
     dmenu
     electrum
     firefox
-    simple-scan
     hunspell
     hunspellDicts.en-us-large
     imv
@@ -71,7 +70,9 @@ in
     libreoffice
     mpv
     pinentry-qt
+    resources
     ripdrag
+    simple-scan
     spotify
     inputs.todocalmenu.packages.${pkgs.system}.default
     ungoogled-chromium

@@ -228,6 +228,9 @@ in
         eDP-1 = {
           scale = "1";
         };
+        HDMI-A-1 = {
+          scale = "1.5";
+        };
       };
 
       startup = [
@@ -384,8 +387,10 @@ in
           }
           {
             block = "battery";
+            device = "BAT*";
             format = " $icon  $percentage | ";
             full_format = "";
+            missing_format = "";
           }
           {
             block = "maildir";
