@@ -317,6 +317,10 @@ in
         timeout = 610;
         command = "${pkgs.swaylock}/bin/swaylock";
       }
+      {
+        timeout = 1200;
+        command = "${pkgs.systemd}/bin/systemctl suspend";
+      }
     ];
   };
 
