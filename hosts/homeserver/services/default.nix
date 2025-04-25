@@ -26,5 +26,6 @@
     ./transmission.nix
     ./uptime-kuma.nix
     ./vaultwarden.nix
+    ./vdirsyncer.nix
   ];
 }
