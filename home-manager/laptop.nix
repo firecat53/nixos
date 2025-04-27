@@ -8,7 +8,8 @@ let
 in
 {
   imports = [
-    ./apps
+    ./apps/calibre.nix
+    ./apps/vscode.nix
     ./common
     ./sway
     inputs.catppuccin.homeModules.catppuccin

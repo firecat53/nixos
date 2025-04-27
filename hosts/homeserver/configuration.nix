@@ -16,8 +16,17 @@
     ../modules/newt.nix
     ../modules/podman.nix
     ../modules/zfs.nix
+    ../../home-manager/home-manager.nix
+    inputs.home-manager.nixosModules.home-manager
     inputs.sops-nix.nixosModules.sops
   ];
+
+  home-manager.users.firecat53 = {
+    imports = [
+      inputs.sops-nix.homeManagerModule
+      ../../home-manager/homeserver.nix
+    ];
+  };
 
   networking.hostName = "homeserver"; # Define your hostname.
   networking.hostId = "abcd1234";

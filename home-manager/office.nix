@@ -8,8 +8,6 @@ let
 in
 {
   imports = [
-    ./apps/aerc.nix
-    ./apps/calendar.nix
     ./apps/calibre.nix
     ./apps/vscode.nix
     ./common

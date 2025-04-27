@@ -1,0 +1,26 @@
+{
+  config,
+  inputs,
+  ...
+}:
+let
+  secretspath = builtins.toString inputs.my-secrets;
+in
+{
+  imports = [
+    ./apps/mbsync.nix
+    ./apps/vdirsyncer.nix
+  ];
+
+  home.username = "firecat53";
+  home.homeDirectory = "/home/firecat53";
+
+  programs.home-manager.enable = true;
+
+  sops = {
+    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+    defaultSopsFile = "${secretspath}/homeserver/secrets.yaml";
+  };
+
+  home.stateVersion = "24.11";
+}
