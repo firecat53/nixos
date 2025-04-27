@@ -98,6 +98,7 @@
           path = "/home/firecat53/mail";
           devices = [
             "scott-laptop"
+            "scott-office"
           ];
           id = "sdgpi-zh6rd";
         };

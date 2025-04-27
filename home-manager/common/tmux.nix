@@ -29,7 +29,7 @@
 
       # Define sessions
       new -s term -n term -d -A
-      new -s comms -n comms -d -A mutt
+      new -s comms -n comms -d -A aerc
       new -s music -n music -d -A
     '';
   };
