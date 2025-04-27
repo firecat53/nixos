@@ -1,4 +1,9 @@
 {
+  config,
+  ...
+}:
+{
+  sops.secrets.fastmail-imap = { };
   programs.aerc = {
     enable = true;
     extraConfig = {
@@ -11,11 +16,6 @@
       };
       general = {
         unsafe-accounts-conf = true;
-      };
-      hooks = {
-        mailReceived = "notify-send \"[$AERC_ACCOUNT/$AERC_FOLDER] New mail from $AERC_FROM_NAME\" \"$AERC_SUBJECT\"";
-        # mailDeleted = "mbsync \"$AERC_ACCOUNT:$AERC_FOLDER\" &";
-        # mailAdded = "mbsync \"$AERC_ACCOUNT:$AERC_FOLDER\" &";
       };
       openers = {
         "application/pdf" = "zathura";
@@ -209,42 +209,12 @@
         "<C-PgDn>" = ":next-tab<Enter>";
       };
     };
-    templates = {
-      # templateDirs = "";
-      # newMessage = "new_message";
-      # quotedReply = "quoted_reply";
-      # forwards = "forward_as_body";
-    };
   };
 
   accounts.email = {
     accounts.Home = {
       address = "scott@firecat53.net";
       primary = true;
-      aerc = {
-        enable = true;
-        extraAccounts = {
-          address-book-cmd = "khard email --parsable --remove-first-line %s";
-          aliases = "tech@firecat53.net,shopping@firecat53.net,bills@firecat53.net,health@firecat53.net";
-          cache-blobs = true;
-          cache-state = true;
-          cacheHeaders = true;
-          copy-to = "Sent";
-          default = "Inbox";
-          folders-sort = "Inbox";
-          from = "Scott Hansen <scott@firecat53.net>";
-          outgoing = "jmap://";
-          pgp-auto-sign = true;
-          pgp-key-id = "2BD1E9815C541EA2";
-          source = "jmap+oauthbearer://scott%40firecat53.net@api.fastmail.com/.well-known/jmap";
-          source-cred-cmd = "gpg -q -d ~/.passwords.gpg | grep 'fastmail'| rev | cut -d ' ' -f1 | rev";
-          use-labels = true;
-        };
-      };
-    };
-    accounts.HomeMaildir = {
-      address = "scott@firecat53.net";
-      primary = false;
       aerc = {
         enable = true;
         extraAccounts = {
@@ -258,7 +228,7 @@
           pgp-auto-sign = true;
           pgp-key-id = "2BD1E9815C541EA2";
           source = "maildir://~/mail/firecat53.net";
-          source-cred-cmd = "gpg -q -d ~/.passwords.gpg | grep 'scott@firecat53.net'| rev | cut -d ' ' -f1 | rev";
+          source-cred-cmd = "cat ${config.sops.secrets.fastmail-imap.path}";
         };
       };
     };
