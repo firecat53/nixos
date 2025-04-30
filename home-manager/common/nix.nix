@@ -1,4 +1,8 @@
 {
+  pkgs,
+  ...
+}:
+{
   nix.gc = {
     automatic = true;
     frequency = "weekly";
@@ -8,5 +12,9 @@
     enable = true;
     enableBashIntegration = true;
     nix-direnv.enable = true;
+  };
+  home.packages = [ pkgs.unstable.nix-search-tv ];
+  programs.bash.shellAliases = {
+    ns = "nix-search-tv print | fzf --exact --preview 'nix-search-tv preview {}' --scheme history";
   };
 }
