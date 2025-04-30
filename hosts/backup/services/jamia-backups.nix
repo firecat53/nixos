@@ -1,5 +1,6 @@
 # Note: remember to run smbpasswd -a jamia to add allowed user
 {
+  lib,
   pkgs,
   ...
 }:
@@ -14,4 +15,8 @@
   environment.systemPackages = with pkgs; [
     kopia
   ];
+
+  # Ensure /home/jamia/backups is mounted at boot.
+  # Ensure ZFS properties set `canmount=true` and `mountpoint=/home/jamia/backups`
+  systemd.services.zfs-mount.enable = lib.mkForce true;
 }
