@@ -400,7 +400,6 @@ in
             block = "maildir";
             interval = 20;
             inboxes = [
-              "~/mail/firecat4153/INBOX"
               "~/mail/firecat53.net/Inbox"
             ];
             threshold_warning = 1;
