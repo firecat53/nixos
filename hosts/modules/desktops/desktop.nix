@@ -6,7 +6,7 @@
   services.xserver.enable = true;
 
   # Fingerprint login
-  #services.fprintd.enable = true;
+  services.fprintd.enable = true;
 
   # Fonts
   fonts.packages = with pkgs; [
