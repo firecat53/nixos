@@ -46,5 +46,8 @@
   # Polkit - for home-manager sway
   security.polkit.enable = true;
 
+  # Fingerprint login
+  services.fprintd.enable = true;
+
   system.stateVersion = "24.05";
 }

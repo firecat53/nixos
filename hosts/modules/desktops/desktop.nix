@@ -5,9 +5,6 @@
 {
   services.xserver.enable = true;
 
-  # Fingerprint login
-  services.fprintd.enable = true;
-
   # Fonts
   fonts.packages = with pkgs; [
     dejavu_fonts
