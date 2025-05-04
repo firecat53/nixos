@@ -51,6 +51,7 @@
     };
     initExtra = ''
       export HCLOUD_TOKEN=$(cat "$HOME/.config/sops-nix/secrets/hcloud-token")
+      export MANPAGER='nvim +Man!'
     '';
   };
 
