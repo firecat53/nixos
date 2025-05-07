@@ -225,6 +225,7 @@
           folders-sort = "Inbox";
           from = "Scott Hansen <scott@firecat53.net>";
           outgoing = "smtps://scott%40firecat53.net@smtp.fastmail.com:465";
+          outgoing-cred-cmd = "cat ${config.sops.secrets.fastmail-imap.path}";
           pgp-auto-sign = true;
           pgp-key-id = "2BD1E9815C541EA2";
           source = "maildir://~/mail/firecat53.net";
