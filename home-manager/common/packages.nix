@@ -25,7 +25,6 @@ in
     bottom
     distrobox
     dua
-    elinks
     eternal-terminal
     fd
     file
