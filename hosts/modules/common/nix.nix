@@ -44,7 +44,13 @@ in
   };
 
   # Enable git
-  programs.git.enable = true;
+  programs.git = {
+    enable = true;
+    config = {
+      safe."directory" = "/home/${user}/nixos/nixos";
+    };
+  };
+
 
   # Add unstable to flake registry to use locally (e.g. `nix run nixpkgs-unstable#hatch`)
   nix.registry.nixpkgs-unstable.flake = inputs.nixpkgs-unstable;
