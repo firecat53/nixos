@@ -148,6 +148,8 @@
         "<C-Right>" = ":next<Enter>";
         "K" = ":prev<Enter>";
         "<C-Left>" = ":prev<Enter>";
+
+        "b" = ":pipe -s urlscan -d<Enter>";
       };
 
       "view::passthrough" = {
