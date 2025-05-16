@@ -345,7 +345,7 @@ in
           {
             block = "watson";
             show_time = false;
-            state_path = "/home/firecat53/.config/watson/state";
+            state_path = "/home/firecat53/docs/family/scott/src/watson/state";
           }
           {
             block = "custom";
