@@ -35,6 +35,9 @@
     urlscan.url = "github:firecat53/urlscan";
     urlscan.inputs.nixpkgs.follows = "nixpkgs";
 
+    watson-dmenu.url = "github:firecat53/watson-dmenu";
+    watson-dmenu.inputs.nixpkgs.follows = "nixpkgs";
+
     my-secrets.url = "/home/firecat53/nixos/nixos-secrets";
     my-secrets.flake = false;
 

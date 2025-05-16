@@ -11,6 +11,7 @@ let
   bwm = inputs.bwm.packages.${pkgs.system}.default;
   km = inputs.keepmenu.packages.${pkgs.system}.default;
   tdcm = inputs.todocalmenu.packages.${pkgs.system}.default;
+  wdm = inputs.watson-dmenu.packages.${pkgs.system}.default;
 in
 {
   sops.secrets.openweathermap_api = { };
@@ -160,6 +161,7 @@ in
           vim = "${pkgs.nvim-pkg}/bin/nvim";
           vol = "${pkgs.wireplumber}/bin/wpctl";
           vol_gui = "${pkgs.pwvucontrol}/bin/pwvucontrol";
+          watson = "${wdm}/bin/watson_dmenu";
         in
         lib.mkOptionDefault {
           ## General keybindings/apps
@@ -175,7 +177,7 @@ in
           "${mod}+${mod1}+j" = "exec ${rofimoji}";
           "${mod}+${mod1}+k" = "exec ${keepmenu}";
           "${mod}+${mod1}+l" = "exec ${swaylock} -i /tmp/wall.png";
-          "${mod}+${mod1}+s" = "exec watson_dmenu";
+          "${mod}+${mod1}+s" = "exec ${watson}";
           "${mod}+${mod1}+t" = "exec ${todocalmenu}";
           "${mod}+${mod1}+w" =
             ''exec ${term} --app-id Wiki --title Wiki -e ${vim} "/home/firecat53/docs/family/scott/wiki/Home.md"'';
