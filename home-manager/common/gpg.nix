@@ -11,7 +11,7 @@
     maxCacheTtlSsh = 60480000;
     enableSshSupport = true;
     grabKeyboardAndMouse = false;
-    pinentryPackage = pkgs.pinentry-qt;
+    pinentry.package = pkgs.pinentry-qt;
   };
   programs.gpg = {
     enable = true;

@@ -76,7 +76,6 @@ in
     inputs.todocalmenu.packages.${pkgs.system}.default
     ungoogled-chromium
     inputs.urlscan.packages.${pkgs.system}.default
-    ventoy
     inputs.watson-dmenu.packages.${pkgs.system}.default
     wl-clipboard
     zathura

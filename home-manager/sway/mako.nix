@@ -5,8 +5,10 @@
 {
   services.mako = {
     enable = true;
-    anchor = "top-center";
-    font = "Sauce Code Pro 14";
+    settings = {
+      anchor = "top-center";
+      font = "Sauce Code Pro 14";
+    };
   };
   home.packages = [ pkgs.libnotify ];
 }

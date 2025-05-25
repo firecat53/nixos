@@ -5,7 +5,7 @@
 {
   # Fonts
   home.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "SourceCodePro" ]; })
+    nerd-fonts.sauce-code-pro
     corefonts
     liberation_ttf
     noto-fonts
