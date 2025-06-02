@@ -8,7 +8,7 @@
     package = pkgs.unstable.yazi;
     enableBashIntegration = true;
     settings = {
-      manager = {
+      mgr = {
         ratio = [
           1
           3
