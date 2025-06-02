@@ -13,6 +13,7 @@
     git
     jq
     nix-tree
+    pciutils
     python3
     ripgrep
     rsync
@@ -21,5 +22,6 @@
     wget
     wireguard-tools
     unstable.yazi
+    usbutils
   ];
 }
