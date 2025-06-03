@@ -5,6 +5,7 @@
     ./backups.nix
     ./gollum.nix
     ./hass.nix
+    ./immich.nix
     ./jackett.nix
     ./jellyfin.nix
     ./lidarr.nix
