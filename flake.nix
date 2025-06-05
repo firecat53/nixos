@@ -17,7 +17,7 @@
     catppuccin.url = "github:catppuccin/nix";
 
     newt.url = "github:firecat53/newt";
-    newt.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    newt.inputs.nixpkgs.follows = "nixpkgs";
 
     # Personal project flakes and secrets
 
