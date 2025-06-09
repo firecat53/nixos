@@ -36,6 +36,7 @@ in
     udiskie
     unzip
     # Terminal applications
+    andcli
     bitwarden-cli
     exiftool
     gomuks

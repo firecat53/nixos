@@ -143,6 +143,7 @@ in
 
       keybindings =
         let
+          andcli = "${pkgs.andcli}/bin/andcli";
           brightness = "${pkgs.brightnessctl}/bin/brightnessctl";
           browser = "${pkgs.firefox}/bin/firefox";
           bottom = "${pkgs.bottom}/bin/btm";
@@ -177,6 +178,7 @@ in
           "${mod}+${mod1}+j" = "exec ${rofimoji}";
           "${mod}+${mod1}+k" = "exec ${keepmenu}";
           "${mod}+${mod1}+l" = "exec ${swaylock} -i /tmp/wall.png";
+          "${mod}+${mod1}+m" = "exec ${term} ${andcli} -t aegis /home/firecat53/shared/passwords/aegis-latest.json";
           "${mod}+${mod1}+s" = "exec ${watson}";
           "${mod}+${mod1}+t" = "exec ${todocalmenu}";
           "${mod}+${mod1}+w" =
