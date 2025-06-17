@@ -38,7 +38,7 @@
       ];
     };
     keymap = {
-      manager.prepend_keymap = [
+      mgr.prepend_keymap = [
         {
           run = "close";
           on = "q";
