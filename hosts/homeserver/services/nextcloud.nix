@@ -1,7 +1,6 @@
 # Nextcloud
 {
   config,
-  lib,
   pkgs,
   ...
 }:
@@ -10,19 +9,6 @@
     mode = "0440";
     owner = config.users.users.nextcloud.name;
     group = config.users.users.nextcloud.group;
-  };
-  users.users.nextcloud.extraGroups = [
-    "render"
-    "users"
-  ];
-
-  environment.systemPackages = with pkgs; [
-    nodejs_20 # required for Recognize
-    ffmpeg # required for Memories
-  ];
-  # Allow using /dev/dri for Memories
-  systemd.services.phpfpm-nextcloud.serviceConfig = {
-    PrivateDevices = lib.mkForce false;
   };
 
   services.nginx.virtualHosts."nc.firecat53.net".listen = [
@@ -49,10 +35,6 @@
       mail_smtpmode = "sendmail";
       mail_sendmailmode = "pipe";
       mysql.utf8mb4 = true;
-      memories.exiftool = "${lib.getExe pkgs.exiftool}";
-      memories.vod.ffmpeg = "${lib.getExe pkgs.ffmpeg-headless}";
-      memories.vod.ffprobe = "${pkgs.ffmpeg-headless}/bin/ffprobe";
-      preview_ffmpeg_path = "${pkgs.ffmpeg-headless}/bin/ffmpeg";
       trusted_proxies = [ "127.0.0.1" ];
     };
     maxUploadSize = "10G"; # also sets post_max_size and memory_limit
@@ -87,27 +69,6 @@
       OnUnitActiveSec = "15m";
       Unit = "nextcloud-files-update.service";
     };
-  };
-  systemd.services."nextcloud-files-update" = {
-    bindsTo = [
-      "mysql.service"
-      "phpfpm-nextcloud.service"
-    ];
-    after = [
-      "mysql.service"
-      "phpfpm-nextcloud.service"
-    ];
-    script = ''
-      ${config.services.nextcloud.occ}/bin/nextcloud-occ files:scan -q --all
-      ${config.services.nextcloud.occ}/bin/nextcloud-occ preview:pre-generate
-    '';
-    serviceConfig = {
-      User = "nextcloud";
-    };
-    path = [
-      "config.services.nextcloud"
-      pkgs.perl
-    ];
   };
   systemd.services."nextcloud-cron" = {
     path = [ pkgs.perl ];
