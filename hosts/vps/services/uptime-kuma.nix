@@ -11,7 +11,6 @@
     10.200.200.6 hass.lan.firecat53.net
     10.200.200.6 jellyfin.lan.firecat53.net
     10.200.200.6 monitor.lan.firecat53.net
-    10.200.200.6 nc.firecat53.net
     10.200.200.6 pdf.lan.firecat53.net
     10.200.200.6 qbt.lan.firecat53.net
     10.200.200.6 radarr.lan.firecat53.net

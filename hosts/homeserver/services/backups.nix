@@ -25,7 +25,6 @@
     enable = true;
     location = "/var/backups";
     databases = [
-      "nextcloud"
     ];
     singleTransaction = true;
     user = "root";
