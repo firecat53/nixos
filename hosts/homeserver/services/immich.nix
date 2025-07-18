@@ -13,6 +13,17 @@
     enable = true;
     port = 3030;
     immichUrl = "http://localhost:2283";
+    settings = {
+      "lightGallery" = {
+        "controls" = true;
+        "download" = true;
+        "mobileSettings" = {
+          "controls" = false;
+          "showCloseIcon" = true;
+          "download" = true;
+        };
+      };
+    };
   };
 
   # Allow hardware transcoding
