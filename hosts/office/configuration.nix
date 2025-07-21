@@ -42,5 +42,10 @@
   # Swap (zram)
   zramSwap.enable = true;
 
+  # Prevents suspend on office. TODO: remove with kernel > 6.12
+  boot.blacklistedKernelModules = [
+    "mt7925e"
+  ];
+
   system.stateVersion = "25.05";
 }
