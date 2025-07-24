@@ -10,6 +10,7 @@
     ./jellyfin.nix
     ./lidarr.nix
     ./lubelogger.nix
+    ./matrix-synapse.nix
     ./miniflux.nix
     ./misc.nix
     ./nginx.nix
