@@ -116,6 +116,12 @@ in
         options = [ "X-mount.mkdir" ];
       };
 
+      "/mnt/media/immich" = {
+        device = "rpool/data/immich";
+        fsType = "zfs";
+        options = [ "X-mount.mkdir" ];
+      };
+
       "/mnt/media/music" = {
         device = "rpool/data/music";
         fsType = "zfs";
