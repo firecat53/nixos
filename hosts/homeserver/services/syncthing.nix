@@ -45,7 +45,7 @@
           id = "XH5MYSV-DBHQQT3-DBUIAWQ-O7ZW33E-Z5RBBOP-HM6OL7T-2DOEGES-CJB3GQE";
         };
         "peggy-phone" = {
-          id = "32XWZC3-SZMQKCY-UMIUIDY-FULNDAW-VD3MQED-Z3TL4FZ-QVGPVVP-JTOCEQX";
+          id = "J6HIPCF-ZNL3AEW-2ZJFEWV-WSBU34S-VFCLG5Z-5RIW4WO-VEGB76P-GDKARAK";
         };
       };
       folders = {
@@ -117,7 +117,6 @@
           path = "/home/peggy";
           devices = [
             "peggy-laptop"
-            "peggy-phone"
           ];
           id = "wcwjd-rxyrv";
         };
