@@ -5,7 +5,7 @@
 {
   programs.yazi = {
     enable = true;
-    package = pkgs.unstable.yazi;
+    package = pkgs.yazi;
     enableBashIntegration = true;
     settings = {
       mgr = {

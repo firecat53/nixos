@@ -21,7 +21,7 @@
     tmux
     wget
     wireguard-tools
-    unstable.yazi
+    yazi
     usbutils
   ];
 }

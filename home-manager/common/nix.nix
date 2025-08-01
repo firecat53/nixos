@@ -13,7 +13,7 @@
     enableBashIntegration = true;
     nix-direnv.enable = true;
   };
-  home.packages = [ pkgs.unstable.nix-search-tv ];
+  home.packages = [ pkgs.nix-search-tv ];
   programs.bash.shellAliases = {
     ns = "nix-search-tv print | fzf --exact --preview 'nix-search-tv preview {}' --scheme history";
   };
