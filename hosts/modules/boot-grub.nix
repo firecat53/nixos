@@ -1,5 +1,5 @@
 {
-  # Grub Configuration with plymouth
+  # Grub Configuration without plymouth
   boot = {
     consoleLogLevel = 0;
     kernelParams = [

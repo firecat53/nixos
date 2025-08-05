@@ -3,6 +3,7 @@
     ./env.nix
     ./et.nix
     ./fwupd.nix
+    ./is-virtual.nix
     ./nix.nix
     ./packages.nix
     ./smartmon.nix

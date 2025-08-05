@@ -1,28 +1,50 @@
 # NixOS configurations
 
+## Machines
+
 * Laptop `laptop`
 * Homeserver `homeserver`
 * Backup server `backup`
 * VPS cloud server `vps`
 * Office secondary/spare desktop `office`
-* Base flake install w/ home-manager and sops. Encrypted LUKS (btrfs) or ZFS
-    - `base-btrfs` or `base-zfs`
-* Bare minimum flake install for testing. `minimal`
+* Examples:
+    + Flake install w/ home-manager and sops.
+        - Encrypted or unencrypted `base-btrfs` or `base-zfs`
+    + Bare minimum flake install for testing. `base-minimal`
 
-Sops-nix secrets live in a private repository `nixos-secrets`.
+Sops-nix secrets live in a private repository `nixos-secrets`. My directory
+structure is:
+```text
+~/nixos
+    ~/nixos/nixos/
+    ~/nixos/nixos-secrets
+    ~/nixos/nix-neovim
+```
 
-History for this repository starts as of when I removed the last of my
+Github history for this repository starts as of when I removed the last of my
 secrets/keys/etc (2024-03-25). Prior history exists but only in local branches.
-This branch is kept updated using `git cherry-pick` (unless I decide to just
-delete the existing history).
+The `github` branch is kept updated using `git cherry-pick` (unless I decide to
+just delete the existing history).
 
 ## General Install Procedures
 
 ### Tips
 
-1. Generate hostId: `head -c4 /dev/urandom | od -A none -t x4`
+1. Generate hostId (for ZFS systems): `head -c4 /dev/urandom | od -A none -t x4`
+2. Hetzner VMs apparently require grub instead of systemd-boot (as of 2025-08)
 
-### Installing on a new machine
+### Installing using [nixos-anywhere](https://github.com/nix-community/nixos-anywhere/blob/main/docs/quickstart.md)
+
+1. Create new (Ubuntu is fine) cloud server. Add one of the public keys. Adjust
+   DNS 'A' records if needed.
+2. SSH into the new box and update the disk device name(s) and partition layout
+   (if needed) in disko-config.nix.
+3. `nix run github:nix-community/nixos-anywhere -- --generate-hardware-config nixos-generate-config ./hosts/<host>/hardware-configuration.nix --flake .#<host> --target-host root@<ip or domain>`
+4. If problems arise, add `--no-reboot` to the above command so you can
+   troubleshoot the new install.
+5. [[#post-install]]
+
+### Installing locally on a new machine using the ISO installer
 
 1. Boot installer.
 2. Mount flash drive DATA
@@ -48,11 +70,13 @@ umount /mnt
 zfs export rpool
 systemctl reboot
 ```
+5. [[#post-install]]
 
 ### Post install
 
-1. Change `firecat53` user passwords. 
-2. Update sops key after reinstall. Commit and sync then rebuild.
+1. *new host* Change `firecat53` user and root passwords. 
+2. *existing host* Sync ~/nixos/ directory to new machine (including nixos configs and secrets)
+3. *existing host* Update sops key after reinstall. Commit and sync then rebuild.
 ```bash
 nix shell nixpkgs#ssh-to-age nixpkgs#sops
 ssh-keyscan <hostname> | ssh-to-age
@@ -62,29 +86,46 @@ sops updatekeys nixos-secrets/common/secrets.yml
 git add .sops.yaml <homename>/ && git commit -m 'Update sops keys'
 ```
         
-3. `nix flake update` and rebuild flake on target machine after sops key is updated.
-4. `sudo nmcli connection import type wireguard file /etc/wireguard/wg0.conf`
-   for laptops/desktops
-5. Update syncthing device ID's if necessary. Re-add servers on phones and
+4. *existing host* `nix flake update` and rebuild flake on target machine after
+   sops key is updated.
+5. *new host* `sudo nmcli connection import type wireguard file
+   /etc/wireguard/wg0.conf`
+   for networkmanager.
+6. Update syncthing device ID's if necessary. Re-add servers on phones and
    wife's laptop if needed.
-6. `echo nixos/flake.lock > ~/nixos/.stignore` (keep flake.lock from syncing)
+7. *existing host* `echo nixos/flake.lock > ~/nixos/.stignore` (keep flake.lock
+   from syncing)
         
-## Minimal and Base Installs
+## Specific host instructions
 
-1. See above [[#Installing on a New machine]]
+### Minimal and Base Installs
 
-## BACKUP server
+1. Copy/rename desired exmaple directory to hosts/xxxxx.
+2. Update CHANGEME items (disk device id, disk encryption, etc).
+3. Update configuration as desired.
+    a. If using base-btrfs with encryption, rename `disko-config-luks.nix` to
+    `disko-config.nix`
+4. Add new host to flake.nix.
+5. Sops-nix (if needed):
+    a. Add any sops-nix keys to nixos-secrets/xxxx/secrets.yml
+    b. Add new host to nixos-secrets/.sops.yml
+    c. `sops updatekeys` happens after install
+    d. Update flake inputs
+6. [Install using nixos-anywhere](#installing-using-nixos-anywhere)
 
-1. See above [[#Installing on a New machine]]
+### BACKUP server
+
+1. [[#Installing locally on a new machine using the ISO installer]]
 2. `sudo smbpass -a jamia`
 3. `ssh-keygen -f /etc/ssh/backup && chown backup: /etc/ssh/backup`. Change
    authorized_keys backup user in `backups.nix` for applicable machines and
    rebuild their flakes.
-4. `sudo -i -u backup ssh -i /etc/ssh/backup <backup source hostname(s)>` and accept fingerprint
+4. `sudo -i -u backup ssh -i /etc/ssh/backup <backup source hostname(s)>` and
+   accept fingerprint
 
-## LAPTOP/OFFICE desktop
+### LAPTOP/OFFICE desktops
 
-1. See above [[#Installing on a New machine]]
+1. [[#Installing locally on a new machine using the ISO installer]]
 2. Login to Vaultwarden
 3. Login to Firefox Sync
 4. Open Syncthing on this machine and other machines. Ensure syncing is setup.
@@ -96,26 +137,15 @@ stow calibre gomuks music passwords python ssh-scotty
 ```
 6. Add yazi plugins
 ```bash
-ya pack -a yazi-rs/plugins:git
-ya pack -a yazi-rs/plugins:smart-enter
-ya pack -a yazi-rs/plugins:toggle-pane
+ya pkg -a yazi-rs/plugins:git
+ya pkg -a yazi-rs/plugins:smart-enter
+ya pkg -a yazi-rs/plugins:toggle-pane
 ```
  
-## Homeserver
+### Homeserver
 
 1. TODO
 
-## VPS (cloud server)
+### VPS (cloud server)
 
-1. Create new (Ubuntu is fine) cloud server. Add one of the public keys. Adjust
-   DNS 'A' records if needed.
-2. SSH into the new box and update the disk device name(s) and partition layout
-   in disko-config.nix.
-3. Reboot into the
-   [nixos-anywhere](https://github.com/nix-community/nixos-anywhere/blob/main/docs/quickstart.md) kexec image
-```bash
-curl -L https://github.com/nix-community/nixos-images/releases/download/nixos-unstable/nixos-kexec-installer-noninteractive-x86_64-linux.tar.gz | tar -xzf- -C /root /root/kexec/run
-```
-4. From the laptop, run `nix run github:nix-community/nixos-anywhere -- --flake .#vps root@firecat53.com`
-5. If problems arise, add `--no-reboot` to the above command so you can
-   troubleshoot the new install.
+1. [Install using nixos-anywhere](#installing-using-nixos-anywhere)

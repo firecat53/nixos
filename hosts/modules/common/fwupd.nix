@@ -1,8 +1,15 @@
 {
+  config,
+  lib,
+  ...
+}:
+{
   # Firmware updates - fwupd
-  services.fwupd.enable = true;
+  services.fwupd = lib.mkIf (!config.isVirtual) {
+    enable = true;
+  };
   # Allow fwupd-refresh to restart if failed (after resume)
-  systemd.services.fwupd-refresh = {
+  systemd.services.fwupd-refresh = lib.mkIf (!config.isVirtual) {
     serviceConfig = {
       Restart = "on-failure";
       RestartSec = "20";

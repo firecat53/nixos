@@ -9,12 +9,14 @@
     ./hardware-configuration.nix
     ../modules/common
     ../modules/boot.nix
-    ../modules/zfs.nix
+    #../modules/boot-grub.nix  # Grub required for Hetzner VPS CHANGEME
     ../../home-manager/home-manager.nix
     inputs.disko.nixosModules.disko
     inputs.home-manager.nixosModules.home-manager
     inputs.sops-nix.nixosModules.sops
   ];
+
+  isVirtual = true; # Define if a VPS/VM or container
 
   home-manager.users.firecat53 = {
     imports = [
@@ -23,7 +25,6 @@
   };
 
   networking.hostName = "nixos";
-  networking.hostId = "2ea7c7fb";
   networking.networkmanager.enable = true;
 
   # Swap (zram)

@@ -40,7 +40,7 @@ in
             # Opnsense
             PublicKey = "ADZLBwickizf71ZNv4QpcdFtyHVpe81WnzW8sMPK1Wg=";
             PresharedKeyFile = "${config.sops.secrets.wg-preshared-key.path}";
-            AllowedIPs = [ "10.200.200.1/24" ];
+            AllowedIPs = [ "10.200.200.0/24" ];
             Endpoint = wgEndpoint;
           }
         ];

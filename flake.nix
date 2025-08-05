@@ -75,9 +75,6 @@
       laptop = mkSystem { host = "laptop"; };
       office = mkSystem { host = "office"; };
       vps = mkSystem { host = "vps"; };
-      minimal = mkSystem { host = "minimal"; };
-      base-btrfs = mkSystem { host = "base-btrfs"; };
-      base-zfs = mkSystem { host = "base-zfs"; };
     };
   }; 
 }

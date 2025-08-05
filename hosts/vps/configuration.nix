@@ -17,6 +17,8 @@
     inputs.sops-nix.nixosModules.sops
   ];
 
+  isVirtual = true; # Define if a VPS/VM or container
+
   # Grub needed for Hetzner VPS with ZFS on root
   boot.loader.grub.enable = true;
   boot.supportedFilesystems = [ "zfs" ];

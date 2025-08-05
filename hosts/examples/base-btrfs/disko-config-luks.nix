@@ -7,7 +7,11 @@
         content = {
           type = "gpt";
           partitions = {
-            BOOT = {
+            GRUB = {
+              size = "1M";
+              type = "EF02";
+            };
+            ESP = {
               size = "512M";
               type = "EF00";
               content = {

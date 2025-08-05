@@ -8,7 +8,11 @@
         content = {
           type = "gpt";
           partitions = {
-            EFI = {
+            GRUB = {
+              size = "1M";
+              type = "EF02";
+            };
+            ESP = {
               size = "512M";
               type = "EF00";
               content = {
@@ -49,9 +53,9 @@
           compression = "on";
           devices = "off";
           dnodesize = "auto";
-          encryption = "on";
-          keyformat = "passphrase";
-          keylocation = "prompt";
+          #encryption = "on";  # CHANGEME uncomment next 3 lines for encryption
+          #keyformat = "passphrase";
+          #keylocation = "prompt";
           mountpoint = "none";
           normalization = "formD";
           relatime = "on";

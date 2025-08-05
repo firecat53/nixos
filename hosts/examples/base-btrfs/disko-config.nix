@@ -7,7 +7,11 @@
         content = {
           type = "gpt";
           partitions = {
-            EFI = {
+            GRUB = {
+              size = "1M";
+              type = "EF02";
+            };
+            ESP = {
               size = "512M";
               type = "EF00";
               content = {
@@ -23,7 +27,7 @@
                 type = "btrfs";
                 extraArgs = [ "-f" ];
                 subvolumes = {
-                  "/root" = {
+                  "/rootfs" = {
                     mountpoint = "/";
                     mountOptions = [
                       "compress=zstd"
@@ -46,7 +50,7 @@
                   };
                   "/swap" = {
                     mountpoint = "/.swapvol";
-                    swap.swapfile.size = "1G";
+                    swap.swapfile.size = "CHANGEME";
                   };
                 };
               };
