@@ -4,11 +4,10 @@
 }:
 {
   ### Msmtp
-  sops.secrets.email-password = {
-    # This has to be world readable because I can't set ACLs with sops-nix for the
-    #   systemd dynamic users. TODO
-    mode = "0444";
-  };
+  #### Note: see vps/prometheus.nix for how to use systemd load credentials
+  #### for services with DynamicUser=true so that the credential permissions can
+  #### be kept at 0400
+  sops.secrets.email-password = { };
   programs.msmtp = {
     enable = true;
     setSendmail = true;

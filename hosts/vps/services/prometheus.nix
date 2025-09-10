@@ -201,7 +201,7 @@
                 smarthost = "smtp.fastmail.com:587";
                 from = "noreply@firecat53.net";
                 auth_username = "scott@firecat53.net";
-                auth_password_file = "${config.sops.secrets.email-password.path}";
+                auth_password_file = "/run/credentials/alertmanager.service/email_pass";
               }
             ];
           }
@@ -220,6 +220,15 @@
         ];
       }
     ];
+  };
+
+  # Alertmanager override for systemd credentials
+  systemd.services.alertmanager = {
+    serviceConfig = {
+      LoadCredential = [
+        "email_pass:${config.sops.secrets.email-password.path}"
+      ];
+    };
   };
 
   ## Traefik config
