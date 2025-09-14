@@ -1,32 +1,15 @@
 # Microbin
 {
-  pkgs,
+  config,
   ...
 }:
 {
-  systemd.tmpfiles.rules = [
-    "d /var/lib/microbin 0755 firecat53 users -"
-  ];
-  systemd.services.microbin = {
+  sops.secrets.microbin = { };
+  services.microbin = {
     enable = true;
-    wantedBy = [ "multi-user.target" ];
-    wants = [
-      "network-online.target"
-      "traefik.service"
-    ];
-    after = [
-      "network-online.target"
-      "traefik.service"
-    ];
-    serviceConfig = {
-      Type = "simple";
-      User = "firecat53";
-      ExecStart = "${pkgs.microbin}/bin/microbin";
-    };
-    environment = {
-      #MICROBIN_ADMIN_USERNAME = "firecat53";
+    passwordFile = "${config.sops.secrets.microbin.path}";
+    settings = {
       MICROBIN_BIND = "127.0.0.1";
-      MICROBIN_DATA_DIR = "/var/lib/microbin/";
       MICROBIN_ENABLE_BURN_AFTER = "true";
       MICROBIN_ENABLE_READONLY = "true";
       MICROBIN_ENCRYPTION_CLIENT_SIDE = "true";
@@ -43,7 +26,6 @@
       MICROBIN_PUBLIC_PATH = "https://mb.firecat53.com";
       MICROBIN_QR = "true";
       MICROBIN_READONLY = "true";
-      MICROBIN_UPLOADER_PASSWORD = "paced outlying fling exploit";
       MICROBIN_WIDE = "true";
     };
   };
