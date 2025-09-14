@@ -146,6 +146,12 @@ in
         options = [ "X-mount.mkdir" ];
       };
 
+      "/mnt/media/youtube" = {
+        device = "rpool/data/youtube";
+        fsType = "zfs";
+        options = [ "X-mount.mkdir" ];
+      };
+
       "/srv" = {
         device = "rpool/data/srv";
         fsType = "zfs";

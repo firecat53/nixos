@@ -16,6 +16,7 @@
     ./nginx.nix
     ./openwebui.nix
     ./peggy.nix
+    ./pinchflat.nix
     ./qbittorrent.nix
     ./radarr.nix
     ./sabnzbd.nix
