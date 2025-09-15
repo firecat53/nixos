@@ -82,7 +82,7 @@
   ### Syncoid
   ## `backup` pool (for all data except `downloads`)
   services.syncoid = {
-    enable = true;
+    enable = false; # TODO re-enable once backup pool gets bigger drive(s)
     commonArgs = [
       "--no-privilege-elevation"
       "--no-sync-snap"
