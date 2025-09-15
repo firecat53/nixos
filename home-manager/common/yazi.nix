@@ -7,6 +7,11 @@
     enable = true;
     package = pkgs.yazi;
     enableBashIntegration = true;
+    plugins = {
+      inherit (pkgs.yaziPlugins) git;
+      inherit (pkgs.yaziPlugins) smart-enter;
+      inherit (pkgs.yaziPlugins) toggle-pane;
+    };
     settings = {
       mgr = {
         ratio = [
