@@ -6,5 +6,6 @@
     ./prometheus-exporters.nix
     ./tmux.nix
     ./wireguard.nix
+    ./yazi.nix
   ];
 }

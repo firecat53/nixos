@@ -135,12 +135,6 @@ cd home/firecat53/docs/family/scott/src/dotfiles
 stow -t /home/firecat53/ --dotfiles stow/
 stow calibre gomuks music passwords python ssh-scotty
 ```
-6. Add yazi plugins
-```bash
-ya pkg -a yazi-rs/plugins:git
-ya pkg -a yazi-rs/plugins:smart-enter
-ya pkg -a yazi-rs/plugins:toggle-pane
-```
  
 ### Homeserver
 

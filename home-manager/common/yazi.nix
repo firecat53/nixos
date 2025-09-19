@@ -8,9 +8,7 @@
     package = pkgs.yazi;
     enableBashIntegration = true;
     plugins = {
-      inherit (pkgs.yaziPlugins) git;
-      inherit (pkgs.yaziPlugins) smart-enter;
-      inherit (pkgs.yaziPlugins) toggle-pane;
+      inherit (pkgs.yaziPlugins) git smart-enter toggle-pane;
     };
     settings = {
       mgr = {
