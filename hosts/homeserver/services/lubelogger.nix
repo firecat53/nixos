@@ -9,6 +9,7 @@
       LC_ALL = "en_US.UTF-8";
       LANG = "en_US.UTF-8";
       LOGGING__LOGLEVEL__DEFAULT = "Error";
+      LUBELOGGER_COOKIE_LIFESPAN = "90";
     };
     extraOptions = [
       "--init=true"
