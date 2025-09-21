@@ -15,10 +15,15 @@
         "text/html" = "w3m -T text/html -o display_link_number=1";
       };
       general = {
+        default-save-path = "~/.local/tmp/";
         unsafe-accounts-conf = true;
+      };
+      hooks = {
+        mail-received = "notify-send \"Mail from $AERC_FROM_NAME\" \"$AERC_SUBJECT\"";
       };
       openers = {
         "application/pdf" = "zathura";
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document" = "libreoffice";
       };
       ui = {
         border-char-vertical = "│";
@@ -223,15 +228,30 @@
           address-book-cmd = "khard email --parsable --remove-first-line %s";
           aliases = "tech@firecat53.net,shopping@firecat53.net,bills@firecat53.net,health@firecat53.net";
           copy-to = "Sent";
-          default = "Inbox";
-          folders-sort = "Inbox";
+          default = "INBOX";
+          folders-sort = "INBOX,Archive,Sent";
           from = "Scott Hansen <scott@firecat53.net>";
           outgoing = "smtps://scott%40firecat53.net@smtp.fastmail.com:465";
           outgoing-cred-cmd = "cat ${config.sops.secrets.fastmail-imap.path}";
           pgp-auto-sign = true;
           pgp-key-id = "2BD1E9815C541EA2";
-          source = "maildir://~/mail/firecat53.net";
+          source = "imaps://scott%40firecat53.net@imap.fastmail.com";
           source-cred-cmd = "cat ${config.sops.secrets.fastmail-imap.path}";
+          threading-enabled = true;
+        };
+      };
+    };
+    accounts.Backup = {
+      address = "scott@firecat53.net";
+      aerc = {
+        enable = true;
+        extraAccounts = {
+          aliases = "tech@firecat53.net,shopping@firecat53.net,bills@firecat53.net,health@firecat53.net";
+          default = "Inbox";
+          folders-sort = "Inbox,Archive,Sent";
+          from = "Scott Hansen <scott@firecat53.net>";
+          source = "maildir://~/mail/firecat53.net";
+          threading-enabled = true;
         };
       };
     };
