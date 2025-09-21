@@ -128,6 +128,9 @@ git add .sops.yaml <homename>/ && git commit -m 'Update sops keys'
 1. [[#Installing locally on a new machine using the ISO installer]]
 2. Login to Vaultwarden
 3. Login to Firefox Sync
+    a. Extensions - ClearURLs, floccus, Gnome Shell integration, Proxy
+    SwitchyOmega 3, Stylus, uBlock Origin, User-Agent switcher and Manager,
+    Vimium
 4. Open Syncthing on this machine and other machines. Ensure syncing is setup.
 5. Stow (dotfiles)
 ```bash
