@@ -1,4 +1,5 @@
 {
+  config,
   inputs,
   lib,
   pkgs,
@@ -54,7 +55,7 @@ in
             names = [ "pango:SauceCodePro Nerd Font" ];
             size = 15.0;
           };
-          statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs /home/firecat53/.config/i3status-rust/config-top.toml";
+          statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ${config.xdg.configHome}/i3status-rust/config-top.toml";
           workspaceButtons = true;
           workspaceNumbers = true;
           colors = {
@@ -158,7 +159,7 @@ in
           swaylock = "${pkgs.swaylock}/bin/swaylock";
           term = "${pkgs.foot}/bin/footclient";
           tmux = "${pkgs.tmux}/bin/tmux";
-          todocalmenu = "${tdcm}/bin/todocalmenu -cmd bemenu -todo /home/firecat53/docs/family/scott/src/nextcloud/calendars/todo";
+          todocalmenu = "${tdcm}/bin/todocalmenu -cmd bemenu -todo ${config.home.homeDirectory}/docs/family/scott/src/nextcloud/calendars/todo";
           vim = "${pkgs.nvim-pkg}/bin/nvim";
           vol = "${pkgs.wireplumber}/bin/wpctl";
           vol_gui = "${pkgs.pwvucontrol}/bin/pwvucontrol";
@@ -169,7 +170,7 @@ in
           "${mod}+i" = "exec ${nmdm}";
           "${mod}+m" = "exec ${term} --app-id comms --title comms -e ${tmux} new -d -A -s comms";
           "${mod}+n" =
-            "exec ${term} --title Notes -e ${vim} '/home/firecat53/docs/family/scott/wiki/QuickNote.md'";
+            "exec ${term} --title Notes -e ${vim} '${config.home.homeDirectory}/docs/family/scott/wiki/QuickNote.md'";
           "${mod}+p" = "exec ${term} --title ${bottom} -e btm";
           "${mod}+z" = "exec ${term} --app-id Terminal --title Terminal -e ${tmux} new -d -A -s term";
 
@@ -178,11 +179,11 @@ in
           "${mod}+${mod1}+j" = "exec ${rofimoji}";
           "${mod}+${mod1}+k" = "exec ${keepmenu}";
           "${mod}+${mod1}+l" = "exec ${swaylock} -i /tmp/wall.png";
-          "${mod}+${mod1}+m" = "exec ${term} ${andcli} -t aegis /home/firecat53/shared/passwords/aegis-latest.json";
+          "${mod}+${mod1}+m" = "exec ${term} ${andcli} -t aegis ${config.home.homeDirectory}/shared/passwords/aegis-latest.json";
           "${mod}+${mod1}+s" = "exec ${watson}";
           "${mod}+${mod1}+t" = "exec ${todocalmenu}";
           "${mod}+${mod1}+w" =
-            ''exec ${term} --app-id Wiki --title Wiki -e ${vim} "/home/firecat53/docs/family/scott/wiki/Home.md"'';
+            ''exec ${term} --app-id Wiki --title Wiki -e ${vim} "${config.home.homeDirectory}/docs/family/scott/wiki/Home.md"'';
           "${mod}+${mod1}+space" = "exec ${pass}";
 
           "${mod}+${mod1}+Shift+l" = "exec systemctl suspend";
@@ -285,8 +286,8 @@ in
       export LESS="QiR"
       export LIBVIRT_DEFAULT_URI="qemu:///system"
       export NIXOS_OZONE_WL="1"
-      export OPENWEATHERMAP_API_KEY=$(cat "$HOME/.config/sops-nix/secrets/openweathermap_api")
-      export OPENWEATHERMAP_ZIP=$(cat "$HOME/.config/sops-nix/secrets/openweathermap_zip")
+      export OPENWEATHERMAP_API_KEY=$(cat "${config.xdg.configHome}/sops-nix/secrets/openweathermap_api")
+      export OPENWEATHERMAP_ZIP=$(cat "${config.xdg.configHome}/sops-nix/secrets/openweathermap_zip")
       export QT_AUTO_SCREEN_SCALE_FACTOR="1"
       export QT_QPA_PLATFORM=wayland
       export QT_SCALE_FACTOR="1.5"
@@ -347,11 +348,12 @@ in
           {
             block = "watson";
             show_time = false;
-            state_path = "/home/firecat53/docs/family/scott/src/watson/state";
+            state_path = "${config.home.homeDirectory}/docs/family/scott/src/watson/state";
           }
           {
             block = "custom";
-            command = "[ $(pgrep pianobar) ] && awk -F '=' '/^artist=/ || /^title=/ {printf \"%s - \",$2}' /home/firecat53/.config/pianobar/nowplaying | sed 's/ - $//'";
+            command = "[ $(pgrep pianobar) ] && awk -F '=' '/^artist=/ ||
+            /^title=/ {printf \"%s - \",$2}' ${config.xdg.configHome}/pianobar/nowplaying | sed 's/ - $//'";
             interval = 5;
           }
           {

@@ -1,4 +1,8 @@
 {
+  config,
+  ...
+}:
+{
   # ENV variables
 
   home.sessionPath = [
@@ -21,14 +25,14 @@
     '';
     shellAliases = {
       ".." = "cd ..";
-      ave = "ansible-vault edit --vault-password-file=/home/firecat53/docs/family/scott/src/ansible/ansible_vault_password.py";
-      avv = "ansible-vault view --vault-password-file=/home/firecat53/docs/family/scott/src/ansible/ansible_vault_password.py";
+      ave = "ansible-vault edit --vault-password-file=${config.home.homeDirectory}/docs/family/scott/src/ansible/ansible_vault_password.py";
+      avv = "ansible-vault view --vault-password-file=${config.home.homeDirectory}/docs/family/scott/src/ansible/ansible_vault_password.py";
       bu = "et backup -c 'tmux new-session -A -s term'";
       buw = "et firecat53@10.200.200.4 -c 'tmux new-session -A -s term'";
       pclean = "podman ps -a | grep -v 'CONTAINER\|_config\|_data\|_run' | cut -c-12 | xargs podman rm 2>/dev/null";
       piclean = "podman images | grep '<none>' | grep -P '[1234567890abcdef]{12}' -o | xargs -L1 podman rmi 2>/dev/null";
       hmd = "nix store diff-closures $(home-manager generations | head -n2 | awk '{printf \"%s \", $NF}')";
-      hmu = "nix flake update $HOME/nixos/nixos/home-manager/ && home-manager switch --flake /home/firecat53/nixos/nixos/home-manager";
+      hmu = "nix flake update $HOME/nixos/nixos/home-manager/ && home-manager switch --flake ${config.home.homeDirectory}/nixos/nixos/home-manager";
       hs = "et homeserver -c 'tmux new-session -A -s term'";
       la = "ls -a --color=auto";
       ll = "ls -l --color=auto";

@@ -18,7 +18,7 @@ in
   programs.home-manager.enable = true;
 
   sops = {
-    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+    age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
     defaultSopsFile = "${secretspath}/homeserver/secrets.yaml";
   };
 
