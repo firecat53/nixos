@@ -43,8 +43,6 @@ in
     hcloud
     home-manager
     mediainfo
-    ncspot
-    pianobar
     sshfs
     tabview
     todoman

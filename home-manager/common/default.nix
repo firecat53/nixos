@@ -11,10 +11,13 @@
     ./git.nix
     ./gpg.nix
     ./imv.nix
+    ./ncspot.nix
     ./nix.nix
     ./packages.nix
+    ./pianobar.nix
     ./ruff.nix
     ./ssh.nix
+    ./stow.nix
     ./tmux.nix
     ./udiskie.nix
     ./watson.nix
