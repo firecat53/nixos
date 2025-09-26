@@ -3,6 +3,7 @@
     ./akkoma.nix
     ./audiobookshelf.nix
     ./backups.nix
+    ./diun.nix
     ./gollum.nix
     ./hass.nix
     ./immich.nix
