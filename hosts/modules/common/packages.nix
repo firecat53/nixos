@@ -12,6 +12,7 @@
     curl
     git
     jq
+    lf
     nix-tree
     pciutils
     python3
