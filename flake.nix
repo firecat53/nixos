@@ -16,9 +16,6 @@
 
     catppuccin.url = "github:catppuccin/nix/release-25.05";
 
-    newt.url = "github:firecat53/newt";
-    newt.inputs.nixpkgs.follows = "nixpkgs";
-
     # Personal project flakes and secrets
 
     bwm.url = "github:firecat53/bitwarden-menu";
