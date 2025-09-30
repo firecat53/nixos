@@ -12,7 +12,7 @@ in
   virtualisation.oci-containers.containers.diun = {
     image = "crazymax/diun:latest";
     autoStart = true;
-    user = "nobody:nobody";
+    user = "nobody:nogroup";
     volumes = [
       "${diunConfig}:/diun.yml:ro"
       "${desktopImages}:/images/desktops.yml:ro"
@@ -30,11 +30,11 @@ in
   sops.secrets = {
     docker-hub-token = {
       owner = "nobody";
-      group = "nobody";
+      group = "nogroup";
     };
     matrix-notifier-password = {
       owner = "nobody";
-      group = "nobody";
+      group = "nogroup";
     };
   };
   environment.etc."diun/diun.yml".text = ''
@@ -123,6 +123,6 @@ in
   '';
   # Create data directory
   systemd.tmpfiles.rules = [
-    "d /var/lib/diun 0700 nobody nobody -"
+    "d /var/lib/diun 0700 nobody nogroup -"
   ];
 }
