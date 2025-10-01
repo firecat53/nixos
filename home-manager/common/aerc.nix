@@ -87,8 +87,8 @@
         "zb" = ":align bottom<Enter>";
 
         "<Enter>" = ":view<Enter>";
-        "d" = ":choose -o y 'Really delete this message' delete-message<Enter>";
-        "D" = ":delete<Enter>";
+        "d" = ":read<Enter>:move Trash<Enter>";
+        "D" = ":move Spam<Enter>";
         "a" = ":archive flat<Enter>";
         "A" = ":unmark -a<Enter>:mark -T<Enter>:archive flat<Enter>";
 
@@ -244,7 +244,7 @@
     accounts.Backup = {
       address = "scott@firecat53.net";
       aerc = {
-        enable = true;
+        enable = false;
         extraAccounts = {
           aliases = "tech@firecat53.net,shopping@firecat53.net,bills@firecat53.net,health@firecat53.net";
           default = "Inbox";
