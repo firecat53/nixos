@@ -51,7 +51,6 @@ in
     };
   };
 
-
   # Add unstable to flake registry to use locally (e.g. `nix run nixpkgs-unstable#hatch`)
   nix.registry.nixpkgs-unstable.flake = inputs.nixpkgs-unstable;
 
@@ -75,7 +74,9 @@ in
 
   # Show nix updates
   environment.shellAliases = {
-    nd = "nix profile diff-closures --profile /nix/var/nix/profiles/system";
+    nd = ''nix profile diff-closures --profile /nix/var/nix/profiles/system |
+      awk '/^Version [0-9]+ -> [0-9]+:$/ {block=""} {block=block $0 "\n"} END {print block}'
+    '';
   };
 
   # System maintenance
