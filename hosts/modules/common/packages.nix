@@ -9,7 +9,6 @@
     curl
     dua
     fd
-    curl
     git
     jq
     lf
