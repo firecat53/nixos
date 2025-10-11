@@ -15,6 +15,9 @@
       # Capture URL's from tmux and pass to urlscan
       bind-key u capture-pane \; save-buffer /tmp/tmux-buffer \; new-window -n urlscan "urlscan -cd /tmp/tmux-buffer"
 
+      # Yank text but don't exit copy mode
+      bind-key -T copy-mode-vi -N 'Yank text without exiting copy mode' y send-keys -X copy-pipe
+
       # Last active window
       unbind l
       bind C-a last-window
