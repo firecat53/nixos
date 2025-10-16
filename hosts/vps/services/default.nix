@@ -1,5 +1,6 @@
 {
   imports = [
+    ./apparatus.nix
     ./backups.nix
     ./grafana.nix
     ./microbin.nix
