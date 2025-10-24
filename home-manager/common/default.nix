@@ -1,11 +1,11 @@
 {
   imports = [
     ./aerc.nix
+    ./ai.nix
     ./bash.nix
     ./bemenu.nix
     ./calendar.nix
     ./catppuccin.nix
-    ./cursor-editor.nix
     ./fonts.nix
     ./foot.nix
     ./git.nix
