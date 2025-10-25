@@ -9,7 +9,6 @@
     ./immich.nix
     ./jackett.nix
     ./jellyfin.nix
-    ./lidarr.nix
     ./lubelogger.nix
     ./matrix-synapse.nix
     ./miniflux.nix
