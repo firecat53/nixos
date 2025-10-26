@@ -2,6 +2,7 @@
 {
   config,
   inputs,
+  lib,
   pkgs,
   ...
 }:
@@ -13,7 +14,13 @@
     "services/networking/newt.nix"
   ];
   imports = [
-    "${inputs.nixpkgs-unstable}/nixos/modules/services/networking/newt.nix"
+    (import "${inputs.nixpkgs-unstable}/nixos/modules/services/networking/newt.nix" {
+      inherit config pkgs;
+      lib = lib // {
+        cli.toCommandLineShellGNU = lib.cli.toGNUCommandLineShell;  # Override to use old version
+      };
+    })
+
   ];
 
   services.newt = {
