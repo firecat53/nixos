@@ -9,9 +9,10 @@
     isNormalUser = true;
     group = "firecat53";
     extraGroups = [
-      "wheel"
-      "networkmanager"
       "libvirtd"
+      "networkmanager"
+      "users"
+      "wheel"
     ];
     uid = 1000;
     # initial password: firecat53

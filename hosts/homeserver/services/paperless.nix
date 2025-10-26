@@ -7,6 +7,13 @@
 {
   sops.secrets.paperless = { };
 
+  # This is the `document_exporter` directory for paperless that should be
+  # browseable by anyone in the `users` group without needing paperless running.
+  # It's exposed as a Samba share at //homeserver/documents.
+  systemd.tmpfiles.rules = [
+    "A+ /mnt/documents/paperless/originals - - - - group:users:rX,mask::rX,default:group:users:rX,default:mask::rX"
+  ];
+
   services.paperless = {
     configureTika = true;
     consumptionDir = "/mnt/documents/import";
@@ -23,7 +30,7 @@
         no-archive = true;
         no-progress-bar = true;
         no-thumbnail = true;
-        use-folder-prefix = true;  # Mount originals at /mnt/documents/paperless/originals
+        use-folder-prefix = true; # Mount originals at /mnt/documents/paperless/originals
       };
     };
     mediaDir = "/var/lib/paperless/media";

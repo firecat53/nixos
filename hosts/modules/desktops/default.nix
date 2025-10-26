@@ -8,6 +8,5 @@
     ./networking.nix
     ./virt-manager.nix
     ./mounts.nix
-    ./users.nix
   ];
 }
