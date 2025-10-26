@@ -15,6 +15,7 @@
     ./misc.nix
     ./nginx.nix
     ./openwebui.nix
+    ./paperless.nix
     ./peggy.nix
     ./pinchflat.nix
     ./qbittorrent.nix

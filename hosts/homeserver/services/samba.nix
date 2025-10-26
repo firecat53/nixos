@@ -47,6 +47,15 @@
         "read only" = "no";
         public = "no";
       };
+      documents = {
+        comment = "Read-only Documents";
+        path = "/mnt/documents/paperless/originals";
+        "valid users" = "firecat53, chryspie";
+        browseable = "yes";
+        writeable = "no";
+        "read only" = "yes";
+        public = "no";
+      };
     };
   };
 }
