@@ -136,7 +136,7 @@ git add .sops.yaml <homename>/ && git commit -m 'Update sops keys'
 ```bash
 cd home/firecat53/docs/family/scott/src/dotfiles
 stow -t /home/firecat53/ --dotfiles stow/
-stow calibre gomuks music passwords python ssh-scotty
+stow gomuks music passwords python ssh-scotty
 ```
  
 ### Homeserver

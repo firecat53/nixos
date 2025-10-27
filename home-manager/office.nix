@@ -8,7 +8,6 @@ let
 in
 {
   imports = [
-    ./apps/calibre.nix
     ./apps/vscode.nix
     ./common
     ./sway
