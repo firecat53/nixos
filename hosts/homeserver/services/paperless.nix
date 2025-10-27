@@ -37,6 +37,7 @@
     package = pkgs.paperless-ngx;
     settings = {
       PAPERLESS_URL = "https://docs.lan.firecat53.net";
+      PAPERLESS_CONSUMER_RECURSIVE = true;
     };
   };
 
