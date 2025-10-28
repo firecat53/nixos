@@ -92,12 +92,6 @@ in
         options = [ "X-mount.mkdir" ];
       };
 
-      "/mnt/documents/paperless" = {
-        device = "rpool/data/documents";
-        fsType = "zfs";
-        options = [ "X-mount.mkdir" ];
-      };
-
       "/mnt/media/audiobooks" = {
         device = "rpool/data/audiobooks";
         fsType = "zfs";
