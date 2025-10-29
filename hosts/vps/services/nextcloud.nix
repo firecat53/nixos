@@ -6,7 +6,7 @@
 }:
 {
   sops.secrets.nextcloud-admin-password = { };
-  users.users.nextcloud.extraGroups = [ "users" ];
+  users.users.nextcloud.extraGroups = [ "users" "msmtp" ];
   services.nginx.virtualHosts."nc.firecat53.com".listen = [
     {
       addr = "127.0.0.1";
@@ -36,6 +36,12 @@
     phpOptions = {
       "opcache.interned_strings_buffer" = "16";
     };
+  };
+
+  systemd.services.nextcloud-setup.serviceConfig = {
+    LoadCredential = [
+      "email-password:${config.sops.secrets.email-password.path}"
+    ];
   };
 
   services.traefik.dynamicConfigOptions.http.routers.nextcloud = {

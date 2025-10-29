@@ -100,6 +100,8 @@ in
 
     - name: frooodle/s-pdf:latest
 
+    - name: docker.io/collabora/code
+
     - name: library/golang
       watch_repo: true
       sort_tags: reverse

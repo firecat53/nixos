@@ -7,7 +7,15 @@
   #### Note: see vps/prometheus.nix for how to use systemd load credentials
   #### for services with DynamicUser=true so that the credential permissions can
   #### be kept at 0400
-  sops.secrets.email-password = { };
+  #### Otherwise, add any service that needs access to the 'msmtp' group
+
+  users.groups.msmtp = {};
+
+  sops.secrets.email-password = { 
+    mode = "0440";
+    group = "msmtp";
+  };
+
   programs.msmtp = {
     enable = true;
     setSendmail = true;

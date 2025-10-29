@@ -13,6 +13,7 @@
     ./matrix-synapse.nix
     ./miniflux.nix
     ./misc.nix
+    ./nextcloud.nix
     ./nginx.nix
     ./openwebui.nix
     ./peggy.nix
