@@ -10,6 +10,13 @@
     package = pkgs.postgresql_17;
   };
 
+  # Postgres backup
+  services.postgresqlBackup = {
+    enable = true;
+    location = "/var/backups/postgres";
+    backupAll = true;
+  };
+
   # From the NixOS manual
   # This creates upgrade-pg-cluster script to run as root when upgrading
   # postgres to a new major version.

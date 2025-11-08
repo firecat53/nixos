@@ -17,6 +17,14 @@
     initialHashedPassword = "$6$Qw7LgzXEL42Q1s0U$UplFl3gpdhQmrmNNHmVt9Bxc4XByH1vBGX95b0ujumaH.V7cPKXkRtqt27vyG591tYfw/0PMkUqplETmswP.t/";
   };
 
+  # Mysql/maridb backup
+  services.mysqlBackup = {
+    enable = true;
+    location = "/var/lib/backups/mysql";
+    databases = [ "nextcloud" ];
+    singleTransaction = true;
+    user = "mysql";
+  };
   ### Sanoid
   services.sanoid = {
     enable = true;

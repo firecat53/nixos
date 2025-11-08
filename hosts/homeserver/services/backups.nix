@@ -1,3 +1,5 @@
+# Backups - sanoid, syncoid and restic. Database backups are configured in
+# postgresql.nix (or mysql.nix if needed)
 {
   config,
   ...
@@ -13,21 +15,6 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDd+gF2w6+0Rj9XFl9e8NcWRux5dKsyAMcgoM6KDH11E backup@backup"
     ];
-  };
-  # Postgres backup
-  services.postgresqlBackup = {
-    enable = true;
-    location = "/var/backups";
-    backupAll = true;
-  };
-  # Mysql/maridb backup
-  services.mysqlBackup = {
-    enable = true;
-    location = "/var/backups";
-    databases = [
-    ];
-    singleTransaction = true;
-    user = "root";
   };
   # Sanoid
   services.sanoid = {
