@@ -4,6 +4,7 @@
     ./backups.nix
     ./grafana.nix
     ./microbin.nix
+    ./mysql.nix
     ./nextcloud.nix
     ./nginx.nix
     ./prometheus.nix
