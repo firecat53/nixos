@@ -23,9 +23,10 @@
         "Pleroma.Web.WebFinger" = {
           domain = "firecat53.net";
         };
+        "Pleroma.Upload".base_url = "https://sm.firecat53.net/media";
         # Strips GPS, deduplicates and anonymizes filenames for uploaded files
         "Pleroma.Upload".filters = map (pkgs.formats.elixirConf { }).lib.mkRaw [
-          "Pleroma.Upload.Filter.Exiftool"
+          "Pleroma.Upload.Filter.Exiftool.StripMetadata"
           "Pleroma.Upload.Filter.Dedupe"
           "Pleroma.Upload.Filter.AnonymizeFilename"
         ];
@@ -47,6 +48,13 @@
     routers = {
       akkoma = {
         rule = "Host(`s.firecat53.net`)";
+        service = "akkoma";
+        middlewares = [ "headers" ];
+        entrypoints = [ "websecure" ];
+        tls.certResolver = "le";
+      };
+      akkoma-media = {
+        rule = "Host(`sm.firecat53.net`)";
         service = "akkoma";
         middlewares = [ "headers" ];
         entrypoints = [ "websecure" ];

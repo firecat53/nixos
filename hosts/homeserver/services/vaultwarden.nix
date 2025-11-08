@@ -7,6 +7,11 @@
 {
   sops.secrets.vaultwarden-env = { };
 
+  # Create backup directory
+  systemd.tmpfiles.rules = [
+    "d /var/backups/vaultwarden 0700 vaultwarden vaultwarden -"
+  ];
+
   services.vaultwarden = {
     enable = true;
     package = pkgs.vaultwarden;
@@ -17,7 +22,7 @@
       ROCKET_PORT = "8082";
     };
     environmentFile = "${config.sops.secrets.vaultwarden-env.path}";
-    backupDir = "/var/lib/vaultwarden";
+    backupDir = "/var/backups/vaultwarden";
   };
 
   services.traefik.dynamicConfigOptions.http.routers.vaultwarden = {
