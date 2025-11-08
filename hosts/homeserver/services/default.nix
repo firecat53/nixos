@@ -18,6 +18,7 @@
     ./openwebui.nix
     ./peggy.nix
     ./pinchflat.nix
+    ./postgresql.nix
     ./qbittorrent.nix
     ./radarr.nix
     ./sabnzbd.nix

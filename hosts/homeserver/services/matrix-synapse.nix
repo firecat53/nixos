@@ -15,8 +15,6 @@ let
   '';
 in
 {
-  services.postgresql.enable = true;
-
   services.nginx = {
     enable = true;
     recommendedTlsSettings = true;
