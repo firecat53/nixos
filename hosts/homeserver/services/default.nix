@@ -17,6 +17,7 @@
     ./nginx.nix
     ./openwebui.nix
     ./peggy.nix
+    ./permissions.nix
     ./pinchflat.nix
     ./postgresql.nix
     ./qbittorrent.nix
