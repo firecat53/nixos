@@ -165,7 +165,7 @@ in
       };
 
       "/mnt/downloads" = {
-        device = "downloadpool/downloads";
+        device = "datapool/downloads";
         fsType = "zfs";
         options = [ "X-mount.mkdir" ];
       };
@@ -204,7 +204,6 @@ in
   boot.loader.efi.efiSysMountPoint =
     with builtins;
     (zfsRoot.mirroredEfi + (head zfsRoot.bootDevices) + zfsRoot.partitionScheme.efiBoot);
-  boot.zfs.extraPools = [ "backup" ];
   boot.zfs.devNodes = zfsRoot.devNodes;
   boot.loader.efi.canTouchEfiVariables = false;
   boot.loader.generationsDir.copyKernels = true;

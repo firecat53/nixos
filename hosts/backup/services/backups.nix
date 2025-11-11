@@ -67,7 +67,7 @@
       target = "backuppool/homeserver/var/lib";
     };
     commands.backuppool-homeserver-downloads = {
-      source = "backup@192.168.200.101:downloadpool/downloads";
+      source = "backup@192.168.200.101:datapool/downloads";
       target = "backuppool/homeserver/downloads";
     };
     commands.backuppool-homeserver-data = {

@@ -29,16 +29,16 @@
       process_children_only = false;
       recursive = false;
     };
-    datasets."backup" = {
+    datasets."datapool/backup" = {
       # Prune local backups
       useTemplate = [ "backup" ];
       process_children_only = true;
       recursive = true;
     };
-    datasets."downloadpool" = {
+    datasets."datapool/downloads" = {
       useTemplate = [ "downloads" ];
-      process_children_only = true;
-      recursive = true;
+      process_children_only = false;
+      recursive = false;
     };
     templates."data" = {
       hourly = 48;
@@ -67,9 +67,9 @@
   };
 
   ### Syncoid
-  ## `backup` pool (for all data except `downloads`)
+  ## `datapool/backup` dataset (for all data except `downloads`)
   services.syncoid = {
-    enable = false; # TODO re-enable once backup pool gets bigger drive(s)
+    enable = true;
     commonArgs = [
       "--no-privilege-elevation"
       "--no-sync-snap"
@@ -83,7 +83,7 @@
     };
     commands.backup-data = {
       source = "rpool/data";
-      target = "backup";
+      target = "datapool/backup";
       service = {
         before = [ "syncoid-backup-var-lib.service" ];
       };
@@ -94,7 +94,7 @@
     };
     commands.backup-var-lib = {
       source = "rpool/nixos/var/lib";
-      target = "backup/var_lib";
+      target = "datapool/backup/var_lib";
       service = {
         after = [ "syncoid-backup-data.service" ];
         wants = [ "syncoid-backup-data.service" ];
