@@ -15,7 +15,7 @@
     ./misc.nix
     ./nextcloud.nix
     ./nginx.nix
-    ./openwebui.nix
+    #./openwebui.nix
     ./peggy.nix
     ./permissions.nix
     ./pinchflat.nix
