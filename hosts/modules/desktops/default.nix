@@ -6,6 +6,7 @@
     ./desktop.nix
     ./neovim.nix
     ./networking.nix
+    ./permissions.nix
     ./virt-manager.nix
     ./mounts.nix
   ];

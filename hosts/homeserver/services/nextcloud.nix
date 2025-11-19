@@ -111,4 +111,32 @@
       "--label=traefik.http.services.collabora.loadbalancer.server.port=9980"
     ];
   };
+
+  ## Filesystem bind mounts to /mnt/nextcloud to allow systemd ProtectHome=true
+  fileSystems = {
+    "/mnt/nextcloud/home/peggy" = {
+      device = "/home/peggy";
+      options = [ "bind" ];
+    };
+    "/mnt/nextcloud/home/nora" = {
+      device = "/home/nora";
+      options = [ "bind" ];
+    };
+    "/mnt/nextcloud/home/sydney" = {
+      device = "/home/sydney";
+      options = [ "bind" ];
+    };
+    "/mnt/nextcloud/home/chryspie" = {
+      device = "/home/chryspie";
+      options = [ "bind" ];
+    };
+    "/mnt/nextcloud/docs" = {
+      device = "/home/firecat53/docs";
+      options = [ "bind" ];
+    };
+    "/mnt/nextcloud/shared" = {
+      device = "/home/firecat53/shared";
+      options = [ "bind" ];
+    };
+  };
 }

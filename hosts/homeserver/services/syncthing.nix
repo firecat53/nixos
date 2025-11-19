@@ -79,6 +79,7 @@
             "scott-office"
           ];
           id = "docs";
+          ignorePerms = true;  # Allow ACLs
         };
         "docs-chrystie" = {
           path = "/home/chryspie/Christina-docs";
@@ -141,6 +142,7 @@
             "scott-office"
           ];
           id = "shared";
+          ignorePerms = true;  # Allow ACLs
         };
         "srv" = {
           path = "/srv";

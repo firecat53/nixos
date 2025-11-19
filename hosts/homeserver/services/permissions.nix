@@ -3,10 +3,12 @@
 # - Ensure `users` group is set for newly created files/directories
 #
 # One-time setting `setgid` after adding this config (run as root):
-#   fd -t d . /mnt/downloads /mnt/media /home/chryspie /home/morgan /home/nora /home/peggy /home/sydney -x chmod g+s {}
+#   fd -t d . /mnt/downloads /mnt/media /home/chryspie /home/firecat53/docs /home/firecat53/shared /home/morgan /home/nora /home/peggy /home/sydney -x chmod g+s {}
 let
   dirs = [
     "/home/chryspie"
+    "/home/firecat53/docs"
+    "/home/firecat53/shared"
     "/home/morgan"
     "/home/nora"
     "/home/peggy"

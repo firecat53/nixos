@@ -3,7 +3,7 @@
   services.syncthing = {
     enable = true;
     user = "firecat53";
-    group = "users";
+    group = "firecat53";
     dataDir = "/home/firecat53/.local/state/syncthing";
     configDir = "/home/firecat53/.config/syncthing";
     openDefaultPorts = true;
@@ -55,6 +55,7 @@
             "scott-laptop"
           ];
           id = "docs";
+          ignorePerms = true;  # Allow ACLs
         };
         "file_xfer" = {
           path = "/home/firecat53/.local/tmp/file_xfer";
@@ -93,6 +94,7 @@
             "scott-laptop"
           ];
           id = "shared";
+          ignorePerms = true;  # Allow ACLs
         };
         "srv" = {
           path = "/home/firecat53/.local/srv";

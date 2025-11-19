@@ -7,6 +7,7 @@
     ./mysql.nix
     ./nextcloud.nix
     ./nginx.nix
+    ./permissions.nix
     ./prometheus.nix
     ./syncthing.nix
     ./traefik.nix
