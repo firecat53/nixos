@@ -39,7 +39,7 @@ in
           "from a"
           "from b"
         ];
-        conflictResolution = null;
+        conflictResolution = null;  # "remote wins" to force sync from nextcloud
         metadata = [
           "color"
           "displayname"
