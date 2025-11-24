@@ -1,6 +1,8 @@
 # 1. Memories RSS feed
 # 2. Picture copy service for cameras
+# 3. Prometheus user service exporter
 {
+  config,
   pkgs,
   ...
 }:
@@ -46,6 +48,38 @@
       User = "firecat53";
       SuccessExitStatus = [ 1 ]; # Exiftool errors on file exists when it tries to copy
       WorkingDirectory = "/home/firecat53/.local/tmp/untagged";
+    };
+  };
+
+  # Textfile directory for prometheus node exporter custom metrics
+  systemd.tmpfiles.rules = [
+    "d /var/lib/prometheus-node-exporter-text 0755 firecat53 root -"
+  ];
+
+  # Export user systemd service states for prometheus
+  systemd.services.prometheus-user-services-exporter = {
+    description = "Export firecat53 user systemd service states to Prometheus";
+    script = ''
+      ${config.systemd.package}/bin/systemctl --user list-units --all --output=json | \
+        ${pkgs.jq}/bin/jq -r '.[] | select(.unit | endswith(".service")) | "node_systemd_user_unit_state{name=\"" + .unit + "\", state=\"" + .active + "\", load=\"" + .load + "\"} " + (if .active == "failed" then "1" else "0" end)' \
+        > /var/lib/prometheus-node-exporter-text/user_services.prom.$$
+      ${pkgs.coreutils}/bin/mv /var/lib/prometheus-node-exporter-text/user_services.prom.$$ /var/lib/prometheus-node-exporter-text/user_services.prom
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      User = "firecat53";
+    };
+    environment = {
+      XDG_RUNTIME_DIR = "/run/user/1000";
+    };
+  };
+
+  systemd.timers.prometheus-user-services-exporter = {
+    description = "Timer for prometheus user services exporter";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnBootSec = "1min";
+      OnUnitActiveSec = "1min";
     };
   };
 }
