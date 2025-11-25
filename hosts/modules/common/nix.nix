@@ -17,18 +17,8 @@ let
     else
       "?ref=main";
   flakePath = "/home/${user}/nixos/nixos${ref}";
-  secretspath = builtins.toString inputs.my-secrets;
 in
 {
-  # Set github access token for nixpkgs
-  sops.secrets.nix_access_token = {
-    sopsFile = "${secretspath}/common/secrets.yaml";
-    owner = "firecat53";
-  };
-  nix.extraOptions = ''
-    !include ${config.sops.secrets.nix_access_token.path}
-  '';
-
   nix.settings = {
     # Enable flakes
     experimental-features = [
@@ -75,8 +65,9 @@ in
 
   # Show nix updates
   environment.shellAliases = {
-    nd = ''nix profile diff-closures --profile /nix/var/nix/profiles/system |
-      awk '/^Version [0-9]+ -> [0-9]+:$/ {block=""} {block=block $0 "\n"} END {print block}'
+    nd = ''
+      nix profile diff-closures --profile /nix/var/nix/profiles/system |
+            awk '/^Version [0-9]+ -> [0-9]+:$/ {block=""} {block=block $0 "\n"} END {print block}'
     '';
   };
 
