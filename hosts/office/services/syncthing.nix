@@ -23,6 +23,9 @@
             "tcp://firecat53.net:22000"
           ];
         };
+        "pangolin" = {
+          id = "2IEK3MX-PXVTZIG-D5OP4V3-LYEK3FY-IK4QWIM-K67K65A-ZI62LHH-O3R47Q7";
+        };
         "scott-cell" = {
           id = "6LDX7IF-D2MWKOW-APU3AUX-WXNBWFG-PNIUAPB-QKTWZHF-7MKLPBI-M6E6AQE";
         };
@@ -77,9 +80,10 @@
         "nixos" = {
           path = "/home/firecat53/nixos";
           devices = [
-            "homeserver"
-            "scott-laptop"
             "backup"
+            "homeserver"
+            "pangolin"
+            "scott-laptop"
             "vps"
           ];
           id = "smqlq-yhrua";
@@ -88,10 +92,10 @@
         "shared" = {
           path = "/home/firecat53/shared";
           devices = [
-            "scott-cell"
             "homeserver"
-            "vps"
+            "scott-cell"
             "scott-laptop"
+            "vps"
           ];
           id = "shared";
           ignorePerms = true;  # Allow ACLs

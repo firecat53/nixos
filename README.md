@@ -6,6 +6,7 @@
 * Homeserver `homeserver`
 * Backup server `backup`
 * VPS cloud server `vps`
+* Pangolin cloud server `pangolin`
 * Office secondary/spare desktop `office`
 * Examples:
     + Flake install w/ home-manager and sops.
@@ -146,3 +147,8 @@ stow gomuks music passwords python ssh-scotty
 ### VPS (cloud server)
 
 1. [Install using nixos-anywhere](#installing-using-nixos-anywhere)
+
+### Pangolin (cloud server)
+
+1. [Install using nixos-anywhere](#installing-using-nixos-anywhere)
+3. Restore any backups to /var/lib/{pangolin,traefik} if desired.

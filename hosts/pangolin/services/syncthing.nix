@@ -18,12 +18,6 @@
         insecureSkipHostcheck = true;
       };
       devices = {
-        "backup" = {
-          id = "CAKABE3-JTNUTY6-6BJYHGS-7E4Z35Y-SDF5M6H-GLB6Q2G-M6FVISW-Q3AVHQV";
-        };
-        "scott-cell" = {
-          id = "6LDX7IF-D2MWKOW-APU3AUX-WXNBWFG-PNIUAPB-QKTWZHF-7MKLPBI-M6E6AQE";
-        };
         "homeserver" = {
           id = "3WS2YZY-BCZNA5N-ZNBCA5G-JNPVFLA-FJQI2VQ-BAM5LK5-UVLWWGM-4DWTRQM";
           addresses = [
@@ -31,52 +25,37 @@
             "tcp://firecat53.net:22000"
           ];
         };
-        "pangolin" = {
-          id = "2IEK3MX-PXVTZIG-D5OP4V3-LYEK3FY-IK4QWIM-K67K65A-ZI62LHH-O3R47Q7";
-        };
         "scott-laptop" = {
           id = "ERJHQAD-KWQH5ZJ-CAV3ZFL-IR6ECOQ-EHVL7GY-6MY5A5M-IORUVXI-NSBYOQE";
         };
         "scott-office" = {
           id = "4L73OQJ-4T6KOAR-5TJLKKY-ANBRCCB-KAOBFM7-LWVGPFK-QQ643GT-H4LIXAH";
         };
+        "vps" = {
+          id = "EPFW7TB-MUV25YB-P2SM66L-ENLRREJ-UJIRELD-QC2FWM4-RVSLFJY-7YWXCQ6";
+          addresses = [
+            "quic://firecat53.com:22000"
+            "tcp://firecat53.com:22000"
+          ];
+        };
       };
       folders = {
         "nixos" = {
           path = "/home/firecat53/nixos";
           devices = [
-            "backup"
             "homeserver"
-            "pangolin"
             "scott-laptop"
             "scott-office"
+            "vps"
           ];
           id = "smqlq-yhrua";
           type = "receiveonly";
-        };
-        "shared" = {
-          path = "~/shared";
-          devices = [
-            "homeserver"
-            "scott-cell"
-            "scott-laptop"
-            "scott-office"
-          ];
-          ignorePerms = true;  # Allow ACLs
-        };
-        "srv" = {
-          path = "/srv";
-          devices = [
-            "homeserver"
-            "scott-laptop"
-            "scott-office"
-          ];
         };
       };
     };
   };
   services.traefik.dynamicConfigOptions.http.routers.syncthing = {
-    rule = "Host(`syncthing.firecat53.com`)";
+    rule = "Host(`st.firecat53.me`)";
     service = "syncthing";
     middlewares = [
       "auth"

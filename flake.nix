@@ -71,6 +71,7 @@
       homeserver = mkSystem { host = "homeserver"; };
       laptop = mkSystem { host = "laptop"; };
       office = mkSystem { host = "office"; };
+      pangolin = mkSystem { host = "pangolin"; };
       vps = mkSystem { host = "vps"; };
     };
   }; 

@@ -29,6 +29,9 @@
             "tcp://firecat53.com:22000"
           ];
         };
+        "pangolin" = {
+          id = "2IEK3MX-PXVTZIG-D5OP4V3-LYEK3FY-IK4QWIM-K67K65A-ZI62LHH-O3R47Q7";
+        };
         "scott-laptop" = {
           id = "ERJHQAD-KWQH5ZJ-CAV3ZFL-IR6ECOQ-EHVL7GY-6MY5A5M-IORUVXI-NSBYOQE";
         };
@@ -57,16 +60,16 @@
         "camera-chrystie" = {
           path = "/mnt/media/cameras/chrystie";
           devices = [
-            "chrystie-laptop"
             "chrystie-cell"
+            "chrystie-laptop"
           ];
           id = "camera";
         };
         "camera-scotty" = {
           path = "/mnt/media/cameras/scotty";
           devices = [
-            "scott-laptop"
             "scott-cell"
+            "scott-laptop"
             "scott-office"
           ];
           id = "camera-scotty";
@@ -74,8 +77,8 @@
         "docs-scotty" = {
           path = "/home/firecat53/docs";
           devices = [
-            "scott-laptop"
             "scott-cell"
+            "scott-laptop"
             "scott-office"
           ];
           id = "docs";
@@ -106,9 +109,10 @@
         "nixos" = {
           path = "/home/firecat53/nixos";
           devices = [
+            "backup"
+            "pangolin"
             "scott-laptop"
             "scott-office"
-            "backup"
             "vps"
           ];
           id = "smqlq-yhrua";
@@ -134,12 +138,12 @@
         "shared" = {
           path = "/home/firecat53/shared";
           devices = [
-            "scott-cell"
-            "vps"
-            "scott-laptop"
-            "chrystie-laptop"
             "chrystie-cell"
+            "chrystie-laptop"
+            "scott-cell"
+            "scott-laptop"
             "scott-office"
+            "vps"
           ];
           id = "shared";
           ignorePerms = true;  # Allow ACLs
@@ -147,9 +151,9 @@
         "srv" = {
           path = "/srv";
           devices = [
-            "vps"
             "scott-laptop"
             "scott-office"
+            "vps"
           ];
           id = "srv";
         };
