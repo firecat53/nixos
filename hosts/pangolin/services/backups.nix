@@ -21,7 +21,7 @@
   ### Sanoid
   services.sanoid = {
     enable = true;
-    datasets."rpool/var/lib" = {
+    datasets."rpool/nixos/var/lib" = {
       useTemplate = [ "data" ];
       process_children_only = false;
       recursive = false;
@@ -42,7 +42,7 @@
   sops.secrets.restic_password = { };
 
   services.restic = {
-    backups.vps = {
+    backups.pangolin = {
       user = "root";
       environmentFile = "${config.sops.secrets.restic_env.path}";
       repositoryFile = "${config.sops.secrets.restic_repo.path}";
