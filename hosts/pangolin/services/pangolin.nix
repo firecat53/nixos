@@ -3,13 +3,28 @@
   config,
   ...
 }:
+let
+  # Configuration variables
+  baseDomain = "firecat53.me";
+  pangolinHost = "pangolin.${baseDomain}";
+
+  # Docker images
+  pangolinImage = "fosrl/pangolin:1.12.2";
+  gerbilImage = "fosrl/gerbil:1.2.2";
+
+  # Ports
+  apiPort = 3000;
+  internalPort = 3001;
+  nextPort = 3002;
+  gerbilPort = 3004;
+  wireguardPort = 51820;
+in
 {
   # Firewall configuration for WireGuard (HTTP/HTTPS handled by traefik.nix)
   networking.firewall = {
-    allowedUDPPorts = [ 51820 ]; # Wireguard
+    allowedUDPPorts = [ wireguardPort ];
   };
 
-  # Sops secrets
   sops.secrets = {
     pangolin-secret = { };
   };
@@ -25,7 +40,7 @@
     backend = "podman";
     containers = {
       pangolin = {
-        image = "fosrl/pangolin:1.12.2";
+        image = pangolinImage;
         autoStart = true;
         volumes = [
           "/run/pangolin-config/config.yml:/app/config/config.yml:ro"
@@ -33,30 +48,30 @@
         ];
         extraOptions = [
           "--network=host"
-          "--health-cmd=curl -f http://localhost:3001/api/v1/"
+          "--health-cmd=curl -f http://localhost:${toString internalPort}/api/v1/"
           "--health-interval=10s"
           "--health-timeout=10s"
           "--health-retries=5"
           # Traefik labels for service discovery
           "--label=traefik.enable=true"
           # Next.js service
-          "--label=traefik.http.services.pangolin-next.loadbalancer.server.port=3002"
-          "--label=traefik.http.routers.pangolin-next.rule=Host(`pangolin.firecat53.me`) && !PathPrefix(`/api/v1`)"
+          "--label=traefik.http.services.pangolin-next.loadbalancer.server.port=${toString nextPort}"
+          "--label=traefik.http.routers.pangolin-next.rule=Host(`${pangolinHost}`) && !PathPrefix(`/api/v1`)"
           "--label=traefik.http.routers.pangolin-next.entrypoints=websecure"
           "--label=traefik.http.routers.pangolin-next.tls.certResolver=le"
-          "--label=traefik.http.routers.pangolin-next.tls.domains[0].main=firecat53.me"
-          "--label=traefik.http.routers.pangolin-next.tls.domains[0].sans=*.firecat53.me"
+          "--label=traefik.http.routers.pangolin-next.tls.domains[0].main=${baseDomain}"
+          "--label=traefik.http.routers.pangolin-next.tls.domains[0].sans=*.${baseDomain}"
           "--label=traefik.http.routers.pangolin-next.middlewares=headers@file"
           "--label=traefik.http.routers.pangolin-next.service=pangolin-next"
           # API service
-          "--label=traefik.http.services.pangolin-api.loadbalancer.server.port=3000"
-          "--label=traefik.http.routers.pangolin-api.rule=Host(`pangolin.firecat53.me`) && PathPrefix(`/api/v1`)"
+          "--label=traefik.http.services.pangolin-api.loadbalancer.server.port=${toString apiPort}"
+          "--label=traefik.http.routers.pangolin-api.rule=Host(`${pangolinHost}`) && PathPrefix(`/api/v1`)"
           "--label=traefik.http.routers.pangolin-api.entrypoints=websecure"
           "--label=traefik.http.routers.pangolin-api.tls.certResolver=le"
           "--label=traefik.http.routers.pangolin-api.middlewares=headers@file"
           "--label=traefik.http.routers.pangolin-api.service=pangolin-api"
           # WebSocket service (uses same backend as API)
-          "--label=traefik.http.routers.pangolin-ws.rule=Host(`pangolin.firecat53.me`)"
+          "--label=traefik.http.routers.pangolin-ws.rule=Host(`${pangolinHost}`)"
           "--label=traefik.http.routers.pangolin-ws.entrypoints=websecure"
           "--label=traefik.http.routers.pangolin-ws.tls.certResolver=le"
           "--label=traefik.http.routers.pangolin-ws.middlewares=headers@file"
@@ -65,19 +80,19 @@
       };
 
       gerbil = {
-        image = "fosrl/gerbil:1.2.2";
+        image = gerbilImage;
         autoStart = true;
         cmd = [
-          "--reachableAt=http://localhost:3004"
+          "--reachableAt=http://localhost:${toString gerbilPort}"
           "--generateAndSaveKeyTo=/var/config/key"
-          "--remoteConfig=http://localhost:3001/api/v1/gerbil/get-config"
-          "--reportBandwidthTo=http://localhost:3001/api/v1/gerbil/receive-bandwidth"
+          "--remoteConfig=http://pangolin:${toString internalPort}/api/v1/gerbil/get-config"
+          "--reportBandwidthTo=http://pangolin:${toString internalPort}/api/v1/gerbil/receive-bandwidth"
         ];
         volumes = [
           "/var/lib/pangolin/:/var/config"
         ];
         ports = [
-          "51820:51820/udp"
+          "${toString wireguardPort}:${toString wireguardPort}/udp"
         ];
         extraOptions = [
           "--network=host"
@@ -93,24 +108,24 @@
   sops.templates."pangolin-config.yml" = {
     content = ''
       app:
-        dashboard_url: https://pangolin.firecat53.me
+        dashboard_url: https://${pangolinHost}
         log_level: info
         save_logs: false
       domains:
         domain1:
-          base_domain: firecat53.me
+          base_domain: ${baseDomain}
           cert_resolver: le
       server:
-        external_port: 3000
-        internal_port: 3001
-        next_port: 3002
+        external_port: ${toString apiPort}
+        internal_port: ${toString internalPort}
+        next_port: ${toString nextPort}
         internal_hostname: pangolin
         session_cookie_name: p_session_token
         resource_access_token_param: p_token
         resource_session_request_param: p_session_request
         cors:
           origins:
-            - https://pangolin.firecat53.me
+            - https://${pangolinHost}
           methods:
             - GET
             - POST
@@ -130,8 +145,8 @@
         http_entrypoint: web
         https_entrypoint: websecure
       gerbil:
-        start_port: 51820
-        base_endpoint: pangolin.firecat53.me
+        start_port: ${toString wireguardPort}
+        base_endpoint: ${pangolinHost}
         use_subdomain: false
         block_size: 24
         site_block_size: 30
