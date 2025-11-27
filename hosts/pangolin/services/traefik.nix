@@ -52,7 +52,7 @@
         };
       };
       api = {
-        dashboard = true;
+        dashboard = false;
       };
       log = {
         level = "INFO";
@@ -91,20 +91,6 @@
     };
     dynamicConfigOptions = {
       http = {
-        routers = {
-          dashboard = {
-            rule = "Host(`monitor.firecat53.me`)";
-            service = "api@internal";
-            middlewares = [
-              "auth"
-              "headers"
-            ];
-            entrypoints = [ "websecure" ];
-            tls = {
-              certResolver = "le";
-            };
-          };
-        };
         middlewares = {
           auth = {
             basicAuth = {

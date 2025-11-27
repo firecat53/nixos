@@ -54,25 +54,4 @@
       };
     };
   };
-  services.traefik.dynamicConfigOptions.http.routers.syncthing = {
-    rule = "Host(`st.firecat53.me`)";
-    service = "syncthing";
-    middlewares = [
-      "auth"
-      "headers"
-    ];
-    entrypoints = [ "websecure" ];
-    tls = {
-      certResolver = "le";
-    };
-  };
-  services.traefik.dynamicConfigOptions.http.services.syncthing = {
-    loadBalancer = {
-      servers = [
-        {
-          url = "http://localhost:8384";
-        }
-      ];
-    };
-  };
 }
