@@ -80,13 +80,6 @@ in
         - "^1\\."  # Only major version 1.x
       sort_tags: semver
       max_tags: 1
-
-    - name: traefik
-      watch_repo: true
-      include_tags:
-        - "^v3\\."  # Only major version 3.x
-      sort_tags: semver
-      max_tags: 1
   '';
   environment.etc."diun/images/homeserver.yml".text = ''
     - name: crazymax/diun
