@@ -4,20 +4,6 @@
   ...
 }:
 {
-  # For pull backups from backup server
-  users.users.backup = {
-    isNormalUser = true;
-    uid = 20001;
-    group = "root";
-    home = "/var/lib/backup";
-    createHome = true;
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDd+gF2w6+0Rj9XFl9e8NcWRux5dKsyAMcgoM6KDH11E backup@backup"
-    ];
-    # password: backup
-    initialHashedPassword = "$6$Qw7LgzXEL42Q1s0U$UplFl3gpdhQmrmNNHmVt9Bxc4XByH1vBGX95b0ujumaH.V7cPKXkRtqt27vyG591tYfw/0PMkUqplETmswP.t/";
-  };
-
   ### Sanoid
   services.sanoid = {
     enable = true;

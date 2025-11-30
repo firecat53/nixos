@@ -1,15 +1,4 @@
 {
-  # Backup user for initiating pull backups from other servers
-  users.users.backup = {
-    isNormalUser = true;
-    uid = 20001;
-    group = "root";
-    home = "/var/lib/backup";
-    createHome = true;
-    # password: backup
-    initialHashedPassword = "$6$Qw7LgzXEL42Q1s0U$UplFl3gpdhQmrmNNHmVt9Bxc4XByH1vBGX95b0ujumaH.V7cPKXkRtqt27vyG591tYfw/0PMkUqplETmswP.t/";
-  };
-
   ### Sanoid
   services.sanoid = {
     enable = true;

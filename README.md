@@ -75,7 +75,7 @@ systemctl reboot
 
 ### Post install
 
-1. *new host* Change `firecat53` user and root passwords. 
+1. *new host* Change `firecat53` user and root (only for local machine) passwords. 
 2. *existing host* Sync ~/nixos/ directory to new machine (including nixos configs and secrets)
 3. *existing host* Update sops key after reinstall. Commit and sync then rebuild.
 ```bash
@@ -154,4 +154,3 @@ stow gomuks music passwords python ssh-scotty
 2. Restore any backups to /var/lib/{pangolin,traefik} if desired.
 3. `sudo zfs allow backup destroy,hold,mount,send,snapshot rpool/nixos/var/lib`
     a. Also create backuppool/pangolin/var on `backup` server
-    b. Copy /etc/ssh/backup.pub to `pangolin` /etc/ssh/ and chown backup:backup
