@@ -14,6 +14,7 @@
         port = 22;
         user = "firecat53";
         identityFile = "~/.ssh/id_ed25519";
+        forwardAgent = true;
       };
       "homeserver*" = {
         host = "homeserver*";
@@ -42,12 +43,14 @@
         user = "firecat53";
         port = 22;
         identityFile = "~/.ssh/id_ed25519";
+        forwardAgent = true;
       };
       "vps" = {
         hostname = "firecat53.com";
         user = "firecat53";
         port = 22;
         identityFile = "~/.ssh/id_ed25519";
+        forwardAgent = true;
       };
       "office" = {
         hostname = "office";
@@ -60,6 +63,7 @@
         user = "firecat53";
         port = 22;
         identityFile = "~/.ssh/id_ed25519";
+        forwardAgent = true;
       };
       "github" = {
         hostname = "github.com";

@@ -25,4 +25,17 @@
   users.groups.firecat53 = {
     gid = 1000;
   };
+
+  # Setup PAM to use SSH key as sudo auth if available.
+  security = {
+    sudo.execWheelOnly = true;
+
+    pam = {
+      rssh = {
+        enable = true;
+        settings.auth_key_file = "/etc/ssh/authorized_keys.d/firecat53";
+      };
+      services.sudo.rssh = true;
+    };
+  };
 }
