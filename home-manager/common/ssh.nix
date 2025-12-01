@@ -1,13 +1,14 @@
 {
   programs.ssh = {
     enable = true;
-    controlMaster = "auto";
-    controlPath = "~/.ssh/socket-%r@%h:%p";
-    controlPersist = "10m";
+    enableDefaultConfig = false;
     matchBlocks = {
       "*" = {
         host = "*";
         serverAliveInterval = 30;
+        controlMaster = "auto";
+        controlPath = "~/.ssh/socket-%r@%h:%p";
+        controlPersist = "10m";
       };
       "home*" = {
         host = "home*";

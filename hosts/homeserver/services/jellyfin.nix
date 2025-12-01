@@ -17,16 +17,19 @@
   ];
 
   ## Enable OpenGL hardware transcoding for Jellyfin
-  nixpkgs.config.packageOverrides = pkgs: {
-    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
-  };
+  #nixpkgs.config.packageOverrides = pkgs: {
+  #  intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
+  #};
+  systemd.services.jellyfin.environment.LIBVA_DRIVER_NAME = "iHD";
+  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
+      intel-ocl
       intel-media-driver
-      vaapiIntel
-      vaapiVdpau
-      libvdpau-va-gl
+      #intel-vaapi-driver
+      libva-vdpau-driver
+      vpl-gpu-rt
       intel-compute-runtime
     ];
   };

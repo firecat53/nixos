@@ -11,7 +11,7 @@
     networkmanager_dmenu
     pavucontrol
     playerctl
-    rofi-wayland
+    rofi
     shotman
     slurp
     swayimg

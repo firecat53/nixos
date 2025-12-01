@@ -11,6 +11,7 @@
     ./git.nix
     ./gpg.nix
     ./imv.nix
+    ./mpv.nix
     ./ncspot.nix
     ./nix.nix
     ./packages.nix

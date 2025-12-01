@@ -1,15 +1,7 @@
 {
   programs.git = {
     enable = true;
-    aliases = {
-      pushRemote = "!git push $(git config --get branch.$(git symbolic-ref HEAD --short).pushRemote) +@:$(git config --get branch.$(git symbolic-ref HEAD --short).merge | awk -F / '{print $NF}')";
-    };
-    delta.enable = true;
-    delta.options = {
-      whitespace-error-style = "22 reverse";
-      navigate = true;
-    };
-    extraConfig = {
+    settings = {
       user = {
         name = "Scott Hansen";
         email = "tech@firecat53.net";
@@ -48,6 +40,9 @@
         pruneTags = "true";
         all = "true";
       };
+      alias = {
+        pushRemote = "!git push $(git config --get branch.$(git symbolic-ref HEAD --short).pushRemote) +@:$(git config --get branch.$(git symbolic-ref HEAD --short).merge | awk -F / '{print $NF}')";
+      };
     };
     ignores = [
       "*.[oa]"
@@ -68,6 +63,15 @@
     signing = {
       key = "2BD1E9815C541EA2";
       signByDefault = true;
+    };
+  };
+
+  # Delta diff viewer
+  programs.delta = {
+    enable = true;
+    options = {
+      whitespace-error-style = "22 reverse";
+      navigate = true;
     };
   };
 
@@ -160,5 +164,4 @@
       };
     };
   };
-
 }

@@ -66,7 +66,6 @@ in
     keepassxc
     inputs.keepmenu.packages.${pkgs.system}.default
     libreoffice
-    mpv
     pinentry-qt
     resources
     ripdrag
