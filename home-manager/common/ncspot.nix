@@ -5,7 +5,7 @@
 {
   programs.ncspot = {
     enable = true;
-    package = pkgs.unstable.ncspot;  # TODO: change to stable when 1.3.1 lands there
+    package = pkgs.ncspot;
     settings = {
       theme = {
         background = "#181825";

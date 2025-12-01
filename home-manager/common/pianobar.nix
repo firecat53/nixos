@@ -12,18 +12,17 @@ let
   '';
 in
 {
+  programs.pianobar = {
+    enable = true;
+    package = pkgs.unstable.pianobar;
+    settings = {
+      event_command = "${eventCommand}";
+      password_command = "${pkgs.coreutils}/bin/cat ${config.sops.secrets.pianobar-password.path}";
+      user = "fun@firecat53.net";
+    };
+  };
+
   sops.secrets.pianobar-password = { };
-  # TODO - when pianobar modules enters home-manager stable
-  #programs.pianobar = {
-  #  enable = true;
-  #  package = pkgs.unstable.pianobar;
-  #  settings = {
-  #    event_command = ${eventCommand};
-  #    password_command = "${pkgs.coreutils}/bin/cat ${config.sops.secrets.pianobar-password.path}";
-  #    user = "fun@firecat53.net";
-  #  };
-  #};
-  home.packages = [ pkgs.pianobar ];
   sops.templates."pianobar-config" = {
     content = ''
       event_command = ${eventCommand}
