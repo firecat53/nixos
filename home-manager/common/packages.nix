@@ -56,7 +56,7 @@ in
     uv
     # Gui applications
     anydesk
-    inputs.bwm.packages.${pkgs.system}.default
+    inputs.bwm.packages.${pkgs.stdenv.hostPlatform.system}.default
     dmenu
     electrum
     firefox
@@ -64,17 +64,17 @@ in
     hunspellDicts.en-us-large
     imv
     keepassxc
-    inputs.keepmenu.packages.${pkgs.system}.default
+    inputs.keepmenu.packages.${pkgs.stdenv.hostPlatform.system}.default
     libreoffice
     pinentry-qt
     resources
     ripdrag
     simple-scan
     spotify
-    inputs.todocalmenu.packages.${pkgs.system}.default
+    inputs.todocalmenu.packages.${pkgs.stdenv.hostPlatform.system}.default
     ungoogled-chromium
-    inputs.urlscan.packages.${pkgs.system}.default
-    inputs.watson-dmenu.packages.${pkgs.system}.default
+    inputs.urlscan.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.watson-dmenu.packages.${pkgs.stdenv.hostPlatform.system}.default
     wl-clipboard
     zathura
     zoom-us

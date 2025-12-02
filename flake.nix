@@ -57,13 +57,13 @@
     #   Custom system:   mkSystem { host = "hostname"; system = "aarch64-linux"; };
   mkSystem = { host, system ? "x86_64-linux"}:
     nixpkgs.lib.nixosSystem {
-      system = system;
+      modules = [
+        { nixpkgs.hostPlatform = system; }
+        ./hosts/${host}/configuration.nix
+      ];
       specialArgs = {
         inherit inputs outputs;
       };
-      modules = [
-        ./hosts/${host}/configuration.nix
-      ];
     };
   in {
     nixosConfigurations = {

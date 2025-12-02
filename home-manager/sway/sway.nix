@@ -9,10 +9,10 @@ let
   mod = "Mod4";
   mod1 = "Mod1";
   ## Ensure correct path to my flake-installed projects
-  bwm = inputs.bwm.packages.${pkgs.system}.default;
-  km = inputs.keepmenu.packages.${pkgs.system}.default;
-  tdcm = inputs.todocalmenu.packages.${pkgs.system}.default;
-  wdm = inputs.watson-dmenu.packages.${pkgs.system}.default;
+  bwm = inputs.bwm.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  km = inputs.keepmenu.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  tdcm = inputs.todocalmenu.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  wdm = inputs.watson-dmenu.packages.${pkgs.stdenv.hostPlatform.system}.default;
 in
 {
   sops.secrets.openweathermap_api = { };
