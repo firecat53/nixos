@@ -12,6 +12,8 @@ let
   '';
 in
 {
+  sops.secrets.pianobar-password = { };
+
   programs.pianobar = {
     enable = true;
     package = pkgs.pianobar;
@@ -20,15 +22,5 @@ in
       password_command = "${pkgs.coreutils}/bin/cat ${config.sops.secrets.pianobar-password.path}";
       user = "fun@firecat53.net";
     };
-  };
-
-  sops.secrets.pianobar-password = { };
-  sops.templates."pianobar-config" = {
-    content = ''
-      event_command = ${eventCommand}
-      password_command = ${pkgs.coreutils}/bin/cat ${config.sops.secrets.pianobar-password.path}
-      user = fun@firecat53.net
-    '';
-    path = "${config.xdg.configHome}/pianobar/config";
   };
 }
