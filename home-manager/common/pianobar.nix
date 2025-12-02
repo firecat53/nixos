@@ -14,7 +14,7 @@ in
 {
   programs.pianobar = {
     enable = true;
-    package = pkgs.unstable.pianobar;
+    package = pkgs.pianobar;
     settings = {
       event_command = "${eventCommand}";
       password_command = "${pkgs.coreutils}/bin/cat ${config.sops.secrets.pianobar-password.path}";

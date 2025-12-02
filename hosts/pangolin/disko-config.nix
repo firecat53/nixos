@@ -45,7 +45,7 @@
         options = {
           ashift = "12";
           autotrim = "on";
-          compatibility = "legacy";
+          compatibility = "grub2";
         };
         # Can't use compression or dnodesize for grub legacy compatible pools
         rootFsOptions = {

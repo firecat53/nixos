@@ -12,6 +12,7 @@
     ./services
     ../modules/common
     ../modules/podman.nix
+    ../modules/servers/backups.nix
     ../modules/servers/fail2ban.nix
     ../modules/servers/neovim.nix
     ../modules/servers/tmux.nix
@@ -41,5 +42,5 @@
   # Override default smartmon enable
   services.smartd.enable = lib.mkForce false;
 
-  system.stateVersion = "25.05"; # Did you read the comment?
+  system.stateVersion = "25.11"; # Did you read the comment?
 }
