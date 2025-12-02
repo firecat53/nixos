@@ -14,6 +14,9 @@
     extraConfig = ''
       set -s copy-command 'wl-copy'
 
+      # Send prefix to shell
+      bind a send-prefix
+
       # Last active window
       unbind l
       bind C-a last-window

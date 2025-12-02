@@ -18,6 +18,9 @@
       # Yank text but don't exit copy mode
       bind-key -T copy-mode-vi -N 'Yank text without exiting copy mode' y send-keys -X copy-pipe
 
+      # Send prefix to shell
+      bind a send-prefix
+
       # Last active window
       unbind l
       bind C-a last-window
