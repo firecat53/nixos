@@ -18,6 +18,7 @@
   ];
 
   isVirtual = true; # Define if a VPS/VM or container
+  latestZFSKernel = false; # Set to use latest available ZFS compatible kernel
 
   home-manager.users.firecat53 = {
     imports = [
@@ -26,7 +27,7 @@
   };
 
   networking.hostName = "nixos";
-  networking.hostId = "CHANGEME";  # head -c4 /dev/urandom | od -A none -t x4
+  networking.hostId = "CHANGEME"; # head -c4 /dev/urandom | od -A none -t x4
   networking.networkmanager.enable = true;
 
   # Swap (zram)

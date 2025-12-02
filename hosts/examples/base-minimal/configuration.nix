@@ -9,7 +9,7 @@
     ./hardware-configuration.nix
     ../modules/boot.nix
     #../modules/boot-grub.nix  # Grub required for Hetzner VPS CHANGEME
-    ../modules/common/is-virtual.nix
+    ../modules/common/options.nix
     ../modules/common/nix.nix
     ../modules/common/sshd.nix
     ../modules/common/users.nix

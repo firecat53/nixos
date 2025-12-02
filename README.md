@@ -33,6 +33,9 @@ just delete the existing history).
 
 1. Generate hostId (for ZFS systems): `head -c4 /dev/urandom | od -A none -t x4`
 2. Hetzner VMs apparently require grub instead of systemd-boot (as of 2025-08)
+3. Available options:
+    a. isVirtual (bool) - set for virtual hardware (VPS or VM). Default false.
+    b. latestZFSKernel (bool) - set to use latest available ZFS compatible kernel. Default false.
 
 ### Installing using [nixos-anywhere](https://github.com/nix-community/nixos-anywhere/blob/main/docs/quickstart.md)
 
