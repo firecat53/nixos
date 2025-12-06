@@ -91,8 +91,6 @@ in
 
     - name: ghcr.io/hargata/lubelogger:latest
 
-    - name: frooodle/s-pdf:latest
-
     - name: docker.io/collabora/code
 
     - name: library/golang
