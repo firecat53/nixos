@@ -1,25 +1,27 @@
 ### Stirling-PDF https://github.com/Stirling-Tools/Stirling-PDF
 {
-  virtualisation.oci-containers.containers.stirling-pdf = {
-    image = "frooodle/s-pdf:latest";
-    autoStart = true;
-    ports = [ "8880:8080" ];
+  services.stirling-pdf = {
+    enable = true;
     environment = {
-      DOCKER_ENABLE_SECURITY = "False";
+      SERVER_PORT = 8880;
     };
-    extraOptions = [
-      "--init=true"
-      "--label=traefik.enable=true"
-      "--label=traefik.http.routers.stirling-pdf.rule=Host(`pdf.lan.firecat53.net`)"
-      "--label=traefik.http.routers.stirling-pdf.entrypoints=websecure"
-      "--label=traefik.http.routers.stirling-pdf.tls.certResolver=le"
-      "--label=traefik.http.routers.stirling-pdf.middlewares=headers@file"
-      "--label=traefik.http.services.stirling-pdf.loadbalancer.server.port=8080"
-    ];
-    volumes = [
-      "pdf_training_data:/usr/share/tesseract-ocr/5/tessdata"
-      "pdf_configs:/configs"
-      "pdf_logs:/logs"
-    ];
+  };
+  services.traefik.dynamicConfigOptions.http.routers.stirling-pdf = {
+    rule = "Host(`pdf.lan.firecat53.net`)";
+    service = "stirling-pdf";
+    middlewares = [ "headers" ];
+    entrypoints = [ "websecure" ];
+    tls = {
+      certResolver = "le";
+    };
+  };
+  services.traefik.dynamicConfigOptions.http.services.stirling-pdf = {
+    loadBalancer = {
+      servers = [
+        {
+          url = "http://localhost:8880";
+        }
+      ];
+    };
   };
 }
