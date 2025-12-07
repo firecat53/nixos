@@ -1,5 +1,9 @@
 # Syncthing
 {
+  pkgs,
+  ...
+}:
+{
   services.syncthing = {
     enable = true;
     user = "firecat53";
@@ -82,7 +86,7 @@
             "scott-office"
           ];
           id = "docs";
-          ignorePerms = true;  # Allow ACLs
+          ignorePerms = true; # Allow ACLs
         };
         "docs-chrystie" = {
           path = "/home/chryspie/Christina-docs";
@@ -146,7 +150,7 @@
             "vps"
           ];
           id = "shared";
-          ignorePerms = true;  # Allow ACLs
+          ignorePerms = true; # Allow ACLs
         };
         "srv" = {
           path = "/srv";
@@ -189,4 +193,6 @@
       ];
     };
   };
+  # Syncthing cli tool stc
+  environment.systemPackages = [ pkgs.stc-cli ];
 }

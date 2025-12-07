@@ -1,5 +1,9 @@
 # Syncthing
 {
+  pkgs,
+  ...
+}:
+{
   services.syncthing = {
     enable = true;
     user = "firecat53";
@@ -96,4 +100,6 @@
       ];
     };
   };
+  # Syncthing cli tool stc
+  environment.systemPackages = [ pkgs.stc-cli ];
 }
