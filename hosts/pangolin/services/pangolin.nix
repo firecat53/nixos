@@ -10,7 +10,7 @@ let
 
   # Docker images
   pangolinImage = "fosrl/pangolin:1.12.3";
-  gerbilImage = "fosrl/gerbil:1.2.2";
+  gerbilImage = "fosrl/gerbil:1.3.0";
 
   # Ports
   apiPort = 3000;
