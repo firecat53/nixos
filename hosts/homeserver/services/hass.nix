@@ -1,5 +1,9 @@
 # Home Assistant - VM behind Traefik
 {
+  pkgs,
+  ...
+}:
+{
   services.traefik.dynamicConfigOptions.http.routers.hass = {
     rule = "Host(`hass.lan.firecat53.net`)";
     service = "hass";
@@ -19,18 +23,52 @@
     };
   };
 
-  # Create conbee.xml for Conbee II Zigbee device. Used to attach/reattach to the VM
+  # Create conbee.xml for Conbee II Thread device. Used to attach/reattach to the VM
   environment.etc."conbee.xml" = {
     text = ''
-      <serial type='dev'>
-        <source path='/dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2420510-if00'/>
-        <target type='usb-serial' port='1'>
-          <model name='usb-serial'/>
-        </target>
-        <alias name='serial1'/>
-        <address type='usb' bus='0' port='4'/>
-      </serial>
+      <hostdev mode='subsystem' type='usb' managed='yes'>
+          <source>
+              <vendor id='0x1cf1'/>
+              <product id='0x0030'/>
+          </source>
+      </hostdev>
     '';
     target = "homeassistant/conbee.xml";
+  };
+  # Create zbt2.xml for Zigbee ZBT-2 device. Used to attach/reattach to the VM
+  environment.etc."zbt2.xml" = {
+    text = ''
+      <hostdev mode='subsystem' type='usb' managed='yes'>
+          <source>
+              <vendor id='0x303a'/>
+              <product id='0x831a'/>
+          </source>
+      </hostdev>
+    '';
+    target = "homeassistant/zbt2.xml";
+  };
+
+  # Automatically detach/reattach USB devices after reboot
+  systemd.services.hass-usb-reattach = {
+    description = "Reattach USB devices to hass VM";
+    after = [ "libvirtd.service" ];
+    wants = [ "libvirtd.service" ];
+    wantedBy = [ "multi-user.target" ];
+
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = pkgs.writeShellScript "reattach-usb" ''
+        #!/bin/sh
+        # Wait for VM to fully start
+        ${pkgs.coreutils}/bin/sleep 30
+        if ${pkgs.libvirt}/bin/virsh list --name | grep -q "^hass$"; then
+          ${pkgs.libvirt}/bin/virsh detach-device hass /etc/homeassistant/conbee.xml
+          ${pkgs.libvirt}/bin/virsh detach-device hass /etc/homeassistant/zbt2.xml
+          ${pkgs.coreutils}/bin/sleep 5
+          ${pkgs.libvirt}/bin/virsh attach-device hass /etc/homeassistant/conbee.xml
+          ${pkgs.libvirt}/bin/virsh attach-device hass /etc/homeassistant/zbt2.xml
+        fi;
+      '';
+    };
   };
 }
