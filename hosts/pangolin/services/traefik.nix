@@ -8,11 +8,6 @@
     80
     443
   ];
-  sops.secrets.basic-auth = {
-    mode = "0440";
-    owner = config.users.users.traefik.name;
-    group = config.users.users.traefik.group;
-  };
   # Add traefik user to podman group for socket access
   users.users.traefik.extraGroups = [ "podman" ];
 
@@ -92,11 +87,6 @@
     dynamicConfigOptions = {
       http = {
         middlewares = {
-          auth = {
-            basicAuth = {
-              usersFile = "${config.sops.secrets.basic-auth.path}";
-            };
-          };
           headers = {
             headers = {
               browserxssfilter = true;
