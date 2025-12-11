@@ -43,6 +43,7 @@ in
     hcloud
     home-manager
     mediainfo
+    rendercv
     sshfs
     tabview
     todoman
