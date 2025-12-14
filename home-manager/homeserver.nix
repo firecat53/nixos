@@ -8,6 +8,7 @@ let
 in
 {
   imports = [
+    ./apps/beets.nix
     ./apps/mbsync.nix
     ./apps/vdirsyncer.nix
   ];
