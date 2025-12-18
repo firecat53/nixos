@@ -93,6 +93,12 @@
         port = 22;
         identityFile = "~/.ssh/id_ed25519";
       };
+      "hass" = {
+        hostname = "192.168.200.102";
+        user = "root";
+        port = 22;
+        identityFile = "~/.ssh/hass_ed25519";
+      };
       "wg" = {
         hostname = "127.0.0.1";
         user = "firecat53";
