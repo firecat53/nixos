@@ -14,8 +14,8 @@
     };
     templates."data" = {
       hourly = 48;
-      daily = 30;
-      monthly = 6;
+      daily = 14;
+      monthly = 1;
       yearly = 0;
       autosnap = true;
       autoprune = true;
