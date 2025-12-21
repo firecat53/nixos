@@ -1,4 +1,5 @@
 # Microbin
+# accessed vi Pangolin at mb.firecat53.me
 {
   config,
   ...
@@ -23,30 +24,10 @@
       MICROBIN_NO_LISTING = "true";
       MICROBIN_PORT = "8081";
       MICROBIN_PRIVATE = "true";
-      MICROBIN_PUBLIC_PATH = "https://mb.firecat53.com";
+      MICROBIN_PUBLIC_PATH = "https://mb.firecat53.me";
       MICROBIN_QR = "true";
-      MICROBIN_READONLY = "true";
+      MICROBIN_READONLY = "false";
       MICROBIN_WIDE = "true";
-    };
-  };
-
-  ## Traefik config
-  services.traefik.dynamicConfigOptions.http.routers.microbin = {
-    rule = "Host(`mb.firecat53.com`)";
-    service = "microbin";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = {
-      certResolver = "le";
-    };
-  };
-  services.traefik.dynamicConfigOptions.http.services.microbin = {
-    loadBalancer = {
-      servers = [
-        {
-          url = "http://localhost:8081";
-        }
-      ];
     };
   };
 }
