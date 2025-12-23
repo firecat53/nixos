@@ -23,5 +23,5 @@ in
     defaultSopsFile = "${secretspath}/homeserver/secrets.yaml";
   };
 
-  home.stateVersion = "24.11";
+  home.stateVersion = "25.11";
 }
