@@ -8,6 +8,16 @@
     80
     443
   ];
+  sops.secrets.porkbun-api-keys = {
+    mode = "0440";
+    owner = config.users.users.traefik.name;
+    group = config.users.users.traefik.group;
+  };
+  systemd.services.traefik = {
+    serviceConfig = {
+      EnvironmentFile = config.sops.secrets.porkbun-api-keys.path;
+    };
+  };
   # Add traefik user to podman group for socket access
   users.users.traefik.extraGroups = [ "podman" ];
 
@@ -77,8 +87,8 @@
           acme = {
             email = "tech@firecat53.net";
             storage = "/var/lib/traefik/acme.json";
-            httpChallenge = {
-              entryPoint = "web";
+            dnsChallenge = {
+              provider = "porkbun";
             };
           };
         };
