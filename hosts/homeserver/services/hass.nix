@@ -48,12 +48,9 @@
     target = "homeassistant/zbt2.xml";
   };
 
-  # Automatically detach/reattach USB devices after reboot
+  # Detach/reattach USB devices from the VM
   systemd.services.hass-usb-reattach = {
     description = "Reattach USB devices to hass VM";
-    after = [ "libvirtd.service" ];
-    wants = [ "libvirtd.service" ];
-    wantedBy = [ "multi-user.target" ];
 
     serviceConfig = {
       Type = "oneshot";
