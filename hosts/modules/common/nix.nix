@@ -50,11 +50,11 @@ in
     packageOverrides = pkgs: {
       stable = import inputs.nixpkgs {
         config = config.nixpkgs.config;
-        system = "x86_64-linux";
+        system = pkgs.stdenv.hostPlatform.system;
       };
       unstable = import inputs.nixpkgs-unstable {
         config = config.nixpkgs.config;
-        system = "x86_64-linux";
+        system = pkgs.stdenv.hostPlatform.system;
       };
     };
     permittedInsecurePackages = [
@@ -63,12 +63,14 @@ in
     ];
   };
 
-  # Show nix updates
   environment.shellAliases = {
+    # Show nix updates
     nd = ''
       nix profile diff-closures --profile /nix/var/nix/profiles/system |
             awk '/^Version [0-9]+ -> [0-9]+:$/ {block=""} {block=block $0 "\n"} END {print block}'
     '';
+    # Show installed packages
+    ni = "nix-store --query --requisites /run/current-system/sw | cut -d- -f2- | sort | less";
   };
 
   # System maintenance
@@ -101,9 +103,4 @@ in
     options = "--delete-older-than 7d";
   };
   nix.optimise.automatic = true;
-
-  ## Show installed packages
-  environment.shellAliases = {
-    ni = "nix-store --query --requisites /run/current-system/sw | cut -d- -f2- | sort | less";
-  };
 }
