@@ -6,7 +6,10 @@
 }:
 {
   sops.secrets.nextcloud-admin-password = { };
-  users.users.nextcloud.extraGroups = [ "users" "msmtp" ];
+  users.users.nextcloud.extraGroups = [
+    "users"
+    "msmtp"
+  ];
   services.nginx.virtualHosts."nc.firecat53.com".listen = [
     {
       addr = "127.0.0.1";

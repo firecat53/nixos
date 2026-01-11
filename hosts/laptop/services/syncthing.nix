@@ -62,7 +62,7 @@
             "scott-office"
           ];
           id = "docs";
-          ignorePerms = true;  # Allow ACLs
+          ignorePerms = true; # Allow ACLs
         };
         "file_xfer" = {
           path = "/home/firecat53/.local/tmp/file_xfer";
@@ -102,7 +102,7 @@
             "vps"
           ];
           id = "shared";
-          ignorePerms = true;  # Allow ACLs
+          ignorePerms = true; # Allow ACLs
         };
         "srv" = {
           path = "/home/firecat53/.local/srv";

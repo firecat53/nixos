@@ -66,7 +66,7 @@
             "scott-laptop"
             "scott-office"
           ];
-          ignorePerms = true;  # Allow ACLs
+          ignorePerms = true; # Allow ACLs
         };
         "srv" = {
           path = "/srv";

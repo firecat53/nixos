@@ -48,148 +48,147 @@ in
   boot.extraModulePackages = [ ];
   boot.tmp.useTmpfs = true;
 
-  fileSystems =
-    {
-      "/" = {
-        device = "rpool/nixos/root";
-        fsType = "zfs";
-        options = [ "X-mount.mkdir" ];
-      };
+  fileSystems = {
+    "/" = {
+      device = "rpool/nixos/root";
+      fsType = "zfs";
+      options = [ "X-mount.mkdir" ];
+    };
 
-      "/home" = {
-        device = "rpool/data/home";
-        fsType = "zfs";
-        options = [ "X-mount.mkdir" ];
-      };
+    "/home" = {
+      device = "rpool/data/home";
+      fsType = "zfs";
+      options = [ "X-mount.mkdir" ];
+    };
 
-      "/var/lib" = {
-        device = "rpool/nixos/var/lib";
-        fsType = "zfs";
-        options = [ "X-mount.mkdir" ];
-      };
+    "/var/lib" = {
+      device = "rpool/nixos/var/lib";
+      fsType = "zfs";
+      options = [ "X-mount.mkdir" ];
+    };
 
-      "/var/lib/containers/storage" = {
-        device = "rpool/nixos/var/lib/containers/storage";
-        fsType = "zfs";
-        options = [ "X-mount.mkdir" ];
-      };
+    "/var/lib/containers/storage" = {
+      device = "rpool/nixos/var/lib/containers/storage";
+      fsType = "zfs";
+      options = [ "X-mount.mkdir" ];
+    };
 
-      "/var/lib/containers/storage/volumes" = {
-        device = "rpool/data/podman_volumes";
-        fsType = "zfs";
-        options = [ "X-mount.mkdir" ];
-      };
+    "/var/lib/containers/storage/volumes" = {
+      device = "rpool/data/podman_volumes";
+      fsType = "zfs";
+      options = [ "X-mount.mkdir" ];
+    };
 
-      "/var/log" = {
-        device = "rpool/nixos/var/log";
-        fsType = "zfs";
-        options = [ "X-mount.mkdir" ];
-      };
+    "/var/log" = {
+      device = "rpool/nixos/var/log";
+      fsType = "zfs";
+      options = [ "X-mount.mkdir" ];
+    };
 
-      "/boot" = {
-        device = "bpool/nixos/root";
-        fsType = "zfs";
-        options = [ "X-mount.mkdir" ];
-      };
+    "/boot" = {
+      device = "bpool/nixos/root";
+      fsType = "zfs";
+      options = [ "X-mount.mkdir" ];
+    };
 
-      "/mnt/media/audiobooks" = {
-        device = "rpool/data/audiobooks";
-        fsType = "zfs";
-        options = [ "X-mount.mkdir" ];
-      };
+    "/mnt/media/audiobooks" = {
+      device = "rpool/data/audiobooks";
+      fsType = "zfs";
+      options = [ "X-mount.mkdir" ];
+    };
 
-      "/mnt/media/cameras" = {
-        device = "rpool/data/cameras";
-        fsType = "zfs";
-        options = [ "X-mount.mkdir" ];
-      };
+    "/mnt/media/cameras" = {
+      device = "rpool/data/cameras";
+      fsType = "zfs";
+      options = [ "X-mount.mkdir" ];
+    };
 
-      "/mnt/media/cameras-peggy" = {
-        device = "rpool/data/cameras-peggy";
-        fsType = "zfs";
-        options = [ "X-mount.mkdir" ];
-      };
+    "/mnt/media/cameras-peggy" = {
+      device = "rpool/data/cameras-peggy";
+      fsType = "zfs";
+      options = [ "X-mount.mkdir" ];
+    };
 
-      "/mnt/media/ebooks" = {
-        device = "rpool/data/ebooks";
-        fsType = "zfs";
-        options = [ "X-mount.mkdir" ];
-      };
+    "/mnt/media/ebooks" = {
+      device = "rpool/data/ebooks";
+      fsType = "zfs";
+      options = [ "X-mount.mkdir" ];
+    };
 
-      "/mnt/media/immich" = {
-        device = "rpool/data/immich";
-        fsType = "zfs";
-        options = [ "X-mount.mkdir" ];
-      };
+    "/mnt/media/immich" = {
+      device = "rpool/data/immich";
+      fsType = "zfs";
+      options = [ "X-mount.mkdir" ];
+    };
 
-      "/mnt/media/music" = {
-        device = "rpool/data/music";
-        fsType = "zfs";
-        options = [ "X-mount.mkdir" ];
-      };
+    "/mnt/media/music" = {
+      device = "rpool/data/music";
+      fsType = "zfs";
+      options = [ "X-mount.mkdir" ];
+    };
 
-      "/mnt/media/pictures" = {
-        device = "rpool/data/pictures";
-        fsType = "zfs";
-        options = [ "X-mount.mkdir" ];
-      };
+    "/mnt/media/pictures" = {
+      device = "rpool/data/pictures";
+      fsType = "zfs";
+      options = [ "X-mount.mkdir" ];
+    };
 
-      "/mnt/media/video" = {
-        device = "rpool/data/video";
-        fsType = "zfs";
-        options = [ "X-mount.mkdir" ];
-      };
+    "/mnt/media/video" = {
+      device = "rpool/data/video";
+      fsType = "zfs";
+      options = [ "X-mount.mkdir" ];
+    };
 
-      "/mnt/media/wallpaper" = {
-        device = "rpool/data/wallpaper";
-        fsType = "zfs";
-        options = [ "X-mount.mkdir" ];
-      };
+    "/mnt/media/wallpaper" = {
+      device = "rpool/data/wallpaper";
+      fsType = "zfs";
+      options = [ "X-mount.mkdir" ];
+    };
 
-      "/mnt/media/youtube" = {
-        device = "rpool/data/youtube";
-        fsType = "zfs";
-        options = [ "X-mount.mkdir" ];
-      };
+    "/mnt/media/youtube" = {
+      device = "rpool/data/youtube";
+      fsType = "zfs";
+      options = [ "X-mount.mkdir" ];
+    };
 
-      "/srv" = {
-        device = "rpool/data/srv";
-        fsType = "zfs";
-        options = [ "X-mount.mkdir" ];
-      };
+    "/srv" = {
+      device = "rpool/data/srv";
+      fsType = "zfs";
+      options = [ "X-mount.mkdir" ];
+    };
 
-      "/var/backups" = {
-        device = "rpool/data/var_backups";
-        fsType = "zfs";
-        options = [ "X-mount.mkdir" ];
-      };
+    "/var/backups" = {
+      device = "rpool/data/var_backups";
+      fsType = "zfs";
+      options = [ "X-mount.mkdir" ];
+    };
 
-      "/mnt/downloads" = {
-        device = "datapool/downloads";
-        fsType = "zfs";
-        options = [ "X-mount.mkdir" ];
+    "/mnt/downloads" = {
+      device = "datapool/downloads";
+      fsType = "zfs";
+      options = [ "X-mount.mkdir" ];
+    };
+    "/mnt/restic" = {
+      device = "/dev/disk/by-label/RESTIC";
+      fsType = "exfat";
+      options = [ "X-mount.mkdir" ];
+    };
+  }
+  // (builtins.listToAttrs (
+    map (diskName: {
+      name = zfsRoot.mirroredEfi + diskName + zfsRoot.partitionScheme.efiBoot;
+      value = {
+        device = zfsRoot.devNodes + diskName + zfsRoot.partitionScheme.efiBoot;
+        fsType = "vfat";
+        options = [
+          "x-systemd.idle-timeout=1min"
+          "x-systemd.automount"
+          "noauto"
+          "nofail"
+        ];
       };
-      "/mnt/restic" = {
-        device = "/dev/disk/by-label/RESTIC";
-        fsType = "exfat";
-        options = [ "X-mount.mkdir" ];
-      };
-    }
-    // (builtins.listToAttrs (
-      map (diskName: {
-        name = zfsRoot.mirroredEfi + diskName + zfsRoot.partitionScheme.efiBoot;
-        value = {
-          device = zfsRoot.devNodes + diskName + zfsRoot.partitionScheme.efiBoot;
-          fsType = "vfat";
-          options = [
-            "x-systemd.idle-timeout=1min"
-            "x-systemd.automount"
-            "noauto"
-            "nofail"
-          ];
-        };
-      }) zfsRoot.bootDevices
-    ));
+    }) zfsRoot.bootDevices
+  ));
 
   swapDevices = map (diskName: {
     device = zfsRoot.devNodes + diskName + zfsRoot.partitionScheme.swap;

@@ -179,7 +179,8 @@ in
           "${mod}+${mod1}+j" = "exec ${rofimoji}";
           "${mod}+${mod1}+k" = "exec ${keepmenu}";
           "${mod}+${mod1}+l" = "exec ${swaylock} -i /tmp/wall.png";
-          "${mod}+${mod1}+m" = "exec ${term} ${andcli} -t aegis ${config.home.homeDirectory}/shared/passwords/aegis-latest.json";
+          "${mod}+${mod1}+m" =
+            "exec ${term} ${andcli} -t aegis ${config.home.homeDirectory}/shared/passwords/aegis-latest.json";
           "${mod}+${mod1}+s" = "exec ${watson}";
           "${mod}+${mod1}+t" = "exec ${todocalmenu}";
           "${mod}+${mod1}+w" =

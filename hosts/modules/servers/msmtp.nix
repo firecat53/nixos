@@ -9,9 +9,9 @@
   #### be kept at 0400
   #### Otherwise, add any service that needs access to the 'msmtp' group
 
-  users.groups.msmtp = {};
+  users.groups.msmtp = { };
 
-  sops.secrets.email-password = { 
+  sops.secrets.email-password = {
     mode = "0440";
     group = "msmtp";
   };

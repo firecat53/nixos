@@ -21,7 +21,9 @@
   #  intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
   #};
   systemd.services.jellyfin.environment.LIBVA_DRIVER_NAME = "iHD";
-  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
+  environment.sessionVariables = {
+    LIBVA_DRIVER_NAME = "iHD";
+  };
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [

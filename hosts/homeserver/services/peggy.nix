@@ -72,7 +72,10 @@
 
       ${pkgs.bitwarden-cli}/bin/bw lock
     '';
-    path = [ pkgs.bitwarden-cli pkgs.jq ];
+    path = [
+      pkgs.bitwarden-cli
+      pkgs.jq
+    ];
   };
   systemd.timers.bitwarden-backup-peggy = {
     description = "Backup Peggy's Bitwarden vault daily";

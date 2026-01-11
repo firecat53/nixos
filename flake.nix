@@ -40,41 +40,48 @@
     neovim.inputs.nixpkgs.follows = "nixpkgs-unstable";
   };
 
-  outputs = inputs@{
-    self,
-    catppuccin,
-    disko,
-    home-manager,
-    nixpkgs,
-    nixpkgs-unstable,
-    sops-nix,
-    ...
-  }: let
-  inherit (self) outputs;
-    # Helper function to create a nixos system configuration
-    # Usage:
-    #   Default x86_64:  mkSystem { host = "hostname"; };
-    #   Custom system:   mkSystem { host = "hostname"; system = "aarch64-linux"; };
-  mkSystem = { host, system ? "x86_64-linux"}:
-    nixpkgs.lib.nixosSystem {
-      modules = [
-        { nixpkgs.hostPlatform = system; }
-        ./hosts/${host}/configuration.nix
-      ];
-      specialArgs = {
-        inherit inputs outputs;
+  outputs =
+    inputs@{
+      self,
+      catppuccin,
+      disko,
+      home-manager,
+      nixpkgs,
+      nixpkgs-unstable,
+      sops-nix,
+      ...
+    }:
+    let
+      inherit (self) outputs;
+      # Helper function to create a nixos system configuration
+      # Usage:
+      #   Default x86_64:  mkSystem { host = "hostname"; };
+      #   Custom system:   mkSystem { host = "hostname"; system = "aarch64-linux"; };
+      mkSystem =
+        {
+          host,
+          system ? "x86_64-linux",
+        }:
+        nixpkgs.lib.nixosSystem {
+          modules = [
+            { nixpkgs.hostPlatform = system; }
+            ./hosts/${host}/configuration.nix
+          ];
+          specialArgs = {
+            inherit inputs outputs;
+          };
+        };
+    in
+    {
+      nixosConfigurations = {
+        backup = mkSystem { host = "backup"; };
+        homeserver = mkSystem { host = "homeserver"; };
+        laptop = mkSystem { host = "laptop"; };
+        office = mkSystem { host = "office"; };
+        pangolin = mkSystem { host = "pangolin"; };
+        vps = mkSystem { host = "vps"; };
       };
-    };
-  in {
-    nixosConfigurations = {
-      backup = mkSystem { host = "backup";};
-      homeserver = mkSystem { host = "homeserver"; };
-      laptop = mkSystem { host = "laptop"; };
-      office = mkSystem { host = "office"; };
-      pangolin = mkSystem { host = "pangolin"; };
-      vps = mkSystem { host = "vps"; };
-    };
 
-    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
-  }; 
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-tree;
+    };
 }

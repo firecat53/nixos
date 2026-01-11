@@ -20,6 +20,6 @@ let
 in
 {
   systemd.tmpfiles.rules =
-    (map (dir: "d ${dir} 2775 firecat53 users - -") dirs) ++
-    (map (dir: "A ${dir} - - - - ${acls}") dirs);
+    (map (dir: "d ${dir} 2775 firecat53 users - -") dirs)
+    ++ (map (dir: "A ${dir} - - - - ${acls}") dirs);
 }
