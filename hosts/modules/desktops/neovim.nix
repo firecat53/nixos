@@ -9,5 +9,6 @@
   ];
   environment.systemPackages = [
     pkgs.nvim-pkg
+    pkgs.nixfmt-rfc-style
   ];
 }
