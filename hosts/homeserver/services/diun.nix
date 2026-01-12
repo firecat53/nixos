@@ -89,8 +89,6 @@ in
       sort_tags: semver
       max_tags: 1
 
-    - name: ghcr.io/hargata/lubelogger:latest
-
     - name: docker.io/collabora/code
 
     - name: library/golang
