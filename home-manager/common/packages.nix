@@ -42,6 +42,7 @@ in
     gomuks
     hcloud
     home-manager
+    jellyfin-tui
     mediainfo
     rendercv
     sshfs
