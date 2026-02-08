@@ -7,6 +7,7 @@
 {
   services.akkoma = {
     enable = true;
+    package = pkgs.unstable.akkoma;
     config = {
       ":pleroma" = {
         ":instance" = {
