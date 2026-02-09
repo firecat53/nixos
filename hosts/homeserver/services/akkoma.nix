@@ -41,9 +41,9 @@
     ];
   };
   services.traefik.dynamicConfigOptions.http = {
-    middlewares.well-known-redirect.redirectRegex = {
-      regex = "^https://(.*)/.well-known/(webfinger|nodeinfo|host-meta)(\\?.*)?$";
-      replacement = "https://s.$1/.well-known/$2$3";
+    middlewares.firecat53-redirect.redirectRegex = {
+      regex = "^https://firecat53\\.net(.*)$";
+      replacement = "https://s.firecat53.net$1";
       permanent = true;
     };
     routers = {
@@ -61,12 +61,12 @@
         entrypoints = [ "websecure" ];
         tls.certResolver = "le";
       };
-      well-known-redirect = {
+      firecat53-redirect = {
         rule = "Host(`firecat53.net`)";
-        service = "dummy-well-known";
+        service = "firecat53-redirect";
         middlewares = [
           "headers"
-          "well-known-redirect"
+          "firecat53-redirect"
         ];
         entrypoints = [ "websecure" ];
         tls.certResolver = "le";
@@ -79,9 +79,9 @@
         }
       ];
 
-      dummy-well-known.loadBalancer.servers = [
+      firecat53-redirect.loadBalancer.servers = [
         {
-          # Redirect to nginx
+          # Dummy backend; redirect middleware handles the response
           url = "http://localhost:${builtins.toString config.services.nginx.defaultHTTPListenPort}";
         }
       ];

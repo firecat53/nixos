@@ -91,6 +91,15 @@ in
       certResolver = "le";
     };
   };
+  services.traefik.dynamicConfigOptions.http.routers.matrix-wellknown-root = {
+    rule = "Host(`${domain}`) && PathPrefix(`/.well-known/matrix/`)";
+    service = "nginx-wellknown";
+    middlewares = [ "headers" ];
+    entrypoints = [ "websecure" ];
+    tls = {
+      certResolver = "le";
+    };
+  };
   services.traefik.dynamicConfigOptions.http.services.nginx-wellknown = {
     loadBalancer = {
       servers = [

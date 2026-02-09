@@ -4,6 +4,10 @@
     enable = true;
     defaultHTTPListenPort = 8080;
     virtualHosts."lan.firecat53.net" = {
+      locations."= /".extraConfig = ''
+        root /srv/http;
+        try_files /index.html =404;
+      '';
       locations."/misc/" = {
         alias = "/srv/http/";
       };
@@ -13,7 +17,7 @@
     };
   };
   services.traefik.dynamicConfigOptions.http.routers.nginx = {
-    rule = "Host(`lan.firecat53.net`) && ((PathPrefix(`/misc`) || PathPrefix(`/rss`)))";
+    rule = "Host(`lan.firecat53.net`)";
     service = "nginx";
     middlewares = [ "headers" ];
     entrypoints = [ "websecure" ];

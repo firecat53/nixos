@@ -9,6 +9,10 @@
     enable = true;
     defaultHTTPListenPort = 8080;
     virtualHosts."firecat53.com" = {
+      locations."= /".extraConfig = ''
+        root /srv/http;
+        try_files /index.html =404;
+      '';
       locations."/misc/" = {
         alias = "/srv/http/";
       };

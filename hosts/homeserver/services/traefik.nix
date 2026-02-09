@@ -101,7 +101,7 @@
               customframeoptionsvalue = "SAMEORIGIN";
               forcestsheader = true;
               framedeny = true;
-              sslhost = "firecat53.com";
+              sslhost = "firecat53.net";
               sslredirect = true;
               stsincludesubdomains = true;
               stspreload = true;
