@@ -18,7 +18,7 @@
       nf = "#cdd6f4";
       tb = "#1e1e2e";
       tf = "#f38ba8";
-      fn = "SauceCodePro Nerd Font 17";
+      fn = "Maple Mono NF 16";
       scrollbar = "autohide";
     };
   };

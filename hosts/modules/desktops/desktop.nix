@@ -9,6 +9,7 @@
   fonts.packages = with pkgs; [
     dejavu_fonts
     liberation_ttf
+    maple-mono.NF
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-cjk-serif

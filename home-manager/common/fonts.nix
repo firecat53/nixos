@@ -8,6 +8,7 @@
     nerd-fonts.sauce-code-pro
     corefonts
     liberation_ttf
+    maple-mono.NF
     noto-fonts
     dejavu_fonts
   ];

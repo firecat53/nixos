@@ -7,7 +7,7 @@
     enable = true;
     settings = {
       anchor = "top-center";
-      font = "Sauce Code Pro 14";
+      font = "Maple Mono NF 14";
     };
   };
   home.packages = [ pkgs.libnotify ];

@@ -52,7 +52,7 @@ in
         {
           position = "top";
           fonts = {
-            names = [ "pango:SauceCodePro Nerd Font" ];
+            names = [ "pango:Maple Mono NF" ];
             size = 15.0;
           };
           statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ${config.xdg.configHome}/i3status-rust/config-top.toml";

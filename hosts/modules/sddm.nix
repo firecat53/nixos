@@ -14,7 +14,7 @@
   environment.systemPackages = [
     (pkgs.catppuccin-sddm.override {
       flavor = "mocha";
-      font = "DevjaVu Sans";
+      font = "Maple Mono NF";
       fontSize = "17";
       loginBackground = true;
     })
