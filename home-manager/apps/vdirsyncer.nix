@@ -15,12 +15,13 @@ in
   };
   services.vdirsyncer = {
     enable = true;
-    frequency = "*:0/10";
+    frequency = "*:0/5";
   };
+  systemd.user.timers.vdirsyncer.Timer.RandomizedDelaySec = "1m";
   accounts.calendar.accounts = {
     calendars = {
       local = {
-        path = "${home}/docs/family/scott/src/nextcloud/calendars";
+        path = "${home}/.local/share/nextcloud/calendars";
         type = "filesystem";
         fileExt = ".ics";
       };
@@ -50,7 +51,7 @@ in
   accounts.contact.accounts = {
     contacts = {
       local = {
-        path = "${home}/docs/family/scott/src/nextcloud/contacts";
+        path = "${home}/.local/share/nextcloud/contacts";
         type = "filesystem";
         fileExt = ".vcf";
       };

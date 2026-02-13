@@ -159,7 +159,7 @@ in
           swaylock = "${pkgs.swaylock}/bin/swaylock";
           term = "${pkgs.foot}/bin/footclient";
           tmux = "${pkgs.tmux}/bin/tmux";
-          todocalmenu = "${tdcm}/bin/todocalmenu -cmd bemenu -todo ${config.home.homeDirectory}/docs/family/scott/src/nextcloud/calendars/todo";
+          todocalmenu = "${tdcm}/bin/todocalmenu -cmd bemenu -todo ${config.home.homeDirectory}/.local/share/nextcloud/calendars/todo";
           vim = "${pkgs.nvim-pkg}/bin/nvim";
           vol = "${pkgs.wireplumber}/bin/wpctl";
           vol_gui = "${pkgs.pwvucontrol}/bin/pwvucontrol";

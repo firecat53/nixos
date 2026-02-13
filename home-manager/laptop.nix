@@ -9,6 +9,7 @@ in
 {
   imports = [
     ./apps/calibre.nix
+    ./apps/vdirsyncer.nix
     ./apps/vscode.nix
     ./common
     ./sway

@@ -62,7 +62,7 @@ in
         type = "discover";
       };
       local = {
-        path = "${userHome}/docs/family/scott/src/nextcloud/calendars";
+        path = "${userHome}/.local/share/nextcloud/calendars";
         type = "filesystem";
         fileExt = ".ics";
       };
@@ -72,7 +72,7 @@ in
     contacts = {
       khard.enable = true;
       local = {
-        path = "${userHome}/docs/family/scott/src/nextcloud/contacts/contacts";
+        path = "${userHome}/.local/share/nextcloud/contacts";
         type = "filesystem";
         fileExt = ".vcf";
       };
@@ -80,7 +80,7 @@ in
     wife = {
       khard.enable = true;
       local = {
-        path = "${userHome}/docs/family/scott/src/nextcloud/contacts/wife";
+        path = "${userHome}/.local/share/nextcloud/contacts/wife";
         type = "filesystem";
         fileExt = ".vcf";
       };
