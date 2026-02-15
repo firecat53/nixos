@@ -126,6 +126,7 @@ in
         cors:
           origins:
             - https://${pangolinHost}
+            - https://mb.firecat53.me
           methods:
             - GET
             - POST
