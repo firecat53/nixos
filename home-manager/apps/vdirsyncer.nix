@@ -18,6 +18,16 @@ in
     frequency = "*:0/5";
   };
   systemd.user.timers.vdirsyncer.Timer.RandomizedDelaySec = "1m";
+  systemd.user.services.vdirsyncer = {
+    Unit = {
+      StartLimitBurst = 3;
+      StartLimitIntervalSec = "5m";
+    };
+    Service = {
+      Restart = "on-failure";
+      RestartSec = "30s";
+    };
+  };
   accounts.calendar.accounts = {
     calendars = {
       local = {
