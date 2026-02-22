@@ -9,7 +9,6 @@
     enable = true;
     config = {
       LISTEN_ADDR = "localhost:8085";
-      POLLING_FREQUENCY = "15";
     };
     adminCredentialsFile = "${config.sops.secrets.miniflux-env.path}";
   };
