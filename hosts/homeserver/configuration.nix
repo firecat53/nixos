@@ -7,16 +7,19 @@
 {
   # adjust according to your platform, such as
   imports = [
-    ./hardware-configuration.nix
+    ./disko-config.nix
+    ./hardware-configuration-disko.nix
     ./services
     ../modules/common
     ../modules/servers
     ../modules/avahi.nix
+    ../modules/boot.nix
     ../modules/libvirt.nix
     ../modules/newt.nix
     ../modules/podman.nix
     ../modules/zfs.nix
     ../../home-manager/home-manager.nix
+    inputs.disko.nixosModules.disko
     inputs.home-manager.nixosModules.home-manager
     inputs.sops-nix.nixosModules.sops
   ];
