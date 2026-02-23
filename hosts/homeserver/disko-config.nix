@@ -19,7 +19,7 @@
     disk = {
       nvme0 = {
         type = "disk";
-        device = "/dev/disk/by-id/nvme-eui.ace42e0026eed9c82ee4ac0000000001";
+        device = "/dev/disk/by-id/nvme-eui.ace42e0035b8defe2ee4ac0000000001";
         content = {
           type = "gpt";
           partitions = {
@@ -57,7 +57,7 @@
       };
       nvme1 = {
         type = "disk";
-        device = "/dev/disk/by-id/nvme-eui.ace42e0035b8defe2ee4ac0000000001";
+        device = "/dev/disk/by-id/nvme-eui.ace42e0026eed9c82ee4ac0000000001";
         content = {
           type = "gpt";
           partitions = {

@@ -8,7 +8,7 @@
   # adjust according to your platform, such as
   imports = [
     ./disko-config.nix
-    ./hardware-configuration-disko.nix
+    ./hardware-configuration.nix
     ./services
     ../modules/common
     ../modules/servers
