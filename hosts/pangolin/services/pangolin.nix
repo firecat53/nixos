@@ -9,7 +9,7 @@ let
   pangolinHost = "pangolin.${baseDomain}";
 
   # Docker images
-  pangolinImage = "fosrl/pangolin:1.16.1";
+  pangolinImage = "fosrl/pangolin:1.16.2";
   gerbilImage = "fosrl/gerbil:1.3.0";
 
   # Ports
