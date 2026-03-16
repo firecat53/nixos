@@ -14,7 +14,8 @@
           name = "firecat53 akkoma";
           email = "scott@firecat53.net";
           description = "Akkoma server";
-          registration_open = false;
+          registrations_open = false;
+          invites_enabled = false;
         };
         "Pleroma.Web.Endpoint" = {
           url.host = "s.firecat53.net";
