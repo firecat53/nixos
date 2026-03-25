@@ -45,6 +45,7 @@ in
     jellyfin-tui
     mediainfo
     rendercv
+    pkgs.unstable.spotatui
     sshfs
     tabview
     todoman
