@@ -9,6 +9,7 @@
     enable = true;
     config = {
       LISTEN_ADDR = "localhost:8085";
+      FETCHER_ALLOW_PRIVATE_NETWORKS = "true";
     };
     adminCredentialsFile = "${config.sops.secrets.miniflux-env.path}";
   };
