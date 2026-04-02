@@ -3,13 +3,18 @@
   services.fail2ban = {
     enable = true;
     bantime = "1h";
+    ignoreIP = [
+      "10.0.0.0/8"
+      "172.16.0.0/12"
+      "192.168.0.0/16"
+    ];
     jails = {
       portscan = {
         settings = {
           enabled = true;
           filter = "portscan";
           backend = "systemd";
-          maxretry = 5;
+          maxretry = 20;
           findtime = 60;
           bantime = 3600;
           action = "iptables-allports[name=portscan, protocol=all]";
