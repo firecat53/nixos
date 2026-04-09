@@ -5,7 +5,6 @@
 {
   # Services on homeserver that need monitoring
   networking.extraHosts = ''
-    10.200.200.6 ai.lan.firecat53.net
     10.200.200.6 books.lan.firecat53.net
     10.200.200.6 bw.lan.firecat53.net
     10.200.200.6 cars.lan.firecat53.net
