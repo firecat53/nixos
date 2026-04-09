@@ -19,7 +19,7 @@
 
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud32;
+    package = pkgs.nextcloud33;
     hostName = "nc.firecat53.com";
     database.createLocally = true;
     configureRedis = true;
