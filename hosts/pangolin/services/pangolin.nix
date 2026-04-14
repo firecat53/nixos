@@ -17,12 +17,14 @@ let
   internalPort = 3001;
   nextPort = 3002;
   gerbilPort = 3004;
+  forgejo_sshPort = 2222;
   wireguardPort = 51820;
 in
 {
   # Firewall configuration for WireGuard (HTTP/HTTPS handled by traefik.nix)
   networking.firewall = {
     allowedUDPPorts = [ wireguardPort ];
+    allowedTCPPorts = [ forgejo_sshPort ];
   };
 
   sops.secrets = {
@@ -91,13 +93,10 @@ in
         volumes = [
           "/var/lib/pangolin/:/var/config"
         ];
-        ports = [
-          "${toString wireguardPort}:${toString wireguardPort}/udp"
-        ];
         extraOptions = [
-          "--network=host"
           "--cap-add=NET_ADMIN"
           "--cap-add=SYS_MODULE"
+          "--network=host"
         ];
         dependsOn = [ "pangolin" ];
       };

@@ -7,6 +7,7 @@
   networking.firewall.allowedTCPPorts = [
     80
     443
+    2222 # forgejo SSH
   ];
   sops.secrets.porkbun-api-keys = {
     mode = "0440";
@@ -41,6 +42,9 @@
               };
             };
           };
+        };
+        "tcp-2222" = {
+          address = ":2222/tcp";
         };
         websecure = {
           address = ":443";

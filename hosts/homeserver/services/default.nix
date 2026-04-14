@@ -4,6 +4,7 @@
     ./audiobookshelf.nix
     ./backups.nix
     ./diun.nix
+    ./forgejo.nix
     ./gollum.nix
     ./hass.nix
     ./immich.nix
