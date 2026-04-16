@@ -66,6 +66,15 @@
         identityFile = "~/.ssh/id_ed25519";
         forwardAgent = true;
       };
+      "forgejo" = {
+        hostname = "git.firecat53.me";
+        port = 2222;
+        user = "forgejo";
+        identityFile = "~/.ssh/github_ed25519";
+        extraOptions = {
+          PreferredAuthentications = "publickey";
+        };
+      };
       "github" = {
         hostname = "github.com";
         user = "git";
