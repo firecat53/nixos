@@ -46,15 +46,13 @@
         ROOT_URL = "https://git.firecat53.me/";
         SSH_DOMAIN = "git.firecat53.me";
         SSH_PORT = 2222;
+        START_SSH_SERVER = true;
+        SSH_LISTEN_PORT = 3022; # fix conflict with QBT
       };
       service.DISABLE_REGISTRATION = true;
       session.COOKIE_SECURE = true;
     };
   };
-
-  services.openssh.extraConfig = ''
-    AcceptEnv GIT_PROTOCOL
-  '';
 
   services.traefik.dynamicConfigOptions.http.routers.forgejo = {
     rule = "Host(`git.lan.firecat53.net`)";

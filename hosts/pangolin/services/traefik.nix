@@ -7,7 +7,6 @@
   networking.firewall.allowedTCPPorts = [
     80
     443
-    2222 # forgejo SSH
   ];
   sops.secrets.porkbun-api-keys = {
     mode = "0440";
