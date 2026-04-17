@@ -1,5 +1,8 @@
 # NixOS configurations
 
+> NOTE: Code moved to https://git.firecat53.me/firecat53/nixos. Issues and PRs
+> still accepted here for now. Github repo maintained as a read-only mirror.
+
 ## Machines
 
 * Laptop `laptop`
