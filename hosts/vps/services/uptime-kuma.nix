@@ -8,6 +8,7 @@
     10.200.200.6 books.lan.firecat53.net
     10.200.200.6 bw.lan.firecat53.net
     10.200.200.6 cars.lan.firecat53.net
+    10.200.200.6 git.lan.firecat53.net
     10.200.200.6 gollum.lan.firecat53.net
     10.200.200.6 hass.lan.firecat53.net
     10.200.200.6 jackett.lan.firecat53.net
