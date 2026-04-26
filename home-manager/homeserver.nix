@@ -11,6 +11,7 @@ in
     ./apps/beets.nix
     ./apps/mbsync.nix
     ./apps/vdirsyncer.nix
+    ./apps/wiki.nix
   ];
 
   home.username = "firecat53";
