@@ -4,7 +4,7 @@
   ...
 }:
 let
-  sshKeys = import ../modules/common/ssh-keys.nix;
+  sshKeys = import ../../modules/common/ssh-keys.nix;
 in
 {
   # Add autossh key for socks-proxy

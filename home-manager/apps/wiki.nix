@@ -5,13 +5,10 @@
 }:
 let
   wikiDir = "${config.home.homeDirectory}/docs/family/scott/wiki";
-  keyPath = "${config.home.homeDirectory}/.ssh/wiki-ssh";
 in
 {
-  sops.secrets.wiki-ssh = {
-    path = keyPath;
-    mode = "0400";
-  };
+  sops.secrets.wiki-ssh = { };
+  sops.secrets.signing-key = { };
 
   # Ensure .stignore in place for the main wiki repo
   home.file."docs/.stignore".text = ''
@@ -27,7 +24,7 @@ in
         IdentitiesOnly = "yes";
       };
       hostname = "git.firecat53.me";
-      identityFile = keyPath;
+      identityFile = config.sops.secrets.wiki-ssh.path;
       port = 2222;
       user = "forgejo";
     };
@@ -46,7 +43,9 @@ in
         git fetch --quiet origin
         git add -A
         if ! git diff --cached --quiet; then
-          git -c commit.gpgsign=false \
+          git -c gpg.format=ssh \
+              -c user.signingkey=${config.sops.secrets.signing-key.path} \
+              -c commit.gpgsign=true \
               commit -m "auto: $(date -Iseconds)" --quiet
         fi
         git pull --rebase --autostash --quiet
