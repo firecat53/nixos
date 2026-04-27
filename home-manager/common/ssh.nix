@@ -137,8 +137,10 @@
       "aur" = {
         hostname = "aur.archlinux.org";
         user = "aur";
-        identityFile = "~/.ssh/aur";
+        identityFile = "~/.config/sops-nix/secrets/aur-key";
       };
     };
   };
+  # Declare AUR SSH key
+  sops.secrets.aur-key = { };
 }
