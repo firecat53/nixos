@@ -1,3 +1,7 @@
+{ ... }:
+let
+  sshKeys = import ./ssh-keys.nix;
+in
 {
   users.users.root = {
     ## hash: mkpasswd -m SHA-512 -s (initial password: rootpassword)
@@ -17,10 +21,8 @@
     uid = 1000;
     # initial password: firecat53
     initialHashedPassword = "$6$4uca2AGtTNxwo1bt$JJwaaNTqKF6ddXE9xLqWdmTZpElZZ5KNHEbj4jqAVY5QVknWKB4lCvzlMPZ0VLivh8FcmpGbkx5bVJhT1URpz0";
-    # keys: id_ed25519.pub
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILdMFWLeCpeDFMKJyLaTtLgmfJ6G8HxrBObvlaBE8eoH firecat53@scotty"
-    ];
+    # One pubkey per device; private halves never leave the host they were generated on.
+    openssh.authorizedKeys.keys = builtins.attrValues sshKeys.devices;
   };
   users.groups.firecat53 = {
     gid = 1000;

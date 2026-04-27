@@ -79,11 +79,39 @@ systemctl reboot
 ```
 5. [[#post-install]]
 
+### SSH key generation (new or rebuilt host)
+
+Each desktop/laptop host gets its own SSH keypair — private halves never leave
+the box, only pubkeys land in `hosts/modules/common/ssh-keys.nix`. Sequence
+matters because the host can't reach itself via key auth until its pubkey is
+authorized elsewhere.
+
+1. **On the new/rebuilt host**, generate the device key as `firecat53`:
+```bash
+ssh-keygen -t ed25519 -C "firecat53@<hostname>" -f ~/.ssh/id_ed25519
+wl-copy < ~/.ssh/id_ed25519.pub
+```
+2. **On a working host with repo access**, paste the pubkey into
+   `hosts/modules/common/ssh-keys.nix` under the matching `devices.<host>`
+   attribute. Commit and push.
+3. Add the device pubkey to:
+    a. GitHub / forgejo account (web UI) — needed for git operations
+    b. HomeAssistant `~/.ssh/authorized_keys` for the `root` user
+    c. Any other external service the host needs to reach
+4. Rebuild every host that should authorize this device:
+5. *(Desktops/laptops using the autossh tunnel only)* The passphraseless
+   autossh private key is shared across all tunnel clients and lives in
+   sops as `autossh-key`. Add it to the host's sops file (the matching
+   pubkey is already in `ssh-keys.nix` as `autossh`, authorized on
+   homeserver). To rotate, generate one new keypair, update `autossh` in
+   `ssh-keys.nix`, and re-encrypt `autossh-key` into every desktop sops file.
+
 ### Post install
 
 1. *new host* Change `firecat53` user and root (only for local machine) passwords. 
-2. *existing host* Sync ~/nixos/ directory to new machine (including nixos configs and secrets)
-3. *existing host* Update sops key after reinstall. Commit and sync then rebuild.
+2. *new host* Generate SSH keys per [SSH key generation](#ssh-key-generation-new-or-rebuilt-host) above.
+3. *existing host* Sync ~/nixos/ directory to new machine (including nixos configs and secrets)
+4. *existing host* Update sops key after reinstall. Commit and sync then rebuild.
 ```bash
 nix shell nixpkgs#ssh-to-age nixpkgs#sops
 ssh-keyscan <hostname> | ssh-to-age
@@ -93,14 +121,14 @@ sops updatekeys nixos-secrets/common/secrets.yml
 git add .sops.yaml <homename>/ && git commit -m 'Update sops keys'
 ```
         
-4. *existing host* `nix flake update` and rebuild flake on target machine after
+5. *existing host* `nix flake update` and rebuild flake on target machine after
    sops key is updated.
-5. *new host* `sudo nmcli connection import type wireguard file
+6. *new host* `sudo nmcli connection import type wireguard file
    /etc/wireguard/wg0.conf`
    for networkmanager.
-6. Update syncthing device ID's if necessary. Re-add servers on phones and
+7. Update syncthing device ID's if necessary. Re-add servers on phones and
    wife's laptop if needed.
-7. *existing host* `echo nixos/flake.lock > ~/nixos/.stignore` (keep flake.lock
+8. *existing host* `echo nixos/flake.lock > ~/nixos/.stignore` (keep flake.lock
    from syncing)
         
 ## Specific host instructions

@@ -3,7 +3,15 @@
   pkgs,
   ...
 }:
+let
+  sshKeys = import ../modules/common/ssh-keys.nix;
+in
 {
+  # Add autossh key for socks-proxy
+  users.users.firecat53.openssh.authorizedKeys.keys = [
+    sshKeys.autossh
+  ];
+
   systemd.services.pod-wireguard = {
     description = "Start podman 'wg' pod";
     wants = [ "network-online.target" ];

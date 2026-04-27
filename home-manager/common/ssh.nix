@@ -10,6 +10,8 @@
         controlPath = "~/.ssh/socket-%r@%h:%p";
         controlPersist = "10m";
       };
+# NOTE: forwardAgent stays only on hosts where pam_rssh sudo auth is needed.
+## Servers
       "home*" = {
         host = "home*";
         port = 22;
@@ -46,16 +48,10 @@
         identityFile = "~/.ssh/id_ed25519";
         forwardAgent = true;
       };
-      "vps" = {
-        hostname = "firecat53.com";
-        user = "firecat53";
-        port = 22;
-        identityFile = "~/.ssh/id_ed25519";
-        forwardAgent = true;
-      };
-      "office" = {
-        hostname = "office";
-        user = "firecat53";
+      # HASS: device key authorized as root (no sudo on hass, no agent forward).
+      "hass" = {
+        hostname = "192.168.200.102";
+        user = "root";
         port = 22;
         identityFile = "~/.ssh/id_ed25519";
       };
@@ -66,53 +62,38 @@
         identityFile = "~/.ssh/id_ed25519";
         forwardAgent = true;
       };
-      "forgejo" = {
-        hostname = "git.firecat53.me";
-        port = 2222;
-        user = "forgejo";
-        identityFile = "~/.ssh/github_ed25519";
-        extraOptions = {
-          PreferredAuthentications = "publickey";
-        };
-      };
-      "github" = {
-        hostname = "github.com";
-        user = "git";
-        identityFile = "~/.ssh/github_ed25519";
-        extraOptions = {
-          PreferredAuthentications = "publickey";
-        };
-      };
-      "gist" = {
-        hostname = "gist.github.com";
-        user = "git";
-        identityFile = "~/.ssh/github_ed25519";
-        extraOptions = {
-          PreferredAuthentications = "publickey";
-        };
-      };
-      "aur" = {
-        hostname = "aur.archlinux.org";
-        user = "aur";
-        identityFile = "~/.ssh/aur";
-      };
       "router" = {
         hostname = "192.168.200.1";
         user = "firecat53";
         port = 22;
         identityFile = "~/.ssh/id_ed25519";
       };
-      "hass" = {
-        hostname = "192.168.200.102";
-        user = "root";
+      "vps" = {
+        hostname = "firecat53.com";
+        user = "firecat53";
         port = 22;
-        identityFile = "~/.ssh/hass_ed25519";
+        identityFile = "~/.ssh/id_ed25519";
+        forwardAgent = true;
       };
+## Desktop/laptops
+      "laptop" = {
+        hostname = "laptop";
+        user = "firecat53";
+        port = 22;
+        identityFile = "~/.ssh/id_ed25519";
+      };
+      "office" = {
+        hostname = "office";
+        user = "firecat53";
+        port = 22;
+        identityFile = "~/.ssh/id_ed25519";
+      };
+      ## ProxyJump to homeserver->socks-proxy
       "wg" = {
         hostname = "127.0.0.1";
         user = "firecat53";
         port = 2222;
-        identityFile = "~/.ssh/deluge_ed25519";
+        identityFile = "/run/secrets/autossh-key";
         dynamicForwards = [
           {
             port = 5001;
@@ -124,6 +105,39 @@
           UserKnownHostsFile = "/dev/null";
           ExitOnForwardFailure = "yes";
         };
+      };
+# Git remotes use the device key directly — add this device's pubkey to
+# GitHub/forgejo accounts. No agent forwarding (no shell on these hosts).
+      "forgejo" = {
+        hostname = "git.firecat53.me";
+        port = 2222;
+        user = "forgejo";
+        identityFile = "~/.ssh/id_ed25519";
+        extraOptions = {
+          PreferredAuthentications = "publickey";
+        };
+      };
+      "github" = {
+        hostname = "github.com";
+        user = "git";
+        identityFile = "~/.ssh/id_ed25519";
+        extraOptions = {
+          PreferredAuthentications = "publickey";
+        };
+      };
+      "gist" = {
+        hostname = "gist.github.com";
+        user = "git";
+        identityFile = "~/.ssh/id_ed25519";
+        extraOptions = {
+          PreferredAuthentications = "publickey";
+        };
+      };
+## AUR
+      "aur" = {
+        hostname = "aur.archlinux.org";
+        user = "aur";
+        identityFile = "~/.ssh/aur";
       };
     };
   };

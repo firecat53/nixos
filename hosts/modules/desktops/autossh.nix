@@ -3,6 +3,11 @@
   ...
 }:
 {
+  sops.secrets.autossh-key = {
+    owner = "firecat53";
+    mode = "0400";
+  };
+
   services.autossh.sessions = [
     {
       name = "wg";

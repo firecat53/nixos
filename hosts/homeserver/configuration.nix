@@ -69,11 +69,6 @@
   ### apcupsd
   services.apcupsd.enable = true;
 
-  ### Add extra ssh-key homeserver_ed25519.pub (needed for autossh tunnel)
-  users.users.firecat53.openssh.authorizedKeys.keys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFhp4/kDcUTbR1wmIqBgGV4L+7lhfJFA2LYP6fxbjbpl ed25519-key-20180530"
-  ];
-
   ### Add extra media packages
   users.users.firecat53 = {
     packages = with pkgs; [
