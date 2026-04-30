@@ -8,11 +8,12 @@
   devices = {
     laptop = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIXRehLyz1GOSoo1u4IhbFJA7db1oyDzVIl+52H3TNsC firecat53@laptop";
     office = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKZf9V1ivL7hlsX2QkhPCMn51DyJveUZTSmls+YxJaVF firecat53@office";
+    chryspie = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDRcoLrRPQcvGHFJ1VpD2yBOg2s3HXlnbFSCNkCjkBb6 chryspie@chryspie-Lenovo-YOGA-710-15IKB";
   };
 
   # Passphraseless key used by the autossh SOCKS-proxy tunnel.
-  # Authorized with restrict/permitopen/command=false on the homeserver.
-  autossh = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFDd+IGsJFLaBeY5jJPMEDQlWUFyS42eqyjj+8A37kGP firecat53";
+  # Locked down with restrict/permitopen/command=false
+  autossh = ''restrict,permitopen="127.0.0.1:2222",command="/run/current-system/sw/bin/false" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFDd+IGsJFLaBeY5jJPMEDQlWUFyS42eqyjj+8A37kGP firecat53'';
 
   # Backup pull user — runs on the backup host, authorized on machines it pulls from.
   backupPull = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDd+gF2w6+0Rj9XFl9e8NcWRux5dKsyAMcgoM6KDH11E backup@backup";
