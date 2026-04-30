@@ -11,7 +11,7 @@
     description = "Pull dashboard code";
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${pkgs.bash}/bin/bash -c 'cd /opt/apparatus && if [ -d .git ]; then ${pkgs.git}/bin/git pull; else ${pkgs.git}/bin/git clone https://github.com/firecat53/BFD-apparatus.git .; fi'";
+      ExecStart = "${pkgs.bash}/bin/bash -c 'cd /opt/apparatus && if [ -d .git ]; then ${pkgs.git}/bin/git pull; else ${pkgs.git}/bin/git clone https://git.firecat53.me/firecat53/BFD-apparatus.git .; fi'";
     };
   };
   systemd.services.apparatus = {
