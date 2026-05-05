@@ -153,8 +153,7 @@ git add .sops.yaml <homename>/ && git commit -m 'Update sops keys'
 1. [[#Installing locally on a new machine using the ISO installer]]
 2. `sudo smbpass -a jamia`
 3. `ssh-keygen -f /etc/ssh/backup && chown backup: /etc/ssh/backup`. Change
-   authorized_keys backup user in `backups.nix` for applicable machines and
-   rebuild their flakes.
+   `backupPull` to the public key in `ssh-keys.nix` and rebuild all servers.
 4. `sudo -i -u backup ssh -i /etc/ssh/backup <backup source hostname(s)>` and
    accept fingerprint
 
