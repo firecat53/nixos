@@ -1,9 +1,14 @@
+{
+  pkgs,
+  ...
+}:
 let
   music_library = "/mnt/media/music";
 in
 {
   programs.beets = {
     enable = true;
+    package = pkgs.unstable.beets;
     settings = {
       directory = "${music_library}";
       library = "${music_library}/.beets/library.db";
