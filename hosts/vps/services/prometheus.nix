@@ -15,11 +15,16 @@
         job_name = "node-exporter";
         static_configs = [
           {
-            targets = [
-              "127.0.0.1:${toString config.services.prometheus.exporters.node.port}"
-              "10.200.200.4:9100"
-              "10.200.200.6:9100"
-            ];
+            targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.node.port}" ];
+            labels.instance = "vps";
+          }
+          {
+            targets = [ "10.200.200.4:9100" ];
+            labels.instance = "backup";
+          }
+          {
+            targets = [ "10.200.200.6:9100" ];
+            labels.instance = "homeserver";
           }
         ];
       }
@@ -27,11 +32,16 @@
         job_name = "zfs-exporter";
         static_configs = [
           {
-            targets = [
-              "127.0.0.1:${toString config.services.prometheus.exporters.zfs.port}"
-              "10.200.200.4:9134"
-              "10.200.200.6:9134"
-            ];
+            targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.zfs.port}" ];
+            labels.instance = "vps";
+          }
+          {
+            targets = [ "10.200.200.4:9134" ];
+            labels.instance = "backup";
+          }
+          {
+            targets = [ "10.200.200.6:9134" ];
+            labels.instance = "homeserver";
           }
         ];
       }
@@ -39,9 +49,8 @@
         job_name = "podman-exporter";
         static_configs = [
           {
-            targets = [
-              "10.200.200.6:9882"
-            ];
+            targets = [ "10.200.200.6:9882" ];
+            labels.instance = "homeserver";
           }
         ];
       }
@@ -49,9 +58,8 @@
         job_name = "prometheus";
         static_configs = [
           {
-            targets = [
-              "127.0.0.1:${toString config.services.prometheus.port}"
-            ];
+            targets = [ "127.0.0.1:${toString config.services.prometheus.port}" ];
+            labels.instance = "vps";
           }
         ];
       }
