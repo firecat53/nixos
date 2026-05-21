@@ -27,6 +27,7 @@
             url = "http://127.0.0.1:9090";
             uid = "prometheus";
             isDefault = true;
+            jsonData.timeInterval = "1m";
           }
         ];
       };
