@@ -326,17 +326,17 @@
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "node_filesystem_size_bytes{instance=\"$host\",fstype!~\"tmpfs|devtmpfs|squashfs|overlay|fuse.*|nsfs|cgroup.*|configfs|debugfs|bpf|tracefs|pstore|sysfs|proc|mqueue|hugetlbfs|securityfs|autofs|ramfs|rpc_pipefs\",mountpoint!~\"/boot.*|/efi.*|/nix/store|/run/.*\"}",
+          "expr": "(node_filesystem_size_bytes{instance=\"$host\",fstype!~\"tmpfs|devtmpfs|squashfs|overlay|fuse.*|nsfs|cgroup.*|configfs|debugfs|bpf|tracefs|pstore|sysfs|proc|mqueue|hugetlbfs|securityfs|autofs|ramfs|rpc_pipefs|zfs\",mountpoint!~\"/boot.*|/efi.*|/nix/store|/run/.*|/mnt/nextcloud/.*\"} - node_filesystem_avail_bytes{instance=\"$host\",fstype!~\"tmpfs|devtmpfs|squashfs|overlay|fuse.*|nsfs|cgroup.*|configfs|debugfs|bpf|tracefs|pstore|sysfs|proc|mqueue|hugetlbfs|securityfs|autofs|ramfs|rpc_pipefs|zfs\",mountpoint!~\"/boot.*|/efi.*|/nix/store|/run/.*|/mnt/nextcloud/.*\"}) or (node_filesystem_size_bytes{instance=\"$host\",fstype=\"zfs\",mountpoint!~\"/boot.*|/efi.*|/nix/store|/run/.*|/mnt/nextcloud/.*\"} * 0 + on(instance, device) group_left() label_replace(zfs_dataset_used_bytes{instance=\"$host\",type=\"filesystem\"}, \"device\", \"$1\", \"name\", \"(.*)\"))",
           "format": "table",
           "instant": true,
-          "refId": "Size"
+          "refId": "Used"
         },
         {
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "node_filesystem_avail_bytes{instance=\"$host\",fstype!~\"tmpfs|devtmpfs|squashfs|overlay|fuse.*|nsfs|cgroup.*|configfs|debugfs|bpf|tracefs|pstore|sysfs|proc|mqueue|hugetlbfs|securityfs|autofs|ramfs|rpc_pipefs\",mountpoint!~\"/boot.*|/efi.*|/nix/store|/run/.*\"}",
+          "expr": "node_filesystem_size_bytes{instance=\"$host\",fstype!~\"tmpfs|devtmpfs|squashfs|overlay|fuse.*|nsfs|cgroup.*|configfs|debugfs|bpf|tracefs|pstore|sysfs|proc|mqueue|hugetlbfs|securityfs|autofs|ramfs|rpc_pipefs|zfs\",mountpoint!~\"/boot.*|/efi.*|/nix/store|/run/.*|/mnt/nextcloud/.*\"} or (node_filesystem_size_bytes{instance=\"$host\",fstype=\"zfs\",mountpoint!~\"/boot.*|/efi.*|/nix/store|/run/.*|/mnt/nextcloud/.*\"} * 0 + on(instance, device) group_left() label_replace(zfs_dataset_used_bytes{instance=\"$host\",type=\"filesystem\"} + on(instance,name,pool,type) zfs_dataset_available_bytes{instance=\"$host\",type=\"filesystem\"}, \"device\", \"$1\", \"name\", \"(.*)\"))",
           "format": "table",
           "instant": true,
-          "refId": "Avail"
+          "refId": "Total"
         }
       ],
       "title": "Filesystems",
@@ -349,16 +349,7 @@
           "id": "calculateField",
           "options": {
             "mode": "binary",
-            "binary": { "left": "Value #Size", "operator": "-", "right": "Value #Avail" },
-            "alias": "Used",
-            "reduce": { "reducer": "sum" }
-          }
-        },
-        {
-          "id": "calculateField",
-          "options": {
-            "mode": "binary",
-            "binary": { "left": "Used", "operator": "/", "right": "Value #Size" },
+            "binary": { "left": "Value #Used", "operator": "/", "right": "Value #Total" },
             "alias": "Used %",
             "reduce": { "reducer": "sum" }
           }
@@ -367,32 +358,45 @@
           "id": "organize",
           "options": {
             "excludeByName": {
+              "Time": true,
               "Time 1": true,
               "Time 2": true,
+              "__name__": true,
               "__name__ 1": true,
               "__name__ 2": true,
+              "job": true,
               "job 1": true,
               "job 2": true,
+              "instance": true,
               "instance 1": true,
               "instance 2": true,
               "device 2": true,
               "fstype 2": true,
               "mountpoint 2": true,
-              "Value #Avail": true
+              "name": true,
+              "name 1": true,
+              "name 2": true,
+              "pool": true,
+              "pool 1": true,
+              "pool 2": true,
+              "type": true,
+              "type 1": true,
+              "type 2": true
             },
             "renameByName": {
               "mountpoint": "Mount",
               "device 1": "Device",
               "fstype 1": "FS",
-              "Value #Size": "Total"
+              "Value #Used": "Used",
+              "Value #Total": "Total"
             },
             "indexByName": {
               "mountpoint": 0,
               "Used %": 1,
               "fstype 1": 2,
               "device 1": 3,
-              "Used": 4,
-              "Value #Size": 5
+              "Value #Used": 4,
+              "Value #Total": 5
             }
           }
         }
