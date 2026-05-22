@@ -7,7 +7,7 @@ from contextlib import contextmanager
 from datetime import date
 from pathlib import Path
 
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, redirect, render_template, request, send_from_directory, url_for
 
 WIKI_DIR = Path(os.environ.get("WIKI_DIR", str(Path.home() / "docs/family/scott/wiki")))
 PORT = int(os.environ.get("PORT", "4568"))
@@ -156,6 +156,22 @@ def insert_workout(text: str, d: date, time: str, exercises: str, intensity: str
 
 
 # --- Routes -------------------------------------------------------------------
+
+@app.route("/sw.js")
+def service_worker():
+    # Serve from root so the SW scope is "/" and covers start_url.
+    resp = send_from_directory(app.static_folder, "sw.js", mimetype="application/javascript")
+    resp.headers["Service-Worker-Allowed"] = "/"
+    resp.headers["Cache-Control"] = "no-cache"
+    return resp
+
+
+@app.route("/manifest.webmanifest")
+def manifest():
+    return send_from_directory(
+        app.static_folder, "manifest.webmanifest", mimetype="application/manifest+json"
+    )
+
 
 @app.route("/")
 def index():

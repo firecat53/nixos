@@ -1,13 +1,19 @@
-const CACHE = "today-shell-v1";
+const CACHE = "today-shell-v4";
 const SHELL = [
   "/static/style.css",
   "/static/app.js",
   "/static/manifest.webmanifest",
   "/static/icon.svg",
+  "/static/icon-192.png",
+  "/static/icon-512.png",
+  "/static/icon-maskable-512.png",
 ];
 
 self.addEventListener("install", (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)));
+  // Wrap URLs in Request objects with credentials so cache.addAll works
+  // when the site is gated by HTTP Basic Auth (otherwise fetches 401).
+  const reqs = SHELL.map((u) => new Request(u, { credentials: "same-origin" }));
+  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(reqs)));
   self.skipWaiting();
 });
 
