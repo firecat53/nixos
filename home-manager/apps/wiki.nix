@@ -12,7 +12,7 @@ in
 
   # Ensure .stignore in place for the main wiki repo
   home.file."docs/.stignore".text = ''
-    .git
+    /family/scott/wiki/.git
   '';
 
   programs.ssh = {
