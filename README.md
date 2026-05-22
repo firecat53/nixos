@@ -25,10 +25,19 @@ structure is:
     ~/nixos/nix-neovim
 ```
 
-Github history for this repository starts as of when I removed the last of my
-secrets/keys/etc (2024-03-25). Prior history exists but only in local branches.
-The `github` branch is kept updated using `git cherry-pick` (unless I decide to
-just delete the existing history).
+## Local packages
+
+`pkgs/` contains derivations for small one-off apps maintained alongside this
+repo. Each lives in `pkgs/<name>/` with its own `default.nix`, and is wired up
+through `pkgs/default.nix` (`{ pkgs }: { ... = pkgs.callPackage ./<name> {}; }`).
+Service modules consume them with
+`localPkgs = import ../../../pkgs { inherit pkgs; }`.
+
+### Local Package list
+
+* `today` — minimal Flask webapp for quick diary, workout, and book entries into
+  the wiki. Deployed on `homeserver` via `hosts/homeserver/services/today.nix`
+  at `today.lan.firecat53.net`.
 
 ## General Install Procedures
 

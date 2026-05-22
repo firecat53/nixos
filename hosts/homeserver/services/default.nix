@@ -28,6 +28,7 @@
     ./sonarr.nix
     ./stirling-pdf.nix
     ./syncthing.nix
+    ./today.nix
     ./traefik.nix
     ./transmission.nix
     ./uptime-kuma.nix

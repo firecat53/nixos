@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7f5f0">
+  <title>Today — {{ day_label }}</title>
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.webmanifest') }}">
+  <link rel="icon" href="{{ url_for('static', filename='icon.svg') }}" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='icon.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main>
+    <h1><a href="{{ gollum_base }}/{{ diary_relpath }}">{{ day_label }}</a></h1>
+
+    <form method="post" action="{{ url_for('post_diary') }}" class="card">
+      <label for="entry" class="sr-only">Diary entry</label>
+      <textarea id="entry" name="entry" rows="4"
+                autofocus inputmode="text" enterkeyhint="send"
+                placeholder="What happened today?"></textarea>
+      <button type="submit">Add entry</button>
+    </form>
+
+    <section class="card">
+      <h2><a href="{{ gollum_base }}/workouts/WorkoutLog">Workout</a></h2>
+      <form method="post" action="{{ url_for('post_workout') }}" class="workout">
+        <input name="time" placeholder="Time (e.g. 60)" inputmode="numeric" required>
+        <input name="exercises" placeholder="Exercises" required>
+        <select name="intensity" required>
+          <option value="Low">Low</option>
+          <option value="Low,Moderate">Low,Moderate</option>
+          <option value="Moderate">Moderate</option>
+          <option value="Moderate,High">Moderate,High</option>
+          <option value="High">High</option>
+        </select>
+        <button type="submit">Log</button>
+      </form>
+    </section>
+
+    {% if books %}
+    <section class="card">
+      <h2><a href="{{ gollum_base }}/Books">Books</a></h2>
+      <ul class="books">
+        {% for b in books %}
+        <li>
+          <span>
+            <strong>{{ b.title }}</strong>
+            <em>{{ b.author }}</em>
+            {% if b.series %}<small>{{ b.series }}</small>{% endif %}
+          </span>
+          <form method="post" action="{{ url_for('post_book') }}">
+            <input type="hidden" name="section" value="{{ b.section }}">
+            <input type="hidden" name="row" value="{{ b.row }}">
+            <button type="submit">Complete</button>
+          </form>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% endif %}
+
+    <section class="card">
+      <h2>Today's entry</h2>
+      <pre class="diary">{{ diary_text or "(no entry yet)" }}</pre>
+    </section>
+  </main>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
