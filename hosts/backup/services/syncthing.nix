@@ -18,6 +18,7 @@
       options = {
         relaysEnabled = false;
         urAccepted = 3;
+        globalAnnounceServers = [ "https://discover.firecat53.com/" ];
       };
       devices = {
         "vps" = {

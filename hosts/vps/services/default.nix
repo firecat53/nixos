@@ -11,6 +11,7 @@
     ./prometheus.nix
     ./searx.nix
     ./syncthing.nix
+    ./syncthing-discovery.nix
     ./traefik.nix
     ./uptime-kuma.nix
   ];
