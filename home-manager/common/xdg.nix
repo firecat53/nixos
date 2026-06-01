@@ -22,7 +22,7 @@
     videos = "${config.home.homeDirectory}/media/videos";
     templates = "${config.home.homeDirectory}/.local/tmp";
     extraConfig = {
-      XDG_SCREENSHOTS_DIR = "${config.home.homeDirectory}/.local/tmp";
+      SCREENSHOTS = "${config.home.homeDirectory}/.local/tmp";
     };
   };
 }

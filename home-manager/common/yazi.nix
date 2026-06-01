@@ -30,13 +30,15 @@
       plugin.prepend_fetchers = [
         {
           id = "git";
-          name = "*";
+          url = "*";
           run = "git";
+          group = "2";
         }
         {
           id = "git";
-          name = "*/";
+          url = "*/";
           run = "git";
+          group = "2";
         }
       ];
     };

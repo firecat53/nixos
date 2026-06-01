@@ -80,7 +80,7 @@ imports = [
 - Decrypted using SSH host keys
 
 **Package sources:**
-- `pkgs` - nixos-25.11 stable
+- `pkgs` - nixos-26.05 stable
 - `pkgs.unstable` - Latest unstable packages
 
 ### Related Repositories

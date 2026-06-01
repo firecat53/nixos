@@ -303,16 +303,10 @@ in
   };
   services.swayidle = {
     enable = true;
-    events = [
-      {
-        event = "before-sleep";
-        command = "${pkgs.swaylock}/bin/swaylock";
-      }
-      {
-        event = "lock";
-        command = "${pkgs.swaylock}/bin/swaylock";
-      }
-    ];
+    events = {
+      "before-sleep" = "${pkgs.swaylock}/bin/swaylock";
+      "lock" = "${pkgs.swaylock}/bin/swaylock";
+    };
     timeouts = [
       {
         timeout = 600;
@@ -416,6 +410,8 @@ in
           {
             block = "weather";
             format = " $icon {$temp}C ";
+            autolocate = true;
+            autolocate_interval = 3600;
             service = {
               name = "openweathermap";
               units = "metric";

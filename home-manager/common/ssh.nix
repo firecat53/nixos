@@ -2,29 +2,26 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks = {
-      "*" = {
-        host = "*";
-        serverAliveInterval = 30;
-        controlMaster = "auto";
-        controlPath = "~/.ssh/socket-%r@%h:%p";
-        controlPersist = "10m";
+    settings = {
+      "Host *" = {
+        ServerAliveInterval = 30;
+        ControlMaster = "auto";
+        ControlPath = "~/.ssh/socket-%r@%h:%p";
+        ControlPersist = "10m";
       };
-# NOTE: forwardAgent stays only on hosts where pam_rssh sudo auth is needed.
+      # NOTE: forwardAgent stays only on hosts where pam_rssh sudo auth is needed.
 ## Servers
-      "home*" = {
-        host = "home*";
-        port = 22;
-        user = "firecat53";
-        identityFile = "~/.ssh/id_ed25519";
-        forwardAgent = true;
+      "Host home*" = {
+        Port = 22;
+        User = "firecat53";
+        IdentityFile = "~/.ssh/id_ed25519";
+        ForwardAgent = true;
       };
-      "homeserver*" = {
-        host = "homeserver*";
-        hostname = "lan.firecat53.net";
+      "Host homeserver*" = {
+        HostName = "lan.firecat53.net";
       };
-      "homeserver_wg" = {
-        localForwards = [
+      "Host homeserver_wg" = {
+        LocalForward = [
           {
             bind.address = "localhost";
             bind.port = 5001;
@@ -32,112 +29,98 @@
             host.port = 5001;
           }
         ];
-        extraOptions = {
-          StrictHostKeyChecking = "no";
-          UserKnownHostsFile = "/dev/null";
-          ExitOnForwardFailure = "yes";
-        };
+        StrictHostKeyChecking = "no";
+        UserKnownHostsFile = "/dev/null";
+        ExitOnForwardFailure = "yes";
       };
-      "home" = {
-        hostname = "192.168.200.101";
+      "Host home" = {
+        HostName = "192.168.200.101";
       };
-      "backup" = {
-        hostname = "backup";
-        user = "firecat53";
-        port = 22;
-        identityFile = "~/.ssh/id_ed25519";
-        forwardAgent = true;
+      "Host backup" = {
+        HostName = "backup";
+        User = "firecat53";
+        Port = 22;
+        IdentityFile = "~/.ssh/id_ed25519";
+        ForwardAgent = true;
       };
       # HASS: device key authorized as root (no sudo on hass, no agent forward).
-      "hass" = {
-        hostname = "192.168.200.102";
-        user = "root";
-        port = 22;
-        identityFile = "~/.ssh/id_ed25519";
+      "Host hass" = {
+        HostName = "192.168.200.102";
+        User = "root";
+        Port = 22;
+        IdentityFile = "~/.ssh/id_ed25519";
       };
-      "pangolin" = {
-        hostname = "firecat53.me";
-        user = "firecat53";
-        port = 22;
-        identityFile = "~/.ssh/id_ed25519";
-        forwardAgent = true;
+      "Host pangolin" = {
+        HostName = "firecat53.me";
+        User = "firecat53";
+        Port = 22;
+        IdentityFile = "~/.ssh/id_ed25519";
+        ForwardAgent = true;
       };
-      "router" = {
-        hostname = "192.168.200.1";
-        user = "firecat53";
-        port = 22;
-        identityFile = "~/.ssh/id_ed25519";
+      "Host router" = {
+        HostName = "192.168.200.1";
+        User = "firecat53";
+        Port = 22;
+        IdentityFile = "~/.ssh/id_ed25519";
       };
-      "vps" = {
-        hostname = "firecat53.com";
-        user = "firecat53";
-        port = 22;
-        identityFile = "~/.ssh/id_ed25519";
-        forwardAgent = true;
+      "Host vps" = {
+        HostName = "firecat53.com";
+        User = "firecat53";
+        Port = 22;
+        IdentityFile = "~/.ssh/id_ed25519";
+        ForwardAgent = true;
       };
 ## Desktop/laptops
-      "laptop" = {
-        hostname = "laptop";
-        user = "firecat53";
-        port = 22;
-        identityFile = "~/.ssh/id_ed25519";
+      "Host laptop" = {
+        HostName = "laptop";
+        User = "firecat53";
+        Port = 22;
+        IdentityFile = "~/.ssh/id_ed25519";
       };
-      "office" = {
-        hostname = "office";
-        user = "firecat53";
-        port = 22;
-        identityFile = "~/.ssh/id_ed25519";
+      "Host office" = {
+        HostName = "office";
+        User = "firecat53";
+        Port = 22;
+        IdentityFile = "~/.ssh/id_ed25519";
       };
       ## ProxyJump to homeserver->socks-proxy
-      "wg" = {
-        hostname = "127.0.0.1";
-        user = "firecat53";
-        port = 2222;
-        identityFile = "/run/secrets/autossh-key";
-        dynamicForwards = [
-          {
-            port = 5001;
-          }
-        ];
-        proxyJump = "homeserver_wg";
-        extraOptions = {
-          StrictHostKeyChecking = "no";
-          UserKnownHostsFile = "/dev/null";
-          ExitOnForwardFailure = "yes";
-        };
+      "Host wg" = {
+        HostName = "127.0.0.1";
+        User = "firecat53";
+        Port = 2222;
+        IdentityFile = "/run/secrets/autossh-key";
+        DynamicForward = "127.0.0.1:5001"; 
+        ProxyJump = "homeserver_wg";
+        StrictHostKeyChecking = "no";
+        UserKnownHostsFile = "/dev/null";
+        ExitOnForwardFailure = "yes";
       };
 # Git remotes use the device key directly — add this device's pubkey to
 # GitHub/forgejo accounts. No agent forwarding (no shell on these hosts).
-      "forgejo" = {
-        hostname = "git.firecat53.me";
-        port = 2222;
-        user = "forgejo";
-        identityFile = "~/.ssh/id_ed25519";
-        extraOptions = {
-          PreferredAuthentications = "publickey";
-        };
+      "Host forgejo" = {
+        HostName = "git.firecat53.me";
+        Port = 2222;
+        User = "forgejo";
+        IdentityFile = "~/.ssh/id_ed25519";
+        PreferredAuthentications = "publickey";
       };
-      "github" = {
-        hostname = "github.com";
-        user = "git";
-        identityFile = "~/.ssh/id_ed25519";
-        extraOptions = {
-          PreferredAuthentications = "publickey";
-        };
+      "Host github" = {
+        HostName = "github.com";
+        User = "git";
+        IdentityFile = "~/.ssh/id_ed25519";
+        PreferredAuthentications = "publickey";
       };
-      "gist" = {
-        hostname = "gist.github.com";
-        user = "git";
-        identityFile = "~/.ssh/id_ed25519";
-        extraOptions = {
-          PreferredAuthentications = "publickey";
-        };
+      "Host gist" = {
+        HostName = "gist.github.com";
+        User = "git";
+        IdentityFile = "~/.ssh/id_ed25519";
+        PreferredAuthentications = "publickey";
       };
 ## AUR
       "aur" = {
-        hostname = "aur.archlinux.org";
-        user = "aur";
-        identityFile = "~/.config/sops-nix/secrets/aur-key";
+        HostName = "aur.archlinux.org";
+        User = "aur";
+        IdentityFile = "~/.config/sops-nix/secrets/aur-key";
       };
     };
   };
