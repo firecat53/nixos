@@ -18,15 +18,13 @@ in
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks."forgejo-wiki" = {
-      extraOptions = {
-        PreferredAuthentications = "publickey";
-        IdentitiesOnly = "yes";
-      };
-      hostname = "git.firecat53.me";
-      identityFile = config.sops.secrets.wiki-ssh.path;
-      port = 2222;
-      user = "forgejo";
+    settings."forgejo-wiki" = {
+      PreferredAuthentications = "publickey";
+      IdentitiesOnly = "yes";
+      HostName = "git.firecat53.me";
+      IdentityFile = config.sops.secrets.wiki-ssh.path;
+      Port = 2222;
+      User = "forgejo";
     };
   };
 

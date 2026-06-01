@@ -1,6 +1,7 @@
 {
   virtualisation.libvirtd = {
     enable = true;
-    onBoot = "ignore";
+    onBoot = "start";
+    onShutdown = "shutdown";
   };
 }

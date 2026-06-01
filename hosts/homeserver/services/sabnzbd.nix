@@ -9,6 +9,10 @@
   services.sabnzbd = {
     package = pkgs.sabnzbd;
     enable = true;
+    configFile = null;
+    allowConfigWrite = true;
+    user = "firecat53";
+    group = "users";
   };
   # Override sabnzbd default
   systemd.tmpfiles.rules = [
@@ -18,9 +22,7 @@
   # I also changed the service type to simple instead of forking so the logs show up in the journal.
   systemd.services.sabnzbd.serviceConfig = {
     Type = lib.mkForce "simple";
-    User = lib.mkForce "firecat53";
-    Group = lib.mkForce "users";
-    ExecStart = lib.mkForce "${config.services.sabnzbd.package}/bin/sabnzbd -f ${config.services.sabnzbd.configFile} -s 127.0.0.1:8090";
+    ExecStart = lib.mkForce "${config.services.sabnzbd.package}/bin/sabnzbd -f /var/lib/sabnzbd/sabnzbd.ini -s 127.0.0.1:8090";
   };
   services.traefik.dynamicConfigOptions.http.routers.sabnzbd = {
     rule = "Host(`sabnzbd.lan.firecat53.net`)";

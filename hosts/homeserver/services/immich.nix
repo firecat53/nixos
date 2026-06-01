@@ -2,7 +2,6 @@
 {
   services.immich = {
     accelerationDevices = null; # Access all devices
-    database.enableVectors = false; # migrated to vectorChord
     enable = true;
     group = "users";
     machine-learning.enable = true;

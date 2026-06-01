@@ -116,26 +116,32 @@
   fileSystems = {
     "/mnt/nextcloud/home/peggy" = {
       device = "/home/peggy";
+      fsType = "none";
       options = [ "bind" ];
     };
     "/mnt/nextcloud/home/nora" = {
       device = "/home/nora";
+      fsType = "none";
       options = [ "bind" ];
     };
     "/mnt/nextcloud/home/sydney" = {
       device = "/home/sydney";
+      fsType = "none";
       options = [ "bind" ];
     };
     "/mnt/nextcloud/home/chryspie" = {
       device = "/home/chryspie";
+      fsType = "none";
       options = [ "bind" ];
     };
     "/mnt/nextcloud/docs" = {
       device = "/home/firecat53/docs";
+      fsType = "none";
       options = [ "bind" ];
     };
     "/mnt/nextcloud/shared" = {
       device = "/home/firecat53/shared";
+      fsType = "none";
       options = [ "bind" ];
     };
   };
