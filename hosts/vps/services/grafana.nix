@@ -1,6 +1,11 @@
 # Grafana
-{ pkgs, ... }:
 {
+  config,
+  pkgs,
+  ...
+}:
+{
+  sops.secrets.grafana-secret-key = { };
   services.grafana = {
     enable = true;
     settings = {
@@ -9,6 +14,7 @@
         http_port = 3000;
         domain = "grafana.firecat53.com";
       };
+      security.secret_key = "${config.sops.secrets.grafana-secret-key.path}";
     };
     provision = {
       enable = true;
