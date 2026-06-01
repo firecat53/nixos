@@ -16,7 +16,6 @@ let
 in
 {
   sops.secrets.openweathermap_api = { };
-  sops.secrets.openweathermap_zip = { };
 
   wayland.windowManager.sway = {
     enable = true;
@@ -240,8 +239,9 @@ in
       };
 
       startup = [
-        { command = "dbus-update-activation-environment --systemd --all"; }
-        { command = "systemctl --user restart sway-session.target"; }
+        {
+          command = "dbus-update-activation-environment --systemd --all && systemctl --user restart sway-session.target";
+        }
         { command = "systemctl --user restart wallpaper.service"; }
       ];
 
@@ -288,7 +288,6 @@ in
       export LIBVIRT_DEFAULT_URI="qemu:///system"
       export NIXOS_OZONE_WL="1"
       export OPENWEATHERMAP_API_KEY=$(cat "${config.xdg.configHome}/sops-nix/secrets/openweathermap_api")
-      export OPENWEATHERMAP_ZIP=$(cat "${config.xdg.configHome}/sops-nix/secrets/openweathermap_zip")
       export QT_AUTO_SCREEN_SCALE_FACTOR="1"
       export QT_QPA_PLATFORM=wayland
       export QT_SCALE_FACTOR="1.5"
@@ -410,11 +409,10 @@ in
           {
             block = "weather";
             format = " $icon {$temp}C ";
-            autolocate = true;
-            autolocate_interval = 3600;
             service = {
               name = "openweathermap";
               units = "metric";
+              coordinates = [ "48.0171" "-122.0672" ];
             };
           }
           {
