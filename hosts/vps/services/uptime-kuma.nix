@@ -67,8 +67,9 @@
         #!${pythonEnv}/bin/python3
         import json
         import os
-        import requests
         import sys
+        import time
+        import requests
         from uptime_kuma_api import UptimeKumaApi
         from uptime_kuma_api.exceptions import UptimeKumaException
 
@@ -110,18 +111,30 @@
                 print("Could not find Server(QBT) connection")
                 sys.exit(1)
 
-            # Update Uptime Kuma monitor
-            try:
-                api = UptimeKumaApi("https://up.firecat53.com")
-                api.login(kuma_username, kuma_password)
-                api.edit_monitor(id_=int(kuma_monitor_id), hostname=server_ip)
-            except UptimeKumaException as e:
-                print(f"Failed to update Uptime Kuma: {str(e)}")
-                sys.exit(1)
-            finally:
-                api.disconnect()
-
-            print(f"Successfully updated IP address to {server_ip}")
+            # Update Uptime Kuma monitor. Connect directly to the local
+            # instance (avoids the public TLS/Traefik round trip) and retry a
+            # few times since the socket.io login can intermittently time out.
+            attempts = 5
+            for attempt in range(1, attempts + 1):
+                api = None
+                try:
+                    api = UptimeKumaApi("http://localhost:3001", timeout=30)
+                    api.login(kuma_username, kuma_password)
+                    api.edit_monitor(id_=int(kuma_monitor_id), hostname=server_ip)
+                    print(f"Successfully updated IP address to {server_ip}")
+                    break
+                except Exception as e:
+                    print(f"Attempt {attempt}/{attempts} failed to update "
+                          f"Uptime Kuma: {str(e)}")
+                    if attempt == attempts:
+                        sys.exit(1)
+                    time.sleep(5)
+                finally:
+                    if api is not None:
+                        try:
+                            api.disconnect()
+                        except Exception:
+                            pass
 
         if __name__ == "__main__":
             main()
