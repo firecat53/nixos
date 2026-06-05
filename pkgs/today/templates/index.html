@@ -40,9 +40,27 @@
       </form>
     </section>
 
+    <section class="card">
+      <h2><a href="{{ gollum_base }}/Books">Add book</a></h2>
+      <form method="post" action="{{ url_for('post_book_new') }}" class="newbook">
+        <input name="author" placeholder="Author" required>
+        <input name="title" placeholder="Title" required>
+        <input name="series" placeholder="Series (optional)">
+        <select name="section" required>
+          <option value="Audiobooks">Audiobook</option>
+          <option value="Books">Book</option>
+        </select>
+        <button type="submit">Add</button>
+      </form>
+      <form method="post" action="{{ url_for('post_book_want') }}" class="wantbook">
+        <input name="item" placeholder="Want to read…" required>
+        <button type="submit">Add</button>
+      </form>
+    </section>
+
     {% if books %}
     <section class="card">
-      <h2><a href="{{ gollum_base }}/Books">Books</a></h2>
+      <h2><a href="{{ gollum_base }}/Books">Reading now</a></h2>
       <ul class="books">
         {% for b in books %}
         <li>

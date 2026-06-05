@@ -108,6 +108,25 @@ button:active { transform: translateY(1px); }
   }
 }
 
+.newbook, .wantbook {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+}
+
+.newbook button, .wantbook button { width: 100%; }
+
+.wantbook { margin-top: 0.6rem; }
+
+@media (min-width: 480px) {
+  .newbook {
+    grid-template-columns: 1fr 1fr 1fr 9rem auto;
+  }
+  .wantbook {
+    grid-template-columns: 1fr auto;
+  }
+}
+
 .books {
   list-style: none;
   padding: 0;

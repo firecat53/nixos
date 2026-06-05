@@ -117,6 +117,68 @@ def incomplete_books() -> list[dict]:
     return items
 
 
+def header_widths(raw_header: str) -> list[int]:
+    """Column widths (including padding) of a Markdown table header line."""
+    return [len(p) for p in raw_header.strip()[1:-1].split("|")]
+
+
+def format_book_row(headers: list[str], widths: list[int], values: dict[str, str]) -> str:
+    cells = [values.get(h, "") for h in headers]
+    parts = [
+        f" {c.ljust(widths[i] - 2)} " if i < len(widths) and widths[i] >= 2 else f" {c} "
+        for i, c in enumerate(cells)
+    ]
+    return "|" + "|".join(parts) + "|"
+
+
+def insert_book(text: str, section: str, author: str, title: str, series: str) -> str:
+    """Append a new (undated) row to the Audiobooks or Books table."""
+    lines = text.splitlines()
+    tables = find_book_tables(lines)
+    t = tables.get(section)
+    if not t:
+        return text
+    headers = split_row(lines[t["header_idx"]])
+    widths = header_widths(lines[t["header_idx"]])
+    new_row = format_book_row(
+        headers, widths, {"Author": author, "Title": title, "Series": series, "Date": ""}
+    )
+    insert_idx = (t["rows"][-1][0] + 1) if t["rows"] else (t["header_idx"] + 2)
+    block = [new_row]
+    # Keep a blank line between the table and whatever follows (e.g. a heading)
+    if insert_idx < len(lines) and lines[insert_idx].strip() != "":
+        block.append("")
+    out = lines[:insert_idx] + block + lines[insert_idx:]
+    return "\n".join(out) + ("\n" if text.endswith("\n") else "")
+
+
+def insert_want_to_read(text: str, item: str) -> str:
+    """Append a '* [ ] <item>' checkbox to the 'Books to try' section."""
+    lines = text.splitlines()
+    new_line = f"* [ ] {item}"
+    in_section = False
+    section_start: int | None = None
+    last_item_idx: int | None = None
+    for i, line in enumerate(lines):
+        m = SECTION_RE.match(line)
+        if m:
+            if in_section:
+                break
+            if m.group(1).strip() == "Books to try":
+                in_section = True
+                section_start = i
+            continue
+        if in_section and line.lstrip().startswith("* "):
+            last_item_idx = i
+    if last_item_idx is not None:
+        out = lines[: last_item_idx + 1] + [new_line] + lines[last_item_idx + 1 :]
+    elif section_start is not None:
+        out = lines[: section_start + 1] + ["", new_line] + lines[section_start + 1 :]
+    else:
+        out = lines + ["", "## Books to try", "", new_line]
+    return "\n".join(out) + ("\n" if text.endswith("\n") else "")
+
+
 # --- WorkoutLog.md insertion --------------------------------------------------
 
 WORKOUT_HEADER = "|            | Time | Exercises                          | Intensity     |"
@@ -246,23 +308,47 @@ def post_book():
         if t and 0 <= row_idx < len(t["rows"]):
             line_idx, cells = t["rows"][row_idx]
             headers = split_row(lines[t["header_idx"]])
-            # Determine the column widths used in this table's header row
-            raw_header = lines[t["header_idx"]]
-            # Re-split keeping widths
-            parts = raw_header.strip()[1:-1].split("|")
-            widths = [len(p) for p in parts]
-            # Update Date cell
-            try:
-                date_col = headers.index("Date")
-            except ValueError:
-                date_col = len(headers) - 1
-            cells[date_col] = stamp
-            new_parts = [f" {c.ljust(widths[i] - 2)} " if i < len(widths) else f" {c} " for i, c in enumerate(cells)]
-            lines[line_idx] = "|" + "|".join(new_parts) + "|"
+            widths = header_widths(lines[t["header_idx"]])
+            row = dict(zip(headers, cells))
+            row["Date"] = stamp
+            lines[line_idx] = format_book_row(headers, widths, row)
             new_text = "\n".join(lines) + ("\n" if text.endswith("\n") else "")
             f.seek(0)
             f.truncate()
             f.write(new_text)
+    return redirect(url_for("index"))
+
+
+@app.post("/book/new")
+def post_book_new():
+    section = (request.form.get("section") or "").strip()
+    author = (request.form.get("author") or "").strip()
+    title = (request.form.get("title") or "").strip()
+    series = (request.form.get("series") or "").strip()
+    if section not in ("Audiobooks", "Books") or not (author and title):
+        return redirect(url_for("index"))
+    path = WIKI_DIR / "Books.md"
+    with locked(path, "r+") as f:
+        text = f.read()
+        new_text = insert_book(text, section, author, title, series)
+        f.seek(0)
+        f.truncate()
+        f.write(new_text)
+    return redirect(url_for("index"))
+
+
+@app.post("/book/want")
+def post_book_want():
+    item = (request.form.get("item") or "").strip()
+    if not item:
+        return redirect(url_for("index"))
+    path = WIKI_DIR / "Books.md"
+    with locked(path, "r+") as f:
+        text = f.read()
+        new_text = insert_want_to_read(text, item)
+        f.seek(0)
+        f.truncate()
+        f.write(new_text)
     return redirect(url_for("index"))
 
 
