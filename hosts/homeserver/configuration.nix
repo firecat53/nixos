@@ -81,5 +81,24 @@
     ];
   };
 
+  boot.tmp.useTmpfs = true;
+
+  # datapool is on separate SATA drives (mirrored), not managed by disko
+  fileSystems."/mnt/downloads" = {
+    device = "datapool/downloads";
+    fsType = "zfs";
+    options = [ "X-mount.mkdir" ];
+  };
+
+  # External USB drive for restic backups
+  fileSystems."/mnt/restic" = {
+    device = "/dev/disk/by-label/RESTIC";
+    fsType = "exfat";
+    options = [
+      "X-mount.mkdir"
+      "nofail"
+    ];
+  };
+
   system.stateVersion = "25.11";
 }
