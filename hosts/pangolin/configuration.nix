@@ -42,5 +42,8 @@
   # Override default smartmon enable
   services.smartd.enable = lib.mkForce false;
 
+  # Swap (zram)
+  zramSwap.enable = true;
+
   system.stateVersion = "25.11"; # Did you read the comment?
 }

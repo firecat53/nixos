@@ -43,6 +43,8 @@
   # Swap (zram)
   zramSwap.enable = true;
 
+  boot.tmp.useTmpfs = true;
+
   # Polkit - for home-manager sway
   security.polkit.enable = true;
 

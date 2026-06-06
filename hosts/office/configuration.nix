@@ -44,5 +44,7 @@
   # Swap (zram)
   zramSwap.enable = true;
 
+  boot.tmp.useTmpfs = true;
+
   system.stateVersion = "25.11";
 }

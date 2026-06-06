@@ -31,7 +31,11 @@
     networks."wg0".address = [ "10.200.200.4/24" ];
   };
 
+  # Swap (zram)
+  zramSwap.enable = true;
+
   boot.zfs.extraPools = [ "backuppool" ];
+  boot.tmp.useTmpfs = true;
 
   system.stateVersion = "25.11";
 }
