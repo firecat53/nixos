@@ -308,6 +308,17 @@ sudo nixos-install --flake /tmp/nixos-config#homeserver
 reboot
 ```
 
+
+#### Recovery from failed drive (e.g. nvme0 failed)
+
+1. Boot: enter the firmware boot menu and select the second NVMe drive. It boots
+   via EFI/BOOT/BOOTX64.EFI (the removable-media fallback).
+2. Replace the dead drive in the ZFS mirror:
+   - `sudo zpool replace rpool <old-nvme0-part3> /dev/disk/by-id/<new>-part3`
+3. Recreate the ESP on the replacement drive and let the next rebuild resync:
+   - `sudo mkfs.vfat -F32 -n ESP /dev/disk/by-id/<new>-part1`
+   - `sudo nixos-rebuild boot --flake .#homeserver`  # repopulates /boot
+
 ### VPS (cloud server)
 
 1. [Install using nixos-anywhere](#installing-using-nixos-anywhere)

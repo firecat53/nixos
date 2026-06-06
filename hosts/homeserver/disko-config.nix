@@ -64,7 +64,14 @@
             ESP = {
               size = "1G";
               type = "EF00";
-              # Not mounted - only first drive's ESP used for systemd-boot
+              # Backup ESP - not mounted by NixOS. Formatted vfat so the
+              # esp-sync activation script can mirror nvme0's /boot here for a
+              # bootable spare if nvme0 fails. See services/esp-sync.nix.
+              content = {
+                type = "filesystem";
+                format = "vfat";
+                # No mountpoint: mounted on demand by the esp-sync script.
+              };
             };
             bpool = {
               size = "4G";
