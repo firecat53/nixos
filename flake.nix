@@ -2,8 +2,8 @@
   description = "System configurations";
 
   inputs = {
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/?shallow=1&ref=nixos-unstable";
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
+    nixpkgs-unstable.url = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz";
+    nixpkgs.url = "https://channels.nixos.org/nixos-26.05/nixexprs.tar.xz";
 
     disko.url = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
