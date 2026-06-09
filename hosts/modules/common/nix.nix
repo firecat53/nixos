@@ -59,7 +59,6 @@ in
     };
     permittedInsecurePackages = [
       "olm-3.2.16" # Required by gomuks
-      "python3.12-ecdsa-0.19.1" # Required by electrum
     ];
   };
 
