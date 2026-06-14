@@ -3,27 +3,10 @@
   ...
 }:
 {
-  # Services on homeserver that need monitoring
-  networking.extraHosts = ''
-    10.200.200.6 books.lan.firecat53.net
-    10.200.200.6 bw.lan.firecat53.net
-    10.200.200.6 cars.lan.firecat53.net
-    10.200.200.6 git.lan.firecat53.net
-    10.200.200.6 gollum.lan.firecat53.net
-    10.200.200.6 hass.lan.firecat53.net
-    10.200.200.6 jackett.lan.firecat53.net
-    10.200.200.6 jellyfin.lan.firecat53.net
-    10.200.200.6 monitor.lan.firecat53.net
-    10.200.200.6 pdf.lan.firecat53.net
-    10.200.200.6 pics.lan.firecat53.net
-    10.200.200.6 qbt.lan.firecat53.net
-    10.200.200.6 radarr.lan.firecat53.net
-    10.200.200.6 rss.lan.firecat53.net
-    10.200.200.6 sabnzbd.lan.firecat53.net
-    10.200.200.6 sonarr.lan.firecat53.net
-    10.200.200.6 syncthing.lan.firecat53.net
-    10.200.200.6 transmission.lan.firecat53.net
-  '';
+  # proxy-me.nix already resolves every registry `remote` .lan name to the
+  # homeserver (networking.hosts merges across modules). Uptime-Kuma only
+  # additionally monitors the Traefik dashboard, which is not proxied.
+  networking.hosts.${(import ./registry.nix).hsIP} = [ "monitor.lan.firecat53.net" ];
   services.uptime-kuma = {
     enable = true;
   };

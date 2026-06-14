@@ -10,8 +10,17 @@
 # Generate users file with:  authelia crypto hash generate argon2 --password '...'
 {
   config,
+  lib,
   ...
 }:
+let
+  # Protected resources are derived from the service registry (auth = true),
+  # so this list can never drift from proxy-me.nix.
+  reg = import ./registry.nix;
+  protected =
+    (lib.filterAttrs (_: s: s.auth) reg.remote) // (lib.filterAttrs (_: s: s.auth) reg.local);
+  protectedDomains = map (n: "${n}.firecat53.me") (lib.attrNames protected);
+in
 {
   sops.secrets = {
     authelia-jwt.owner = "authelia-main";
@@ -76,24 +85,9 @@
             networks = [ "mesh" ];
           }
           # Protected resources: require 2FA from the internet.
-          # KEEP IN SYNC with the `auth = true` entries in proxy-me.nix.
+          # Derived from registry.nix `auth = true` entries.
           {
-            domain = [
-              "gollum.firecat53.me"
-              "jackett.firecat53.me"
-              "cars.firecat53.me"
-              "rss.firecat53.me"
-              "radarr.firecat53.me"
-              "sonarr.firecat53.me"
-              "sabnzbd.firecat53.me"
-              "qbt.firecat53.me"
-              "transmission.firecat53.me"
-              "pdf.firecat53.me"
-              "today.firecat53.me"
-              "uph.firecat53.me"
-              "syncthing.firecat53.me"
-              "search.firecat53.me"
-            ];
+            domain = protectedDomains;
             policy = "two_factor";
           }
         ];

@@ -39,6 +39,62 @@ Service modules consume them with
   the wiki. Deployed on `homeserver` via `hosts/homeserver/services/today.nix`
   at `today.lan.firecat53.net`.
 
+## Adding / removing services and hosts
+
+### Public-facing services (`*.firecat53.me` via the VPS)
+
+Publicly-exposed services are driven by a single registry,
+`hosts/vps/services/registry.nix`. The VPS reverse proxy (`proxy-me.nix`),
+Authelia 2FA rules (`authelia.nix`), and Uptime-Kuma host resolution
+(`uptime-kuma.nix`) are all *derived* from it — add an entry once and all three
+update.
+
+**Service running on the homeserver:**
+
+1. Create `hosts/homeserver/services/<name>.nix` defining the app and its own
+   Traefik router `rule = "Host(\`<name>.lan.firecat53.net\`)"`, and add it to
+   `hosts/homeserver/services/default.nix`.
+2. Add one entry to the `remote` set in `hosts/vps/services/registry.nix`:
+   ```nix
+   <sub> = { lan = "<name>.lan.firecat53.net"; auth = <true|false>; };
+   ```
+   `auth = true` gates the service behind Authelia 2FA when reached from the
+   internet (LAN/mesh always bypasses auth).
+3. Rebuild `homeserver`, then `vps`. The `<sub>.firecat53.me` router, the
+   Authelia rule (if `auth = true`), and Uptime-Kuma resolution appear
+   automatically.
+
+**Service running locally on the VPS:**
+
+1. Create `hosts/vps/services/<name>.nix` (+ add it to `services/default.nix`),
+   binding the app to a localhost port.
+2. Add one entry to the `local` set in `registry.nix`:
+   ```nix
+   <sub> = { port = <port>; auth = <true|false>; };
+   ```
+3. Rebuild `vps`.
+
+**Removing a service:** delete its `registry.nix` entry (and the service file +
+its `default.nix` import). The proxy router, auth rule, and monitor resolution
+all disappear with it.
+
+> The `.lan` backend name necessarily appears in *two* places — the homeserver
+> service file (its own router) and the VPS registry `lan =` value — because the
+> VPS must name the backend it proxies to across the wireguard tunnel. This
+> cross-host duplication is intentional.
+
+### Hosts
+
+To add a host:
+
+1. Add it to `flake.nix` (`mkSystem`).
+2. Set its wireguard address in the host's `configuration.nix`
+   (`networks."wg0".address`).
+3. Add its wireguard/LAN IPs to `networking.hosts` in
+   `hosts/modules/desktops/networking.nix`.
+4. Add sops keys (see the install/post-install sections below).
+5. Install per [General Install Procedures](#general-install-procedures).
+
 ## General Install Procedures
 
 ### Tips
