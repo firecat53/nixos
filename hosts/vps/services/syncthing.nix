@@ -36,9 +36,6 @@
             "tcp://firecat53.net:22000"
           ];
         };
-        "pangolin" = {
-          id = "2IEK3MX-PXVTZIG-D5OP4V3-LYEK3FY-IK4QWIM-K67K65A-ZI62LHH-O3R47Q7";
-        };
         "scott-laptop" = {
           id = "ERJHQAD-KWQH5ZJ-CAV3ZFL-IR6ECOQ-EHVL7GY-6MY5A5M-IORUVXI-NSBYOQE";
         };
@@ -52,7 +49,6 @@
           devices = [
             "backup"
             "homeserver"
-            "pangolin"
             "scott-laptop"
             "scott-office"
           ];

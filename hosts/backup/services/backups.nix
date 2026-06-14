@@ -75,9 +75,5 @@
         "--skip-parent"
       ];
     };
-    commands.backuppool-pangolin-var-lib = {
-      source = "backup@firecat53.me:rpool/nixos/var/lib";
-      target = "backuppool/pangolin/var/lib";
-    };
   };
 }

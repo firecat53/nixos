@@ -1,6 +1,5 @@
 # Microbin
-# accessed vi Pangolin at mb.firecat53.me. Set CORS origin URL in
-# `hosts/pangolin/services/pangolin.nix` to the value of MICROBIN_PUBLIC_PATH
+# Served locally and exposed at mb.firecat53.me via the VPS Traefik (proxy-me.nix).
 {
   config,
   ...

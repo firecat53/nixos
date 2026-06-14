@@ -1,0 +1,208 @@
+# Public reverse-proxy routers for *.firecat53.me (replaces Pangolin).
+#
+# Homeserver-hosted services are reached over the wireguard mesh by proxying
+# to the homeserver's *existing* Traefik (10.200.200.6) using its .lan name as
+# the backend with passHostHeader=false, so its current routers match unchanged
+# and serve the correct cert. The .lan names resolve to the homeserver via the
+# networking.hosts entries below. TLS for *.firecat53.me terminates here.
+{
+  lib,
+  ...
+}:
+let
+  hsIP = "10.200.200.6";
+
+  # Services hosted on the homeserver, reached via its Traefik over wireguard.
+  #   <me-subdomain> = { lan = <homeserver .lan host>; auth = <gate with Authelia>; }
+  remote = {
+    # Public / native-auth (no forward-auth: app & mobile clients need direct API)
+    books = {
+      lan = "books.lan.firecat53.net";
+      auth = false;
+    };
+    git = {
+      lan = "git.lan.firecat53.net";
+      auth = false;
+    };
+    hass = {
+      lan = "hass.lan.firecat53.net";
+      auth = false;
+    };
+    jellyfin = {
+      lan = "jellyfin.lan.firecat53.net";
+      auth = false;
+    };
+    pics = {
+      lan = "pics.lan.firecat53.net";
+      auth = false;
+    };
+    pix = {
+      lan = "pix.lan.firecat53.net";
+      auth = false;
+    };
+    bw = {
+      lan = "bw.lan.firecat53.net";
+      auth = false;
+    };
+    # Protected (Authelia two_factor) - KEEP IN SYNC with authelia.nix rules
+    gollum = {
+      lan = "gollum.lan.firecat53.net";
+      auth = true;
+    };
+    jackett = {
+      lan = "jackett.lan.firecat53.net";
+      auth = true;
+    };
+    cars = {
+      lan = "cars.lan.firecat53.net";
+      auth = true;
+    };
+    rss = {
+      lan = "rss.lan.firecat53.net";
+      auth = true;
+    };
+    radarr = {
+      lan = "radarr.lan.firecat53.net";
+      auth = true;
+    };
+    sonarr = {
+      lan = "sonarr.lan.firecat53.net";
+      auth = true;
+    };
+    sabnzbd = {
+      lan = "sabnzbd.lan.firecat53.net";
+      auth = true;
+    };
+    qbt = {
+      lan = "qbt.lan.firecat53.net";
+      auth = true;
+    };
+    transmission = {
+      lan = "transmission.lan.firecat53.net";
+      auth = true;
+    };
+    pdf = {
+      lan = "pdf.lan.firecat53.net";
+      auth = true;
+    };
+    today = {
+      lan = "today.lan.firecat53.net";
+      auth = true;
+    };
+    uph = {
+      lan = "up.lan.firecat53.net";
+      auth = true;
+    };
+    syncthing = {
+      lan = "syncthing.lan.firecat53.net";
+      auth = true;
+    };
+  };
+
+  # Services hosted locally on the VPS (reached via localhost).
+  #   <me-subdomain> = { port = <local port>; auth = <bool>; }
+  local = {
+    mb = {
+      port = 8081;
+      auth = false;
+    }; # microbin
+    search = {
+      port = 8888;
+      auth = true;
+    }; # searx
+  };
+
+  mw = auth: [ "headers-me" ] ++ lib.optional auth "authelia";
+
+  # Prefix generated router/service names with "me-" to avoid clashing with the
+  # existing *.firecat53.com routers (e.g. syncthing) on this host.
+  renamed = fn: set: lib.mapAttrs' (name: s: lib.nameValuePair "me-${name}" (fn name s)) set;
+
+  mkRemoteRouter = name: s: {
+    rule = "Host(`${name}.firecat53.me`)";
+    service = "me-${name}";
+    entrypoints = [ "websecure" ];
+    middlewares = mw s.auth;
+  };
+  mkRemoteService = _: s: {
+    loadBalancer = {
+      passHostHeader = false; # send the .lan name as Host so homeserver Traefik matches
+      servers = [ { url = "https://${s.lan}"; } ];
+    };
+  };
+  mkLocalRouter = name: s: {
+    rule = "Host(`${name}.firecat53.me`)";
+    service = "me-${name}";
+    entrypoints = [ "websecure" ];
+    middlewares = mw s.auth;
+  };
+  mkLocalService = _: s: {
+    loadBalancer.servers = [ { url = "http://localhost:${toString s.port}"; } ];
+  };
+in
+{
+  # Resolve homeserver .lan names across the wireguard tunnel.
+  networking.hosts."${hsIP}" = map (s: s.lan) (lib.attrValues remote);
+
+  # Forgejo SSH: TCP passthrough to the homeserver's built-in SSH server
+  # (forgejo SSH_LISTEN_PORT = 3022). Must be reachable on the wg interface.
+  services.traefik.dynamicConfigOptions.tcp = {
+    routers.forgejo-ssh = {
+      rule = "HostSNI(`*`)";
+      entrypoints = [ "tcp-2222" ];
+      service = "forgejo-ssh";
+    };
+    services.forgejo-ssh.loadBalancer.servers = [ { address = "${hsIP}:3022"; } ];
+  };
+
+  services.traefik.dynamicConfigOptions.http = {
+    routers =
+      (renamed mkRemoteRouter remote)
+      // (renamed mkLocalRouter local)
+      // {
+        # Authelia login portal (no forward-auth on itself)
+        auth = {
+          rule = "Host(`auth.firecat53.me`)";
+          service = "authelia";
+          entrypoints = [ "websecure" ];
+        };
+        auth-com = {
+          rule = "Host(`auth.firecat53.com`)";
+          service = "authelia";
+          entrypoints = [ "websecure" ];
+        };
+      };
+    services =
+      (renamed mkRemoteService remote)
+      // (renamed mkLocalService local)
+      // {
+        authelia.loadBalancer.servers = [ { url = "http://127.0.0.1:9091"; } ];
+      };
+    middlewares = {
+      authelia.forwardAuth = {
+        address = "http://127.0.0.1:9091/api/authz/forward-auth";
+        trustForwardHeader = true;
+        authResponseHeaders = [
+          "Remote-User"
+          "Remote-Groups"
+          "Remote-Name"
+          "Remote-Email"
+        ];
+      };
+      # Security headers scoped to firecat53.me (the .com one in traefik.nix
+      # pins sslhost=firecat53.com).
+      headers-me.headers = {
+        browserxssfilter = true;
+        contenttypenosniff = true;
+        customframeoptionsvalue = "SAMEORIGIN";
+        forcestsheader = true;
+        framedeny = true;
+        sslhost = "firecat53.me";
+        sslredirect = true;
+        stsincludesubdomains = true;
+        stspreload = true;
+        stsseconds = "315360000";
+      };
+    };
+  };
+}

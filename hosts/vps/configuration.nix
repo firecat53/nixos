@@ -12,7 +12,6 @@
     ./services
     ../modules/common
     ../modules/servers
-    ../modules/newt.nix
     ../modules/zfs.nix
     inputs.disko.nixosModules.disko
     inputs.sops-nix.nixosModules.sops

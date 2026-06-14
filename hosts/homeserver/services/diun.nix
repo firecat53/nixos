@@ -6,7 +6,6 @@ let
   diunConfig = config.environment.etc."diun/diun.yml".source;
   desktopImages = config.environment.etc."diun/images/desktops.yml".source;
   homeserverImages = config.environment.etc."diun/images/homeserver.yml".source;
-  pangolinImages = config.environment.etc."diun/images/pangolin.yml".source;
 in
 {
   virtualisation.oci-containers.containers.diun = {
@@ -17,7 +16,6 @@ in
       "${diunConfig}:/diun.yml:ro"
       "${desktopImages}:/images/desktops.yml:ro"
       "${homeserverImages}:/images/homeserver.yml:ro"
-      "${pangolinImages}:/images/pangolin.yml:ro"
       "${config.sops.secrets.docker-hub-token.path}:/docker-hub-token:ro"
       "${config.sops.secrets.matrix-notifier-password.path}:/matrix-notifier-password:ro"
       "/var/lib/diun:/data"
@@ -66,21 +64,6 @@ in
           Docker tag {{ .Entry.Image }} has been released.
   '';
 
-  environment.etc."diun/images/pangolin.yml".text = ''
-    - name: fosrl/pangolin
-      watch_repo: true
-      include_tags:
-        - "^1\\."  # Only major version 1.x
-      sort_tags: semver
-      max_tags: 1
-
-    - name: fosrl/gerbil
-      watch_repo: true
-      include_tags:
-        - "^1\\."  # Only major version 1.x
-      sort_tags: semver
-      max_tags: 1
-  '';
   environment.etc."diun/images/homeserver.yml".text = ''
     - name: crazymax/diun
       watch_repo: true

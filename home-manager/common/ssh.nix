@@ -50,13 +50,6 @@
         Port = 22;
         IdentityFile = "~/.ssh/id_ed25519";
       };
-      "Host pangolin" = {
-        HostName = "firecat53.me";
-        User = "firecat53";
-        Port = 22;
-        IdentityFile = "~/.ssh/id_ed25519";
-        ForwardAgent = true;
-      };
       "Host router" = {
         HostName = "192.168.200.1";
         User = "firecat53";

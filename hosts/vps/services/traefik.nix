@@ -7,6 +7,7 @@
   networking.firewall.allowedTCPPorts = [
     80
     443
+    2222 # Forgejo SSH (was on pangolin)
   ];
 
   sops.secrets.basic-auth = {
@@ -14,6 +15,13 @@
     owner = config.users.users.traefik.name;
     group = config.users.users.traefik.group;
   };
+  # Porkbun API token for DNS-01 wildcard certs (*.firecat53.com / *.firecat53.me)
+  sops.secrets.porkbun-api-keys = {
+    mode = "0440";
+    owner = config.users.users.traefik.name;
+    group = config.users.users.traefik.group;
+  };
+  systemd.services.traefik.serviceConfig.EnvironmentFile = config.sops.secrets.porkbun-api-keys.path;
   services.traefik = {
     enable = true;
     staticConfigOptions = {
@@ -37,8 +45,23 @@
           http = {
             tls = {
               options = "default";
+              certResolver = "le";
+              # Default wildcard certs for all routers on this entrypoint.
+              domains = [
+                {
+                  main = "firecat53.com";
+                  sans = [ "*.firecat53.com" ];
+                }
+                {
+                  main = "firecat53.me";
+                  sans = [ "*.firecat53.me" ];
+                }
+              ];
             };
           };
+        };
+        "tcp-2222" = {
+          address = ":2222/tcp";
         };
       };
       api = {
@@ -49,8 +72,8 @@
           acme = {
             email = "tech@firecat53.net";
             storage = "/var/lib/traefik/acme.json";
-            httpChallenge = {
-              entryPoint = "web";
+            dnsChallenge = {
+              provider = "porkbun";
             };
           };
         };

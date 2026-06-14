@@ -1,8 +1,10 @@
 {
   imports = [
     ./apparatus.nix
+    ./authelia.nix
     ./backups.nix
     ./grafana.nix
+    ./proxy-me.nix
     ./microbin.nix
     ./mysql.nix
     ./nextcloud.nix

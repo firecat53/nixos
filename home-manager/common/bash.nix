@@ -43,7 +43,6 @@
       lsd = "ls -dl */";
       ni = "nix-store --query --requisites ~/.nix-profile | cut -d\- -f2- | sort | bat";
       pas = "pbincli send";
-      pg = "ssh -t pangolin tmux new-session -A -s term";
       sd = "sudo systemctl poweroff";
       sdr = "sudo systemctl reboot";
       t = "tmux new-session -A -s term";

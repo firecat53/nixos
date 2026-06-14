@@ -47,4 +47,24 @@
       ];
     };
   };
+
+  # Immich Public Proxy (public sharing) - exposed at pix.firecat53.me via the VPS
+  services.traefik.dynamicConfigOptions.http.routers.immich-public = {
+    rule = "Host(`pix.lan.firecat53.net`)";
+    service = "immich-public";
+    middlewares = [ "headers" ];
+    entrypoints = [ "websecure" ];
+    tls = {
+      certResolver = "le";
+    };
+  };
+  services.traefik.dynamicConfigOptions.http.services.immich-public = {
+    loadBalancer = {
+      servers = [
+        {
+          url = "http://localhost:3030";
+        }
+      ];
+    };
+  };
 }

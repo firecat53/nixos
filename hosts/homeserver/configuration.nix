@@ -15,7 +15,6 @@
     ../modules/avahi.nix
     ../modules/boot.nix
     ../modules/libvirt.nix
-    ../modules/newt.nix
     ../modules/podman.nix
     ../modules/zfs.nix
     ../../home-manager/home-manager.nix
