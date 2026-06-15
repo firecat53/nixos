@@ -59,10 +59,33 @@ update.
    <sub> = { lan = "<name>.lan.firecat53.net"; auth = <true|false>; };
    ```
    `auth = true` gates the service behind Authelia 2FA when reached from the
-   internet (LAN/mesh always bypasses auth).
+   internet via `<sub>.firecat53.me`.
 3. Rebuild `homeserver`, then `vps`. The `<sub>.firecat53.me` router, the
    Authelia rule (if `auth = true`), and Uptime-Kuma resolution appear
    automatically.
+
+> **Services with their own HTTP basic auth** (the homeserver `auth`
+> middleware — e.g. gollum, today, syncthing, transmission): the auth model is
+> *basicAuth on the LAN, Authelia on the internet* — not both. The VPS proxies
+> `*.firecat53.me` traffic in from `10.200.200.5`, so add a second, companion
+> router on the homeserver that matches that source IP and **omits** the `auth`
+> middleware, letting Authelia-2FA'd requests through without a second prompt:
+>
+> ```nix
+> services.traefik.dynamicConfigOptions.http.routers.<name>-noauth = {
+>   rule = "Host(\`<name>.lan.firecat53.net\`) && ClientIP(\`10.200.200.5\`)";
+>   service = "<name>";
+>   priority = 100; # beat the plain Host() router
+>   middlewares = [ "headers" ]; # no "auth"
+>   entrypoints = [ "websecure" ];
+>   tls.certResolver = "le";
+> };
+> ```
+>
+> LAN/wireguard clients keep hitting the plain `Host()` router and still get
+> basicAuth. This relies on the homeserver Traefik not trusting forwarded
+> headers (so `ClientIP` is the real TCP source). Services without basicAuth
+> (app-level login, or `auth = false`) need no companion router.
 
 **Service running locally on the VPS:**
 

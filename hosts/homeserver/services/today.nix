@@ -37,6 +37,19 @@ in
       certResolver = "le";
     };
   };
+  # Requests proxied in from the VPS (10.200.200.5, i.e. today.firecat53.me)
+  # are already 2FA'd by Authelia, so skip the native basicAuth. LAN/wireguard
+  # clients hit the router above and still get basicAuth.
+  services.traefik.dynamicConfigOptions.http.routers.today-noauth = {
+    rule = "Host(`today.lan.firecat53.net`) && ClientIP(`10.200.200.5`)";
+    service = "today";
+    priority = 100;
+    middlewares = [ "headers" ];
+    entrypoints = [ "websecure" ];
+    tls = {
+      certResolver = "le";
+    };
+  };
   services.traefik.dynamicConfigOptions.http.services.today = {
     loadBalancer = {
       servers = [

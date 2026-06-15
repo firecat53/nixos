@@ -39,6 +39,19 @@ in
     settings = {
       theme = "dark";
       server.address = "tcp://127.0.0.1:9091";
+      # Only authenticate the forward-auth endpoint via the session cookie.
+      # The default strategies also include HeaderAuthorization, which makes
+      # Authelia consume the `Authorization` header — that breaks downstream
+      # services that use their own HTTP Basic auth (gollum, today, transmission,
+      # syncthing): the browser's `Authorization: Basic <service-creds>` gets
+      # validated against Authelia (and fails) instead of passing through to the
+      # homeserver Traefik basicAuth. Dropping HeaderAuthorization lets it pass.
+      server.endpoints.authz.forward-auth = {
+        implementation = "ForwardAuth";
+        authn_strategies = [
+          { name = "CookieSession"; }
+        ];
+      };
       log.level = "info";
       totp.issuer = "firecat53.me";
 
@@ -65,25 +78,12 @@ in
 
       access_control = {
         default_policy = "deny";
-        networks = [
-          {
-            name = "mesh";
-            networks = [
-              "10.200.200.0/24" # wireguard mesh
-              "192.168.200.0/24" # home LAN
-            ];
-          }
-        ];
+        # Note: there is intentionally no mesh/LAN bypass rule here. Authelia
+        # only ever sees *.firecat53.me traffic that egressed to the VPS's
+        # public IP, so the client IP is never a mesh address — a bypass keyed
+        # on mesh networks would be dormant. LAN/wireguard clients use the
+        # *.lan.firecat53.net names (native basicAuth) instead; see README.
         rules = [
-          # On the mesh/LAN: never prompt for auth
-          {
-            domain = [
-              "*.firecat53.me"
-              "*.firecat53.com"
-            ];
-            policy = "bypass";
-            networks = [ "mesh" ];
-          }
           # Protected resources: require 2FA from the internet.
           # Derived from registry.nix `auth = true` entries.
           {
