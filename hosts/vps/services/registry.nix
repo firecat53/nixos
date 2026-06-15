@@ -48,9 +48,14 @@
       auth = false;
     };
     # Protected (Authelia two_factor)
+    # passHost = true: forward the real *.firecat53.me Host to the backend
+    # (default is to send the .lan name). Needed for apps that build absolute
+    # redirects/URLs from the Host header (gollum); such apps also need a
+    # Host(`<sub>.firecat53.me`) router on the homeserver. See README.
     gollum = {
       lan = "gollum.lan.firecat53.net";
       auth = true;
+      passHost = true;
     };
     jackett = {
       lan = "jackett.lan.firecat53.net";

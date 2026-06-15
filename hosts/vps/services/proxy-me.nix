@@ -28,7 +28,11 @@ let
   };
   mkRemoteService = _: s: {
     loadBalancer = {
-      passHostHeader = false; # send the .lan name as Host so homeserver Traefik matches
+      # Default false: send the .lan name as Host so the homeserver's existing
+      # routers match. Opt into passHost = true for apps that build absolute
+      # URLs/redirects from the Host header (e.g. gollum) — they need the real
+      # *.firecat53.me host plus a matching homeserver router. See registry.nix.
+      passHostHeader = s.passHost or false;
       servers = [ { url = "https://${s.lan}"; } ];
     };
   };

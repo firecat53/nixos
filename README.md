@@ -86,6 +86,23 @@ update.
 > basicAuth. This relies on the homeserver Traefik not trusting forwarded
 > headers (so `ClientIP` is the real TCP source). Services without basicAuth
 > (app-level login, or `auth = false`) need no companion router.
+>
+> **Exception — apps that build absolute redirects/URLs from the Host header**
+> (e.g. gollum): the `ClientIP` trick won't work, because the backend would see
+> the `.lan` host and redirect clients there (broken off-LAN). Instead set
+> `passHost = true` on its `registry.nix` entry so the VPS forwards the real
+> `<sub>.firecat53.me` host, and give it a companion router keyed on that host
+> (no `ClientIP` needed — only the VPS ever sends that host):
+>
+> ```nix
+> services.traefik.dynamicConfigOptions.http.routers.<name>-me = {
+>   rule = "Host(\`<name>.firecat53.me\`)";
+>   service = "<name>";
+>   middlewares = [ "headers" ]; # no "auth"
+>   entrypoints = [ "websecure" ];
+>   tls = { }; # no certResolver: TLS uses the .lan SNI cert from the router above
+> };
+> ```
 
 **Service running locally on the VPS:**
 

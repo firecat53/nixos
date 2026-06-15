@@ -35,18 +35,21 @@
       certResolver = "le";
     };
   };
-  # Requests proxied in from the VPS (10.200.200.5, i.e. gollum.firecat53.me)
-  # are already 2FA'd by Authelia, so skip the native basicAuth. LAN/wireguard
-  # clients hit the router above and still get basicAuth.
-  services.traefik.dynamicConfigOptions.http.routers.gollum-noauth = {
-    rule = "Host(`gollum.lan.firecat53.net`) && ClientIP(`10.200.200.5`)";
+  # Gollum builds absolute redirects/URLs from the Host header, so unlike the
+  # other basicAuth services it can't use the .lan-name + ClientIP trick. The VPS
+  # passes the real host through (registry passHost = true), so requests arrive
+  # here as gollum.firecat53.me — which only ever comes via the VPS (already
+  # 2FA'd by Authelia), hence no basicAuth. LAN/wireguard clients use
+  # gollum.lan.firecat53.net (the router above) and still get basicAuth.
+  # No certResolver: the VPS->homeserver TLS uses SNI gollum.lan.firecat53.net,
+  # whose cert the router above already provisions (firecat53.me certs live on
+  # the VPS, which has the Porkbun DNS credentials — not here).
+  services.traefik.dynamicConfigOptions.http.routers.gollum-me = {
+    rule = "Host(`gollum.firecat53.me`)";
     service = "gollum";
-    priority = 100;
     middlewares = [ "headers" ];
     entrypoints = [ "websecure" ];
-    tls = {
-      certResolver = "le";
-    };
+    tls = { };
   };
   services.traefik.dynamicConfigOptions.http.services.gollum = {
     loadBalancer = {
