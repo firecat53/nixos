@@ -14,7 +14,7 @@ let
   # and uptime-kuma derive their views from the same file.
   inherit (import ./registry.nix) hsIP remote local;
 
-  mw = auth: [ "headers-me" ] ++ lib.optional auth "authelia";
+  mw = auth: [ "headers" ] ++ lib.optional auth "authelia";
 
   # Prefix generated router/service names with "me-" to avoid clashing with the
   # existing *.firecat53.com routers (e.g. syncthing) on this host.
@@ -94,20 +94,6 @@ in
           "Remote-Name"
           "Remote-Email"
         ];
-      };
-      # Security headers scoped to firecat53.me (the .com one in traefik.nix
-      # pins sslhost=firecat53.com).
-      headers-me.headers = {
-        browserxssfilter = true;
-        contenttypenosniff = true;
-        customframeoptionsvalue = "SAMEORIGIN";
-        forcestsheader = true;
-        framedeny = true;
-        sslhost = "firecat53.me";
-        sslredirect = true;
-        stsincludesubdomains = true;
-        stspreload = true;
-        stsseconds = "315360000";
       };
     };
   };
