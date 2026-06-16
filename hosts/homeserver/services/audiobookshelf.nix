@@ -12,7 +12,9 @@
     dataDir = "audiobookshelf";
   };
   services.traefik.dynamicConfigOptions.http.routers.audiobookshelf = {
-    rule = "Host(`books.lan.firecat53.net`)";
+    # .me host added so this router matches when the VPS forwards the real
+    # public Host (registry passHost = true) for OIDC redirect URIs.
+    rule = "Host(`books.lan.firecat53.net`) || Host(`books.firecat53.me`)";
     service = "audiobookshelf";
     middlewares = [ "headers" ];
     entrypoints = [ "websecure" ];

@@ -1,4 +1,4 @@
-# Public reverse-proxy routers for *.firecat53.me (replaces Pangolin).
+# Public reverse-proxy routers for *.firecat53.me.
 #
 # Homeserver-hosted services are reached over the wireguard mesh by proxying
 # to the homeserver's *existing* Traefik (10.200.200.6) using its .lan name as

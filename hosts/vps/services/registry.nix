@@ -19,9 +19,12 @@
   #   <me-subdomain> = { lan = <homeserver .lan host>; auth = <gate w/ Authelia>; }
   remote = {
     # Public / native-auth (no forward-auth: app & mobile clients need direct API)
+    # passHost = true: forward the real books.firecat53.me Host so Audiobookshelf
+    # builds correct OIDC redirect URIs (it has a matching homeserver router).
     books = {
       lan = "books.lan.firecat53.net";
       auth = false;
+      passHost = true;
     };
     git = {
       lan = "git.lan.firecat53.net";
@@ -35,9 +38,12 @@
       lan = "jellyfin.lan.firecat53.net";
       auth = false;
     };
+    # passHost = true: forward the real pics.firecat53.me Host so Immich builds
+    # correct OIDC redirect URIs (it has a matching homeserver router).
     pics = {
       lan = "pics.lan.firecat53.net";
       auth = false;
+      passHost = true;
     };
     pix = {
       lan = "pix.lan.firecat53.net";
