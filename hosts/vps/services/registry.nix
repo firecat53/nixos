@@ -93,9 +93,13 @@
       lan = "pdf.lan.firecat53.net";
       auth = true;
     };
+    # passHost = true: today builds links to the matching gollum host from the
+    # request Host header, so it needs the real *.firecat53.me host (and a
+    # Host(`today.firecat53.me`) router on the homeserver), like gollum.
     today = {
       lan = "today.lan.firecat53.net";
       auth = true;
+      passHost = true;
     };
     uph = {
       lan = "up.lan.firecat53.net";
