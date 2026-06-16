@@ -27,7 +27,7 @@
     <section class="card">
       <h2><a href="{{ gollum_base }}/workouts/WorkoutLog">Workout</a></h2>
       <form method="post" action="{{ url_for('post_workout') }}" class="workout">
-        <input name="time" placeholder="Time (e.g. 60)" inputmode="numeric" required>
+        <input name="time" placeholder="Time" inputmode="numeric" required>
         <input name="exercises" placeholder="Exercises" required>
         <select name="intensity" required>
           <option value="Low">Low</option>
@@ -45,7 +45,7 @@
       <form method="post" action="{{ url_for('post_book_new') }}" class="newbook">
         <input name="author" placeholder="Author" required>
         <input name="title" placeholder="Title" required>
-        <input name="series" placeholder="Series (optional)">
+        <input name="series" placeholder="Series">
         <select name="section" required>
           <option value="Audiobooks">Audiobook</option>
           <option value="Books">Book</option>
@@ -81,7 +81,7 @@
     {% endif %}
 
     <section class="card">
-      <h2>Today's entry</h2>
+      <h2><a href="{{ gollum_base }}/{{ diary_relpath }}">Today's entry</a></h2>
       <pre class="diary">{{ diary_text or "(no entry yet)" }}</pre>
     </section>
   </main>
