@@ -1,5 +1,6 @@
 ### Qbittorrent + wireguard + socks-proxy
 {
+  lib,
   pkgs,
   ...
 }:
@@ -7,6 +8,14 @@ let
   sshKeys = import ../../modules/common/ssh-keys.nix;
 in
 {
+  # Recent qBittorrent versions use a PID-based QLockFile for single-instance
+  # enforcement. PID namespacing makes its stale-lock detection unreliable across
+  # container restarts, so an ungraceful kill leaves a "lockfile" behind that blocks
+  # the next start. Remove it before each start so restarts always succeed.
+  systemd.services.podman-qbittorrent.serviceConfig.ExecStartPre = lib.mkBefore [
+    "${pkgs.coreutils}/bin/rm -f /var/lib/containers/storage/volumes/qbittorrent_config/_data/qBittorrent/lockfile"
+  ];
+
   # Add autossh key for socks-proxy
   users.users.firecat53.openssh.authorizedKeys.keys = [
     sshKeys.autossh
