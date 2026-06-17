@@ -26,6 +26,13 @@
       certResolver = "le";
     };
   };
+  services.traefik.dynamicConfigOptions.http.routers.jackett-me = {
+    rule = "Host(`jackett.firecat53.me`)";
+    service = "jackett";
+    middlewares = [ "headers" ];
+    entrypoints = [ "websecure" ];
+    tls = { };
+  };
   services.traefik.dynamicConfigOptions.http.services.jackett = {
     loadBalancer = {
       servers = [

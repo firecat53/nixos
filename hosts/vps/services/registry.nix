@@ -19,8 +19,6 @@
   #   <me-subdomain> = { lan = <homeserver .lan host>; auth = <gate w/ Authelia>; }
   remote = {
     # Public / native-auth (no forward-auth: app & mobile clients need direct API)
-    # passHost = true: forward the real books.firecat53.me Host so Audiobookshelf
-    # builds correct OIDC redirect URIs (it has a matching homeserver router).
     books = {
       lan = "books.lan.firecat53.net";
       auth = false;
@@ -38,8 +36,6 @@
       lan = "jellyfin.lan.firecat53.net";
       auth = false;
     };
-    # passHost = true: forward the real pics.firecat53.me Host so Immich builds
-    # correct OIDC redirect URIs (it has a matching homeserver router).
     pics = {
       lan = "pics.lan.firecat53.net";
       auth = false;
@@ -56,7 +52,7 @@
     # Protected (Authelia two_factor)
     # passHost = true: forward the real *.firecat53.me Host to the backend
     # (default is to send the .lan name). Needed for apps that build absolute
-    # redirects/URLs from the Host header (gollum); such apps also need a
+    # redirects/URLs from the Host header; such apps also need a
     # Host(`<sub>.firecat53.me`) router on the homeserver. See README.
     gollum = {
       lan = "gollum.lan.firecat53.net";
@@ -66,6 +62,7 @@
     jackett = {
       lan = "jackett.lan.firecat53.net";
       auth = true;
+      passHost = true;
     };
     cars = {
       lan = "cars.lan.firecat53.net";
@@ -78,10 +75,12 @@
     radarr = {
       lan = "radarr.lan.firecat53.net";
       auth = true;
+      passHost = true;
     };
     sonarr = {
       lan = "sonarr.lan.firecat53.net";
       auth = true;
+      passHost = true;
     };
     sabnzbd = {
       lan = "sabnzbd.lan.firecat53.net";
@@ -99,9 +98,6 @@
       lan = "pdf.lan.firecat53.net";
       auth = true;
     };
-    # passHost = true: today builds links to the matching gollum host from the
-    # request Host header, so it needs the real *.firecat53.me host (and a
-    # Host(`today.firecat53.me`) router on the homeserver), like gollum.
     today = {
       lan = "today.lan.firecat53.net";
       auth = true;

@@ -1,14 +1,5 @@
 # Sonarr
 {
-  # Sonarr broken in 24.11 due to delayed sonarr update to .NET 8
-  #  nixpkgs.config.permittedInsecurePackages = [
-  #    "dotnet-runtime-wrapped-6.0.36"
-  #    "aspnetcore-runtime-6.0.36"
-  #    "aspnetcore-runtime-wrapped-6.0.36"
-  #    "dotnet-sdk-6.0.428"
-  #    "dotnet-sdk-wrapped-6.0.428"
-  #  ];
-
   services.sonarr = {
     enable = true;
     user = "firecat53";
@@ -23,6 +14,13 @@
     tls = {
       certResolver = "le";
     };
+  };
+  services.traefik.dynamicConfigOptions.http.routers.sonarr-me = {
+    rule = "Host(`sonarr.firecat53.me`)";
+    service = "sonarr";
+    middlewares = [ "headers" ];
+    entrypoints = [ "websecure" ];
+    tls = { };
   };
   services.traefik.dynamicConfigOptions.http.services.sonarr = {
     loadBalancer = {

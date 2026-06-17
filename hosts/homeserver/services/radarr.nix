@@ -20,6 +20,13 @@
       certResolver = "le";
     };
   };
+  services.traefik.dynamicConfigOptions.http.routers.radarr-me = {
+    rule = "Host(`radarr.firecat53.me`)";
+    service = "radarr";
+    middlewares = [ "headers" ];
+    entrypoints = [ "websecure" ];
+    tls = { };
+  };
   services.traefik.dynamicConfigOptions.http.services.radarr = {
     loadBalancer = {
       servers = [
