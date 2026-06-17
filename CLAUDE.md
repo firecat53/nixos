@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # Format all Nix files
 nix fmt
 
-# Rebuild system (replace <hostname> with: laptop, homeserver, backup, vps, pangolin, office)
+# Rebuild system (replace <hostname> with: laptop, homeserver, backup, vps, office)
 sudo nixos-rebuild switch --flake .#<hostname>
 
 # Dry-run to preview changes
@@ -32,7 +32,7 @@ nix run github:nix-community/nixos-anywhere -- \
 
 ## Architecture
 
-This is a NixOS flake configuration managing 6 hosts (laptop, office, homeserver, backup, vps, pangolin).
+This is a NixOS flake configuration managing 6 hosts (laptop, office, homeserver, backup, vps).
 
 ### Directory Structure
 

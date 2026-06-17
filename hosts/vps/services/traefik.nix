@@ -7,7 +7,7 @@
   networking.firewall.allowedTCPPorts = [
     80
     443
-    2222 # Forgejo SSH (was on pangolin)
+    2222 # Forgejo SSH
   ];
 
   sops.secrets.basic-auth = {

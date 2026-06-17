@@ -9,7 +9,6 @@
 * Homeserver `homeserver`
 * Backup server `backup`
 * VPS cloud server `vps`
-* Pangolin cloud server `pangolin`
 * Office secondary/spare desktop `office`
 * Examples:
     + Flake install w/ home-manager and sops.
@@ -418,10 +417,3 @@ reboot
 ### VPS (cloud server)
 
 1. [Install using nixos-anywhere](#installing-using-nixos-anywhere)
-
-### Pangolin (cloud server)
-
-1. [Install using nixos-anywhere](#installing-using-nixos-anywhere)
-2. Restore any backups to /var/lib/{pangolin,traefik} if desired.
-3. `sudo zfs allow backup destroy,hold,mount,send,snapshot rpool/nixos/var/lib`
-    a. Also create backuppool/pangolin/var on `backup` server
