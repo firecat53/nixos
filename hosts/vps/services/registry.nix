@@ -118,8 +118,8 @@
   local = {
     mb = {
       port = 8081;
-      auth = false;
-    }; # microbin
+      auth = true;
+    }; # microbin (per-path: viewing is public via Authelia bypass rules, see authelia.nix)
     search = {
       port = 8888;
       auth = true;
