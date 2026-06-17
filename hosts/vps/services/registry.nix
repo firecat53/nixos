@@ -1,22 +1,20 @@
 # Single source of truth for VPS-exposed services (*.firecat53.me).
 #
-# This is plain data (no module args) imported by the modules that need it:
+# Plain data (no module args) imported by:
 #   - proxy-me.nix     generates the *.firecat53.me Traefik routers/services
-#   - authelia.nix     derives the 2FA-protected domain list (auth = true)
+#   - authelia.nix     derives 2FA-protected domains (auth = true) + access_control rules
 #   - uptime-kuma.nix  resolves the homeserver .lan backends (via hsIP)
+# Deliberately NOT in services/default.nix, so it is not loaded as a module.
 #
-# It is deliberately NOT listed in services/default.nix imports, so it is not
-# loaded as a NixOS module.
-#
-# To expose a new service, add a single entry below — the three consumers all
-# update automatically. See README "Adding / removing services and hosts".
+# Entry format (fields + full workflow in README, "Adding / removing services"):
+#   remote (homeserver):  <sub> = { lan = "<host>.lan.firecat53.net"; auth = <bool>; passHost = <bool>; rules = [ … ]; };
+#   local  (VPS):         <sub> = { port = <port>; auth = <bool>; rules = [ … ]; };
+# `passHost` and `rules` are optional.
 {
-  # Homeserver wireguard IP. Plan A will later replace this literal with a
-  # reference to a central host-topology map.
+  # Homeserver wireguard IP.
   hsIP = "10.200.200.6";
 
   # Services hosted on the homeserver, reached via its Traefik over wireguard.
-  #   <me-subdomain> = { lan = <homeserver .lan host>; auth = <gate w/ Authelia>; }
   remote = {
     # Public / native-auth (no forward-auth: app & mobile clients need direct API)
     books = {
@@ -50,10 +48,6 @@
       auth = false;
     };
     # Protected (Authelia two_factor)
-    # passHost = true: forward the real *.firecat53.me Host to the backend
-    # (default is to send the .lan name). Needed for apps that build absolute
-    # redirects/URLs from the Host header; such apps also need a
-    # Host(`<sub>.firecat53.me`) router on the homeserver. See README.
     gollum = {
       lan = "gollum.lan.firecat53.net";
       auth = true;
@@ -114,12 +108,33 @@
   };
 
   # Services hosted locally on the VPS (reached via localhost).
-  #   <me-subdomain> = { port = <local port>; auth = <bool>; }
   local = {
     mb = {
       port = 8081;
       auth = true;
-    }; # microbin (per-path: viewing is public via Authelia bypass rules, see authelia.nix)
+      # Keep paste *viewing* public; everything else still requires 2FA.
+      rules = [
+        {
+          policy = "bypass";
+          resources = [
+            "^/p/.*$"
+            "^/upload/[^/]+$" # /upload/{id} view — bare /upload (create) stays gated
+            "^/url/.*$"
+            "^/u/.*$"
+            "^/raw/.*$"
+            "^/qr/.*$"
+            "^/file/.*$"
+            "^/secure_file/.*$"
+            "^/archive/.*$"
+            "^/auth/.*$"
+            "^/auth_raw/.*$"
+            "^/auth_file/.*$"
+            "^/static/.*$"
+            "^/favicon.ico$"
+          ];
+        }
+      ];
+    }; # microbin
     search = {
       port = 8888;
       auth = true;

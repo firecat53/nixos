@@ -25,20 +25,20 @@ let
   # Forward-auth protected resources are derived from the service registry
   # (auth = true), so this list can never drift from proxy-me.nix.
   reg = import ./registry.nix;
-  protected =
-    (lib.filterAttrs (_: s: s.auth) reg.remote) // (lib.filterAttrs (_: s: s.auth) reg.local);
+  allServices = reg.remote // reg.local;
+  protected = lib.filterAttrs (_: s: s.auth) allServices;
   protectedDomains = map (n: "${n}.firecat53.me") (lib.attrNames protected);
+
+  # Per-service access_control overrides (e.g. microbin's public paste viewing)
+  # are declared as a `rules` list on the service's registry.nix entry, so they
+  # live and die with that entry. The `domain` is derived from the attr name.
+  bypassRules = lib.concatLists (
+    lib.mapAttrsToList (
+      n: s: map (r: r // { domain = "${n}.firecat53.me"; }) (s.rules or [ ])
+    ) allServices
+  );
 in
 {
-  # Service modules push their own access_control rules here (evaluated before
-  # the derived two_factor rule), so per-service Authelia config can live in the
-  # service's own module and be removed along with it.
-  options.autheliaBypassRules = lib.mkOption {
-    type = lib.types.listOf (lib.types.attrsOf lib.types.anything);
-    default = [ ];
-    description = "Authelia access_control rules evaluated before the blanket two_factor rule.";
-  };
-
   config = {
     sops.secrets = {
       authelia-jwt.owner = "authelia-main";
@@ -49,7 +49,6 @@ in
       authelia-oidc-jwks-key.owner = "authelia-main";
     };
 
-    # Redis backing Authelia's session store (see settings.session.redis).
     services.redis.servers.authelia = {
       enable = true;
       port = 0;
@@ -182,10 +181,11 @@ in
         access_control = {
           default_policy = "deny";
           # Per-service bypass/override rules (e.g. microbin's public paste
-          # viewing) are contributed by the owning service module via
-          # `autheliaBypassRules` and evaluated first, so they live and die with
-          # that service. Rules are evaluated top-down, first match wins.
-          rules = config.autheliaBypassRules ++ [
+          # viewing) are declared on each service's registry.nix entry and
+          # collected into `bypassRules` above, so they live and die with that
+          # entry. Rules are evaluated top-down, first match wins; bypass rules
+          # come before the blanket two_factor rule below.
+          rules = bypassRules ++ [
             # Protected resources: require 2FA from the internet.
             # Derived from registry.nix `auth = true` entries.
             {
