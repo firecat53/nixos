@@ -60,11 +60,13 @@
     };
     cars = {
       lan = "cars.lan.firecat53.net";
-      auth = true;
+      auth = false;
+      passHost = true;
     };
     rss = {
       lan = "rss.lan.firecat53.net";
-      auth = true;
+      auth = false;
+      passHost = true;
     };
     radarr = {
       lan = "radarr.lan.firecat53.net";

@@ -6,6 +6,7 @@
 }:
 {
   sops.secrets.grafana-secret-key = { };
+  sops.secrets.grafana-oauth-secret.owner = "grafana";
   services.grafana = {
     enable = true;
     settings = {
@@ -13,8 +14,24 @@
         http_addr = "127.0.0.1";
         http_port = 3000;
         domain = "grafana.firecat53.com";
+        root_url = "https://grafana.firecat53.com/";
       };
       security.secret_key = "${config.sops.secrets.grafana-secret-key.path}";
+      "auth.generic_oauth" = {
+        enabled = true;
+        name = "Authelia";
+        client_id = "grafana";
+        client_secret = "$__file{${config.sops.secrets.grafana-oauth-secret.path}}";
+        scopes = "openid profile email groups";
+        auth_url = "https://auth.firecat53.me/api/oidc/authorization";
+        token_url = "https://auth.firecat53.me/api/oidc/token";
+        api_url = "https://auth.firecat53.me/api/oidc/userinfo";
+        use_pkce = true;
+        allow_sign_up = true;
+        # Single-admin instance: anyone who passes Authelia 2FA is an Admin.
+        # Refine with Authelia groups via role_attribute_path if needed.
+        role_attribute_path = "'Admin'";
+      };
     };
     provision = {
       enable = true;

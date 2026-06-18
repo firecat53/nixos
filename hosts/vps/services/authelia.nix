@@ -176,6 +176,76 @@ in
             userinfo_signed_response_alg = "none";
             token_endpoint_auth_method = "client_secret_basic";
           }
+          # LubeLogger
+          {
+            client_id = "lubelogger";
+            client_name = "LubeLogger";
+            client_secret = "$pbkdf2-sha512$310000$G8hOOzVyFP2Sbt6kTryaRQ$RX9SXgQmIdGtpH6iVUiXs6R1d9oBiiOc.Xq0Iot05WYG3wWNdXtlcbGdJ91Mr9pQ1coEsloL7IuC5qxZ/wZZzg"; # digest only
+            public = false;
+            authorization_policy = "two_factor";
+            require_pkce = false;
+            pkce_challenge_method = "";
+            redirect_uris = [
+              "https://cars.firecat53.me/Login/RemoteAuth"
+            ];
+            scopes = [
+              "openid"
+              "profile"
+              "email"
+            ];
+            response_types = [ "code" ];
+            grant_types = [ "authorization_code" ];
+            access_token_signed_response_alg = "none";
+            userinfo_signed_response_alg = "none";
+            token_endpoint_auth_method = "client_secret_post";
+          }
+          # Miniflux
+          {
+            client_id = "miniflux";
+            client_name = "Miniflux";
+            client_secret = "$pbkdf2-sha512$310000$adwMtGDrSWrSEfVR61IbKw$2uS8YrQ.6WKmFv6bi9qLAdF/e/m7bNdHZ0CvvzdmOnHSCphVcqtXk5TUC2.2mk2Fdy1YLAcrJF3fbcA28hbl7Q"; # digest only
+            public = false;
+            authorization_policy = "two_factor";
+            require_pkce = false;
+            pkce_challenge_method = "";
+            redirect_uris = [
+              "https://rss.firecat53.me/oauth2/oidc/callback"
+            ];
+            scopes = [
+              "openid"
+              "profile"
+              "email"
+            ];
+            response_types = [ "code" ];
+            grant_types = [ "authorization_code" ];
+            access_token_signed_response_alg = "none";
+            userinfo_signed_response_alg = "none";
+            token_endpoint_auth_method = "client_secret_basic";
+          }
+          # Grafana
+          {
+            client_id = "grafana";
+            client_name = "Grafana";
+            client_secret = "$pbkdf2-sha512$310000$eo9SYAQLcLdyqft5Q3Bzkg$JcqHU9Mt8.R.TVzfWdJOSXkpGxDKKIXEWNP0DhNj1MvpriaPQ1FNblLdi0/DsovA299SHco8Jfg7Pdm67XGBmg"; # digest only
+            public = false;
+            authorization_policy = "two_factor";
+            require_pkce = true;
+            pkce_challenge_method = "S256";
+            redirect_uris = [
+              "https://grafana.firecat53.com/login/generic_oauth"
+            ];
+            scopes = [
+              "openid"
+              "profile"
+              "groups"
+              "email"
+            ];
+            response_types = [ "code" ];
+            grant_types = [ "authorization_code" ];
+            access_token_signed_response_alg = "none";
+            userinfo_signed_response_alg = "none";
+            token_endpoint_auth_method = "client_secret_post";
+          }
         ];
 
         access_control = {
