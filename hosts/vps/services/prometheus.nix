@@ -200,7 +200,7 @@
     alertmanager = {
       enable = true;
       listenAddress = "localhost";
-      webExternalUrl = "https://alerts.firecat53.com";
+      webExternalUrl = "https://alerts.firecat53.me";
       extraFlags = [ "--cluster.listen-address=" ];
       configuration = {
         route = {
@@ -247,49 +247,10 @@
     };
   };
 
-  ## Traefik config
-  services.traefik.dynamicConfigOptions.http.routers.prometheus = {
-    rule = "Host(`prom.firecat53.com`)";
-    service = "prometheus";
-    middlewares = [
-      "auth"
-      "headers"
-    ];
-    entrypoints = [ "websecure" ];
-    tls = {
-      certResolver = "le";
-    };
-  };
-  services.traefik.dynamicConfigOptions.http.services.prometheus = {
-    loadBalancer = {
-      servers = [
-        {
-          url = "http://localhost:9090";
-        }
-      ];
-    };
-  };
-  services.traefik.dynamicConfigOptions.http.routers.alertmanager = {
-    rule = "Host(`alerts.firecat53.com`)";
-    service = "alertmanager";
-    middlewares = [
-      "auth"
-      "headers"
-    ];
-    entrypoints = [ "websecure" ];
-    tls = {
-      certResolver = "le";
-    };
-  };
-  services.traefik.dynamicConfigOptions.http.services.alertmanager = {
-    loadBalancer = {
-      servers = [
-        {
-          url = "http://localhost:9093";
-        }
-      ];
-    };
-  };
+  # Public routers for prom/alerts are generated from registry.nix (local
+  # entries, auth = true) by proxy-me.nix, which wires the Authelia forward-auth
+  # middleware and the two_factor access_control rule. Served at
+  # prom.firecat53.me / alerts.firecat53.me.
 
   ## Exporters
   services.prometheus.exporters.node = {

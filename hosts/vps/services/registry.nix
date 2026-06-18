@@ -141,5 +141,13 @@
       port = 8888;
       auth = true;
     }; # searx
+    prom = {
+      port = 9090;
+      auth = true;
+    }; # prometheus
+    alerts = {
+      port = 9093;
+      auth = true;
+    }; # alertmanager
   };
 }
