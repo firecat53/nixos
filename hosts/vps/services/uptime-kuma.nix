@@ -10,24 +10,13 @@
   services.uptime-kuma = {
     enable = true;
   };
-  services.traefik.dynamicConfigOptions.http.routers.up = {
-    rule = "Host(`up.firecat53.com`)";
-    service = "up";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = {
-      certResolver = "le";
-    };
-  };
-  services.traefik.dynamicConfigOptions.http.services.up = {
-    loadBalancer = {
-      servers = [
-        {
-          url = "http://localhost:3001";
-        }
-      ];
-    };
-  };
+  # Public router is generated from registry.nix (local `up`, auth = true) by
+  # proxy-me.nix, which wires the Authelia forward-auth + headers middlewares
+  # and the two_factor access_control rule. Served at up.firecat53.me.
+  #
+  # With forward-auth guarding the public endpoint, Uptime Kuma's own login can
+  # be disabled in its settings. The check-airvpn-ip script below tolerates
+  # either state (it connects over localhost:3001, bypassing Traefik/Authelia).
 
   # Add script to check AirVPN exit IP and update Uptime Kuma
   # *NOTE* This may break with Uptime Kuma 2.x. API has not been updated in 2 years
@@ -102,7 +91,16 @@
                 api = None
                 try:
                     api = UptimeKumaApi("http://localhost:3001", timeout=30)
-                    api.login(kuma_username, kuma_password)
+                    # Authelia forward-auth (Traefik) now guards the public
+                    # endpoint, so Uptime Kuma's own auth may be disabled. When
+                    # it is, login() is rejected by the server -- treat that as
+                    # non-fatal and proceed. A genuine (transient) login failure
+                    # while auth is still enabled surfaces below as an
+                    # edit_monitor error and is retried by the outer loop.
+                    try:
+                        api.login(kuma_username, kuma_password)
+                    except Exception as login_err:
+                        print(f"Skipping login (Uptime Kuma auth disabled?): {login_err}")
                     api.edit_monitor(id_=int(kuma_monitor_id), hostname=server_ip)
                     print(f"Successfully updated IP address to {server_ip}")
                     break

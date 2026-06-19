@@ -149,5 +149,9 @@
       port = 9093;
       auth = true;
     }; # alertmanager
+    up = {
+      port = 3001;
+      auth = true;
+    }; # uptime-kuma (VPS)
   };
 }
