@@ -149,7 +149,7 @@
       port = 9093;
       auth = true;
     }; # alertmanager
-    gatus = {
+    up = {
       port = 8083;
       auth = true;
     }; # gatus monitoring
