@@ -98,6 +98,7 @@ in
       ui = {
         title = "firecat53 status";
         header = "Homeserver Status";
+        "default-sort-by" = "health";
       };
       storage = {
         type = "sqlite";
