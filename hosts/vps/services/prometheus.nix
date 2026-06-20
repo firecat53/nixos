@@ -199,7 +199,7 @@
     ];
     alertmanager = {
       enable = true;
-      listenAddress = "localhost";
+      listenAddress = "0.0.0.0";
       webExternalUrl = "https://alerts.firecat53.me";
       extraFlags = [ "--cluster.listen-address=" ];
       configuration = {
