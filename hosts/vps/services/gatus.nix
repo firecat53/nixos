@@ -1,4 +1,4 @@
-# Gatus - declarative status/health monitoring (replacement for uptime-kuma).
+# Gatus - declarative status/health monitoring
 #
 # Probing strategy:
 #   - Homeserver apps are probed over the wireguard tunnel by hitting the
@@ -13,10 +13,6 @@
 # Served behind Authelia at gatus.firecat53.me (registry.nix `local` entry,
 # auth = true -> router + forward-auth wired by proxy-me.nix / authelia.nix).
 #
-# Alerting goes to Matrix (same room used by the old uptime-kuma). The bot
-# access token is provided via a sops-templated EnvironmentFile and referenced
-# in the config as ${MATRIX_ACCESS_TOKEN}, which Gatus substitutes at runtime,
-# so the token never lands in the Nix store.
 {
   config,
   lib,

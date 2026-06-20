@@ -3,7 +3,7 @@
 # Plain data (no module args) imported by:
 #   - proxy-me.nix     generates the *.firecat53.me Traefik routers/services
 #   - authelia.nix     derives 2FA-protected domains (auth = true) + access_control rules
-#   - uptime-kuma.nix  resolves the homeserver .lan backends (via hsIP)
+#   - gatus.nix  resolves the homeserver .lan backends (via hsIP)
 # Deliberately NOT in services/default.nix, so it is not loaded as a module.
 #
 # Entry format (fields + full workflow in README, "Adding / removing services"):
@@ -149,13 +149,9 @@
       port = 9093;
       auth = true;
     }; # alertmanager
-    up = {
-      port = 3001;
-      auth = true;
-    }; # uptime-kuma (VPS)
     gatus = {
       port = 8083;
       auth = true;
-    }; # gatus status page
+    }; # gatus monitoring
   };
 }

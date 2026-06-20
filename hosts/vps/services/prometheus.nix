@@ -196,6 +196,27 @@
       "    annotations:"
       "      summary: Host node overtemperature alarm (instance {{ $labels.instance }})"
       "      description: 'Physical node temperature alarm triggered\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}'"
+      # AirVPN forwarded port: metric written by the airvpn-port-check timer
+      # (see airvpn-port-check.nix). 'for: 16m' requires the port to be down
+      # across two consecutive 15m checks before alerting (suppresses blips).
+      "- name: airvpn"
+      "  rules:"
+      "  - alert: AirVPNForwardedPortDown"
+      "    expr: airvpn_forwarded_port_up == 0"
+      "    for: 16m"
+      "    labels:"
+      "      severity: warning"
+      "    annotations:"
+      "      summary: 'AirVPN forwarded port 27430 unreachable'"
+      "      description: 'The AirVPN forwarded port (27430) for qBittorrent is not reachable over TCP. Torrents may not be connectable/seeding.\n  VALUE = {{ $value }}'"
+      "  - alert: AirVPNPortCheckStale"
+      "    expr: time() - node_textfile_mtime_seconds{file='airvpn.prom'} > 1800"
+      "    for: 5m"
+      "    labels:"
+      "      severity: warning"
+      "    annotations:"
+      "      summary: 'AirVPN port check is stale'"
+      "      description: 'airvpn.prom has not been updated in > 30m: the airvpn-port-check timer or the AirVPN API is failing.\n  VALUE = {{ $value }}s'"
     ];
     alertmanager = {
       enable = true;

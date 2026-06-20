@@ -1,5 +1,6 @@
 {
   imports = [
+    ./airvpn-port-check.nix
     ./apparatus.nix
     ./authelia.nix
     ./backups.nix
@@ -16,6 +17,5 @@
     ./syncthing.nix
     ./syncthing-discovery.nix
     ./traefik.nix
-    ./uptime-kuma.nix
   ];
 }

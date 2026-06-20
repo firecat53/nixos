@@ -11,7 +11,7 @@
 }:
 let
   # Service registry is the single source of truth (see registry.nix). Authelia
-  # and uptime-kuma derive their views from the same file.
+  # and gatus derive their views from the same file.
   inherit (import ./registry.nix) hsIP remote local;
 
   mw = auth: [ "headers" ] ++ lib.optional auth "authelia";
