@@ -153,5 +153,9 @@
       port = 3001;
       auth = true;
     }; # uptime-kuma (VPS)
+    gatus = {
+      port = 8083;
+      auth = true;
+    }; # gatus status page
   };
 }

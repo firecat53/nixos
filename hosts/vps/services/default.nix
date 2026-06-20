@@ -3,6 +3,7 @@
     ./apparatus.nix
     ./authelia.nix
     ./backups.nix
+    ./gatus.nix
     ./grafana.nix
     ./proxy-me.nix
     ./microbin.nix

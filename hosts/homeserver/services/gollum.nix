@@ -51,6 +51,21 @@
     entrypoints = [ "websecure" ];
     tls = { };
   };
+  # Health-check bypass for the VPS monitoring host (10.200.200.5, Gatus): skip
+  # basicAuth so the probe reaches the gollum backend and a real outage shows as
+  # 502 instead of the auth middleware's 401. Status-code only, so gollum's
+  # Host-based absolute URLs (the reason the .lan name isn't used for browsing)
+  # don't matter here. Mirrors transmission/syncthing-noauth.
+  services.traefik.dynamicConfigOptions.http.routers.gollum-noauth = {
+    rule = "Host(`gollum.lan.firecat53.net`) && ClientIP(`10.200.200.5`)";
+    service = "gollum";
+    priority = 100;
+    middlewares = [ "headers" ];
+    entrypoints = [ "websecure" ];
+    tls = {
+      certResolver = "le";
+    };
+  };
   services.traefik.dynamicConfigOptions.http.services.gollum = {
     loadBalancer = {
       servers = [
