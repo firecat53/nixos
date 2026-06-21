@@ -12,7 +12,10 @@ stdenvNoCC.mkDerivation {
   version = "0.1.0";
   src = ./.;
 
-  nativeBuildInputs = [ makeWrapper librsvg ];
+  nativeBuildInputs = [
+    makeWrapper
+    librsvg
+  ];
 
   dontConfigure = true;
 

@@ -10,7 +10,7 @@
         ControlPersist = "10m";
       };
       # NOTE: forwardAgent stays only on hosts where pam_rssh sudo auth is needed.
-## Servers
+      ## Servers
       "Host home*" = {
         Port = 22;
         User = "firecat53";
@@ -63,7 +63,7 @@
         IdentityFile = "~/.ssh/id_ed25519";
         ForwardAgent = true;
       };
-## Desktop/laptops
+      ## Desktop/laptops
       "Host laptop" = {
         HostName = "laptop";
         User = "firecat53";
@@ -82,14 +82,14 @@
         User = "firecat53";
         Port = 2222;
         IdentityFile = "/run/secrets/autossh-key";
-        DynamicForward = "127.0.0.1:5001"; 
+        DynamicForward = "127.0.0.1:5001";
         ProxyJump = "homeserver_wg";
         StrictHostKeyChecking = "no";
         UserKnownHostsFile = "/dev/null";
         ExitOnForwardFailure = "yes";
       };
-# Git remotes use the device key directly — add this device's pubkey to
-# GitHub/forgejo accounts. No agent forwarding (no shell on these hosts).
+      # Git remotes use the device key directly — add this device's pubkey to
+      # GitHub/forgejo accounts. No agent forwarding (no shell on these hosts).
       "Host forgejo" = {
         HostName = "git.firecat53.me";
         Port = 2222;
@@ -109,7 +109,7 @@
         IdentityFile = "~/.ssh/id_ed25519";
         PreferredAuthentications = "publickey";
       };
-## AUR
+      ## AUR
       "aur" = {
         HostName = "aur.archlinux.org";
         User = "aur";

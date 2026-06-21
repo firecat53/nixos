@@ -413,7 +413,10 @@ in
             service = {
               name = "openweathermap";
               units = "metric";
-              coordinates = [ "48.0171" "-122.0672" ];
+              coordinates = [
+                "48.0171"
+                "-122.0672"
+              ];
             };
           }
           {

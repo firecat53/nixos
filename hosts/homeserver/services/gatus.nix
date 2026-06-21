@@ -39,7 +39,7 @@ let
     }
   ];
 
-  # Add a secondary email notifier for critical infra (Traefik) if Matrix is down 
+  # Add a secondary email notifier for critical infra (Traefik) if Matrix is down
   matrixAndEmail = matrixAlerts ++ [
     {
       type = "email";
