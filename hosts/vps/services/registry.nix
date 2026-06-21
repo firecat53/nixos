@@ -101,7 +101,7 @@
     };
     uph = {
       lan = "up.lan.firecat53.net";
-      auth = true;
+      auth = true; # Gatus monitoring
     };
     syncthing = {
       lan = "syncthing.lan.firecat53.net";

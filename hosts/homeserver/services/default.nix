@@ -6,6 +6,7 @@
     ./diun.nix
     ./esp-sync.nix
     ./forgejo.nix
+    ./gatus.nix
     ./gollum.nix
     ./hass.nix
     ./immich.nix
@@ -31,7 +32,6 @@
     ./today.nix
     ./traefik.nix
     ./transmission.nix
-    ./uptime-kuma.nix
     ./vaultwarden.nix
   ];
 }

@@ -44,8 +44,8 @@ Service modules consume them with
 
 Publicly-exposed services are driven by a single registry,
 `hosts/vps/services/registry.nix`. The VPS reverse proxy (`proxy-me.nix`),
-Authelia 2FA rules (`authelia.nix`), and Uptime-Kuma host resolution
-(`uptime-kuma.nix`) are all *derived* from it.
+Authelia 2FA rules (`authelia.nix`), and Gatus host resolution
+(`gatus.nix`) are all *derived* from it.
 
 Each entry's fields:
 
