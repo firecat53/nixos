@@ -44,6 +44,9 @@
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
 
+  # Removable media mounting daemon (backend for home-manager's udiskie).
+  services.udisks2.enable = true;
+
   # Enable flatpak support
   # See home-manager/bash.nix for exports/bin and $XDG_DATA_DIRS config
   services.flatpak.enable = true;
