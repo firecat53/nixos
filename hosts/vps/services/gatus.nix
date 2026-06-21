@@ -37,6 +37,16 @@ let
     }
   ];
 
+  # Add secondary email notifier for more critical items (traefik, matrix, etc)
+  matrixAndEmail = matrixAlerts ++ [
+    {
+      type = "email";
+      "failure-threshold" = 3;
+      "success-threshold" = 2;
+      "send-on-resolved" = true;
+    }
+  ];
+
   # Warn when a cert has < 7 days (168h) left.
   certOk = "[CERTIFICATE_EXPIRATION] > 168h";
 
@@ -49,6 +59,7 @@ let
       url,
       conditions,
       client ? null,
+      alerts ? matrixAlerts,
     }:
     {
       inherit
@@ -56,9 +67,9 @@ let
         group
         url
         conditions
+        alerts
         ;
       interval = "1m";
-      alerts = matrixAlerts;
     }
     // lib.optionalAttrs (client != null) { inherit client; };
 
@@ -78,13 +89,10 @@ let
 in
 {
   # --- Matrix alert token (sops) -------------------------------------------
-  # Only the bot access token is secret. It is passed via the EnvironmentFile
-  # and substituted by Gatus at runtime (${MATRIX_ACCESS_TOKEN}), so it never
-  # lands in the Nix store. The room id is hardcoded above (see matrixRoomId).
-  # `gatus-matrix-room` is no longer needed in nixos-secrets.
   sops.secrets.gatus-matrix-token = { };
   sops.templates."gatus.env".content = ''
     MATRIX_ACCESS_TOKEN=${config.sops.placeholder.gatus-matrix-token}
+    SMTP_PASSWORD=${config.sops.placeholder.email-password}
   '';
 
   # Resolve the homeserver Traefik dashboard name over wireguard.
@@ -111,6 +119,16 @@ in
         "access-token" = "\${MATRIX_ACCESS_TOKEN}";
       };
 
+      # Secondary notifier (see matrixAndEmail).
+      alerting.email = {
+        from = "noreply@firecat53.net";
+        username = "scott@firecat53.net";
+        password = "\${SMTP_PASSWORD}";
+        host = "smtp.fastmail.com";
+        port = 587;
+        to = "tech@firecat53.net";
+      };
+
       endpoints = [
         # --- Federated / public (probed end-to-end, real public DNS) ------
         (ep {
@@ -124,6 +142,7 @@ in
           group = "public";
           url = "https://matrix.firecat53.net/_matrix/federation/v1/version";
           conditions = ok200;
+          alerts = matrixAndEmail;
         })
 
         # --- Media --------------------------------------------------------
@@ -269,6 +288,7 @@ in
             "[STATUS] == 401"
             certOk
           ];
+          alerts = matrixAndEmail;
         })
 
         # --- Network (raw TCP) -------------------------------------------
