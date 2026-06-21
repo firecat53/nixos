@@ -145,12 +145,32 @@ let
       ];
     }
     {
+      name = "Communications";
+      items = [
+        {
+          label = "Akkoma";
+          url = "https://s.firecat53.net";
+          icon = "akkoma.svg";
+        }
+        {
+          label = "Matrix";
+          url = "https://matrix.to/#/@firecat53:firecat53.net";
+          icon = "matrix.svg";
+        }
+      ];
+    }
+    {
       name = "Infrastructure";
       items = [
         {
           label = "Alertmanager";
           url = me "alerts";
           icon = "alertmanager.svg";
+        }
+        {
+          label = "Authelia";
+          url = "https://auth.firecat53.me";
+          icon = "authelia.svg";
         }
         {
           label = "Grafana";
