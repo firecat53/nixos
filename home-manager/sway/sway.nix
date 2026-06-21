@@ -291,6 +291,7 @@ in
       export QT_AUTO_SCREEN_SCALE_FACTOR="1"
       export QT_QPA_PLATFORM=wayland
       export QT_SCALE_FACTOR="1.5"
+      export XDG_SCREENSHOTS_DIR="${config.home.homeDirectory}/.local/tmp"
     '';
   };
   programs.swaylock = {
