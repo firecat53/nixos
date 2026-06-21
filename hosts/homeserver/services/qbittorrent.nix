@@ -93,15 +93,4 @@ in
   };
   # For wireguard-client
   boot.kernel.sysctl."net.ipv4.conf.all.src_valid_mark" = 1;
-
-  # For monitoring the podman containers
-  virtualisation.oci-containers.containers.podman-exporter = {
-    image = "podman-exporter";
-    autoStart = true;
-    ports = [ "9882:9882" ];
-    volumes = [ "/run/podman/podman.sock:/run/podman/podman.sock" ];
-    environment = {
-      CONTAINER_HOST = "unix:///run/podman/podman.sock";
-    };
-  };
 }

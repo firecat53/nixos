@@ -74,13 +74,6 @@ in
 
     - name: docker.io/collabora/code
 
-    - name: library/golang
-      watch_repo: true
-      sort_tags: reverse
-      include_tags:
-        - "^1-alpine3\\.2"  # Only major version 1-alpine3.2x
-      max_tags: 1
-
     - name: library/alpine
       watch_repo: true
       sort_tags: semver

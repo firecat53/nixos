@@ -108,14 +108,6 @@ in
 {
   sops.secrets.airvpn-api-key = { };
 
-  # node-exporter (scraped on the VPS already) reads .prom files from this
-  # directory and exposes their metrics. The collector flag is set in
-  # modules/servers/prometheus-exporters.nix; just ensure the dir exists on the
-  # VPS (homeserver creates it in misc.nix) so the script can write airvpn.prom.
-  systemd.tmpfiles.rules = [
-    "d ${textfileDir} 0755 root root -"
-  ];
-
   systemd.services.airvpn-port-check = {
     description = "Check AirVPN forwarded port (27430) and export a metric";
     serviceConfig = {

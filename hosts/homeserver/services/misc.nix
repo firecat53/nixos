@@ -51,10 +51,8 @@
     };
   };
 
-  # Textfile directory for prometheus node exporter custom metrics
-  systemd.tmpfiles.rules = [
-    "d /var/lib/prometheus-node-exporter-text 0755 firecat53 root -"
-  ];
+  # Textfile directory (/var/lib/prometheus-node-exporter-text) is created by
+  # the shared modules/servers/prometheus-exporters.nix.
 
   # Export user systemd service states for prometheus
   systemd.services.prometheus-user-services-exporter = {
