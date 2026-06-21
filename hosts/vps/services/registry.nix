@@ -48,6 +48,10 @@
       auth = false;
     };
     # Protected (Authelia two_factor)
+    home = {
+      lan = "home.lan.firecat53.net";
+      auth = true; # Service dashboard
+    };
     gollum = {
       lan = "gollum.lan.firecat53.net";
       auth = true;

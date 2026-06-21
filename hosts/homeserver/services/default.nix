@@ -3,6 +3,7 @@
     ./akkoma.nix
     ./audiobookshelf.nix
     ./backups.nix
+    ./dashboard.nix
     ./diun.nix
     ./esp-sync.nix
     ./forgejo.nix
