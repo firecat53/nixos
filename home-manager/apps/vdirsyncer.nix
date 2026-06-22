@@ -20,8 +20,8 @@ in
   systemd.user.timers.vdirsyncer.Timer.RandomizedDelaySec = "1m";
   systemd.user.services.vdirsyncer = {
     Unit = {
-      StartLimitBurst = 3;
-      StartLimitIntervalSec = "5m";
+      StartLimitBurst = 10;
+      StartLimitIntervalSec = "10m";
     };
     Service = {
       Restart = "on-failure";
