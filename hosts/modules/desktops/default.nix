@@ -4,7 +4,6 @@
     ./bluetooth.nix
     ./catppuccin.nix
     ./desktop.nix
-    ./kdeconnect.nix
     ./neovim.nix
     ./networking.nix
     ./nixos.nix

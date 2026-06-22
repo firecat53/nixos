@@ -20,6 +20,7 @@ in
   home.packages = with pkgs; [
     # Terminal tools
     age
+    android-tools
     atool
     autossh
     bottom
@@ -72,6 +73,7 @@ in
     pinentry-qt
     resources
     ripdrag
+    scrcpy
     simple-scan
     spotify
     inputs.todocalmenu.packages.${pkgs.stdenv.hostPlatform.system}.default
