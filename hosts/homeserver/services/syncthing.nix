@@ -43,8 +43,8 @@
         "chrystie-cell" = {
           id = "CA5AZTI-6X4JRUM-ZCYWAWQ-HA5CXED-MUXQW2V-NLL4RDW-BDBDYN4-L5USHAI";
         };
-        "chrystie-laptop" = {
-          id = "OK2Y6E5-MITMIEJ-YHQHSZ2-VKJV2MA-GZUIAUD-UT2MW2T-QCQ4J6W-AAGILQN";
+        "christina-laptop" = {
+          id = "GKQYCPJ-5VP7WJZ-GETPRGQ-5XT2C2D-YNCCQZJ-Z7IL4RF-J3HPJYH-U4DINQ5";
         };
         "peggy-laptop" = {
           id = "XH5MYSV-DBHQQT3-DBUIAWQ-O7ZW33E-Z5RBBOP-HM6OL7T-2DOEGES-CJB3GQE";
@@ -56,14 +56,14 @@
       folders = {
         "blackhole" = {
           path = "/mnt/downloads/blackhole";
-          devices = [ "chrystie-laptop" ];
+          devices = [ "christina-laptop" ];
           id = "lduvp-dcpju";
         };
         "camera-chrystie" = {
           path = "/mnt/media/cameras/chrystie";
           devices = [
             "chrystie-cell"
-            "chrystie-laptop"
+            "christina-laptop"
           ];
           id = "camera";
         };
@@ -88,7 +88,7 @@
         };
         "docs-chrystie" = {
           path = "/home/chryspie/Christina-docs";
-          devices = [ "chrystie-laptop" ];
+          devices = [ "christina-laptop" ];
           id = "wxbmh-jtaq9";
         };
         "file_xfer" = {
@@ -133,14 +133,14 @@
         };
         "pictures-chrystie" = {
           path = "/home/chryspie/pictures";
-          devices = [ "chrystie-laptop" ];
+          devices = [ "christina-laptop" ];
           id = "efadj-qkslz";
         };
         "shared" = {
           path = "/home/firecat53/shared";
           devices = [
             "chrystie-cell"
-            "chrystie-laptop"
+            "christina-laptop"
             "scott-cell"
             "scott-laptop"
             "scott-office"
