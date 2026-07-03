@@ -57,7 +57,6 @@ in
     (python3.withPackages my-python-packages)
     ruff
     tig
-    uv
     # Gui applications
     anydesk
     inputs.bwm.packages.${pkgs.stdenv.hostPlatform.system}.default
