@@ -48,26 +48,34 @@
     target = "homeassistant/zbt2.xml";
   };
 
-  # Automatically detach/reattach USB devices after reboot
+  # Attach the Thread + Zigbee USB radios to the hass VM after boot.
   systemd.services.hass-usb-reattach = {
-    description = "Reattach USB devices to hass VM";
+    description = "Attach USB radios to hass VM";
     after = [ "libvirtd.service" ];
-    wants = [ "libvirtd.service" ];
-    wantedBy = [ "multi-user.target" ];
+    wantedBy = [ "libvirtd.service" ];
 
     serviceConfig = {
       Type = "oneshot";
       ExecStart = pkgs.writeShellScript "reattach-usb" ''
-        #!/bin/sh
-        # Wait for VM to fully start
-        ${pkgs.coreutils}/bin/sleep 30
-        if ${pkgs.libvirt}/bin/virsh list --name | grep -q "^hass$"; then
-          ${pkgs.libvirt}/bin/virsh detach-device hass /etc/homeassistant/thread.xml
-          ${pkgs.libvirt}/bin/virsh detach-device hass /etc/homeassistant/zbt2.xml
-          ${pkgs.coreutils}/bin/sleep 5
-          ${pkgs.libvirt}/bin/virsh attach-device hass /etc/homeassistant/thread.xml
-          ${pkgs.libvirt}/bin/virsh attach-device hass /etc/homeassistant/zbt2.xml
-        fi;
+        # Wait for the VM to be running (autostart may lag libvirtd by a few seconds).
+        for _ in $(${pkgs.coreutils}/bin/seq 1 120); do
+          [ "$(${pkgs.libvirt}/bin/virsh domstate hass 2>/dev/null)" = running ] && break
+          ${pkgs.coreutils}/bin/sleep 1
+        done
+
+        # Clear any stale live attachment, then (re)attach. Retry the attach until the
+        # host has enumerated the dongles
+        ${pkgs.libvirt}/bin/virsh detach-device hass /etc/homeassistant/thread.xml 2>/dev/null || true
+        ${pkgs.libvirt}/bin/virsh detach-device hass /etc/homeassistant/zbt2.xml 2>/dev/null || true
+        ${pkgs.coreutils}/bin/sleep 2
+        for _ in $(${pkgs.coreutils}/bin/seq 1 30); do
+          ${pkgs.libvirt}/bin/virsh attach-device hass /etc/homeassistant/thread.xml && break
+          ${pkgs.coreutils}/bin/sleep 1
+        done
+        for _ in $(${pkgs.coreutils}/bin/seq 1 30); do
+          ${pkgs.libvirt}/bin/virsh attach-device hass /etc/homeassistant/zbt2.xml && break
+          ${pkgs.coreutils}/bin/sleep 1
+        done
       '';
     };
   };
