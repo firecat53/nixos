@@ -12,6 +12,7 @@ in
   users.users.firecat53 = {
     isNormalUser = true;
     group = "firecat53";
+    linger = true;
     extraGroups = [
       "libvirtd"
       "networkmanager"
