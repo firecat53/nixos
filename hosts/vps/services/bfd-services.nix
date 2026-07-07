@@ -90,6 +90,9 @@ in
     serviceConfig = {
       Type = "oneshot";
       DynamicUser = true;
+      # A manual root `crewsense login` leaves cookies.txt owned by root;
+      # re-own cache contents to the dynamic user before each run
+      ExecStartPre = "+${pkgs.coreutils}/bin/chown -R --reference=/var/cache/private/crewsense /var/cache/private/crewsense";
       # Read access to the msmtp email-password secret
       SupplementaryGroups = [ "msmtp" ];
       EnvironmentFile = config.sops.templates."crewsense.env".path;
