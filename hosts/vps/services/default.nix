@@ -1,9 +1,9 @@
 {
   imports = [
     ./airvpn-port-check.nix
-    ./apparatus.nix
     ./authelia.nix
     ./backups.nix
+    ./bfd-services.nix
     ./gatus.nix
     ./grafana.nix
     ./proxy-me.nix

@@ -21,6 +21,9 @@
     bwm.url = "github:firecat53/bitwarden-menu";
     bwm.inputs.nixpkgs.follows = "nixpkgs";
 
+    crewsense.url = "git+https://git.firecat53.me/firecat53/crewsense.git";
+    crewsense.inputs.nixpkgs.follows = "nixpkgs";
+
     keepmenu.url = "github:firecat53/keepmenu";
     keepmenu.inputs.nixpkgs.follows = "nixpkgs";
 
