@@ -32,7 +32,7 @@
         host = "smtp.fastmail.com";
         passwordeval = "cat ${config.sops.secrets.email-password.path}";
         user = "scott@firecat53.net";
-        from = "noreply@firecat53.net";
+        from = "scott@firecat53.net";
       };
     };
   };
