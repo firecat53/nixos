@@ -70,6 +70,28 @@ in
       ];
     };
   };
+  # Interactive wrapper (like nextcloud-occ) for crewsense: re-execs via sudo,
+  # then runs the CLI as a transient DynamicUser unit sharing the report
+  # service's cache/state directories (cookie jar + snapshots) and sops env
+  # file. systemd re-owns those directories on every unit start, so manual runs
+  # never leave behind files the service can't read. --pty when interactive
+  # (the `login` prompts), --pipe when piped (byte-exact `--mime` output).
+  environment.systemPackages = [
+    (pkgs.writeShellScriptBin "crewsense" ''
+      if [ "$(id -u)" -ne 0 ]; then
+        echo "crewsense: escalating with sudo to run as a transient systemd unit" >&2
+        exec /run/wrappers/bin/sudo "$0" "$@"
+      fi
+      exec ${pkgs.systemd}/bin/systemd-run --quiet --collect --wait --pty --pipe \
+        --unit=crewsense-manual \
+        --property=DynamicUser=yes \
+        --property=CacheDirectory=crewsense \
+        --property=StateDirectory=crewsense \
+        --property=EnvironmentFile=${config.sops.templates."crewsense.env".path} \
+        -- ${crewsense}/bin/crewsense "$@"
+    '')
+  ];
+
   sops.secrets.crewsense-client-id = { };
   sops.secrets.crewsense-client-secret = { };
   sops.templates."crewsense.env".content = ''
@@ -90,15 +112,15 @@ in
     serviceConfig = {
       Type = "oneshot";
       DynamicUser = true;
-      # A manual root `crewsense login` leaves cookies.txt owned by root;
-      # re-own cache contents to the dynamic user before each run
-      ExecStartPre = "+${pkgs.coreutils}/bin/chown -R --reference=/var/cache/private/crewsense /var/cache/private/crewsense";
       # Read access to the msmtp email-password secret
       SupplementaryGroups = [ "msmtp" ];
       EnvironmentFile = config.sops.templates."crewsense.env".path;
-      # Persist the crewsense login cookie jar between runs
+      # Persist the login cookie jar (read via $CACHE_DIRECTORY) and the
+      # daily report snapshots that historical `report --date` runs replay
+      # (written via $STATE_DIRECTORY; each 19:00 run archives the final
+      # ranked report under the next morning's changeover)
       CacheDirectory = "crewsense";
-      Environment = "XDG_CACHE_HOME=/var/cache";
+      StateDirectory = "crewsense";
       AmbientCapabilities = "";
       CapabilityBoundingSet = "";
       LockPersonality = true;
