@@ -6,7 +6,7 @@
 {
   # Firmware updates - fwupd
   services.fwupd = lib.mkIf (!config.isVirtual) {
-    enable = false; # TODO - enable when https://github.com/NixOS/nixpkgs/pull/526476/changes merged
+    enable = true;
   };
   # Allow fwupd-refresh to restart if failed (after resume)
   systemd.services.fwupd-refresh = lib.mkIf (!config.isVirtual) {
