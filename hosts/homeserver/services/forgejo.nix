@@ -9,8 +9,6 @@
   services.forgejo = {
     database.type = "postgres";
     enable = true;
-    # Disable tests due to TestBleveDeleteIssue failure in 14.0.4 TODO
-    package = pkgs.forgejo.overrideAttrs { doCheck = false; };
     settings = {
       cache = {
         ADAPTER = "twoqueue";
