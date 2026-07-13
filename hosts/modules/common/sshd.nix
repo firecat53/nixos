@@ -1,5 +1,8 @@
 {
   ### SSH
+  # Verified host keys
+  programs.ssh.knownHosts = (import ./ssh-keys.nix).hostKeys;
+
   services.openssh.enable = true;
   services.openssh.authorizedKeysFiles = [ "/etc/ssh/%u" ];
   services.openssh.settings.KbdInteractiveAuthentication = false;

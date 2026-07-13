@@ -48,7 +48,6 @@
     commonArgs = [
       "--no-privilege-elevation"
       "--no-sync-snap"
-      "--sshoption=StrictHostKeyChecking=no" # TODO - one of the systemd hardening options is causing this
     ];
     interval = "*-*-* *:30:00";
     commands.backuppool-homeserver-var-lib = {
