@@ -30,6 +30,8 @@
     ];
   };
 
+  tmuxStatusColor = "#89b4fa"; # catppuccin mocha blue
+
   networking.hostName = "homeserver"; # Define your hostname.
   networking.hostId = "abcd1234";
   networking.firewall.trustedInterfaces = [ "wg0" ];

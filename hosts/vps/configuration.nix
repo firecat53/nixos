@@ -18,6 +18,7 @@
   ];
 
   isVirtual = true; # Define if a VPS/VM or container
+  tmuxStatusColor = "#f38ba8"; # catppuccin mocha red
 
   # Grub needed for Hetzner VPS with ZFS on root
   boot.loader.grub.enable = true;

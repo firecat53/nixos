@@ -17,6 +17,8 @@
     inputs.sops-nix.nixosModules.sops
   ];
 
+  tmuxStatusColor = "#a6e3a1"; # catppuccin mocha green
+
   networking.hostName = "backup"; # Define your hostname.
   networking.hostId = "fedd1234";
   networking.useDHCP = false;

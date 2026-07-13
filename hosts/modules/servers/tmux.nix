@@ -1,4 +1,4 @@
-# TODO - host variable for status-bg color
+{ config, ... }:
 {
   ### Tmux
   programs.tmux = {
@@ -30,9 +30,9 @@
       bind v run "tmux show-buffer | wl-paste > /dev/null"
 
       # Highlighting the active window in status bar
-      setw -g window-status-current-style bg=red
-      set -g status-bg magenta
-      set -g status-fg black
+      setw -g window-status-current-style "bg=#f9e2af,fg=#11111b"
+      set -g status-bg "${config.tmuxStatusColor}"
+      set -g status-fg "#11111b"
 
       # Add uptime to status bar
       set -g status-interval 5

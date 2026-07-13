@@ -14,5 +14,10 @@
       default = false;
       description = "Use latest available ZFS compatible kernel";
     };
+    tmuxStatusColor = lib.mkOption {
+      type = lib.types.str;
+      default = "#cba6f7"; # catppuccin mocha mauve
+      description = "Tmux status bar background color";
+    };
   };
 }
