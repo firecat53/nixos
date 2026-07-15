@@ -169,7 +169,7 @@ in
           "${mod}+i" = "exec ${nmdm}";
           "${mod}+m" = "exec ${term} --app-id comms --title comms -e ${tmux} new -d -A -s comms";
           "${mod}+n" =
-            "exec ${term} --title Notes -e ${vim} '${config.home.homeDirectory}/docs/family/scott/wiki/QuickNote.md'";
+            "exec ${term} --title Notes -e ${vim} '${config.home.homeDirectory}/docs/family/scott/wiki/quicknote.md'";
           "${mod}+p" = "exec ${term} --title ${bottom} -e btm";
           "${mod}+z" = "exec ${term} --app-id Terminal --title Terminal -e ${tmux} new -d -A -s term";
 
