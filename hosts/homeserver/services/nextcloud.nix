@@ -85,7 +85,6 @@
       User = "nextcloud";
     };
     path = [
-      "config.services.nextcloud"
       pkgs.perl
     ];
   };

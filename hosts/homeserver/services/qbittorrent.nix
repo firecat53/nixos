@@ -27,7 +27,7 @@ in
     after = [ "network-online.target" ];
     requiredBy = [
       "podman-wireguard-client.service"
-      "podman-qbitorrent.service"
+      "podman-qbittorrent.service"
       "podman-socks-proxy.service"
     ];
     unitConfig = {
