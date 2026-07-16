@@ -25,7 +25,7 @@
     </form>
 
     <section class="card">
-      <h2><a href="{{ gollum_base }}/workouts/WorkoutLog">Workout</a></h2>
+      <h2><a href="{{ gollum_base }}/workouts/workoutlog">Workout</a></h2>
       <form method="post" action="{{ url_for('post_workout') }}" class="workout">
         <input name="time" placeholder="Time" inputmode="numeric" required>
         <input name="exercises" placeholder="Exercises" required>
@@ -41,7 +41,7 @@
     </section>
 
     <section class="card">
-      <h2><a href="{{ gollum_base }}/Books">Add book</a></h2>
+      <h2><a href="{{ gollum_base }}/books">Add book</a></h2>
       <form method="post" action="{{ url_for('post_book_new') }}" class="newbook">
         <input name="author" placeholder="Author" required>
         <input name="title" placeholder="Title" required>
@@ -60,7 +60,7 @@
 
     {% if books %}
     <section class="card">
-      <h2><a href="{{ gollum_base }}/Books">Reading now</a></h2>
+      <h2><a href="{{ gollum_base }}/books">Reading now</a></h2>
       <ul class="books">
         {% for b in books %}
         <li>

@@ -90,7 +90,7 @@ def find_book_tables(lines: list[str]) -> dict[str, dict]:
 
 
 def incomplete_books() -> list[dict]:
-    path = WIKI_DIR / "Books.md"
+    path = WIKI_DIR / "books.md"
     if not path.exists():
         return []
     text = path.read_text()
@@ -277,7 +277,7 @@ def post_workout():
     intensity = (request.form.get("intensity") or "").strip()
     if not (time and exercises and intensity):
         return redirect(url_for("index"))
-    path = WIKI_DIR / "workouts" / "WorkoutLog.md"
+    path = WIKI_DIR / "workouts" / "workoutlog.md"
     with locked(path, "r+") as f:
         text = f.read()
         new_text = insert_workout(text, date.today(), time, exercises, intensity)
@@ -297,7 +297,7 @@ def post_book():
     if section not in ("Audiobooks", "Books"):
         return redirect(url_for("index"))
 
-    path = WIKI_DIR / "Books.md"
+    path = WIKI_DIR / "books.md"
     today = date.today()
     stamp = today.strftime("%Y-%m")
     with locked(path, "r+") as f:
@@ -327,7 +327,7 @@ def post_book_new():
     series = (request.form.get("series") or "").strip()
     if section not in ("Audiobooks", "Books") or not (author and title):
         return redirect(url_for("index"))
-    path = WIKI_DIR / "Books.md"
+    path = WIKI_DIR / "books.md"
     with locked(path, "r+") as f:
         text = f.read()
         new_text = insert_book(text, section, author, title, series)
@@ -342,7 +342,7 @@ def post_book_want():
     item = (request.form.get("item") or "").strip()
     if not item:
         return redirect(url_for("index"))
-    path = WIKI_DIR / "Books.md"
+    path = WIKI_DIR / "books.md"
     with locked(path, "r+") as f:
         text = f.read()
         new_text = insert_want_to_read(text, item)
