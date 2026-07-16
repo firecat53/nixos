@@ -3,13 +3,7 @@
   ...
 }:
 let
-  externalServers = [ "vps" ]; # Add server names to list that are not in the LAN
-
-  wgEndpoint =
-    if builtins.elem config.networking.hostName externalServers then
-      "wg.firecat53.net:51820"
-    else
-      "192.168.200.1:51820";
+  wgEndpoint = if config.isRemote then "wg.firecat53.net:51820" else "192.168.200.1:51820";
 in
 {
   # Wireguard systemd-networkd

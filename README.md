@@ -166,9 +166,15 @@ To add a host:
 
 1. Generate hostId (for ZFS systems): `head -c4 /dev/urandom | od -A none -t x4`
 2. Hetzner VMs apparently require grub instead of systemd-boot (as of 2025-08)
-3. Available options:
-    a. isVirtual (bool) - set for virtual hardware (VPS or VM). Default false.
-    b. latestZFSKernel (bool) - set to use latest available ZFS compatible kernel. Default false.
+3. Available options (defined in `hosts/modules/common/options.nix`):
+    a. isRemote (bool) - set for hosts directly exposed to the internet (not
+       behind the LAN firewall). Controls the wireguard endpoint and keeps
+       LAN-only ports (e.g. Eternal Terminal 2022) closed publicly. Default false.
+    b. isVirtual (bool) - set for virtual hardware (VPS or VM). Disables
+       hardware-specific services (fwupd, smartd). Default false.
+    c. latestZFSKernel (bool) - set to use latest available ZFS compatible kernel. Default false.
+    d. tmuxStatusColor (str) - tmux status bar background color, for per-host
+       visual distinction. Default "#cba6f7" (catppuccin mocha mauve).
 
 ### Installing using [nixos-anywhere](https://github.com/nix-community/nixos-anywhere/blob/main/docs/quickstart.md)
 

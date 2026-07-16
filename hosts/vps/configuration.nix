@@ -17,6 +17,7 @@
     inputs.sops-nix.nixosModules.sops
   ];
 
+  isRemote = true; # Define if directly exposed to the internet (not behind LAN firewall)
   isVirtual = true; # Define if a VPS/VM or container
   tmuxStatusColor = "#f38ba8"; # catppuccin mocha red
 

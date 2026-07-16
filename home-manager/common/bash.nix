@@ -49,7 +49,7 @@
       ua = "udiskie-umount -a";
       um = "udiskie-mount";
       uu = "udiskie-umount";
-      vps = "et vps -c 'tmux new-session -A -s term'";
+      vps = "et 10.200.200.5 -c 'tmux new-session -A -s term'";
       wanip = "curl ipinfo.io/ip";
     };
     initExtra = ''

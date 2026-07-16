@@ -4,6 +4,11 @@
 }:
 {
   options = {
+    isRemote = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = "Whether the host is directly exposed to the internet (not behind the LAN firewall)";
+    };
     isVirtual = lib.mkOption {
       type = lib.types.bool;
       default = false;

@@ -71,6 +71,7 @@ imports = [
 ```
 
 **Custom options** (defined in `hosts/modules/common/options.nix`):
+- `isRemote` (bool) - Set for hosts directly exposed to the internet (not behind the LAN firewall)
 - `isVirtual` (bool) - Set for cloud/VM hosts
 - `latestZFSKernel` (bool) - Use latest ZFS-compatible kernel
 
