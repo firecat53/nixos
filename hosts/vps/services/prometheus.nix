@@ -222,6 +222,7 @@
     ];
     alertmanager = {
       enable = true;
+      # Intentionally set to 0.0.0.0 to allow access via wg0 for health checks
       listenAddress = "0.0.0.0";
       webExternalUrl = "https://alerts.firecat53.me";
       extraFlags = [ "--cluster.listen-address=" ];
