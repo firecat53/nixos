@@ -33,6 +33,7 @@ let
       # URLs/redirects from the Host header (e.g. gollum) — they need the real
       # *.firecat53.me host plus a matching homeserver router. See registry.nix.
       passHostHeader = s.passHost or false;
+      serversTransport = "wg-homeserver";
       servers = [ { url = "https://${s.lan}"; } ];
     };
   };
@@ -62,6 +63,15 @@ in
   };
 
   services.traefik.dynamicConfigOptions.http = {
+    serversTransports = {
+      # Skip backend cert verification only for the wireguard leg to the
+      # homeserver's Traefik. The link itself is authenticated/encrypted by
+      # wireguard; this just tolerates cert/SNI mismatches on the .lan names
+      # (e.g. the homeserver's self-signed default cert before ACME issuance).
+      wg-homeserver = {
+        insecureSkipVerify = true;
+      };
+    };
     routers =
       (renamed mkRemoteRouter remote)
       // (renamed mkLocalRouter local)

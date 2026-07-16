@@ -25,9 +25,6 @@
   services.traefik = {
     enable = true;
     staticConfigOptions = {
-      serversTransport = {
-        insecureSkipVerify = true;
-      };
       entryPoints = {
         web = {
           address = ":80";
