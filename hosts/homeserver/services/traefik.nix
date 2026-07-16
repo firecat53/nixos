@@ -22,7 +22,6 @@
   systemd.services.traefik.environment = {
     CF_DNS_API_TOKEN_FILE = "${config.sops.secrets.cf-api-token.path}";
   };
-  users.users.traefik.extraGroups = [ "podman" ];
   services.traefik = {
     enable = true;
     staticConfigOptions = {
@@ -48,12 +47,6 @@
               options = "default";
             };
           };
-        };
-      };
-      providers = {
-        docker = {
-          endpoint = "unix:///var/run/podman/podman.sock";
-          exposedByDefault = false;
         };
       };
       api = {

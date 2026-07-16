@@ -35,7 +35,7 @@ in
     };
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "-${pkgs.podman}/bin/podman pod create -p 8081:8081 -p 2222:22 wg";
+      ExecStart = "-${pkgs.podman}/bin/podman pod create -p 127.0.0.1:8081:8081 -p 2222:22 wg";
     };
     path = [
       pkgs.zfs
@@ -54,17 +54,31 @@ in
       "--init=true"
       "--network=container:wireguard-client"
       "--pod=wg"
-      "--label=traefik.enable=true"
-      "--label=traefik.http.routers.qbittorrent.rule=Host(`qbt.lan.firecat53.net`)"
-      "--label=traefik.http.routers.qbittorrent.entrypoints=websecure"
-      "--label=traefik.http.routers.qbittorrent.tls.certResolver=le"
-      "--label=traefik.http.routers.qbittorrent.middlewares=headers@file"
-      "--label=traefik.http.services.qbittorrent.loadbalancer.server.port=8081"
     ];
     volumes = [
       "qbittorrent_config:/config"
       "/mnt/downloads:/data"
     ];
+  };
+  services.traefik.dynamicConfigOptions.http = {
+    routers.qbittorrent = {
+      rule = "Host(`qbt.lan.firecat53.net`)";
+      service = "qbittorrent";
+      middlewares = [ "headers" ];
+      entrypoints = [ "websecure" ];
+      tls = {
+        certResolver = "le";
+      };
+    };
+    services.qbittorrent = {
+      loadBalancer = {
+        servers = [
+          {
+            url = "http://127.0.0.1:8081";
+          }
+        ];
+      };
+    };
   };
   # Firewall opening for the socks-proxy
   networking.firewall.allowedTCPPorts = [ 2222 ];

@@ -100,15 +100,30 @@
       aliasgroup1 = "https://nc.firecat53.net:443";
       extra_params = "--o:ssl.enable=false --o:ssl.termination=true --o:mount_namespaces=false";
     };
+    ports = [ "127.0.0.1:9980:9980" ];
     extraOptions = [
       "--cap-add=MKNOD"
-      "--label=traefik.enable=true"
-      "--label=traefik.http.routers.collabora.rule=Host(`office.firecat53.net`) && (PathPrefix(`/lool`) || PathPrefix(`/cool`) || PathPrefix(`/browser`) || PathPrefix(`/hosting/discovery`) || PathPrefix(`/hosting/capabilities`) || PathPrefix(`/loleaflet`))"
-      "--label=traefik.http.routers.collabora.entrypoints=websecure"
-      "--label=traefik.http.routers.collabora.tls.certResolver=le"
-      "--label=traefik.http.routers.collabora.middlewares=headers@file"
-      "--label=traefik.http.services.collabora.loadbalancer.server.port=9980"
     ];
+  };
+  services.traefik.dynamicConfigOptions.http = {
+    routers.collabora = {
+      rule = "Host(`office.firecat53.net`) && (PathPrefix(`/lool`) || PathPrefix(`/cool`) || PathPrefix(`/browser`) || PathPrefix(`/hosting/discovery`) || PathPrefix(`/hosting/capabilities`) || PathPrefix(`/loleaflet`))";
+      service = "collabora";
+      middlewares = [ "headers" ];
+      entrypoints = [ "websecure" ];
+      tls = {
+        certResolver = "le";
+      };
+    };
+    services.collabora = {
+      loadBalancer = {
+        servers = [
+          {
+            url = "http://127.0.0.1:9980";
+          }
+        ];
+      };
+    };
   };
 
   ## Filesystem bind mounts to /mnt/nextcloud to allow systemd ProtectHome=true
