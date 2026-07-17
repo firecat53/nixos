@@ -8,6 +8,9 @@
     isNormalUser = true;
     # password: janet
     initialHashedPassword = "$y$j9T$PpUuFhfd7P/WPJcUloiXt.$8MeNlKhF1TRZJEjKfpoYPsAvZSnKBnr1o6hhPsSwN0D";
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAFNdh/CkR1HgX/+yUMuQc/lOXQACXp82LTnrSS7O5Hl wjmonti@MacBook-Pro-2.local"
+    ];
   };
 
   # Install kopia for looking at backups

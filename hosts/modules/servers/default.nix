@@ -1,6 +1,6 @@
 {
   imports = [
-    ./backups.nix
+    ./backup-user.nix
     ./fail2ban.nix
     ./msmtp.nix
     ./neovim.nix
