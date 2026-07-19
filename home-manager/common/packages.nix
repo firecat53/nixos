@@ -58,7 +58,6 @@ in
     ruff
     tig
     # Gui applications
-    anydesk
     inputs.bwm.packages.${pkgs.stdenv.hostPlatform.system}.default
     dmenu
     electrum
@@ -72,6 +71,7 @@ in
     pinentry-qt
     resources
     ripdrag
+    rustdesk-flutter
     scrcpy
     simple-scan
     spotify
