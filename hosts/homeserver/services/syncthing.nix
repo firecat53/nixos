@@ -47,7 +47,7 @@
           id = "GKQYCPJ-5VP7WJZ-GETPRGQ-5XT2C2D-YNCCQZJ-Z7IL4RF-J3HPJYH-U4DINQ5";
         };
         "peggy-laptop" = {
-          id = "XH5MYSV-DBHQQT3-DBUIAWQ-O7ZW33E-Z5RBBOP-HM6OL7T-2DOEGES-CJB3GQE";
+          id = "3PTVUPG-QO5FZJG-JJWM4X2-MYE4BPN-KZB2MOH-MLSLDXO-HL552G3-YSVGUQ5";
         };
         "peggy-phone" = {
           id = "J6HIPCF-ZNL3AEW-2ZJFEWV-WSBU34S-VFCLG5Z-5RIW4WO-VEGB76P-GDKARAK";
@@ -125,6 +125,7 @@
             "peggy-laptop"
           ];
           id = "wcwjd-rxyrv";
+          ignorePerms = true; # Allow ACLs
         };
         "peggy-camera" = {
           path = "/mnt/media/cameras-peggy";
