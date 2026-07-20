@@ -271,7 +271,7 @@
     };
   };
 
-  # Public routers for prom/alerts are generated from registry.nix (local
+  # Public routers for prom/alerts are generated from service-registry.nix (vps
   # entries, auth = true) by proxy-me.nix, which wires the Authelia forward-auth
   # middleware and the two_factor access_control rule. Served at
   # prom.firecat53.me / alerts.firecat53.me.

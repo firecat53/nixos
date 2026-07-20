@@ -21,31 +21,5 @@
     environmentFile = config.sops.secrets.lubelogger-oidc-secret.path;
   };
 
-  services.traefik.dynamicConfigOptions.http.routers.lubelogger = {
-    rule = "Host(`cars.lan.firecat53.net`)";
-    service = "lubelogger";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = {
-      certResolver = "le";
-    };
-  };
-  # Router for the public *.firecat53.me host (proxied from the VPS with
-  # passHostHeader=true) so the OAuth Origin/redirect matches.
-  services.traefik.dynamicConfigOptions.http.routers.lubelogger-me = {
-    rule = "Host(`cars.firecat53.me`)";
-    service = "lubelogger";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = { };
-  };
-  services.traefik.dynamicConfigOptions.http.services.lubelogger = {
-    loadBalancer = {
-      servers = [
-        {
-          url = "http://localhost:5000";
-        }
-      ];
-    };
-  };
+  # Traefik routers/service generated from the registry (cars entry) by lan-proxy.nix.
 }

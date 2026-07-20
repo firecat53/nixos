@@ -209,23 +209,6 @@ in
     };
   };
 
-  # Served at up.lan.firecat53.net (re-exposed at uph.firecat53.me by the VPS).
-  services.traefik.dynamicConfigOptions.http.routers.up = {
-    rule = "Host(`up.lan.firecat53.net`)";
-    service = "up";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = {
-      certResolver = "le";
-    };
-  };
-  services.traefik.dynamicConfigOptions.http.services.up = {
-    loadBalancer = {
-      servers = [
-        {
-          url = "http://localhost:8083";
-        }
-      ];
-    };
-  };
+  # Served at up.lan.firecat53.net (re-exposed at uph.firecat53.me by the VPS);
+  # Traefik routers/service generated from the registry (uph entry) by lan-proxy.nix.
 }

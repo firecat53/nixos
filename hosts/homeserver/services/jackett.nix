@@ -17,29 +17,5 @@
       jackett = prev.jackett.overrideAttrs { doCheck = false; };
     })
   ];
-  services.traefik.dynamicConfigOptions.http.routers.jackett = {
-    rule = "Host(`jackett.lan.firecat53.net`)";
-    service = "jackett";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = {
-      certResolver = "le";
-    };
-  };
-  services.traefik.dynamicConfigOptions.http.routers.jackett-me = {
-    rule = "Host(`jackett.firecat53.me`)";
-    service = "jackett";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = { };
-  };
-  services.traefik.dynamicConfigOptions.http.services.jackett = {
-    loadBalancer = {
-      servers = [
-        {
-          url = "http://localhost:9117";
-        }
-      ];
-    };
-  };
+  # Traefik routers/service generated from the registry (jackett entry) by lan-proxy.nix.
 }

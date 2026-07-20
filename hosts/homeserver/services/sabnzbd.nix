@@ -24,22 +24,5 @@
     Type = lib.mkForce "simple";
     ExecStart = lib.mkForce "${config.services.sabnzbd.package}/bin/sabnzbd -f /var/lib/sabnzbd/sabnzbd.ini -s 127.0.0.1:8090";
   };
-  services.traefik.dynamicConfigOptions.http.routers.sabnzbd = {
-    rule = "Host(`sabnzbd.lan.firecat53.net`)";
-    service = "sabnzbd";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = {
-      certResolver = "le";
-    };
-  };
-  services.traefik.dynamicConfigOptions.http.services.sabnzbd = {
-    loadBalancer = {
-      servers = [
-        {
-          url = "http://localhost:8090";
-        }
-      ];
-    };
-  };
+  # Traefik routers/service generated from the registry (sabnzbd entry) by lan-proxy.nix.
 }

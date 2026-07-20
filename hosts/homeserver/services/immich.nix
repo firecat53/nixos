@@ -29,49 +29,6 @@
   # Allow hardware transcoding
   users.users.immich.extraGroups = [ "render" ];
 
-  services.traefik.dynamicConfigOptions.http.routers.immich = {
-    rule = "Host(`pics.lan.firecat53.net`)";
-    service = "immich";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = {
-      certResolver = "le";
-    };
-  };
-  services.traefik.dynamicConfigOptions.http.routers.immich-me = {
-    rule = "Host(`pics.firecat53.me`)";
-    service = "immich";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = { };
-  };
-  services.traefik.dynamicConfigOptions.http.services.immich = {
-    loadBalancer = {
-      servers = [
-        {
-          url = "http://localhost:2283";
-        }
-      ];
-    };
-  };
-
-  # Immich Public Proxy (public sharing) - exposed at pix.firecat53.me via the VPS
-  services.traefik.dynamicConfigOptions.http.routers.immich-public = {
-    rule = "Host(`pix.lan.firecat53.net`)";
-    service = "immich-public";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = {
-      certResolver = "le";
-    };
-  };
-  services.traefik.dynamicConfigOptions.http.services.immich-public = {
-    loadBalancer = {
-      servers = [
-        {
-          url = "http://localhost:3030";
-        }
-      ];
-    };
-  };
+  # Traefik routers/services generated from the registry by lan-proxy.nix:
+  # pics (immich) and pix (immich-public-proxy, public sharing).
 }

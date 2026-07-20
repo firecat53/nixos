@@ -20,31 +20,5 @@
     adminCredentialsFile = "${config.sops.secrets.miniflux-env.path}";
   };
 
-  services.traefik.dynamicConfigOptions.http.routers.miniflux = {
-    rule = "Host(`rss.lan.firecat53.net`)";
-    service = "miniflux";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = {
-      certResolver = "le";
-    };
-  };
-  # Router for the public *.firecat53.me host (proxied from the VPS with
-  # passHostHeader=true) so the OAuth Origin/redirect matches.
-  services.traefik.dynamicConfigOptions.http.routers.miniflux-me = {
-    rule = "Host(`rss.firecat53.me`)";
-    service = "miniflux";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = { };
-  };
-  services.traefik.dynamicConfigOptions.http.services.miniflux = {
-    loadBalancer = {
-      servers = [
-        {
-          url = "http://localhost:8085";
-        }
-      ];
-    };
-  };
+  # Traefik routers/service generated from the registry (rss entry) by lan-proxy.nix.
 }

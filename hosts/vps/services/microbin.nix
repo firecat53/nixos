@@ -7,9 +7,9 @@
 {
   sops.secrets.microbin = { };
 
-  # Microbin is gated behind Authelia (mb.auth = true in registry.nix), but paste
+  # Microbin is gated behind Authelia (mb.auth = true in service-registry.nix), but paste
   # *viewing* should stay public. The per-path bypass rules live on microbin's
-  # registry.nix entry (`mb.rules`) and are collected in authelia.nix.
+  # service-registry.nix entry (`mb.rules`) and are collected in authelia.nix.
 
   services.microbin = {
     enable = true;

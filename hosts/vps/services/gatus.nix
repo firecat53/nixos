@@ -10,7 +10,7 @@
 #   - Akkoma and Matrix are NOT in the registry and are federated/public
 #     services, so they are probed via their real public endpoints end-to-end.
 #
-# Served behind Authelia at gatus.firecat53.me (registry.nix `local` entry,
+# Served behind Authelia at gatus.firecat53.me (service-registry.nix `vps` entry,
 # auth = true -> router + forward-auth wired by proxy-me.nix / authelia.nix).
 #
 {
@@ -19,8 +19,8 @@
   ...
 }:
 let
-  # Homeserver wireguard IP (single source of truth in registry.nix)
-  inherit (import ./registry.nix) hsIP;
+  # Homeserver wireguard IP (single source of truth in service-registry.nix)
+  inherit (import ../../modules/service-registry.nix) hsIP;
 
   # Matrix alert room internal id. NOT a secret (just an identifier, useless
   # without the access token + room membership)

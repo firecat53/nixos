@@ -11,29 +11,5 @@
     group = "users";
     dataDir = "audiobookshelf";
   };
-  services.traefik.dynamicConfigOptions.http.routers.audiobookshelf = {
-    rule = "Host(`books.lan.firecat53.net`)";
-    service = "audiobookshelf";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = {
-      certResolver = "le";
-    };
-  };
-  services.traefik.dynamicConfigOptions.http.routers.audiobookshelf-me = {
-    rule = "Host(`books.firecat53.me`)";
-    service = "audiobookshelf";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = { };
-  };
-  services.traefik.dynamicConfigOptions.http.services.audiobookshelf = {
-    loadBalancer = {
-      servers = [
-        {
-          url = "http://localhost:8000";
-        }
-      ];
-    };
-  };
+  # Traefik routers/service generated from the registry (books entry) by lan-proxy.nix.
 }

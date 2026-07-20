@@ -25,22 +25,5 @@
     backupDir = "/var/backups/vaultwarden";
   };
 
-  services.traefik.dynamicConfigOptions.http.routers.vaultwarden = {
-    rule = "Host(`bw.lan.firecat53.net`)";
-    service = "vaultwarden";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = {
-      certResolver = "le";
-    };
-  };
-  services.traefik.dynamicConfigOptions.http.services.vaultwarden = {
-    loadBalancer = {
-      servers = [
-        {
-          url = "http://localhost:8082";
-        }
-      ];
-    };
-  };
+  # Traefik routers/service generated from the registry (bw entry) by lan-proxy.nix.
 }

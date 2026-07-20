@@ -15,22 +15,5 @@
     secretsFile = "${config.sops.secrets.pinchflat-env.path}";
     user = "firecat53";
   };
-  services.traefik.dynamicConfigOptions.http.routers.pinchflat = {
-    rule = "Host(`yt.lan.firecat53.net`)";
-    service = "pinchflat";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = {
-      certResolver = "le";
-    };
-  };
-  services.traefik.dynamicConfigOptions.http.services.pinchflat = {
-    loadBalancer = {
-      servers = [
-        {
-          url = "http://localhost:8945";
-        }
-      ];
-    };
-  };
+  # Traefik routers/service generated from the registry (yt entry, lanOnly) by lan-proxy.nix.
 }

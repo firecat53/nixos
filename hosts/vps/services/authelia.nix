@@ -24,13 +24,13 @@
 let
   # Forward-auth protected resources are derived from the service registry
   # (auth = true), so this list can never drift from proxy-me.nix.
-  reg = import ./registry.nix;
-  allServices = reg.remote // reg.local;
+  reg = import ../../modules/service-registry.nix;
+  allServices = reg.homeserver // reg.vps;
   protected = lib.filterAttrs (_: s: s.auth) allServices;
   protectedDomains = map (n: "${n}.firecat53.me") (lib.attrNames protected);
 
   # Per-service access_control overrides (e.g. microbin's public paste viewing)
-  # are declared as a `rules` list on the service's registry.nix entry, so they
+  # are declared as a `rules` list on the service's service-registry.nix entry, so they
   # live and die with that entry. The `domain` is derived from the attr name.
   bypassRules = lib.concatLists (
     lib.mapAttrsToList (
@@ -251,13 +251,13 @@ in
         access_control = {
           default_policy = "deny";
           # Per-service bypass/override rules (e.g. microbin's public paste
-          # viewing) are declared on each service's registry.nix entry and
+          # viewing) are declared on each service's service-registry.nix entry and
           # collected into `bypassRules` above, so they live and die with that
           # entry. Rules are evaluated top-down, first match wins; bypass rules
           # come before the blanket two_factor rule below.
           rules = bypassRules ++ [
             # Protected resources: require 2FA from the internet.
-            # Derived from registry.nix `auth = true` entries.
+            # Derived from service-registry.nix `auth = true` entries.
             {
               domain = protectedDomains;
               policy = "two_factor";

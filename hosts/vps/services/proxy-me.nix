@@ -10,9 +10,10 @@
   ...
 }:
 let
-  # Service registry is the single source of truth (see registry.nix). Authelia
-  # and gatus derive their views from the same file.
-  inherit (import ./registry.nix) hsIP remote local;
+  # Service registry is the single source of truth (shared with the
+  # homeserver's lan-proxy.nix — see ../../modules/service-registry.nix).
+  # Authelia and gatus derive their views from the same file.
+  inherit (import ../../modules/service-registry.nix) hsIP homeserver vps;
 
   mw = auth: [ "headers" ] ++ lib.optional auth "authelia";
 
@@ -31,7 +32,7 @@ let
       # Default false: send the .lan name as Host so the homeserver's existing
       # routers match. Opt into passHost = true for apps that build absolute
       # URLs/redirects from the Host header (e.g. gollum) — they need the real
-      # *.firecat53.me host plus a matching homeserver router. See registry.nix.
+      # *.firecat53.me host plus a matching homeserver router. See service-registry.nix.
       passHostHeader = s.passHost or false;
       serversTransport = "wg-homeserver";
       servers = [ { url = "https://${s.lan}"; } ];
@@ -49,7 +50,7 @@ let
 in
 {
   # Resolve homeserver .lan names across the wireguard tunnel.
-  networking.hosts."${hsIP}" = map (s: s.lan) (lib.attrValues remote);
+  networking.hosts."${hsIP}" = map (s: s.lan) (lib.attrValues homeserver);
 
   # Forgejo SSH: TCP passthrough to the homeserver's built-in SSH server
   # (forgejo SSH_LISTEN_PORT = 3022). Must be reachable on the wg interface.
@@ -73,8 +74,8 @@ in
       };
     };
     routers =
-      (renamed mkRemoteRouter remote)
-      // (renamed mkLocalRouter local)
+      (renamed mkRemoteRouter homeserver)
+      // (renamed mkLocalRouter vps)
       // {
         # Authelia login portal (no forward-auth on itself)
         auth = {
@@ -89,8 +90,8 @@ in
         };
       };
     services =
-      (renamed mkRemoteService remote)
-      // (renamed mkLocalService local)
+      (renamed mkRemoteService homeserver)
+      // (renamed mkLocalService vps)
       // {
         authelia.loadBalancer.servers = [ { url = "http://127.0.0.1:9091"; } ];
       };

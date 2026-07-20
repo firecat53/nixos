@@ -52,18 +52,5 @@
     };
   };
 
-  services.traefik.dynamicConfigOptions.http.routers.forgejo = {
-    rule = "Host(`git.lan.firecat53.net`)";
-    service = "forgejo";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls.certResolver = "le";
-  };
-  services.traefik.dynamicConfigOptions.http.services.forgejo = {
-    loadBalancer.servers = [
-      {
-        url = "http://localhost:3100";
-      }
-    ];
-  };
+  # Traefik routers/service generated from the registry (git entry) by lan-proxy.nix.
 }

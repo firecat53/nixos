@@ -11,29 +11,5 @@
     group = "users";
     dataDir = "/var/lib/radarr";
   };
-  services.traefik.dynamicConfigOptions.http.routers.radarr = {
-    rule = "Host(`radarr.lan.firecat53.net`)";
-    service = "radarr";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = {
-      certResolver = "le";
-    };
-  };
-  services.traefik.dynamicConfigOptions.http.routers.radarr-me = {
-    rule = "Host(`radarr.firecat53.me`)";
-    service = "radarr";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = { };
-  };
-  services.traefik.dynamicConfigOptions.http.services.radarr = {
-    loadBalancer = {
-      servers = [
-        {
-          url = "http://localhost:7878";
-        }
-      ];
-    };
-  };
+  # Traefik routers/service generated from the registry (radarr entry) by lan-proxy.nix.
 }

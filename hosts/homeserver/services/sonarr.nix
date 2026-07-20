@@ -6,29 +6,5 @@
     group = "users";
     dataDir = "/var/lib/sonarr";
   };
-  services.traefik.dynamicConfigOptions.http.routers.sonarr = {
-    rule = "Host(`sonarr.lan.firecat53.net`)";
-    service = "sonarr";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = {
-      certResolver = "le";
-    };
-  };
-  services.traefik.dynamicConfigOptions.http.routers.sonarr-me = {
-    rule = "Host(`sonarr.firecat53.me`)";
-    service = "sonarr";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = { };
-  };
-  services.traefik.dynamicConfigOptions.http.services.sonarr = {
-    loadBalancer = {
-      servers = [
-        {
-          url = "http://localhost:8989";
-        }
-      ];
-    };
-  };
+  # Traefik routers/service generated from the registry (sonarr entry) by lan-proxy.nix.
 }

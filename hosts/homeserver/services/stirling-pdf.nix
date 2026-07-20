@@ -6,22 +6,5 @@
       SERVER_PORT = 8880;
     };
   };
-  services.traefik.dynamicConfigOptions.http.routers.stirling-pdf = {
-    rule = "Host(`pdf.lan.firecat53.net`)";
-    service = "stirling-pdf";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = {
-      certResolver = "le";
-    };
-  };
-  services.traefik.dynamicConfigOptions.http.services.stirling-pdf = {
-    loadBalancer = {
-      servers = [
-        {
-          url = "http://localhost:8880";
-        }
-      ];
-    };
-  };
+  # Traefik routers/service generated from the registry (pdf entry) by lan-proxy.nix.
 }

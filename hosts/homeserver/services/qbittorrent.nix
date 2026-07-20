@@ -60,26 +60,8 @@ in
       "/mnt/downloads:/data"
     ];
   };
-  services.traefik.dynamicConfigOptions.http = {
-    routers.qbittorrent = {
-      rule = "Host(`qbt.lan.firecat53.net`)";
-      service = "qbittorrent";
-      middlewares = [ "headers" ];
-      entrypoints = [ "websecure" ];
-      tls = {
-        certResolver = "le";
-      };
-    };
-    services.qbittorrent = {
-      loadBalancer = {
-        servers = [
-          {
-            url = "http://127.0.0.1:8081";
-          }
-        ];
-      };
-    };
-  };
+  # Traefik routers/service generated from the registry (qbt entry) by lan-proxy.nix.
+
   # Firewall opening for the socks-proxy
   networking.firewall.allowedTCPPorts = [ 2222 ];
   virtualisation.oci-containers.containers.socks-proxy = {

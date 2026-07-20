@@ -13,6 +13,7 @@
     ./immich.nix
     ./jackett.nix
     ./jellyfin.nix
+    ./lan-proxy.nix
     ./lubelogger.nix
     ./matrix-synapse.nix
     ./miniflux.nix

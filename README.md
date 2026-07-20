@@ -40,96 +40,118 @@ Service modules consume them with
 
 ## Adding / removing services and hosts
 
-### Public-facing services (`*.firecat53.me` via VPS)
+### Which name goes where (the 2am map)
 
-Publicly-exposed services are driven by a single registry,
-`hosts/vps/services/registry.nix`. The VPS reverse proxy (`proxy-me.nix`),
-Authelia 2FA rules (`authelia.nix`), and Gatus host resolution
-(`gatus.nix`) are all *derived* from it.
+| name                                               | served by                                      | reachable from       | what it's for                                                                                                       |
+| -------------------------------------------------- | ---------------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `*.lan.firecat53.net`                              | homeserver Traefik                             | LAN + wireguard only | the "home" name every homeserver web app gets (real LE certs, but the name resolves to a LAN address)               |
+| `*.firecat53.me`                                   | VPS Traefik                                    | internet             | public front door: proxies over wireguard to the homeserver `.lan` name, or to a VPS-local port                     |
+| `*.firecat53.com`                                  | VPS Traefik                                    | internet             | VPS-native public apps (grafana, VPS nextcloud, syncthing, Authelia portal, apex website)                           |
+| `firecat53.net` + subs (`matrix.`, `s.`, `nc.`, …) | homeserver Traefik directly (443 port-forward) | internet             | federated/public apps that must be reached directly (Matrix, Akkoma, Nextcloud) — hand-written, not in the registry |
 
-Each entry's fields:
+Rules of thumb:
 
-| field      | where  | meaning                                                                     |
-|------------|--------|-----------------------------------------------------------------------------|
-| `lan`      | remote | homeserver `.lan` backend the VPS proxies to over wireguard                 |
-| `port`     | local  | localhost port the VPS-local app binds to                                   |
-| `auth`     | both   | `true` gates the service behind Authelia 2FA from the internet              |
-| `passHost` | remote | optional; forward the real `*.firecat53.me` Host to the backend (see below) |
-| `rules`    | both   | optional; per-service Authelia `access_control` rules (see below)           |
+- **At home or on wireguard** → use the `.lan` name. Direct to the homeserver,
+  no VPS hop; basicAuth prompt if the service has one.
+- **Out in the world** → use the `.me` name. The VPS terminates TLS, Authelia
+  2FA's you (if `auth = true`), then proxies over wireguard to the *same*
+  homeserver backend.
+- `.lan` and `.me` are two doors to one app — the entry in
+  `hosts/modules/service-registry.nix` is what ties them together.
+- **Service on the VPS itself** → `.me` if it's registry-managed (behind
+  Authelia), `.com` if it's hand-written and fully public.
+- Not web / not HTTP isn't covered by any of this: ssh, syncthing sync, and
+  wireguard are direct port openings on their hosts; Forgejo ssh
+  (`git.firecat53.me:2222`) is a TCP passthrough on the VPS Traefik
+  (`proxy-me.nix`) to the homeserver.
+
+### Web services (`*.lan.firecat53.net` + `*.firecat53.me`)
+
+Standard web services on both hosts are driven by a single shared registry,
+`hosts/modules/service-registry.nix`. Derived from it:
+
+| consumer                            | generates                                                          |
+| ----------------------------------- | ------------------------------------------------------------------ |
+| homeserver `services/lan-proxy.nix` | the `.lan` Traefik routers/services (+ `-me`/`-noauth` companions) |
+| vps `services/proxy-me.nix`         | the `*.firecat53.me` reverse-proxy routers/services                |
+| vps `services/authelia.nix`         | 2FA-protected domains (`auth = true`) + access_control rules       |
+| vps `services/gatus.nix`            | homeserver `.lan` backend resolution for monitoring                |
+| homeserver `services/dashboard.nix` | build-time assertion that dashboard tiles point at real services   |
+
+Each entry's fields — the attr name is the `*.firecat53.me` subdomain, and
+every flag controls exactly **one** generated thing (nothing is derived from
+another flag):
+
+| field       | where           | meaning                                                                  |
+|-------------|-----------------|--------------------------------------------------------------------------|
+| `lan`       | homeserver sets | the `.lan` router host, and the backend the VPS proxies to over wireguard |
+| `port`      | all             | backend port on localhost                                                |
+| `url`       | all             | backend URL; overrides `port` for non-localhost backends (e.g. hass VM)  |
+| `auth`      | homeserver/vps  | `true` gates `<sub>.firecat53.me` behind Authelia 2FA                    |
+| `passHost`  | homeserver      | VPS forwards the real `*.firecat53.me` Host header (see below)           |
+| `meRouter`  | homeserver      | homeserver companion router on `<sub>.firecat53.me` (see below)          |
+| `basicAuth` | homeserver      | homeserver router gets the `auth` basicAuth middleware                   |
+| `vpsBypass` | homeserver      | homeserver `-noauth` companion router skipping basicAuth for VPS traffic |
+| `rules`     | homeserver/vps  | optional; per-service Authelia `access_control` rules (see below)        |
 
 **Service running on homeserver:**
 
-1. Create `hosts/homeserver/services/<name>.nix` defining the app and its own
-   Traefik router `rule = "Host(\`<name>.lan.firecat53.net\`)"`, and add it to
-   `hosts/homeserver/services/default.nix`.
-2. Add one entry to the `remote` set in `hosts/vps/services/registry.nix`:
+1. Create `hosts/homeserver/services/<name>.nix` defining *just the app*
+   (bound to a localhost port), and add it to
+   `hosts/homeserver/services/default.nix`. No Traefik config.
+2. Add one entry to the `homeserver` set in the registry (or `lanOnly` for
+   services that should not be exposed at `*.firecat53.me`):
    ```nix
-   <sub> = { lan = "<name>.lan.firecat53.net"; auth = <true|false>; };
+   <sub> = { lan = "<sub>.lan.firecat53.net"; port = <port>; auth = <true|false>; };
    ```
-   `auth = true` gates the service behind Authelia 2FA when reached from the
-   internet via `<sub>.firecat53.me`.
-3. Rebuild `homeserver`, then `vps`. The `<sub>.firecat53.me` router, the
-   Authelia rule (if `auth = true`), and Uptime-Kuma resolution appear
-   automatically.
+3. Rebuild `homeserver`, then `vps`. The `.lan` router, the
+   `<sub>.firecat53.me` router, the Authelia rule (if `auth = true`), and
+   Gatus resolution appear automatically.
 
-**Services with their own HTTP basic auth** (the homeserver `auth`
-middleware — e.g. gollum, today, syncthing, transmission): the auth model is
-*basicAuth on the LAN, Authelia on the internet* — not both. The VPS proxies
-`*.firecat53.me` traffic in from `10.200.200.5`, so add a second, companion
-router on the homeserver that matches that source IP and **omits** the `auth`
-middleware, letting Authelia-2FA'd requests through without a second prompt:
+To inspect the fully-rendered result of the generated config:
 
-```nix
-services.traefik.dynamicConfigOptions.http.routers.<name>-noauth = {
-  rule = "Host(\`<name>.lan.firecat53.net\`) && ClientIP(\`10.200.200.5\`)";
-  service = "<name>";
-  priority = 100; # beat the plain Host() router
-  middlewares = [ "headers" ]; # no "auth"
-  entrypoints = [ "websecure" ];
-  tls.certResolver = "le";
-};
+```bash
+nix eval --json .#nixosConfigurations.<host>.config.services.traefik.dynamicConfigOptions | jq
 ```
 
+**Services with their own HTTP basic auth** (`basicAuth = true` — e.g. gollum,
+today, syncthing, transmission): the auth model is *basicAuth on the LAN,
+Authelia on the internet* — not both. The VPS proxies `*.firecat53.me` traffic
+in from `10.200.200.5`, so set `vpsBypass = true` to generate a companion
+router that matches that source IP and omits the `auth` middleware, letting
+Authelia-2FA'd requests (and Gatus probes) through without a second prompt.
 LAN/wireguard clients keep hitting the plain `Host()` router and still get
 basicAuth. This relies on the homeserver Traefik not trusting forwarded
 headers (so `ClientIP` is the real TCP source). Services without basicAuth
 (app-level login, or `auth = false`) need no companion router.
 
-**Exception — apps that build absolute redirects/URLs from the Host header**
-(e.g. gollum, sonarr): the `ClientIP` trick won't work, because the backend
-would see the `.lan` host and redirect clients there (broken off-LAN). Instead
-set `passHost = true` on its `registry.nix` entry so the VPS forwards the real
-`<sub>.firecat53.me` host, and give it a companion router keyed on that host
-(no `ClientIP` needed — only the VPS ever sends that host):
-
-```nix
-services.traefik.dynamicConfigOptions.http.routers.<name>-me = {
-  rule = "Host(\`<name>.firecat53.me\`)";
-  service = "<name>";
-  middlewares = [ "headers" ]; # no "auth"
-  entrypoints = [ "websecure" ];
-  tls = { }; # no certResolver: TLS uses the .lan SNI cert from the router above
-};
-```
+**Apps that build absolute redirects/URLs from the Host header** (e.g. gollum,
+sonarr, OAuth redirect flows): the `ClientIP` trick won't work, because the
+backend would see the `.lan` host and redirect clients there (broken off-LAN).
+Instead set `passHost = true` so the VPS forwards the real
+`<sub>.firecat53.me` host, plus `meRouter = true` to generate the homeserver
+companion router keyed on that host (no `ClientIP` needed — only the VPS ever
+sends that host, already 2FA'd, so it carries no basicAuth).
 
 **Service running locally on the VPS:**
 
 1. Create `hosts/vps/services/<name>.nix` (+ add it to `services/default.nix`),
    binding the app to a localhost port.
-2. Add one entry to the `local` set in `registry.nix`:
+2. Add one entry to the `vps` set in the registry:
    ```nix
    <sub> = { port = <port>; auth = <true|false>; };
    ```
 3. Rebuild `vps`.
 
-**Removing a service:** delete its `registry.nix` entry (and the service file +
-its `default.nix` import). The proxy router, auth rule, and monitor resolution
-all disappear with it. Remove OIDC from authelia.nix if necessary.
+**Removing a service:** delete its registry entry (and the service file + its
+`default.nix` import). The `.lan` router, proxy router, auth rule, and monitor
+resolution all disappear with it — and the dashboard assertion fails at build
+time if a tile still points at it. Remove OIDC from authelia.nix if necessary.
 
-The `.lan` backend name necessarily appears in *two* places — the homeserver
-service file (its own router) and the VPS registry `lan =` value — because the
-VPS must name the backend it proxies to across the wireguard tunnel. This
-cross-host duplication is intentional.
+**Oddballs stay hand-written** in their own service files (path-prefix rules,
+extra middlewares, non-`.lan` hosts): matrix-synapse, akkoma, nextcloud, and
+the nginx `lan.firecat53.net` apex. If a service outgrows the registry schema,
+move it to a hand-written stanza rather than adding fields.
 
 ### Authelia: access control and OIDC
 

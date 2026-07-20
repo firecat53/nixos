@@ -8,12 +8,12 @@
 let
   localPkgs = import ../../../pkgs { inherit pkgs; };
 
-  # registry.nix is the single source of truth for *.firecat53.me subdomains.
-  # `me` builds the public URL and asserts the subdomain is actually exposed,
-  # so removing a service from the registry breaks the build instead of leaving
-  # a dead tile.
-  reg = import ../../vps/services/registry.nix;
-  meSubs = (builtins.attrNames reg.remote) ++ (builtins.attrNames reg.local);
+  # service-registry.nix is the single source of truth for *.firecat53.me
+  # subdomains. `me` builds the public URL and asserts the subdomain is
+  # actually exposed, so removing a service from the registry breaks the build
+  # instead of leaving a dead tile.
+  reg = import ../../modules/service-registry.nix;
+  meSubs = (builtins.attrNames reg.homeserver) ++ (builtins.attrNames reg.vps);
   me =
     sub:
     assert lib.assertMsg (builtins.elem sub meSubs)
@@ -240,22 +240,10 @@ let
 in
 {
   # Served by the existing nginx (defaultHTTPListenPort = 8080), matched on the
-  # Host header so it coexists with the lan.firecat53.net vhost.
+  # Host header so it coexists with the lan.firecat53.net vhost. Traefik
+  # routers/service generated from the registry (home entry) by lan-proxy.nix.
   services.nginx.virtualHosts."home.lan.firecat53.net" = {
     root = "${site}";
     locations."/".index = "index.html";
   };
-
-  # Router/service named `home-dash` to avoid colliding with the Traefik API
-  # `dashboard` router defined in traefik.nix.
-  services.traefik.dynamicConfigOptions.http.routers.home-dash = {
-    rule = "Host(`home.lan.firecat53.net`)";
-    service = "home-dash";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls.certResolver = "le";
-  };
-  services.traefik.dynamicConfigOptions.http.services.home-dash.loadBalancer.servers = [
-    { url = "http://localhost:8080"; }
-  ];
 }

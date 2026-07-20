@@ -36,22 +36,5 @@
     ];
   };
 
-  services.traefik.dynamicConfigOptions.http.routers.jellyfin = {
-    rule = "Host(`jellyfin.lan.firecat53.net`)";
-    service = "jellyfin";
-    middlewares = [ "headers" ];
-    entrypoints = [ "websecure" ];
-    tls = {
-      certResolver = "le";
-    };
-  };
-  services.traefik.dynamicConfigOptions.http.services.jellyfin = {
-    loadBalancer = {
-      servers = [
-        {
-          url = "http://localhost:8096";
-        }
-      ];
-    };
-  };
+  # Traefik routers/service generated from the registry (jellyfin entry) by lan-proxy.nix.
 }
