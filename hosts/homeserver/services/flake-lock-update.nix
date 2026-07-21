@@ -61,12 +61,22 @@ in
       Type = "oneshot";
       User = user;
     };
-    # Identity for the automated lock-bump commits
+    # Identity for the automated lock-bump commits. Signing config goes via
+    # GIT_CONFIG_* because nix runs `git commit` internally for
+    # --commit-lock-file, so -c flags can't reach it. Same signing key as
+    # wiki-sync (deployed by wiki.nix), so forgejo shows the commits verified.
     environment = {
       GIT_AUTHOR_NAME = "flake-lock-update";
       GIT_AUTHOR_EMAIL = "tech@firecat53.net";
       GIT_COMMITTER_NAME = "flake-lock-update";
       GIT_COMMITTER_EMAIL = "tech@firecat53.net";
+      GIT_CONFIG_COUNT = "3";
+      GIT_CONFIG_KEY_0 = "gpg.format";
+      GIT_CONFIG_VALUE_0 = "ssh";
+      GIT_CONFIG_KEY_1 = "user.signingkey";
+      GIT_CONFIG_VALUE_1 = "/home/${user}/.config/sops-nix/secrets/signing-key";
+      GIT_CONFIG_KEY_2 = "commit.gpgsign";
+      GIT_CONFIG_VALUE_2 = "true";
     };
     path = [
       pkgs.nix
