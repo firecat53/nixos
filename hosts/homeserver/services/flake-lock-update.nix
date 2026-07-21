@@ -11,6 +11,11 @@
 # 04:00 so the commit has synced everywhere before the 04:40 upgrades start.
 # Desktops build from the working tree (usually the dev branch) and pick up
 # lock bumps when dev is rebased onto main.
+#
+# main is also pushed to forgejo nightly: syncthing replicates disasters as
+# readily as commits, so the forgejo repo (and its GitHub mirror) is the only
+# copy outside the syncthing domain — and the clone source for rebuilding
+# from scratch. dev is pushed manually.
 { pkgs, ... }:
 let
   user = "firecat53";
@@ -29,6 +34,7 @@ let
 
     git -C ${repo} worktree add "$worktree" main
     nix flake update --flake "$worktree" --commit-lock-file
+    git -C ${repo} push origin main
   '';
 in
 {
@@ -57,6 +63,7 @@ in
       pkgs.nix
       pkgs.git
       pkgs.host
+      pkgs.openssh # git push over the forgejo: ssh alias
     ];
   };
   systemd.timers.flake-lock-update = {
