@@ -61,6 +61,8 @@ Service modules consume them with
 * `today` — minimal Flask webapp for quick diary, workout, and book entries into
   the wiki. Deployed on `homeserver` via `hosts/homeserver/services/today.nix`
   at `today.lan.firecat53.net`.
+* `dashboard` - static home service bookmark page served at
+  `home.lan.firecat53.net`
 
 ## Adding / removing services and hosts
 
@@ -334,7 +336,6 @@ nix flake update my-secrets
 ### BACKUP server
 
 1. [[#Installing locally on a new machine using the ISO installer]]
-2. `sudo smbpass -a jamia`
 3. `ssh-keygen -f /etc/ssh/backup && chown backup: /etc/ssh/backup`. Change
    `backupPull` to the public key in `ssh-keys.nix` and rebuild all servers.
 4. `sudo -i -u backup ssh -i /etc/ssh/backup <backup source hostname(s)>` and
