@@ -19,6 +19,25 @@ in
 
   programs.home-manager.enable = true;
 
+  # forgejo alias for flake-lock-update's nightly `git push origin main`
+  # (homeserver doesn't import common/, which defines this alias for
+  # desktops, and has no device key). Dedicated deploy key from sops, same
+  # pattern as wiki.nix's forgejo-wiki block — the pubkey is a deploy key
+  # with write access on the forgejo nixos repo.
+  sops.secrets.nixos-ssh = { };
+  programs.ssh = {
+    enable = true;
+    enableDefaultConfig = false;
+    settings."forgejo" = {
+      HostName = "git.firecat53.me";
+      Port = 2222;
+      User = "forgejo";
+      IdentityFile = config.sops.secrets.nixos-ssh.path;
+      IdentitiesOnly = "yes";
+      PreferredAuthentications = "publickey";
+    };
+  };
+
   sops = {
     age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
     defaultSopsFile = "${secretspath}/homeserver/secrets.yaml";

@@ -24,16 +24,25 @@ let
   updateScript = pkgs.writeShellScript "flake-lock-update" ''
     set -euo pipefail
 
-    worktree="$(mktemp -d)/main"
-    cleanup() {
-      git -C ${repo} worktree remove --force "$worktree" 2>/dev/null || true
-      git -C ${repo} worktree prune
-      rm -rf "$(dirname "$worktree")"
-    }
-    trap cleanup EXIT
+    # The checked-out branch here follows whatever was last synced (HEAD lives
+    # in the syncthing-synced .git), and git refuses to check out a branch
+    # that another worktree already has. So update main in place when it is
+    # checked out, and via a throwaway worktree otherwise.
+    if [ "$(git -C ${repo} symbolic-ref --short -q HEAD || true)" = "main" ]; then
+      nix flake update --flake ${repo} --commit-lock-file
+    else
+      worktree="$(mktemp -d)/main"
+      cleanup() {
+        git -C ${repo} worktree remove --force "$worktree" 2>/dev/null || true
+        git -C ${repo} worktree prune
+        rm -rf "$(dirname "$worktree")"
+      }
+      trap cleanup EXIT
 
-    git -C ${repo} worktree add "$worktree" main
-    nix flake update --flake "$worktree" --commit-lock-file
+      git -C ${repo} worktree add "$worktree" main
+      nix flake update --flake "$worktree" --commit-lock-file
+    fi
+
     git -C ${repo} push origin main
   '';
 in
