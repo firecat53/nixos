@@ -25,6 +25,10 @@ in
   # pattern as wiki.nix's forgejo-wiki block — the pubkey is a deploy key
   # with write access on the forgejo nixos repo.
   sops.secrets.nixos-ssh = { };
+  # Commit signing key for flake-lock-update. Also declared by wiki.nix
+  # (identical declarations merge); declared here so lock-bump signing
+  # doesn't silently depend on wiki.nix staying imported.
+  sops.secrets.signing-key = { };
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
