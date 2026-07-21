@@ -32,43 +32,9 @@ nix run github:nix-community/nixos-anywhere -- \
 
 ## Architecture
 
-This is a NixOS flake configuration managing 6 hosts (laptop, office, homeserver, backup, vps).
-
-### Directory Structure
-
-- `flake.nix` - Entry point defining all inputs and `mkSystem` helper function
-- `hosts/<hostname>/` - Per-host configurations
-  - `configuration.nix` - Main host config
-  - `hardware-configuration.nix` - Generated hardware config
-  - `disko-config.nix` - Declarative disk partitioning
-  - `services/` - Host-specific services (directory import)
-- `hosts/modules/` - Shared NixOS modules
-  - `common/` - Base config applied to all hosts (nix settings, users, sshd, sops)
-  - `desktops/` - Desktop environment (Sway, fonts, pipewire, printing)
-  - `servers/` - Server features (backups, fail2ban, wireguard)
-  - Feature modules: `zfs.nix`, `docker.nix`, `podman.nix`, `libvirt.nix`, etc.
-- `hosts/examples/` - Templates for new hosts (base-minimal, base-btrfs, base-zfs)
-- `home-manager/` - User-level configurations
-  - `home-manager.nix` - Passes flake inputs to home-manager
-  - `common/` - Shared user tools
-  - `apps/` - Optional applications
-  - `sway/` - Sway window manager config
-  - Role configs: `laptop.nix`, `homeserver.nix`, `office.nix`
+This is a NixOS flake configuration managing 5 hosts (laptop, office, homeserver, backup, vps).
 
 ### Key Patterns
-
-**Host configuration imports:**
-```nix
-imports = [
-  ./hardware-configuration.nix
-  ./services/
-  ../modules/common
-  ../modules/<feature>.nix
-  ../../home-manager/home-manager.nix
-  inputs.home-manager.nixosModules.home-manager
-  inputs.sops-nix.nixosModules.sops
-];
-```
 
 **Custom options** (defined in `hosts/modules/common/options.nix`):
 - `isRemote` (bool) - Set for hosts directly exposed to the internet (not behind the LAN firewall)
