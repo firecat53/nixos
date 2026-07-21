@@ -48,7 +48,6 @@
             "vps"
           ];
           id = "smqlq-yhrua";
-          type = "receiveonly";
         };
       };
     };

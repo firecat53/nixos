@@ -117,7 +117,6 @@
             "vps"
           ];
           id = "smqlq-yhrua";
-          type = "receiveonly";
         };
         "peggy-all" = {
           path = "/home/peggy";

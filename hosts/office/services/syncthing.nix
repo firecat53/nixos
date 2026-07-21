@@ -88,7 +88,6 @@
             "vps"
           ];
           id = "smqlq-yhrua";
-          type = "sendreceive";
         };
         "shared" = {
           path = "/home/firecat53/shared";

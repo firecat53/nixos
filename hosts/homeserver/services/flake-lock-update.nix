@@ -1,0 +1,69 @@
+# Nightly flake input update, committed to the local `main` branch.
+#
+# flake.lock is committed to git, so the server auto-upgrades (which build
+# from ?ref=main) only ever see the locked inputs recorded on main. This
+# service provides the rolling-update behavior: it runs `nix flake update
+# --commit-lock-file` in a throwaway git worktree of main, advancing main by
+# one lock-bump commit. Syncthing syncs .git to every other host, so the
+# other servers pick up the new lock at their 04:40 nixos-upgrade run.
+#
+# Runs only on the homeserver (always on, unlike the laptop). It fires at
+# 04:00 so the commit has synced everywhere before the 04:40 upgrades start.
+# Desktops build from the working tree (usually the dev branch) and pick up
+# lock bumps when dev is rebased onto main.
+{ pkgs, ... }:
+let
+  user = "firecat53";
+  repo = "/home/${user}/nixos/nixos";
+
+  updateScript = pkgs.writeShellScript "flake-lock-update" ''
+    set -euo pipefail
+
+    worktree="$(mktemp -d)/main"
+    cleanup() {
+      git -C ${repo} worktree remove --force "$worktree" 2>/dev/null || true
+      git -C ${repo} worktree prune
+      rm -rf "$(dirname "$worktree")"
+    }
+    trap cleanup EXIT
+
+    git -C ${repo} worktree add "$worktree" main
+    nix flake update --flake "$worktree" --commit-lock-file
+  '';
+in
+{
+  systemd.services.flake-lock-update = {
+    preStart = "${pkgs.host}/bin/host firecat53.net"; # Check network connectivity
+    unitConfig = {
+      Description = "Update flake.lock and commit to main";
+      StartLimitIntervalSec = 600;
+      StartLimitBurst = 2;
+    };
+    serviceConfig = {
+      ExecStart = "${updateScript}";
+      Restart = "on-failure";
+      RestartSec = "120";
+      Type = "oneshot";
+      User = user;
+    };
+    # Identity for the automated lock-bump commits
+    environment = {
+      GIT_AUTHOR_NAME = "flake-lock-update";
+      GIT_AUTHOR_EMAIL = "tech@firecat53.net";
+      GIT_COMMITTER_NAME = "flake-lock-update";
+      GIT_COMMITTER_EMAIL = "tech@firecat53.net";
+    };
+    path = [
+      pkgs.nix
+      pkgs.git
+      pkgs.host
+    ];
+  };
+  systemd.timers.flake-lock-update = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "04:00";
+      Persistent = true;
+    };
+  };
+}

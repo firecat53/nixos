@@ -6,6 +6,7 @@
     ./dashboard.nix
     ./diun.nix
     ./esp-sync.nix
+    ./flake-lock-update.nix
     ./forgejo.nix
     ./gatus.nix
     ./gollum.nix

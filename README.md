@@ -24,6 +24,30 @@ structure is:
     ~/nixos/nix-neovim
 ```
 
+## Update flow
+
+`flake.lock` is committed, and `~/nixos` (including `.git`) is synced to every
+host via syncthing — syncthing is the git transport; nothing pulls from
+forgejo.
+
+* **Lock bumps**: the `flake-lock-update` timer on `homeserver`
+  (`hosts/homeserver/services/flake-lock-update.nix`) runs `nix flake update
+  --commit-lock-file` in a throwaway worktree of `main` at 04:00 daily.
+  Syncthing propagates the commit before the 04:40 `system.autoUpgrade` window.
+* **Servers** (`homeserver`, `backup`, `vps`) auto-upgrade from
+  `~/nixos/nixos?ref=main` — exactly what main's lock records, nothing newer.
+* **Desktops** (`laptop`, `office`) auto-upgrade from the working tree
+  (usually `dev`, uncommitted changes included). Rebase `dev` onto `main` to
+  pick up lock bumps.
+* **Debugging/rollback**: `git log -p flake.lock` on main shows what every
+  server was running on a given day; revert a lock-bump commit to roll the
+  fleet back.
+
+Day-to-day testing is unchanged: edit anywhere, syncthing syncs, and
+`nixos-rebuild test/switch --flake .#<host>` builds the dirty tree. A manual
+`nix flake update` shows up as a modified `flake.lock` — commit or discard it
+deliberately.
+
 ## Local packages
 
 `pkgs/` contains derivations for small one-off apps maintained alongside this
@@ -279,15 +303,16 @@ sops updatekeys nixos-secrets/common/secrets.yml
 git add .sops.yaml <homename>/ && git commit -m 'Update sops keys'
 ```
         
-5. *existing host* `nix flake update` and rebuild flake on target machine after
-   sops key is updated.
+5. *existing host* After the sops key is updated, refresh the secrets input's
+   lock entry and rebuild on the target machine (commit the lock change):
+```bash
+nix flake update my-secrets
+```
 6. *new host* `sudo nmcli connection import type wireguard file
    /etc/wireguard/wg0.conf`
    for networkmanager.
 7. Update syncthing device ID's if necessary. Re-add servers on phones and
    wife's laptop if needed.
-8. *existing host* `echo nixos/flake.lock > ~/nixos/.stignore` (keep flake.lock
-   from syncing)
         
 ## Specific host instructions
 

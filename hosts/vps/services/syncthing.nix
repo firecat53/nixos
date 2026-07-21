@@ -53,7 +53,6 @@
             "scott-office"
           ];
           id = "smqlq-yhrua";
-          type = "receiveonly";
         };
         "shared" = {
           path = "~/shared";
