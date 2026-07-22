@@ -260,14 +260,17 @@
     "my-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1784600904,
-        "narHash": "sha256-nZTtFTvL1QNAc3gun2Y61vnc0/c6UjX2W1dAeNX3R6Y=",
-        "path": "/home/firecat53/nixos/nixos-secrets",
-        "type": "path"
+        "lastModified": 1784600827,
+        "narHash": "sha256-xydOzlZn72jsk/V/Alr5IKW2FJ7j5FdFGcg/CJYwI8E=",
+        "ref": "refs/heads/main",
+        "rev": "3469e08f4459d3a8c4206823d09e606d5265352d",
+        "revCount": 39,
+        "type": "git",
+        "url": "file:///home/firecat53/nixos/nixos-secrets"
       },
       "original": {
-        "path": "/home/firecat53/nixos/nixos-secrets",
-        "type": "path"
+        "type": "git",
+        "url": "file:///home/firecat53/nixos/nixos-secrets"
       }
     },
     "neovim": {

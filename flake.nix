@@ -36,7 +36,7 @@
     watson-dmenu.url = "github:firecat53/watson-dmenu";
     watson-dmenu.inputs.nixpkgs.follows = "nixpkgs";
 
-    my-secrets.url = "/home/firecat53/nixos/nixos-secrets";
+    my-secrets.url = "git+file:///home/firecat53/nixos/nixos-secrets";
     my-secrets.flake = false;
 
     neovim.url = "git+https://git.firecat53.me/firecat53/nix-neovim.git";
