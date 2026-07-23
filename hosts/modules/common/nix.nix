@@ -37,7 +37,10 @@ in
   programs.git = {
     enable = true;
     config = {
-      safe."directory" = "/home/${user}/nixos/nixos";
+      safe."directory" = [
+        "/home/${user}/nixos/nixos"
+        "/home/${user}/nixos/nixos-secrets"
+      ];
     };
   };
 
