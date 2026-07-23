@@ -3,9 +3,13 @@
 # 3. Prometheus user service exporter
 {
   config,
+  inputs,
   pkgs,
   ...
 }:
+let
+  memories = inputs.memories.packages.${pkgs.stdenv.hostPlatform.system}.default;
+in
 {
   systemd.timers."memories" = {
     wantedBy = [ "timers.target" ];
@@ -16,18 +20,22 @@
     };
   };
   systemd.services."memories" = {
-    script = ''
-      ${pkgs.podman}/bin/podman run --rm \
-      -v /home/firecat53/docs/family/scott/wiki/diary:/data/journal \
-      -v /mnt/media/pictures/Family\ Pictures:/data/pictures \
-      -v /srv/rss:/srv/rss \
-      memories
-    '';
-    path = [
-      pkgs.podman
-      pkgs.zfs
-    ];
+    environment = {
+      MEMORIES_JOURNAL_PATH = "/home/firecat53/docs/family/scott/wiki/diary";
+      MEMORIES_PIC_PATH = "/mnt/media/pictures/Family Pictures";
+      MEMORIES_RSS_PATH = "/srv/rss";
+    };
+    serviceConfig = {
+      Type = "oneshot";
+      User = "firecat53";
+      ExecStart = "${memories}/bin/memories";
+    };
   };
+  # set ownership since the memories script writes directly as firecat53.
+  systemd.tmpfiles.rules = [
+    "d /srv/rss 0755 firecat53 users -"
+  ];
+
   systemd.timers."picture_copy" = {
     enable = true;
     wantedBy = [ "timers.target" ];

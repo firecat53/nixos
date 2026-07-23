@@ -27,6 +27,9 @@
     keepmenu.url = "github:firecat53/keepmenu";
     keepmenu.inputs.nixpkgs.follows = "nixpkgs";
 
+    memories.url = "git+https://git.firecat53.me/firecat53/memories.git";
+    memories.inputs.nixpkgs.follows = "nixpkgs";
+
     todocalmenu.url = "github:firecat53/todocalmenu";
     todocalmenu.inputs.nixpkgs.follows = "nixpkgs";
 
