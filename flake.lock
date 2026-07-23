@@ -46,11 +46,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1784397131,
-        "narHash": "sha256-afTafIC22GHicDOogAzyDO+g9sjCbm9x1p7EL4nDzeM=",
+        "lastModified": 1784820826,
+        "narHash": "sha256-bIcU57OanI6LpXEQU87gY9QaLVUDu7px7BGh5+y1KEg=",
         "ref": "refs/heads/main",
-        "rev": "02836cd1d80161448331b8399de071905d7fcd0f",
-        "revCount": 16,
+        "rev": "97e1822cc9b2ffaf99c022ea17ceadaa1c94b3ea",
+        "revCount": 18,
         "type": "git",
         "url": "https://git.firecat53.me/firecat53/crewsense.git"
       },
