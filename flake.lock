@@ -257,6 +257,26 @@
         "type": "github"
       }
     },
+    "memories": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1784771839,
+        "narHash": "sha256-7UoCoYOIlk+kxUkpeYwrhgWlY5tlp+3Y2hOBTBcqwoM=",
+        "ref": "refs/heads/main",
+        "rev": "2d0490f48790b946673c48dbd243ea1733875433",
+        "revCount": 14,
+        "type": "git",
+        "url": "https://git.firecat53.me/firecat53/memories.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.firecat53.me/firecat53/memories.git"
+      }
+    },
     "my-secrets": {
       "flake": false,
       "locked": {
@@ -386,6 +406,7 @@
         "disko": "disko",
         "home-manager": "home-manager",
         "keepmenu": "keepmenu",
+        "memories": "memories",
         "my-secrets": "my-secrets",
         "neovim": "neovim",
         "nixpkgs": "nixpkgs_3",
