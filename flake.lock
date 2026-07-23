@@ -280,11 +280,11 @@
     "my-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1784600827,
-        "narHash": "sha256-xydOzlZn72jsk/V/Alr5IKW2FJ7j5FdFGcg/CJYwI8E=",
+        "lastModified": 1784779403,
+        "narHash": "sha256-iaHLV+Qr4S+gWRYMln7hSm2Ex1FRsS9vfihEz9lW2y0=",
         "ref": "refs/heads/main",
-        "rev": "3469e08f4459d3a8c4206823d09e606d5265352d",
-        "revCount": 39,
+        "rev": "c88fd0b655f9d68b382066ce8f8137436f8b45d0",
+        "revCount": 40,
         "type": "git",
         "url": "file:///home/firecat53/nixos/nixos-secrets"
       },
