@@ -94,9 +94,17 @@ in
 
   sops.secrets.crewsense-client-id = { };
   sops.secrets.crewsense-client-secret = { };
+  # Website login for the lazy re-login: CrewSense invalidates ControlPanel
+  # sessions server-side (~2 week lifetime), and a report run that finds its
+  # cookie jar stale logs back in with these instead of silently falling back
+  # to unranked alphabetical columns.
+  sops.secrets.crewsense-username = { };
+  sops.secrets.crewsense-password = { };
   sops.templates."crewsense.env".content = ''
     CREWSENSE_CLIENT_ID=${config.sops.placeholder.crewsense-client-id}
     CREWSENSE_CLIENT_SECRET=${config.sops.placeholder.crewsense-client-secret}
+    CREWSENSE_USERNAME=${config.sops.placeholder.crewsense-username}
+    CREWSENSE_PASSWORD=${config.sops.placeholder.crewsense-password}
   '';
 
   systemd.services.crewsense-report = {
