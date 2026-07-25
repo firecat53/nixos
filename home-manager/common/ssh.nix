@@ -63,6 +63,14 @@
         IdentityFile = "~/.ssh/id_ed25519";
         ForwardAgent = true;
       };
+      # vps over WireGuard; agent forwarding needed for pam_rssh sudo auth.
+      "Host vps_wg" = {
+        HostName = "10.200.200.5";
+        User = "firecat53";
+        Port = 22;
+        IdentityFile = "~/.ssh/id_ed25519";
+        ForwardAgent = true;
+      };
       ## Desktop/laptops
       "Host laptop" = {
         HostName = "laptop";
