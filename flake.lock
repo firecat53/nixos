@@ -264,11 +264,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1784771839,
-        "narHash": "sha256-7UoCoYOIlk+kxUkpeYwrhgWlY5tlp+3Y2hOBTBcqwoM=",
+        "lastModified": 1784999546,
+        "narHash": "sha256-1KR/uebtzwFCZ7YneRp7VsDZhkAGhAb1OcXCDJtU2Fo=",
         "ref": "refs/heads/main",
-        "rev": "2d0490f48790b946673c48dbd243ea1733875433",
-        "revCount": 14,
+        "rev": "97819658353d6837837551c0d6b9813ba540e1fc",
+        "revCount": 15,
         "type": "git",
         "url": "https://git.firecat53.me/firecat53/memories.git"
       },
