@@ -27,10 +27,8 @@ in
   programs.git = {
     enable = true;
     config = {
-      safe."directory" = [
-        "/home/${user}/nixos/nixos"
-        "/home/${user}/nixos/nixos-secrets"
-      ];
+      # For `sudo nixos-rebuild --flake .#<host>` off a local checkout.
+      safe."directory" = [ "/home/${user}/nixos/nixos" ];
     };
   };
 

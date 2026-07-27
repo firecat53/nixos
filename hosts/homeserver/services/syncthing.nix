@@ -21,9 +21,6 @@
         globalAnnounceServers = [ "https://discover.firecat53.com/" ];
       };
       devices = {
-        "backup" = {
-          id = "CAKABE3-JTNUTY6-6BJYHGS-7E4Z35Y-SDF5M6H-GLB6Q2G-M6FVISW-Q3AVHQV";
-        };
         "scott-cell" = {
           id = "6LDX7IF-D2MWKOW-APU3AUX-WXNBWFG-PNIUAPB-QKTWZHF-7MKLPBI-M6E6AQE";
         };
@@ -107,16 +104,6 @@
             "scott-office"
           ];
           id = "sdgpi-zh6rd";
-        };
-        "nixos" = {
-          path = "/home/firecat53/nixos";
-          devices = [
-            "backup"
-            "scott-laptop"
-            "scott-office"
-            "vps"
-          ];
-          id = "smqlq-yhrua";
         };
         "peggy-all" = {
           path = "/home/peggy";

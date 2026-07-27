@@ -23,9 +23,6 @@
         insecureSkipHostcheck = true;
       };
       devices = {
-        "backup" = {
-          id = "CAKABE3-JTNUTY6-6BJYHGS-7E4Z35Y-SDF5M6H-GLB6Q2G-M6FVISW-Q3AVHQV";
-        };
         "scott-cell" = {
           id = "6LDX7IF-D2MWKOW-APU3AUX-WXNBWFG-PNIUAPB-QKTWZHF-7MKLPBI-M6E6AQE";
         };
@@ -44,16 +41,6 @@
         };
       };
       folders = {
-        "nixos" = {
-          path = "/home/firecat53/nixos";
-          devices = [
-            "backup"
-            "homeserver"
-            "scott-laptop"
-            "scott-office"
-          ];
-          id = "smqlq-yhrua";
-        };
         "shared" = {
           path = "~/shared";
           devices = [

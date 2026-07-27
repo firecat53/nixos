@@ -22,7 +22,6 @@ let
   # VPS wireguard IP.
   vpsIP = "10.200.200.5";
   # LAN hosts.
-  backupIP = "192.168.200.103"; # syncthing on the backup host
   hassIP = "192.168.200.102"; # Omada controller runs in the Home Assistant VM
 
   # Matrix alert room internal id.
@@ -191,10 +190,6 @@ in
         (tcp {
           name = "syncthing-vps";
           url = "tcp://${vpsIP}:22000";
-        })
-        (tcp {
-          name = "syncthing-backup";
-          url = "tcp://${backupIP}:22000";
         })
         (ep {
           name = "omada";

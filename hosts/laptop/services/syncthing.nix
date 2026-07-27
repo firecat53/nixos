@@ -18,9 +18,6 @@
         globalAnnounceServers = [ "https://discover.firecat53.com/" ];
       };
       devices = {
-        "backup" = {
-          id = "CAKABE3-JTNUTY6-6BJYHGS-7E4Z35Y-SDF5M6H-GLB6Q2G-M6FVISW-Q3AVHQV";
-        };
         "homeserver" = {
           id = "3WS2YZY-BCZNA5N-ZNBCA5G-JNPVFLA-FJQI2VQ-BAM5LK5-UVLWWGM-4DWTRQM";
           addresses = [
@@ -78,16 +75,6 @@
             "scott-office"
           ];
           id = "sdgpi-zh6rd";
-        };
-        "nixos" = {
-          path = "/home/firecat53/nixos";
-          devices = [
-            "backup"
-            "homeserver"
-            "scott-office"
-            "vps"
-          ];
-          id = "smqlq-yhrua";
         };
         "shared" = {
           path = "/home/firecat53/shared";
