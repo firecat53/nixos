@@ -45,8 +45,7 @@
     };
     laptop = {
       extraHostNames = [
-        "192.168.200.103"
-        "10.200.200.4"
+        "10.200.200.2"
       ];
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH5X6Pzsva4vmheELcJd7FHZwI4uvqSgypsiRZfO2ONA";
     };
@@ -62,7 +61,7 @@
         "192.168.200.1"
         "10.200.200.1"
       ];
-      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBfapJqu2CXwWZJ6y2VdhP70iGLKRIiuJUVeJFEKBh34";
+      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA4xnaUvyhgK7fEsxuvKhNjcf6jBjPgU5oL6ITy7WPlo";
     };
     vps = {
       extraHostNames = [
