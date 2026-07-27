@@ -14,7 +14,9 @@ sudo nixos-rebuild switch --flake .#<hostname>
 # Dry-run to preview changes
 sudo nixos-rebuild dry-activate --flake .#<hostname>
 
-# Remote rebuild (from laptop to other hosts)
+# Remote rebuild (from desktops to other hosts). Use this for urgent deploys
+# instead of waiting for the 04:40 auto-upgrade window. --build-host ships the
+# flake and its resolved inputs, so the target needs no checkout.
 nixos-rebuild switch --flake .#<hostname> --target-host <hostname> --build-host <hostname> --sudo
 
 # Update all flake inputs
@@ -43,14 +45,22 @@ This is a NixOS flake configuration managing 5 hosts (laptop, office, homeserver
 
 **Secrets management:**
 - Uses sops-nix with age encryption
-- Secrets stored in separate private repo at `~/nixos/nixos-secrets/`
-- Decrypted using SSH host keys
+- Secrets stored in a separate private repo, consumed as the `my-secrets` flake
+  input over ssh (`git+ssh://forgejo/firecat53/nixos-secrets`). Push changes
+  before `nix flake update my-secrets` will see them.
+- Decrypted using SSH host keys, which double as the read-only forgejo deploy
+  keys used to fetch that input
+
+**Update flow:** all five hosts auto-upgrade at 04:40 from committed `main` on
+forgejo, not from a local checkout. See the README's "Update flow" section.
 
 **Package sources:**
 - `pkgs` - nixos-26.05 stable
 - `pkgs.unstable` - Latest unstable packages
 
 ### Related Repositories
+
+Clones on the desktops (`laptop`, `office`); the servers pull from forgejo by URL.
 
 ```
 ~/nixos/

@@ -15,7 +15,8 @@
         - Encrypted or unencrypted `base-btrfs` or `base-zfs`
     + Bare minimum flake install for testing. `base-minimal`
 
-Sops-nix secrets live in a private repository `nixos-secrets`. My directory
+Sops-nix secrets live in a private repository `nixos-secrets`. On the desktops
+(`laptop` and `office`, the only hosts that keep checkouts) the directory
 structure is:
 ```text
 ~/nixos
@@ -23,30 +24,66 @@ structure is:
     ~/nixos/nixos-secrets
     ~/nixos/nix-neovim
 ```
+These are ordinary clones of the forgejo repos — clone them anywhere you want
+to work; the servers pull by URL and keep no checkout.
 
 ## Update flow
 
-`flake.lock` is committed, and `~/nixos` (including `.git`) is synced to every
-host via syncthing — syncthing is the git transport; nothing pulls from
-forgejo.
+forgejo is the transport and `main` is the deploy branch: every host pulls it
+by URL, and only the desktops (`laptop`, `office`) keep a checkout, for editing
+and on-demand rebuilds. `flake.lock` is committed, so `main` records exactly
+what the fleet runs.
 
 * **Lock bumps**: the `flake-lock-update` timer on `homeserver`
   (`hosts/homeserver/services/flake-lock-update.nix`) runs `nix flake update
-  --commit-lock-file` in a throwaway worktree of `main` at 04:00 daily.
-  Syncthing propagates the commit before the 04:40 `system.autoUpgrade` window.
-* **Servers** (`homeserver`, `backup`, `vps`) auto-upgrade from
-  `~/nixos/nixos?ref=main` — exactly what main's lock records, nothing newer.
-* **Desktops** (`laptop`, `office`) auto-upgrade from the working tree
-  (usually `dev`, uncommitted changes included). Rebase `dev` onto `main` to
-  pick up lock bumps.
-* **Debugging/rollback**: `git log -p flake.lock` on main shows what every
-  server was running on a given day; revert a lock-bump commit to roll the
-  fleet back.
+  --commit-lock-file` at 04:00 daily in its own clone under
+  `/var/lib/flake-lock-update`, then pushes `main`.
+* **All five hosts** auto-upgrade at 04:40 from
+  `git+https://git.firecat53.me/firecat53/nixos.git?ref=main`. That repo is
+  public, so the config side needs no credentials.
+* **Secrets**: the `my-secrets` flake input points at the *private*
+  `nixos-secrets` repo over ssh. Each host authenticates with its own
+  `/etc/ssh/ssh_host_ed25519_key`, registered on that repo as a read-only
+  deploy key — the same key sops-nix already uses as the host's age identity,
+  so it grants nothing the host didn't already have. The ssh alias lives in
+  `/etc/ssh/ssh_config` (`hosts/modules/common/sshd.nix`) rather than
+  `~/.ssh/config`, because `nixos-upgrade` evaluates the flake as root.
+  **A newly built host needs its deploy key added before its first build.**
+* **Deploy**: merge to `main` and push. Hosts pick it up at 04:40, or use the
+  immediate path below.
+* **Rollback**: `git revert` + push, or `nixos-rebuild --rollback` on the
+  affected host when you need it now. `git log -p flake.lock` on `main` is the
+  audit trail of what every host ran on a given day.
 
-Day-to-day testing is unchanged: edit anywhere, syncthing syncs, and
-`nixos-rebuild test/switch --flake .#<host>` builds the dirty tree. A manual
-`nix flake update` shows up as a modified `flake.lock` — commit or discard it
-deliberately.
+Note the whole path depends on `git.firecat53.me`, which resolves to the VPS
+and proxies back to homeserver over wireguard — so a VPS outage stops
+unattended upgrades fleet-wide, including on the host that actually serves
+forgejo.
+
+### Testing, and deploying without waiting
+
+`nixos-rebuild test/switch --flake .#<host>` still builds the working tree on
+demand, so day-to-day testing is unchanged. The catch: a machine left on a test
+build silently reverts to `main` at the next 04:40 upgrade, so re-apply the
+working tree after waking a machine you were mid-test on.
+
+To push an urgent change to another host immediately:
+
+```bash
+nixos-rebuild switch --flake .#<host> --target-host <host> --build-host <host> --sudo
+```
+
+`--build-host` runs `nix flake archive --to ssh://<host>` under the hood, which
+ships the flake *and its resolved inputs* — so the target needs no checkout,
+and no deploy-key access of its own, for this path. `--sudo` authenticates
+through pam_rssh against the ssh agent, so it doesn't prompt. `main` stays the
+unattended path: anything deployed this way is overwritten at 04:40 unless it
+is also committed and pushed.
+
+### Changing secrets
+
+`nixos-secrets` must be **pushed**, not just committed, before
+`nix flake update my-secrets` will see the change.
 
 ## Local packages
 
