@@ -19,11 +19,9 @@ in
 
   programs.home-manager.enable = true;
 
-  # forgejo alias for flake-lock-update's nightly `git push origin main`
-  # (homeserver doesn't import common/, which defines this alias for
-  # desktops, and has no device key). Dedicated deploy key from sops, same
-  # pattern as wiki.nix's forgejo-wiki block — the pubkey is a deploy key
-  # with write access on the forgejo nixos repo.
+  # forgejo alias for flake-lock-update. Overrides the system-wide alias, whose
+  # host-key identity can't push. Deploy key: write on nixos, read on
+  # nixos-secrets (needed by `nix flake update`).
   sops.secrets.nixos-ssh = { };
   # Commit signing key for flake-lock-update. Also declared by wiki.nix
   # (identical declarations merge); declared here so lock-bump signing
