@@ -6,17 +6,7 @@
 }:
 let
   user = "firecat53";
-  ref =
-    if
-      builtins.elem config.networking.hostName [
-        "office"
-        "laptop"
-      ]
-    then
-      ""
-    else
-      "?ref=main";
-  flakePath = "/home/${user}/nixos/nixos${ref}";
+  upgradeFlake = "git+https://git.firecat53.me/firecat53/nixos.git?ref=main";
 in
 {
   nix.settings = {
@@ -78,7 +68,7 @@ in
   # System maintenance
   system.autoUpgrade = {
     enable = true;
-    flake = "${flakePath}#${config.networking.hostName}";
+    flake = "${upgradeFlake}#${config.networking.hostName}";
     flags = [
       "-L"
     ];

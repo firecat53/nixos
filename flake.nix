@@ -39,9 +39,7 @@
     watson-dmenu.url = "github:firecat53/watson-dmenu";
     watson-dmenu.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Private forgejo repo. Fetched over ssh via the `forgejo` alias in
-    # /etc/ssh/ssh_config (common/sshd.nix), authenticated with each host's
-    # ssh host key as a read-only deploy key.
+    # Private repo; ssh alias and deploy key in common/sshd.nix.
     my-secrets.url = "git+ssh://forgejo/firecat53/nixos-secrets";
     my-secrets.flake = false;
 

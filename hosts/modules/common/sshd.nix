@@ -15,7 +15,7 @@
     ClientAliveInterval 30
   '';
 
-  # SSH identity for fetching the private `my-secrets` flake input (flake.nix). 
+  # SSH identity for fetching the private `my-secrets` flake input (flake.nix).
   # The host key doubles as the deploy key: it is already the sops age
   # identity, so anyone holding it can decrypt this host's secrets anyway and
   # read access to the encrypted repo grants nothing extra.  Authorize by adding

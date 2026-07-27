@@ -21,11 +21,8 @@
   # Host keys from `ssh-keyscan -t ed25519 <host>`. Applied as
   # programs.ssh.knownHosts in sshd.nix so ssh verifies all my hosts
   hostKeys = {
-    # forgejo's ssh endpoint (traefik TCP -> homeserver:3022). Needed
-    # system-wide because root fetches the my-secrets flake input over ssh
-    # non-interactively, so there is no prompt to accept an unknown key.
-    # Gitea/forgejo only serves an RSA host key, hence `ssh-rsa` rather than
-    # ed25519; from `ssh-keyscan -p 2222 git.firecat53.me`.
+    # forgejo's ssh endpoint, for root's non-interactive my-secrets fetch.
+    # RSA because that's the only host key forgejo serves.
     forgejo = {
       hostNames = [ "[git.firecat53.me]:2222" ];
       publicKey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDhO0zKdedUKsVHz4oIRGboTX66fJFV1q5I+zSO46tdGax/X00bL4j18r4KErSmyotllxjVaQG5kgxYtLa8mSWFR0dl8hdHRXNy3zsTgAytvlhGw8dPuScYoOatUZzSXHmjECcdDr/U3vfu6pQmnoZLswJMUOd0jhGP75edpG/g5wgK79fkAsF6Zbj34Z7IhWWeOm/4oxYPuYD0z7vepp0bGJhNGb+XbHSmWGc3KlOxND+2XGVVT//b21cYrREa/f8kBDga2PwDx+bsOv+pZAi7koGixCoXLvH38VLqD6akaU588Jyecjvj9kEMsVcXz6BTHlxUhMB+IOgfF7Eyl4r6VEFzziLdIeFa4YjxCHRI947FbVR189lMeEz+wXeN9H7/eceXjwENpOb2rYbcEmxvOjpHXNWnhU3gC1m1VfdBF8VJP5NbrUFuqINSNm4urRemSC0c+HiBZUalAxftzdxW2cjb6ookN6ewLA6dsVAskAuRmcMdrsREAx/kYC9c6TVW1hs9OKdrYNKq9IwG9sDMLeVSd9r/vUZ43wo816V22UViobHDgtToRZKYOmnjJ5pECEXVwNlkCnobPk5wWp/MP4Cz7GfQS5T0LFiZS/36L3+hIdp2YT4T5I8nYI/jGlzxwDFJOjsmaBYP4ILG+Ma+PhdN/wKn5uH+4hgAIJGWOQ==";
