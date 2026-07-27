@@ -39,7 +39,10 @@
     watson-dmenu.url = "github:firecat53/watson-dmenu";
     watson-dmenu.inputs.nixpkgs.follows = "nixpkgs";
 
-    my-secrets.url = "git+file:///home/firecat53/nixos/nixos-secrets";
+    # Private forgejo repo. Fetched over ssh via the `forgejo` alias in
+    # /etc/ssh/ssh_config (common/sshd.nix), authenticated with each host's
+    # ssh host key as a read-only deploy key.
+    my-secrets.url = "git+ssh://forgejo/firecat53/nixos-secrets";
     my-secrets.flake = false;
 
     neovim.url = "git+https://git.firecat53.me/firecat53/nix-neovim.git";

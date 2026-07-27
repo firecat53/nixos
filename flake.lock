@@ -286,11 +286,11 @@
         "rev": "c88fd0b655f9d68b382066ce8f8137436f8b45d0",
         "revCount": 40,
         "type": "git",
-        "url": "file:///home/firecat53/nixos/nixos-secrets"
+        "url": "ssh://forgejo/firecat53/nixos-secrets"
       },
       "original": {
         "type": "git",
-        "url": "file:///home/firecat53/nixos/nixos-secrets"
+        "url": "ssh://forgejo/firecat53/nixos-secrets"
       }
     },
     "neovim": {
