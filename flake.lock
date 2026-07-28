@@ -280,10 +280,10 @@
     "my-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1785271685,
-        "narHash": "sha256-2jtztUiXVZ1KFHzN/qMZhNK08zurTgnoI4q1LluFgCs=",
+        "lastModified": 1785275053,
+        "narHash": "sha256-o6qeip8kkppETt26qQ4CxVBV87ohscw51I7CI004aE8=",
         "ref": "refs/heads/main",
-        "rev": "a8b83d3f306032e67e8572677b77ab022d4473e1",
+        "rev": "4cc92eb5486d636340242cfd0ba38cc16c78c2a3",
         "revCount": 41,
         "type": "git",
         "url": "ssh://forgejo/firecat53/nixos-secrets"
