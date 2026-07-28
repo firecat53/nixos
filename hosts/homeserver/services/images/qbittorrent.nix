@@ -49,6 +49,9 @@ pkgs.dockerTools.streamLayeredImage {
     entrypoint
     pkgs.bashInteractive # for `podman exec`
     pkgs.coreutils
+    # Tracker announces are mostly https; without these every one of them fails
+    # certificate verification.
+    pkgs.dockerTools.caCertificates
     pkgs.qbittorrent-nox
   ];
   extraCommands = ''
@@ -75,6 +78,8 @@ pkgs.dockerTools.streamLayeredImage {
       "HOME=/config"
       "XDG_CONFIG_HOME=/config"
       "XDG_DATA_HOME=/config"
+      "SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt"
+      "SSL_CERT_DIR=/etc/ssl/certs"
     ];
     WorkingDir = "/config";
     Volumes = {
