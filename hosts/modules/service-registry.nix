@@ -212,15 +212,6 @@
       lan = "yt.lan.firecat53.net";
       port = 8945;
     };
-    qbt-test = {
-      # TEMPORARY: qbittorrent on the dockerTools images, running beside the
-      # production qbt entry. Remove at cutover (see qbittorrent-test.nix).
-      # No basicAuth, matching the production qbt entry: qbittorrent does its
-      # own auth, and a second prompt in front of it only obscures which login
-      # is being tested.
-      lan = "qbt-test.lan.firecat53.net";
-      url = "http://127.0.0.1:8092";
-    };
   };
 
   # Services hosted locally on the VPS (reached via localhost).

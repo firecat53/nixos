@@ -19,9 +19,8 @@ in
   inherit autosshKey;
 
   # The autossh key as authorized on the host: it may only open the hop to the
-  # socks-proxy container, and gets no shell. 2223 is the parallel test pod
-  # (temporary, along with qbittorrent-test.nix).
-  autossh = ''restrict,permitopen="127.0.0.1:2222",permitopen="127.0.0.1:2223",command="/run/current-system/sw/bin/false" ${autosshKey}'';
+  # socks-proxy container, and gets no shell.
+  autossh = ''restrict,permitopen="127.0.0.1:2222",command="/run/current-system/sw/bin/false" ${autosshKey}'';
 
   # Backup pull user — runs on the backup host, authorized on machines it pulls from.
   backupPull = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDd+gF2w6+0Rj9XFl9e8NcWRux5dKsyAMcgoM6KDH11E backup@backup";

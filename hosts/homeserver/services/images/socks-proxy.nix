@@ -1,8 +1,5 @@
 # sshd used as a SOCKS proxy entry point into the wireguard pod's namespace.
-{
-  pkgs,
-  suffix ? "",
-}:
+{ pkgs }:
 let
   inherit (pkgs) lib;
 
@@ -42,7 +39,7 @@ let
   '';
 in
 pkgs.dockerTools.streamLayeredImage {
-  name = "socks-proxy${suffix}";
+  name = "socks-proxy";
   contents = [
     entrypoint
     pkgs.bashInteractive # for `podman exec`

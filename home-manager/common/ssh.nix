@@ -96,19 +96,6 @@
         UserKnownHostsFile = "/dev/null";
         ExitOnForwardFailure = "yes";
       };
-      # Same, against the parallel test pod: SOCKS on 5002 instead of 5001.
-      # Temporary, along with qbittorrent-test.nix.
-      "Host wg-test" = {
-        HostName = "127.0.0.1";
-        User = "firecat53";
-        Port = 2223;
-        IdentityFile = "/run/secrets/autossh-key";
-        DynamicForward = "127.0.0.1:5002";
-        ProxyJump = "homeserver_wg";
-        StrictHostKeyChecking = "no";
-        UserKnownHostsFile = "/dev/null";
-        ExitOnForwardFailure = "yes";
-      };
       # Git remotes use the device key directly — add this device's pubkey to
       # GitHub/forgejo accounts. No agent forwarding (no shell on these hosts).
       "Host forgejo" = {

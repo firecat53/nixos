@@ -1,9 +1,6 @@
 # Wireguard client. Owns the pod's network namespace; qbittorrent and
 # socks-proxy join it with --network=container:wireguard-client.
-{
-  pkgs,
-  suffix ? "",
-}:
+{ pkgs }:
 let
   inherit (pkgs) lib;
 
@@ -65,7 +62,7 @@ let
   '';
 in
 pkgs.dockerTools.streamLayeredImage {
-  name = "wireguard-client${suffix}";
+  name = "wireguard-client";
   contents = [
     entrypoint
     resolvconf
