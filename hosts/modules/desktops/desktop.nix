@@ -5,6 +5,9 @@
 {
   services.xserver.enable = true;
 
+  # Graphical boot splash (see modules/boot.nix for the quiet-boot kernel params)
+  boot.plymouth.enable = true;
+
   # Fonts
   fonts.packages = with pkgs; [
     dejavu_fonts
