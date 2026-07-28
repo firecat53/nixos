@@ -91,6 +91,19 @@
                 };
               }
               {
+                # HostSystemdServiceCrashed can't fire on a unit that never
+                # ran, so catch a host that has quietly stopped auto-upgrading.
+                # 48h allows one missed nightly run before alerting.
+                alert = "HostAutoUpgradeStalled";
+                expr = "time() - node_systemd_timer_last_trigger_seconds{name='nixos-upgrade.timer'} > 48 * 3600";
+                for = "10m";
+                labels.severity = "warning";
+                annotations = {
+                  summary = "Auto-upgrade stalled (instance {{ $labels.instance }})";
+                  description = "nixos-upgrade.timer has not triggered in over 48h\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}";
+                };
+              }
+              {
                 alert = "UserSystemdServiceCrashed";
                 expr = "node_systemd_user_unit_state{state='failed'} == 1";
                 for = "2m";
@@ -341,6 +354,5 @@
     enable = true;
     enabledCollectors = [ "zfs" ];
   };
-  services.prometheus.exporters.systemd.enable = true;
   services.prometheus.exporters.zfs.enable = true;
 }
