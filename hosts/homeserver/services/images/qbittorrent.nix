@@ -5,9 +5,7 @@ let
 
   # Seed config for a fresh /config volume; qbittorrent owns the file after that.
   # Pinning the session to wireguard0 is what keeps traffic off a leaked default
-  # route. The alpine image rewrote `Preferences/Connection\Interface` from
-  # `ip route get` on every start, but qbittorrent 5.x reads these keys instead,
-  # so that was writing to a dead key.
+  # route.
   defaultConfig = pkgs.writeText "qBittorrent.conf" ''
     [BitTorrent]
     Session\Interface=wireguard0

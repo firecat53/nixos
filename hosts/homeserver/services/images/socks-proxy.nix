@@ -7,7 +7,7 @@ let
 
   user = "firecat53";
   # Host keys are generated on first start and kept on a volume so they survive
-  # image rebuilds (the alpine image baked them in and changed them every build).
+  # image rebuilds.
   keyDir = "/var/lib/socks-proxy";
 
   # Tunnel only: no shell, no pty, no agent or X11 forwarding.
