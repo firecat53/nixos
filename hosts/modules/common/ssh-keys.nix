@@ -1,3 +1,8 @@
+let
+  # Passphraseless key used by the autossh SOCKS-proxy tunnel. Authorized twice:
+  # here on the host, and inside the socks-proxy image.
+  autosshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFDd+IGsJFLaBeY5jJPMEDQlWUFyS42eqyjj+8A37kGP firecat53";
+in
 {
   # Per-device SSH public keys. Generate one keypair per device with:
   #   ssh-keygen -t ed25519 -C "firecat53@<device>" -f ~/.ssh/id_ed25519
@@ -11,9 +16,11 @@
     chryspie = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDRcoLrRPQcvGHFJ1VpD2yBOg2s3HXlnbFSCNkCjkBb6 chryspie@chryspie-Lenovo-YOGA-710-15IKB";
   };
 
-  # Passphraseless key used by the autossh SOCKS-proxy tunnel.
-  # Locked down with restrict/permitopen/command=false
-  autossh = ''restrict,permitopen="127.0.0.1:2222",command="/run/current-system/sw/bin/false" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFDd+IGsJFLaBeY5jJPMEDQlWUFyS42eqyjj+8A37kGP firecat53'';
+  inherit autosshKey;
+
+  # The autossh key as authorized on the host: it may only open the hop to the
+  # socks-proxy container, and gets no shell.
+  autossh = ''restrict,permitopen="127.0.0.1:2222",command="/run/current-system/sw/bin/false" ${autosshKey}'';
 
   # Backup pull user — runs on the backup host, authorized on machines it pulls from.
   backupPull = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDd+gF2w6+0Rj9XFl9e8NcWRux5dKsyAMcgoM6KDH11E backup@backup";

@@ -1,11 +1,15 @@
 ### Qbittorrent + wireguard + socks-proxy
 {
+  config,
   lib,
   pkgs,
   ...
 }:
 let
   sshKeys = import ../../modules/common/ssh-keys.nix;
+  images = import ./images { inherit pkgs; };
+  ref = image: "${image.imageName}:${image.imageTag}";
+  loadImage = import ./images/load.nix { inherit pkgs; };
 in
 {
   # Recent qBittorrent versions use a PID-based QLockFile for single-instance
@@ -14,6 +18,13 @@ in
   # the next start. Remove it before each start so restarts always succeed.
   systemd.services.podman-qbittorrent.serviceConfig.ExecStartPre = lib.mkBefore [
     "${pkgs.coreutils}/bin/rm -f /var/lib/containers/storage/volumes/qbittorrent_config/_data/qBittorrent/lockfile"
+    "${loadImage images.qbittorrent}"
+  ];
+  systemd.services.podman-socks-proxy.serviceConfig.ExecStartPre = lib.mkBefore [
+    "${loadImage images.socks-proxy}"
+  ];
+  systemd.services.podman-wireguard-client.serviceConfig.ExecStartPre = lib.mkBefore [
+    "${loadImage images.wireguard-client}"
   ];
 
   # Add autossh key for socks-proxy
@@ -43,7 +54,7 @@ in
     ];
   };
   virtualisation.oci-containers.containers.qbittorrent = {
-    image = "qbittorrent";
+    image = ref images.qbittorrent;
     autoStart = true;
     user = "1000:100";
     dependsOn = [ "wireguard-client" ];
@@ -65,18 +76,21 @@ in
   # Firewall opening for the socks-proxy
   networking.firewall.allowedTCPPorts = [ 2222 ];
   virtualisation.oci-containers.containers.socks-proxy = {
-    image = "socks-proxy";
+    image = ref images.socks-proxy;
     autoStart = true;
     dependsOn = [ "wireguard-client" ];
+    # Keeps the generated host keys across image rebuilds.
+    volumes = [ "socks_proxy_keys:/var/lib/socks-proxy" ];
     extraOptions = [
       "--pod=wg"
       "--network=container:wireguard-client"
     ];
   };
+  sops.secrets.wireguard-conf = { };
   virtualisation.oci-containers.containers.wireguard-client = {
-    image = "wireguard-client";
+    image = ref images.wireguard-client;
     autoStart = true;
-    volumes = [ "wireguard_config:/etc/wireguard" ];
+    volumes = [ "${config.sops.secrets.wireguard-conf.path}:/etc/wireguard/wireguard0.conf:ro" ];
     environment = {
       LOCAL_NETWORKS = "10.200.200.0/24,192.168.200.0/24";
     };
