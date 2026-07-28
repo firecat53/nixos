@@ -1,4 +1,5 @@
 {
+  lib,
   stdenvNoCC,
   python3,
   makeWrapper,
@@ -10,7 +11,15 @@ in
 stdenvNoCC.mkDerivation {
   pname = "today";
   version = "0.1.0";
-  src = ./.;
+  # Explicit file list so stray untracked files (__pycache__) can't change the hash
+  src = lib.fileset.toSource {
+    root = ./.;
+    fileset = lib.fileset.unions [
+      ./app.py
+      ./templates
+      ./static
+    ];
+  };
 
   nativeBuildInputs = [
     makeWrapper
