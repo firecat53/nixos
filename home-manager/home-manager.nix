@@ -1,14 +1,13 @@
 {
   inputs,
-  outputs,
-  pkgs,
   ...
 }:
 {
   # Home-manager configuration
   home-manager = {
+    useGlobalPkgs = true;
     extraSpecialArgs = {
-      inherit inputs outputs pkgs;
+      inherit inputs;
     };
   };
 }
