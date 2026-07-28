@@ -35,23 +35,22 @@ in
   # Add unstable to flake registry to use locally (e.g. `nix run nixpkgs-unstable#hatch`)
   nix.registry.nixpkgs-unstable.flake = inputs.nixpkgs-unstable;
 
-  # Allow unfree packages and pulling some packages from stable
   nixpkgs.config = {
     allowUnfree = true;
-    packageOverrides = pkgs: {
-      stable = import inputs.nixpkgs {
-        config = config.nixpkgs.config;
-        system = pkgs.stdenv.hostPlatform.system;
-      };
-      unstable = import inputs.nixpkgs-unstable {
-        config = config.nixpkgs.config;
-        system = pkgs.stdenv.hostPlatform.system;
-      };
-    };
     permittedInsecurePackages = [
       "olm-3.2.16" # Required by gomuks
     ];
   };
+
+  # `pkgs.unstable.<name>` for packages needed from nixos-unstable
+  nixpkgs.overlays = [
+    (final: prev: {
+      unstable = import inputs.nixpkgs-unstable {
+        inherit (prev.stdenv.hostPlatform) system;
+        inherit (config.nixpkgs) config;
+      };
+    })
+  ];
 
   environment.shellAliases = {
     # Show nix updates
