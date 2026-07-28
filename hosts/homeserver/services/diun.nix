@@ -73,6 +73,13 @@ in
       max_tags: 1
 
     - name: docker.io/collabora/code
+
+    - name: library/alpine
+      watch_repo: true
+      sort_tags: semver
+      include_tags:
+        - "^3\\."  # Only major versions 3.x
+      max_tags: 1
   '';
   environment.etc."diun/images/desktops.yml".text = ''
     - name: library/archlinux:latest

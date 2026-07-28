@@ -1,5 +1,8 @@
 # qbittorrent-nox, running in the wireguard pod's network namespace.
-{ pkgs }:
+{
+  pkgs,
+  suffix ? "",
+}:
 let
   inherit (pkgs) lib;
 
@@ -44,7 +47,7 @@ let
   '';
 in
 pkgs.dockerTools.streamLayeredImage {
-  name = "qbittorrent";
+  name = "qbittorrent${suffix}";
   contents = [
     entrypoint
     pkgs.bashInteractive # for `podman exec`

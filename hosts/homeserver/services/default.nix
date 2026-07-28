@@ -26,6 +26,7 @@
     ./pinchflat.nix
     ./postgresql.nix
     ./qbittorrent.nix
+    ./qbittorrent-test.nix
     ./radarr.nix
     ./sabnzbd.nix
     ./samba.nix
