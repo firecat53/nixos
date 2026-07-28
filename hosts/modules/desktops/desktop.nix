@@ -5,8 +5,16 @@
 {
   services.xserver.enable = true;
 
-  # Graphical boot splash (see modules/boot.nix for the quiet-boot kernel params)
-  boot.plymouth.enable = true;
+  # Graphical boot splash.
+  boot = {
+    plymouth.enable = true;
+    consoleLogLevel = 0;
+    kernelParams = [
+      "quiet"
+      "udev.log_level=3"
+    ];
+    initrd.verbose = false;
+  };
 
   # Fonts
   fonts.packages = with pkgs; [

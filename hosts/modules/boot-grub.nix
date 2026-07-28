@@ -1,17 +1,7 @@
 {
   # Grub Configuration without plymouth
   boot = {
-    consoleLogLevel = 0;
-    kernelParams = [
-      "quiet"
-      "udev.log_level=3"
-    ];
-    initrd = {
-      systemd = {
-        enable = true;
-      };
-      verbose = false;
-    };
+    initrd.systemd.enable = true;
     loader = {
       grub = {
         enable = true;
