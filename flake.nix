@@ -18,6 +18,10 @@
 
     # Personal project flakes and secrets
 
+    # Dashboard web assets; not a flake (its nix/ dir is the Pi kiosk image)
+    bfd-apparatus.url = "git+https://git.firecat53.me/firecat53/BFD-apparatus.git";
+    bfd-apparatus.flake = false;
+
     bwm.url = "github:firecat53/bitwarden-menu";
     bwm.inputs.nixpkgs.follows = "nixpkgs";
 

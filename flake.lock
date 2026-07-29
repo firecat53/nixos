@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "bfd-apparatus": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1780176659,
+        "narHash": "sha256-UKqBCrvp1E+wYcxGbYVSVGREEc1w7l2+aWESyzAGYUU=",
+        "ref": "refs/heads/main",
+        "rev": "1ba170c69b15bc5e257ad261e27d5979edff89a0",
+        "revCount": 64,
+        "type": "git",
+        "url": "https://git.firecat53.me/firecat53/BFD-apparatus.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.firecat53.me/firecat53/BFD-apparatus.git"
+      }
+    },
     "bwm": {
       "inputs": {
         "nixpkgs": [
@@ -400,6 +416,7 @@
     },
     "root": {
       "inputs": {
+        "bfd-apparatus": "bfd-apparatus",
         "bwm": "bwm",
         "catppuccin": "catppuccin",
         "crewsense": "crewsense",

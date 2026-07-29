@@ -6,30 +6,23 @@
 }:
 let
   crewsense = inputs.crewsense.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  # publicDir is served verbatim, so ship only the web assets — not the repo's
+  # docs, schema dump or Pi kiosk config.
+  apparatus = pkgs.runCommandLocal "bfd-apparatus" { } ''
+    cp -r ${inputs.bfd-apparatus} $out
+    chmod -R u+w $out
+    rm -rf $out/nix $out/pb_migrations $out/pb_schema.json $out/*.md $out/.gitignore
+  '';
 in
 {
-  systemd.tmpfiles.rules = [
-    "d /opt/apparatus 0755 root root -"
-  ];
-
-  systemd.services.apparatus-git = {
-    description = "Pull dashboard code";
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.bash}/bin/bash -c 'cd /opt/apparatus && if [ -d .git ]; then ${pkgs.git}/bin/git pull; else ${pkgs.git}/bin/git clone https://git.firecat53.me/firecat53/BFD-apparatus.git .; fi'";
-    };
-  };
   systemd.services.apparatus = {
     description = "BFD apparatus dashboard service";
-    after = [
-      "network.target"
-      "apparatus-git.service"
-    ];
-    wants = [ "apparatus-git.service" ];
+    after = [ "network.target" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
-      ExecStart = "${pkgs.pocketbase}/bin/pocketbase serve --dir /var/lib/apparatus --publicDir /opt/apparatus";
-      WorkingDirectory = "/opt/apparatus";
+      # migrationsDir would otherwise default to /var/lib/pb_migrations (the
+      # parent of --dir), outside the writable state directory
+      ExecStart = "${pkgs.pocketbase}/bin/pocketbase serve --dir /var/lib/apparatus --publicDir ${apparatus} --migrationsDir /var/lib/apparatus/pb_migrations";
       AmbientCapabilities = "";
       CapabilityBoundingSet = "";
       DynamicUser = true;
@@ -48,8 +41,6 @@ in
       ProtectKernelTunables = true;
       ProtectProc = "invisible";
       ProtectSystem = "strict";
-      ReadOnlyPaths = "/opt/apparatus";
-      ReadWritePaths = "/opt/apparatus/pb_migrations";
       RemoveIPC = true;
       Restart = "always";
       RestartSec = "10s";
@@ -61,7 +52,10 @@ in
       RestrictNamespaces = true;
       RestrictRealtime = true;
       RestrictSUIDSGID = true;
-      StateDirectory = "apparatus";
+      StateDirectory = [
+        "apparatus"
+        "apparatus/pb_migrations"
+      ];
       SystemCallArchitectures = "native";
       SystemCallFilter = [
         "@system-service"
