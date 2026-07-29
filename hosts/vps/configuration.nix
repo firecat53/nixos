@@ -32,11 +32,6 @@
       fsType = "zfs";
       options = [ "X-mount.mkdir" ];
     };
-    "/home/firecat53/shared" = {
-      device = "datapool/shared";
-      fsType = "zfs";
-      options = [ "X-mount.mkdir" ];
-    };
   };
 
   networking.hostName = "vps"; # Define your hostname.

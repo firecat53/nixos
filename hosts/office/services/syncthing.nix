@@ -82,7 +82,6 @@
             "homeserver"
             "scott-cell"
             "scott-laptop"
-            "vps"
           ];
           id = "shared";
           ignorePerms = true; # Allow ACLs

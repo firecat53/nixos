@@ -131,7 +131,6 @@
             "scott-cell"
             "scott-laptop"
             "scott-office"
-            "vps"
           ];
           id = "shared";
           ignorePerms = true; # Allow ACLs

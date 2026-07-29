@@ -11,7 +11,6 @@
     ./mysql.nix
     ./nextcloud.nix
     ./nginx.nix
-    ./permissions.nix
     ./prometheus.nix
     ./rustdesk.nix
     ./searx.nix

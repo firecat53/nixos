@@ -23,9 +23,6 @@
         insecureSkipHostcheck = true;
       };
       devices = {
-        "scott-cell" = {
-          id = "6LDX7IF-D2MWKOW-APU3AUX-WXNBWFG-PNIUAPB-QKTWZHF-7MKLPBI-M6E6AQE";
-        };
         "homeserver" = {
           id = "3WS2YZY-BCZNA5N-ZNBCA5G-JNPVFLA-FJQI2VQ-BAM5LK5-UVLWWGM-4DWTRQM";
           addresses = [
@@ -41,16 +38,6 @@
         };
       };
       folders = {
-        "shared" = {
-          path = "~/shared";
-          devices = [
-            "homeserver"
-            "scott-cell"
-            "scott-laptop"
-            "scott-office"
-          ];
-          ignorePerms = true; # Allow ACLs
-        };
         "srv" = {
           path = "/srv";
           devices = [
