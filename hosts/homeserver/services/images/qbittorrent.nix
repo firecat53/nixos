@@ -1,5 +1,9 @@
 # qbittorrent-nox, running in the wireguard pod's network namespace.
-{ pkgs }:
+{
+  pkgs,
+  uid,
+  gid,
+}:
 let
   inherit (pkgs) lib;
 
@@ -58,17 +62,17 @@ pkgs.dockerTools.streamLayeredImage {
 
     cat > etc/passwd <<EOF
     root:x:0:0:root:/root:/bin/sh
-    qbittorrent:x:1000:100::/config:/bin/sh
+    qbittorrent:x:${toString uid}:${toString gid}::/config:/bin/sh
     EOF
     cat > etc/group <<EOF
     root:x:0:
-    users:x:100:
+    users:x:${toString gid}:
     EOF
   '';
-  # Matches the `user = "1000:100"` the container runs as, so a fresh volume
-  # comes up owned correctly.
+  # Matches the uid:gid the container runs as, so a fresh volume comes up
+  # owned correctly.
   fakeRootCommands = ''
-    chown -R 1000:100 config data
+    chown -R ${toString uid}:${toString gid} config data
   '';
   config = {
     Cmd = [ "${entrypoint}/bin/qbittorrent" ];

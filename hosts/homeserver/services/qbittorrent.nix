@@ -7,7 +7,12 @@
 }:
 let
   sshKeys = import ../../modules/common/ssh-keys.nix;
-  images = import ./images { inherit pkgs; };
+  # Downloads land in /mnt/downloads, which permissions.nix creates as
+  # 2775 firecat53:users — so qbittorrent runs as that uid:gid rather than
+  # firecat53's own primary group. Baked into the image too, hence the plumbing.
+  uid = config.users.users.firecat53.uid;
+  gid = config.users.groups.users.gid;
+  images = import ./images { inherit pkgs uid gid; };
   ref = image: "${image.imageName}:${image.imageTag}";
   loadImage = import ./images/load.nix { inherit pkgs; };
 in
@@ -56,15 +61,17 @@ in
   virtualisation.oci-containers.containers.qbittorrent = {
     image = ref images.qbittorrent;
     autoStart = true;
-    user = "1000:100";
+    user = "${toString uid}:${toString gid}";
     dependsOn = [ "wireguard-client" ];
     environment = {
       QBT_WEBUI_PORT = "8081";
     };
     extraOptions = [
+      "--cap-drop=all" # runs unprivileged; needs nothing back
       "--init=true"
       "--network=container:wireguard-client"
       "--pod=wg"
+      "--security-opt=no-new-privileges"
     ];
     volumes = [
       "qbittorrent_config:/config"
@@ -73,17 +80,25 @@ in
   };
   # Traefik routers/service generated from the registry (qbt entry) by lan-proxy.nix.
 
-  # Firewall opening for the socks-proxy
-  networking.firewall.allowedTCPPorts = [ 2222 ];
+  # No firewall opening: the tunnel is entered via the host's sshd on 22 and
+  # hops to 127.0.0.1:2222, and the gatus check arrives on wg0 (a trusted
+  # interface). Nothing needs 2222 from the LAN.
   virtualisation.oci-containers.containers.socks-proxy = {
     image = ref images.socks-proxy;
     autoStart = true;
     dependsOn = [ "wireguard-client" ];
     # Keeps the generated host keys across image rebuilds.
     volumes = [ "socks_proxy_keys:/var/lib/socks-proxy" ];
+    # sshd needs these four: bind 22, and drop to the privsep user in a chroot.
     extraOptions = [
-      "--pod=wg"
+      "--cap-drop=all"
+      "--cap-add=NET_BIND_SERVICE"
+      "--cap-add=SETGID"
+      "--cap-add=SETUID"
+      "--cap-add=SYS_CHROOT"
       "--network=container:wireguard-client"
+      "--pod=wg"
+      "--security-opt=no-new-privileges"
     ];
   };
   sops.secrets.wireguard-conf = { };
@@ -95,8 +110,9 @@ in
       LOCAL_NETWORKS = "10.200.200.0/24,192.168.200.0/24";
     };
     extraOptions = [
-      "--cap-add=NET_ADMIN"
-      "--cap-add=NET_RAW"
+      "--cap-drop=all"
+      "--cap-add=NET_ADMIN" # wg-quick: interface, policy routing, its own rules
+      "--cap-add=NET_RAW" # the config's PostUp ping
       "--dns=172.16.0.1"
       "--pod=wg"
     ];

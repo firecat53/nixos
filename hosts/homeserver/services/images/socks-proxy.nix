@@ -10,13 +10,17 @@ let
   # image rebuilds.
   keyDir = "/var/lib/socks-proxy";
 
-  # Tunnel only: no shell, no pty, no agent or X11 forwarding.
+  # Tunnel only: `restrict` denies everything, then port forwarding is added back.
   authorizedKeys = pkgs.writeText "authorized_keys" ''
-    command="${pkgs.coreutils}/bin/false",no-pty,no-X11-forwarding,no-agent-forwarding,no-user-rc ${sshKeys.autosshKey}
+    restrict,port-forwarding,command="${pkgs.coreutils}/bin/false" ${sshKeys.autosshKey}
   '';
 
+  # `local` is what `ssh -D` needs; remote forwards and unix sockets are not
+  # part of the use case.
   sshdConfig = pkgs.writeText "sshd_config" ''
-    AllowTcpForwarding yes
+    AllowAgentForwarding no
+    AllowStreamLocalForwarding no
+    AllowTcpForwarding local
     AuthorizedKeysFile /etc/ssh/%u
     ClientAliveCountMax 1000
     ClientAliveInterval 30
@@ -24,6 +28,7 @@ let
     KbdInteractiveAuthentication no
     PasswordAuthentication no
     PermitRootLogin no
+    PermitTTY no
     PidFile none
     TCPKeepAlive yes
     UsePAM no
