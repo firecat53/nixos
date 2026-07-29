@@ -12,6 +12,14 @@
       type = lib.types.str;
       description = "Hostname for the Traefik dashboard router";
     };
+    dashboardMiddlewares = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [
+        "auth"
+        "headers"
+      ];
+      description = "Middlewares on the Traefik dashboard router (Authelia on internet-facing hosts, basic auth for LAN)";
+    };
     acmeDnsProvider = lib.mkOption {
       type = lib.types.str;
       description = "ACME DNS-01 challenge provider";
@@ -83,10 +91,7 @@
             dashboard = {
               rule = "Host(`${config.traefikBase.dashboardHost}`)";
               service = "api@internal";
-              middlewares = [
-                "auth"
-                "headers"
-              ];
+              middlewares = config.traefikBase.dashboardMiddlewares;
               entrypoints = [ "websecure" ];
               tls = {
                 certResolver = "le";

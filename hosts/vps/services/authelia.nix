@@ -29,6 +29,13 @@ let
   protected = lib.filterAttrs (_: s: s.auth) allServices;
   protectedDomains = map (n: "${n}.firecat53.me") (lib.attrNames protected);
 
+  # Protected hosts that aren't registry entries: the VPS's own syncthing GUI
+  # and Traefik dashboard live on firecat53.com with hand-written routers.
+  extraProtectedDomains = [
+    "syncthing.firecat53.com"
+    "monitor.firecat53.com"
+  ];
+
   # Per-service access_control overrides (e.g. microbin's public paste viewing)
   # are declared as a `rules` list on the service's service-registry.nix entry, so they
   # live and die with that entry. The `domain` is derived from the attr name.
@@ -259,7 +266,7 @@ in
             # Protected resources: require 2FA from the internet.
             # Derived from service-registry.nix `auth = true` entries.
             {
-              domain = protectedDomains;
+              domain = protectedDomains ++ extraProtectedDomains;
               policy = "two_factor";
             }
           ];

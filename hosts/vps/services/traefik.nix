@@ -8,6 +8,11 @@
 
   traefikBase = {
     dashboardHost = "monitor.firecat53.com";
+    # Internet-facing, so 2FA instead of the LAN's basicAuth (see authelia.nix).
+    dashboardMiddlewares = [
+      "authelia"
+      "headers"
+    ];
     acmeDnsProvider = "porkbun";
   };
 

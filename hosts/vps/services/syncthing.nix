@@ -53,7 +53,7 @@
     rule = "Host(`syncthing.firecat53.com`)";
     service = "syncthing";
     middlewares = [
-      "auth"
+      "authelia"
       "headers"
     ];
     entrypoints = [ "websecure" ];
