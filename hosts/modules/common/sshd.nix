@@ -8,12 +8,7 @@
   services.openssh.settings.PasswordAuthentication = false;
   services.openssh.settings.PermitRootLogin = "no";
   services.openssh.settings.X11Forwarding = false;
-  services.openssh.extraConfig = ''
-    UsePAM yes
-    PrintMotd no
-    TCPKeepAlive yes
-    ClientAliveInterval 30
-  '';
+  services.openssh.settings.ClientAliveInterval = 30;
 
   # SSH identity for fetching the private `my-secrets` flake input (flake.nix).
   # The host key doubles as the deploy key: it is already the sops age
