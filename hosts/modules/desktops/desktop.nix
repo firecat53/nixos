@@ -66,10 +66,4 @@
   services.udev.extraRules = ''
     KERNEL=="uinput", GROUP="users", MODE="0660",  OPTIONS+="static_node=uinput"
   '';
-
-  # TODO temporary fix for https://github.com/NixOS/nixpkgs/issues/546204
-  environment.sessionVariables.XDG_DATA_DIRS = [
-    "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}"
-    "${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}"
-  ];
 }
