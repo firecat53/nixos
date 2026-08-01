@@ -8,11 +8,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # Format all Nix files
 nix fmt
 
-# Rebuild system (replace <hostname> with: laptop, homeserver, backup, vps, office)
-sudo nixos-rebuild switch --flake .#<hostname>
+# Rebuild system (replace <hostname> with: laptop, homeserver, backup, vps, office).
+# Use --sudo, not `sudo nixos-rebuild` — build stays under the user, sudo is
+# only for activation.
+nixos-rebuild switch --flake .#<hostname> --sudo
 
 # Dry-run to preview changes
-sudo nixos-rebuild dry-activate --flake .#<hostname>
+nixos-rebuild dry-activate --flake .#<hostname> --sudo
 
 # Remote rebuild (from desktops to other hosts). Use this for urgent deploys
 # instead of waiting for the 04:40 auto-upgrade window. --build-host ships the
