@@ -8,6 +8,6 @@
     pkgs.calibre
   ];
   programs.bash.profileExtra = ''
-    export CALIBRE_OVERRIDE_DATABASE_PATH=${config.home.homeDirectory}/docs/family/scott/src/calibre/metadata.db
+    export CALIBRE_OVERRIDE_DATABASE_PATH=${config.home.homeDirectory}/docs/family/scott/src/state/calibre/metadata.db
   '';
 }

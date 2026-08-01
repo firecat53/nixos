@@ -8,6 +8,6 @@
     enableBashIntegration = true;
   };
   home.sessionVariables = {
-    WATSON_DIR = "${config.home.homeDirectory}/docs/family/scott/src/watson";
+    WATSON_DIR = "${config.home.homeDirectory}/docs/family/scott/src/state/watson";
   };
 }

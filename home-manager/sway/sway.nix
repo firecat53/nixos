@@ -343,7 +343,7 @@ in
           {
             block = "watson";
             show_time = false;
-            state_path = "${config.home.homeDirectory}/docs/family/scott/src/watson/state";
+            state_path = "${config.home.homeDirectory}/docs/family/scott/src/state/watson/state";
           }
           {
             block = "custom";
