@@ -22,6 +22,9 @@ let
       builtins.attrValues zfsCompatibleKernelPackages
     )
   );
+
+  # Version minimum for the search above: the channel default
+  defaultKernelPackage = zfsPkgs.linuxPackages;
 in
 {
   # Use zfs_unstable when latestZFSKernel is enabled
@@ -29,6 +32,14 @@ in
 
   # Note this might jump back and forth as kernels are added or removed.
   boot.kernelPackages = lib.mkIf config.latestZFSKernel latestKernelPackage;
+
+  # Catch and fail on a backwards jump before the channel default
+  assertions = lib.optionals config.latestZFSKernel [
+    {
+      assertion = lib.versionAtLeast latestKernelPackage.kernel.version defaultKernelPackage.kernel.version;
+      message = "zfs.nix: newest ZFS-compatible kernel (${latestKernelPackage.kernel.version}) is older than the channel default (${defaultKernelPackage.kernel.version}).";
+    }
+  ];
 
   boot = {
     supportedFilesystems = [ "zfs" ];
