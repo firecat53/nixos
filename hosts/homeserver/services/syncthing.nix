@@ -105,6 +105,18 @@
           ];
           id = "sdgpi-zh6rd";
         };
+        "nixos" = {
+          path = "/home/firecat53/nixos";
+          devices = [
+            "scott-laptop"
+            "scott-office"
+          ];
+          id = "smqlq-yhrua";
+          ignorePatterns = [
+            "result" # nix build symlinks
+            "result-*"
+          ];
+        };
         "peggy-all" = {
           path = "/home/peggy";
           devices = [

@@ -76,6 +76,18 @@
           ];
           id = "sdgpi-zh6rd";
         };
+        "nixos" = {
+          path = "/home/firecat53/nixos";
+          devices = [
+            "homeserver"
+            "scott-laptop"
+          ];
+          id = "smqlq-yhrua";
+          ignorePatterns = [
+            "result" # nix build symlinks
+            "result-*"
+          ];
+        };
         "shared" = {
           path = "/home/firecat53/shared";
           devices = [
