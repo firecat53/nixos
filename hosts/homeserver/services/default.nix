@@ -29,6 +29,7 @@
     ./radarr.nix
     ./sabnzbd.nix
     ./samba.nix
+    ./seerr.nix
     ./sonarr.nix
     ./stirling-pdf.nix
     ./syncthing.nix

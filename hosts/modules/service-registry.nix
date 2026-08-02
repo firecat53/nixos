@@ -150,6 +150,13 @@
       passHost = true;
       meRouter = true;
     };
+    seerr = {
+      lan = "seerr.lan.firecat53.net";
+      port = 5055;
+      auth = true;
+      passHost = true;
+      meRouter = true;
+    };
     sabnzbd = {
       lan = "sabnzbd.lan.firecat53.net";
       port = 8090;

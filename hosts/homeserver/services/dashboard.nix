@@ -66,6 +66,11 @@ let
           icon = "sabnzbd.svg";
         }
         {
+          label = "Seerr";
+          url = me "seerr";
+          icon = "seerr.svg";
+        }
+        {
           label = "Sonarr";
           url = me "sonarr";
           icon = "sonarr.svg";

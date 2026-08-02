@@ -179,6 +179,12 @@ in
           conditions = ok200;
         })
         (ep {
+          name = "seerr";
+          group = "downloads";
+          url = "https://seerr.lan.firecat53.net/api/v1/status";
+          conditions = ok200; # {"version":...}, no API key needed
+        })
+        (ep {
           name = "jackett";
           group = "downloads";
           url = "https://jackett.lan.firecat53.net/";
