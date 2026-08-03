@@ -1,19 +1,31 @@
 {
   config,
+  lib,
+  mailFolders,
+  pkgs,
   ...
 }:
+let
+  acct = config.accounts.email.accounts."firecat53.net";
+  # reverse_name picks the From: address by matching against these
+  alternates = lib.concatMapStringsSep " " (a: "'^${lib.escapeRegex a}$'") (
+    [ acct.address ] ++ acct.aliases
+  );
+  # neomutt unlinks its temp file as soon as the viewer exits, which xdg-open
+  # does immediately — so hand the browser a copy that outlives it
+  openHtml = pkgs.writeShellScript "neomutt-open-html" ''
+    dir="''${XDG_RUNTIME_DIR:-/tmp}"
+    ${pkgs.findutils}/bin/find "$dir" -maxdepth 1 -name 'neomutt-*.html' -mmin +60 -delete
+    out=$(${pkgs.coreutils}/bin/mktemp --tmpdir="$dir" --suffix=.html neomutt-XXXXXXXX)
+    ${pkgs.coreutils}/bin/cp -- "$1" "$out"
+    exec ${pkgs.util-linux}/bin/setsid -f ${pkgs.xdg-utils}/bin/xdg-open "$out"
+  '';
+in
 {
   accounts.email.accounts."firecat53.net".neomutt = {
     enable = true;
-    extraMailboxes = [
-      "Archive"
-      "Drafts"
-      "Sent"
-      "Spam"
-      "Trash"
-      "Scheduled"
-      "forwebmaster"
-    ];
+    # Inbox is the spoolfile, so it's already a mailbox
+    extraMailboxes = lib.attrValues (removeAttrs mailFolders [ "inbox" ]);
   };
 
   programs.neomutt = {
@@ -26,11 +38,15 @@
     };
 
     settings = {
+      # Prompt when the body mentions an attachment but none is attached
+      abort_noattach = "ask-yes";
       abort_nosubject = "no";
       arrow_cursor = "yes";
       auto_tag = "yes";
       beep = "no";
       beep_new = "yes";
+      # Keep threads with unread mail open, since every folder opens collapsed
+      collapse_unread = "no";
       confirm_append = "no";
       edit_headers = "yes";
       fast_reply = "yes";
@@ -41,23 +57,24 @@
       mark_old = "no";
       markers = "no";
       menu_scroll = "yes";
-      move = "no";
+      # search.excludeTags only applies to the notmuch CLI; neomutt needs its own
+      nm_exclude_tags = ''"${lib.concatStringsSep "," config.programs.notmuch.search.excludeTags}"'';
+      # Return whole threads from a vfolder query, not just the matches
+      nm_query_type = ''"threads"'';
       pager_context = "1";
       pager_index_lines = "8";
       pager_stop = "yes";
-      pgp_default_key = ''"${config.accounts.email.accounts."firecat53.net".gpg.key}"'';
+      pgp_default_key = ''"${acct.gpg.key}"'';
       query_command = ''"khard email --parsable %s"'';
       reply_to = "yes";
       reverse_name = "yes";
       sleep_time = "0";
-      smart_wrap = "yes";
       sort_aux = "reverse-last-date-received";
-      sort_re = "no";
       status_on_top = "yes";
       strict_threads = "yes";
-      thorough_search = "yes";
       tilde = "yes";
       timeout = "15";
+      uncollapse_jump = "yes";
       wrap = "85";
     };
 
@@ -81,6 +98,28 @@
         key = "<down>";
         action = "next-line";
       }
+      # Scroll the open message: J/K by a line, [/] by a page. In the pager
+      # this takes J/K away from next/previous message; the index still has them.
+      {
+        map = [ "pager" ];
+        key = "K";
+        action = "previous-line";
+      }
+      {
+        map = [ "pager" ];
+        key = "J";
+        action = "next-line";
+      }
+      {
+        map = [ "pager" ];
+        key = "[";
+        action = "previous-page";
+      }
+      {
+        map = [ "pager" ];
+        key = "]";
+        action = "next-page";
+      }
       {
         map = [ "pager" ];
         key = "gg";
@@ -101,20 +140,26 @@
         key = "G";
         action = "last-entry";
       }
+      # collapse-thread is a toggle, so it's 'za' rather than a zo/zc pair
       {
         map = [ "index" ];
-        key = "zo";
-        action = "collapse-thread";
-      }
-      {
-        map = [ "index" ];
-        key = "zc";
+        key = "za";
         action = "collapse-thread";
       }
       {
         map = [ "index" ];
         key = "zM";
         action = "collapse-all";
+      }
+      # 'd' is the archive macro, so delete needs a home of its own. $trash is
+      # set, so this moves to Trash rather than purging.
+      {
+        map = [
+          "index"
+          "pager"
+        ];
+        key = "D";
+        action = "delete-message";
       }
       {
         map = [ "attach" ];
@@ -265,24 +310,8 @@
           "index"
           "pager"
         ];
-        key = "D";
-        action = "<save-message>=Trash<enter>";
-      }
-      {
-        map = [
-          "index"
-          "pager"
-        ];
         key = "X";
         action = "<save-message>=Spam<enter>";
-      }
-      {
-        map = [
-          "index"
-          "pager"
-        ];
-        key = "M";
-        action = "<shell-escape>notmuch new<enter>";
       }
       {
         map = [
@@ -311,6 +340,9 @@
     ];
 
     extraConfig = ''
+      # Recognize the aliases as our own, for reverse_name and ~p searches
+      alternates ${alternates}
+
       # Only show the headers worth reading
       ignore *
       unignore from: to: cc: date: subject:
@@ -362,7 +394,7 @@
   };
 
   xdg.configFile."neomutt/mailcap".text = ''
-    text/html; xdg-open %s; nametemplate=%s.html
+    text/html; ${openHtml} %s; nametemplate=%s.html
     text/html; w3m -I %{charset} -T text/html -dump %s; copiousoutput; nametemplate=%s.html
     application/pdf; zathura %s
     image/*; imv %s

@@ -10,6 +10,7 @@
     ./git.nix
     ./gpg.nix
     ./imv.nix
+    ./mail-folders.nix
     ./mail.nix
     ./mpv.nix
     ./neomutt.nix

@@ -7,11 +7,12 @@
   sops.secrets.fastmail-imap = { };
 
   accounts.email = {
-    # Maildir is synced from homeserver (where mbsync runs) by syncthing
+    # mbsync writes this on homeserver, syncthing replicates it to the desktops
     maildirBasePath = "mail";
     accounts."firecat53.net" = {
       primary = true;
       address = "scott@firecat53.net";
+      userName = "scott@firecat53.net";
       realName = "Scott Hansen";
       flavor = "fastmail.com";
       passwordCommand = "${pkgs.coreutils}/bin/cat ${config.sops.secrets.fastmail-imap.path}";

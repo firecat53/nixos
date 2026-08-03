@@ -1,9 +1,20 @@
 {
   config,
+  lib,
+  mailFolders,
   ...
 }:
 let
-  maildir = config.accounts.email.accounts."firecat53.net".maildir.path;
+  acct = config.accounts.email.accounts."firecat53.net";
+  maildir = acct.maildir.path;
+  excludeTags = [
+    "trash"
+    "spam"
+    "deleted"
+  ];
+  # Naming an excluded tag in a query cancels the exclusion for it, so a query
+  # matching (anyExcluded or not anyExcluded) opts out of exclusion entirely
+  anyExcluded = lib.concatMapStringsSep " or " (t: "tag:${t}") excludeTags;
 in
 {
   accounts.email.accounts."firecat53.net".notmuch = {
@@ -18,8 +29,9 @@ in
         query = "tag:flagged";
       }
       {
+        # Spans every folder, spam and trash included
         name = "Last 7 days";
-        query = "date:7d..";
+        query = "date:7d.. and (${anyExcluded} or not (${anyExcluded}))";
       }
     ];
   };
@@ -34,37 +46,48 @@ in
       ".stversions"
       "/.*[.]syncthing[.].*[.]tmp$/"
     ];
-    search.excludeTags = [
-      "trash"
-      "spam"
-      "deleted"
-    ];
-    hooks.postNew = ''
-      # Folder-derived tags, re-synced every run so moved mail is retagged
-      for pair in inbox:Inbox sent:Sent archive:Archive drafts:Drafts spam:Spam trash:Trash; do
-        tag=''${pair%%:*}
-        dir=''${pair##*:}
-        notmuch tag +"$tag" -- folder:"${maildir}/$dir" and not tag:"$tag"
-        notmuch tag -"$tag" -- tag:"$tag" and not folder:"${maildir}/$dir"
-      done
-      notmuch tag -new -- tag:new
-    '';
+    search.excludeTags = excludeTags;
+    # Folder-derived tags, re-synced every run so moved mail is retagged
+    hooks.postNew =
+      lib.concatStrings (
+        lib.mapAttrsToList (tag: dir: ''
+          notmuch tag +${tag} -- folder:"${maildir}/${dir}" and not tag:${tag}
+          notmuch tag -${tag} -- tag:${tag} and not folder:"${maildir}/${dir}"
+        '') mailFolders
+      )
+      + ''
+        notmuch tag -new -- tag:new
+      '';
   };
 
   # Mail arrives via syncthing, so nothing else triggers indexing
   systemd.user.services.notmuch-new = {
-    Unit.Description = "Index new mail with notmuch";
+    Unit = {
+      Description = "Index new mail with notmuch";
+      # Reading mail retitles maildir files, so the path unit can fire in bursts
+      StartLimitIntervalSec = 0;
+    };
     Service = {
       Type = "oneshot";
       Environment = "NOTMUCH_CONFIG=${config.xdg.configHome}/notmuch/default/config";
       ExecStart = "${config.programs.notmuch.package}/bin/notmuch new --quiet";
     };
   };
+  # inotify only reports live changes, so the timer covers mail that landed
+  # while the session was down
+  systemd.user.paths.notmuch-new = {
+    Unit.Description = "Watch the maildir for mail delivered by syncthing";
+    Path.PathModified = lib.concatMap (dir: [
+      "${acct.maildir.absPath}/${dir}/cur"
+      "${acct.maildir.absPath}/${dir}/new"
+    ]) (lib.attrValues mailFolders);
+    Install.WantedBy = [ "paths.target" ];
+  };
   systemd.user.timers.notmuch-new = {
     Unit.Description = "Index new mail with notmuch";
     Timer = {
       OnBootSec = "2m";
-      OnUnitActiveSec = "5m";
+      OnUnitActiveSec = "60m";
     };
     Install.WantedBy = [ "timers.target" ];
   };
