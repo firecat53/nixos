@@ -35,7 +35,7 @@
 
       # Define sessions
       new -s term -n term -d -A
-      new -s comms -n comms -d -A aerc
+      new -s comms -n comms -d -A neomutt
       new -s music -n music -d -A
     '';
   };

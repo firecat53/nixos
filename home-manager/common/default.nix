@@ -1,6 +1,5 @@
 {
   imports = [
-    ./aerc.nix
     ./ai.nix
     ./bash.nix
     ./bemenu.nix
@@ -11,8 +10,11 @@
     ./git.nix
     ./gpg.nix
     ./imv.nix
+    ./mail.nix
     ./mpv.nix
+    ./neomutt.nix
     ./nix.nix
+    ./notmuch.nix
     ./packages.nix
     ./pianobar.nix
     ./ruff.nix

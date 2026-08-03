@@ -534,3 +534,29 @@ reboot
 ### VPS (cloud server)
 
 1. [Install using nixos-anywhere](#installing-using-nixos-anywhere)
+
+## Mail
+
+`homeserver` runs mbsync with mail stored in `~/mail`. Syncthing replicates it
+to/from the desktops with Neomutt working from that local maildir. Only sending
+goes out directly via SMTP.
+
+### Notmuch
+
+The xapian database lives at `~/mail/.notmuch` and is excluded from syncthing
+by `~/mail/.stignore`, so **each machine keeps its own tags**. Only what the
+maildir itself records — read/flagged/replied/draft and which folder a message
+sits in — is shared between laptop and office.
+
+Folder tags (`inbox`, `sent`, `archive`, `drafts`, `spam`, `trash`) are rebuilt
+from the maildir on every run by the `post-new` hook, so mail moved in one
+client retags itself on the next index. `unread` and `flagged` come from the
+maildir flags directly.
+
+Mail arrives by syncthing rather than a local delivery agent, so nothing
+triggers indexing on its own — the `notmuch-new` user timer runs every 5
+minutes. On a new desktop run `notmuch new` once by hand first.
+
+In neomutt, `S` prompts for a notmuch query, `Alt-v` switches to a saved search
+and `Alt-t` edits tags. `M` forces an index refresh.
+
