@@ -70,7 +70,12 @@ in
   };
   accounts.contact.accounts = {
     contacts = {
-      khard.enable = true;
+      khard = {
+        enable = true;
+        # vdirsyncer syncs each nextcloud collection into its own subdir of
+        # local.path, so point khard at the collection, not the sync root
+        addressbooks = [ "contacts" ];
+      };
       local = {
         path = "${userHome}/.local/share/nextcloud/contacts";
         type = "filesystem";

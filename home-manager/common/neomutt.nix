@@ -65,7 +65,7 @@ in
       pager_index_lines = "8";
       pager_stop = "yes";
       pgp_default_key = ''"${acct.gpg.key}"'';
-      query_command = ''"khard email --parsable %s"'';
+      query_command = ''"khard email --parsable -a contacts-contacts %s"'';
       reply_to = "yes";
       reverse_name = "yes";
       sleep_time = "0";
@@ -242,7 +242,7 @@ in
           "pager"
         ];
         key = "A";
-        action = "<pipe-message>khard add-email<enter>";
+        action = "<pipe-message>khard add-email -a contacts-contacts<enter>";
       }
       {
         map = [
