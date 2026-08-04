@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   mailFolders,
   ...
 }:
@@ -92,8 +93,10 @@ in
     Install.WantedBy = [ "timers.target" ];
   };
 
-  # The xapian database is per-machine
-  home.file."mail/.stignore".text = ''
-    .notmuch
+  # The xapian database is per-machine. Written as a real file, not home.file:
+  # syncthing opens .stignore with O_NOFOLLOW and errors out on a store symlink.
+  home.activation.mailStignore = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    run install -Dm644 ${pkgs.writeText "mail-stignore" ".notmuch\n"} \
+      "${config.accounts.email.maildirBasePath}/.stignore"
   '';
 }

@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -10,9 +11,12 @@ in
   sops.secrets.wiki-ssh = { };
   sops.secrets.signing-key = { };
 
-  # Ensure .stignore in place for the main wiki repo
-  home.file."docs/.stignore".text = ''
-    /family/scott/wiki/.git
+  # Keep the wiki repo's git dir out of syncthing. Written as a real file, not
+  # home.file: syncthing opens .stignore with O_NOFOLLOW and errors out on a
+  # store symlink.
+  home.activation.docsStignore = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+    run install -Dm644 ${pkgs.writeText "docs-stignore" "/family/scott/wiki/.git\n"} \
+      "${config.home.homeDirectory}/docs/.stignore"
   '';
 
   programs.ssh = {
