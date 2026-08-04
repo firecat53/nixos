@@ -162,11 +162,6 @@ in
         action = "delete-message";
       }
       {
-        map = [ "attach" ];
-        key = "<return>";
-        action = "view-mailcap";
-      }
-      {
         map = [ "editor" ];
         key = "<Tab>";
         action = "complete-query";
@@ -347,7 +342,7 @@ in
       ignore *
       unignore from: to: cc: date: subject:
 
-      auto_view text/html
+      auto_view text/html text/calendar application/ics
       # alternative_order appends, so clear the default list first
       unalternative_order *
       alternative_order text/plain text/enriched text/html
@@ -394,15 +389,31 @@ in
   };
 
   xdg.configFile."neomutt/mailcap".text = ''
-    text/html; ${openHtml} %s; nametemplate=%s.html
+    # test= keeps the GUI viewers from firing on a bare tty (neomutt over ssh),
+    # letting any copiousoutput entry below take over instead
+    text/html; ${openHtml} %s; nametemplate=%s.html; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
     text/html; w3m -I %{charset} -T text/html -dump %s; copiousoutput; nametemplate=%s.html
-    application/pdf; zathura %s
-    image/*; imv %s
-    video/*; mpv %s
+    # Render meeting invites instead of dumping raw iCalendar
+    text/calendar; khal printics %s; copiousoutput; nametemplate=%s.ics
+    application/ics; khal printics %s; copiousoutput; nametemplate=%s.ics
+    application/pdf; zathura %s; nametemplate=%s.pdf; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
+    image/*; imv %s; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
+    video/*; mpv %s; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
     audio/*; mpv %s
-    application/msword; libreoffice %s
-    application/vnd.ms-excel; libreoffice %s
-    application/vnd.oasis.opendocument.*; libreoffice %s
-    application/vnd.openxmlformats-officedocument.*; libreoffice %s
+    # atool and libreoffice both pick their format from the file extension, so
+    # every entry below needs a nametemplate to survive neomutt's temp file
+    application/zip; atool -l %s; copiousoutput; nametemplate=%s.zip
+    application/x-7z-compressed; atool -l %s; copiousoutput; nametemplate=%s.7z
+    application/x-tar; atool -l %s; copiousoutput; nametemplate=%s.tar
+    application/gzip; atool -l %s; copiousoutput; nametemplate=%s.tar.gz
+    application/msword; libreoffice %s; nametemplate=%s.doc; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
+    application/vnd.ms-excel; libreoffice %s; nametemplate=%s.xls; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
+    application/vnd.ms-powerpoint; libreoffice %s; nametemplate=%s.ppt; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
+    application/vnd.openxmlformats-officedocument.wordprocessingml.document; libreoffice %s; nametemplate=%s.docx; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
+    application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; libreoffice %s; nametemplate=%s.xlsx; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
+    application/vnd.openxmlformats-officedocument.presentationml.presentation; libreoffice %s; nametemplate=%s.pptx; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
+    application/vnd.oasis.opendocument.text; libreoffice %s; nametemplate=%s.odt; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
+    application/vnd.oasis.opendocument.spreadsheet; libreoffice %s; nametemplate=%s.ods; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
+    application/vnd.oasis.opendocument.presentation; libreoffice %s; nametemplate=%s.odp; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
   '';
 }
