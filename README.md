@@ -543,10 +543,9 @@ goes out directly via SMTP.
 
 ### Notmuch
 
-The xapian database lives at `~/mail/.notmuch` and is excluded from syncthing
-by `~/mail/.stignore`, so **each machine keeps its own tags**. Only what the
-maildir itself records — read/flagged/replied/draft and which folder a message
-sits in — is shared between laptop and office.
+The xapian database lives at `~/mail/.notmuch` and is excluded from syncthing by
+`~/mail/.stignore`, so **each desktop keeps its own tags**. Only the maildir
+itself is shared between laptop and office.
 
 One folder tag per maildir folder is rebuilt from the maildir on every run by
 the `post-new` hook, so mail moved in one client retags itself on the next
@@ -559,12 +558,3 @@ triggers indexing on its own. `notmuch-new.path` watches every folder's `cur`
 and `new` for inotify events, and since inotify only reports live changes, the
 `notmuch-new` timer sweeps hourly to catch mail that landed while the session
 was down. On a new desktop run `notmuch new` once by hand first.
-
-Notmuch's `search.exclude_tags` only applies to the CLI, so neomutt gets the
-same list via `$nm_exclude_tags` — otherwise the virtual mailboxes would show
-spam and trash.
-
-In neomutt, `S` prompts for a notmuch query, `Alt-v` switches to a saved search
-and `Alt-t` edits tags. `M` forces an index refresh. Queries return whole
-threads (`$nm_query_type`), so `Alt-e` is rarely needed.
-

@@ -205,19 +205,6 @@ in
         action = "vfolder-from-query";
       }
       {
-        map = [ "index" ];
-        key = "\\ev";
-        action = "change-vfolder";
-      }
-      {
-        map = [
-          "index"
-          "pager"
-        ];
-        key = "\\et";
-        action = "modify-labels";
-      }
-      {
         map = [
           "index"
           "pager"
