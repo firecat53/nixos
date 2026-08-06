@@ -245,6 +245,39 @@ To add a host:
 4. Add sops keys (see the install/post-install sections below).
 5. Install per [General Install Procedures](#general-install-procedures).
 
+## Monitoring
+
+In general, VPS services are monitored from the Gatus instance on homeserver and
+homeserver LAN services are monitored from Gatus on VPS via a
+wireguard tunnel. Prometheus scrapes metrics from all the servers and feeds
+Alertmanager and Grafana.
+
+### Podman healthchecks
+
+A `HostSystemdServiceCrashed` alert for a unit like
+`e2d6c5…c3d86-3c8e64…0a02.service` is not a real service. Podman runs each
+container healthcheck in a transient unit named after the container ID, and a
+failed probe leaves it `failed` until the next tick.
+
+Because the prometheus systemd collector is enabled, this generates a lot of
+recurring noise in prometheus due to these checks. Service monitoring (Gatus) is
+used instead of the container health checks for issue notifications. The
+container health checks are filtered via a regex in prometheus-exporters.nix.
+Note that flag overrides node-exporter's default exclusions rather than
+extending them, hence the defaults repeated there.To make podman health checks
+actionable, set `--health-on-failure=restart`, or export `.State.Health.Status`
+as a textfile metric (pattern: `airvpn-port-check.nix`). The container's own
+`podman-<name>.service` is unaffected and still alerts if a container dies.
+
+### What the qBittorrent VPN checks actually prove
+
+VPS gatus checks the QBT GUI and socks-proxy, but both are port-mapped to the
+host (`-p 127.0.0.1:8081:8081`, `-p 2222:22` on the pod), so they answer even
+if the tunnel is down — they prove the containers are alive, not that traffic
+is egressing. Tunnel egress is covered by `vps services/airvpn-port-check.nix`,
+which probes the AirVPN forwarded port from outside. It can take 30-45 minutes
+for the system to notice that the AirVPN tunnel is actually down.
+
 ## General Install Procedures
 
 ### Tips

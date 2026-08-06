@@ -10,7 +10,7 @@
 #   - Prometheus and Alertmanager are Authelia-gated on the public side, so they
 #     are probed directly over the wireguard tunnel on their backend ports
 #     (the VPS trusts wg0, so 0.0.0.0-bound services are reachable at 10.200.200.5).
-#   - Syncthing (VPS + backup) are checked with a raw TCP probe of their sync
+#   - Syncthing (VPS) is checked with a raw TCP probe of its sync
 #     ports. The Omada controller is probed over HTTPS (self-signed cert ->
 #     insecure, no cert-expiry assertion); a 200/302 means the UI is responding.
 {
