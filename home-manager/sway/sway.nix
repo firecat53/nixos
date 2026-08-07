@@ -2,6 +2,7 @@
   config,
   inputs,
   lib,
+  mailFolders,
   pkgs,
   ...
 }:
@@ -13,6 +14,23 @@ let
   km = inputs.keepmenu.packages.${pkgs.stdenv.hostPlatform.system}.default;
   tdcm = inputs.todocalmenu.packages.${pkgs.stdenv.hostPlatform.system}.default;
   wdm = inputs.watson-dmenu.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  inbox = "${config.accounts.email.accounts."firecat53.net".maildir.absPath}/${mailFolders.inbox}";
+  # Mail is unread when its maildir filename carries no S flag. Counting new/
+  # instead (what the maildir block does) misses nearly all of it: mbsync,
+  # notmuch and neomutt each relocate mail to cur/ while it's still unread
+  mailUnread = pkgs.writeShellScript "mail-unread" ''
+    count=$(${pkgs.fd}/bin/fd --type f . ${inbox}/new ${inbox}/cur \
+      | ${pkgs.ripgrep}/bin/rg --count --invert-match ':2,[A-Z]*S[A-Z]*$' || true)
+    count=''${count:-0}
+    if [ "$count" -ge 10 ]; then
+      state=critical
+    elif [ "$count" -ge 1 ]; then
+      state=warning
+    else
+      state=idle
+    fi
+    printf '{"icon":"mail","state":"%s","text":"%s"}\n' "$state" "$count"
+  '';
 in
 {
   sops.secrets.openweathermap_api = { };
@@ -398,14 +416,14 @@ in
             missing_format = "";
           }
           {
-            block = "maildir";
-            interval = 20;
-            inboxes = [
-              "~/mail/firecat53.net/Inbox"
+            block = "custom";
+            command = "${mailUnread}";
+            json = true;
+            watch_files = [
+              "${inbox}/new"
+              "${inbox}/cur"
             ];
-            threshold_warning = 1;
-            threshold_critical = 10;
-            display_type = "new";
+            interval = 20;
           }
           {
             block = "weather";
