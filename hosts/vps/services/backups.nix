@@ -43,6 +43,7 @@
         Persistent = true;
       };
       pruneOpts = [
+        "--host vps"
         "--keep-monthly 6"
         "--keep-weekly 12"
         "--keep-daily 30"

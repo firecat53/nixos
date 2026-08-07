@@ -127,6 +127,7 @@
         Persistent = true;
       };
       pruneOpts = [
+        "--host homeserver"
         "--keep-monthly 6"
         "--keep-weekly 12"
         "--keep-daily 30"
