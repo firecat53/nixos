@@ -87,10 +87,15 @@
       nixosConfigurations = {
         backup = mkSystem { host = "backup"; };
         homeserver = mkSystem { host = "homeserver"; };
+        installer = mkSystem { host = "installer"; };
         laptop = mkSystem { host = "laptop"; };
         office = mkSystem { host = "office"; };
         vps = mkSystem { host = "vps"; };
       };
+
+      # Rescue/installer ISO; built monthly on the homeserver.
+      packages.x86_64-linux.installer-iso =
+        self.nixosConfigurations.installer.config.system.build.isoImage;
 
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-tree;
     };

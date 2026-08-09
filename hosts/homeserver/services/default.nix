@@ -12,6 +12,7 @@
     ./gollum.nix
     ./hass.nix
     ./immich.nix
+    ./installer-iso.nix
     ./jackett.nix
     ./jellyfin.nix
     ./lan-proxy.nix
