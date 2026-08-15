@@ -23,11 +23,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785594735,
-        "narHash": "sha256-kjTbc8gskgsFsC5OUrvU3n6bb1P79Al34ulxC4Sgdzg=",
+        "lastModified": 1786726767,
+        "narHash": "sha256-u4GMNc28yLgkhQhUs/MtWofBHdTeMc3qQEsPysQQ7fg=",
         "owner": "firecat53",
         "repo": "bitwarden-menu",
-        "rev": "a5d5cf7b1dca4e96de40bd557e2f89fa16d15fe4",
+        "rev": "7c4633a5be0f80de4c311278716951f61e222633",
         "type": "github"
       },
       "original": {
@@ -244,11 +244,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786671646,
-        "narHash": "sha256-E6xZUyU6k/TB99Ufy1E1ouPBMrlkQH693/YKQ+5VFXM=",
+        "lastModified": 1786720173,
+        "narHash": "sha256-KsUc2lXCbi6wFbH6/Tgm8VQu+yDW2NtaGPg7lxQVQ0g=",
         "owner": "firecat53",
         "repo": "keepmenu",
-        "rev": "e1ede351bf355567d37e395e7e171282e6157106",
+        "rev": "5a26ef63f18cdd7e99eca5910fbc80d89684b68e",
         "type": "github"
       },
       "original": {
@@ -403,11 +403,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1786535285,
-        "narHash": "sha256-wu478baUvGLzcIMCGz8eKqSJa2uzjoUGpYSh/LTXtxo=",
-        "rev": "9f78f44a87948854445dae0b6bf82b2e87e4efb5",
+        "lastModified": 1786711500,
+        "narHash": "sha256-mB6w7h+UsvxLf3PY6U3hSDVWCfmn2Q6VtSw5JugbeY0=",
+        "rev": "02e08985a27c65ffd33d434eeb2e660a2e4dc84d",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixos/26.05/nixos-26.05.7526.9f78f44a8794/nixexprs.tar.xz"
+        "url": "https://releases.nixos.org/nixos/26.05/nixos-26.05.7675.02e08985a27c/nixexprs.tar.xz"
       },
       "original": {
         "type": "tarball",
@@ -496,11 +496,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780667364,
-        "narHash": "sha256-WWnWQRDo2Q023qLvR5gExE0uptYRGErnFmd7dZNJQ+k=",
+        "lastModified": 1786727039,
+        "narHash": "sha256-OHqXv4M0N2H7FtqFNHdJi9+qHZj7UNB71ve7+cCL4xc=",
         "owner": "firecat53",
         "repo": "urlscan",
-        "rev": "a14f389d97d9669212ab1b9961b6a25a691f28af",
+        "rev": "1a1e3665453ac3ca0c8473934e1472b60eb70f55",
         "type": "github"
       },
       "original": {
