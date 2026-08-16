@@ -87,8 +87,10 @@
       nixosConfigurations = {
         backup = mkSystem { host = "backup"; };
         homeserver = mkSystem { host = "homeserver"; };
-        installer = mkSystem { host = "installer"; };
+        installer = mkSystem { host = "installer/iso"; };
         laptop = mkSystem { host = "laptop"; };
+        # Stage-1 install target; regenerate its hardware-configuration.nix first.
+        minimal = mkSystem { host = "installer/minimal"; };
         office = mkSystem { host = "office"; };
         vps = mkSystem { host = "vps"; };
       };

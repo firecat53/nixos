@@ -2,8 +2,11 @@
 #
 # Avoid adding any modules that pull in sops secrets from my-secrets
 #
-# The flake source exits at /nixos on the ISO as plain text to copy and
+# The flake source exists at /nixos on the ISO as plain text to copy and
 # edit after booting.
+#
+# ../minimal is the stage-1 install target this ISO writes to disk; it has the
+# same no-sops constraint for the same reason.
 {
   config,
   lib,
@@ -19,11 +22,12 @@
     # Each verified secrets-free; see the header note.  ssh-keys.nix is not a
     # module - it is a plain attrset, consumed by sshd.nix for knownHosts and
     # below for authorizedKeys.
-    ../modules/avahi.nix # so it answers to nixos.local without hunting for an IP
-    ../modules/common/env.nix
-    ../modules/common/packages.nix
-    ../modules/common/sshd.nix
-    ../modules/servers/neovim.nix
+    ../../modules/avahi.nix # so it answers to nixos.local without hunting for an IP
+    ../../modules/common/env.nix
+    ../../modules/common/nix.nix
+    ../../modules/common/packages.nix
+    ../../modules/common/sshd.nix
+    ../../modules/servers/neovim.nix
   ];
 
   # -- Boot from a loopback-mounted ISO on a multiboot USB key ---------------
@@ -125,19 +129,19 @@
       # installing a host from the tree at /nixos
       age
       nixos-install-tools
+      ssh-to-age
       sops
       inputs.disko.packages.${pkgs.stdenv.hostPlatform.system}.disko
+      # Keepmenu for cli access to passwords
+      inputs.keepmenu.packages.${pkgs.stdenv.hostPlatform.system}.default
     ]
     ++ [ config.boot.kernelPackages.cpupower ];
 
   # -- Access ----------------------------------------------------------------
 
-  # sshd itself, PasswordAuthentication=false and PermitRootLogin="no" all come
-  # from common/sshd.nix, so authorize against the installer's `nixos` user
-  # (created by installation-device.nix with passwordless sudo) rather than
-  # root.  Public keys only.
+  # Modify installer to authorize nixos user for ssh access instead of root
   users.users.nixos.openssh.authorizedKeys.keys =
-    lib.attrValues (import ../modules/common/ssh-keys.nix).devices;
+    lib.attrValues (import ../../modules/common/ssh-keys.nix).devices;
 
   networking.networkmanager.enable = true;
 

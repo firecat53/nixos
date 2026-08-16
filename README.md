@@ -14,18 +14,25 @@
     + Flake install w/ home-manager and sops.
         - Encrypted or unencrypted `base-btrfs` or `base-zfs`
     + Bare minimum flake install for testing. `base-minimal`
+* Installer/rescue ISO `hosts/installer/iso` - custom auto-build monthly into
+  /mnt/downloads/iso for use with the trusty-boot-key project.
+* Stage-1 install target `minimal` (`hosts/installer/minimal`) - bootable, no
+  sops, no home-manager. Gets a bare-metal rebuild far enough along to run the
+  real config. Its `hardware-configuration.nix` is a placeholder, regenerated
+  during the install. See
+  [Installing locally](#installing-locally-on-a-new-machine-using-the-iso-installer).
 
-Sops-nix secrets live in a private repository `nixos-secrets`. On the desktops
-(`laptop` and `office`, the only hosts that keep checkouts) the directory
-structure is:
-```text
-~/nixos
-    ~/nixos/nixos/
-    ~/nixos/nixos-secrets
-    ~/nixos/nix-neovim
-```
-These are ordinary clones of the forgejo repos — clone them anywhere you want
-to work; the servers pull by URL and keep no checkout.
+### Emergency restore kit
+
+The trusty-boot-key USB carries the ISO plus the `nixos/`, `dotfiles/` and
+`shared/` trees, refreshed by `flash_drive_update.sh`.
+
+Any secrets on the drive are all encrypted in some way. Age secret key stored in
+the password vault(s).
+
+Building the system with sops-nix does not need forgejo — use
+`--override-input my-secrets path:<path/to/nixos-secrets` against the copy on
+the drive.
 
 ## Update flow
 
@@ -36,9 +43,9 @@ what the fleet runs.
 
 * **Lock bumps**: the `flake-lock-update` timer on `homeserver`
   (`hosts/homeserver/services/flake-lock-update.nix`) runs `nix flake update
-  --commit-lock-file` at 04:00 daily in its own clone under
+  --commit-lock-file` at 0400 daily in its own clone under
   `/var/lib/flake-lock-update`, then pushes `main`.
-* **All five hosts** auto-upgrade at 04:40 from
+* **All five hosts** auto-upgrade at 0440 from
   `git+https://git.firecat53.me/firecat53/nixos.git?ref=main`. That repo is
   public, so the config side needs no credentials.
 * **Secrets**: the `my-secrets` flake input points at the *private*
@@ -49,8 +56,8 @@ what the fleet runs.
   `/etc/ssh/ssh_config` (`hosts/modules/common/sshd.nix`) rather than
   `~/.ssh/config`, because `nixos-upgrade` evaluates the flake as root.
   **A newly built host needs its deploy key added before its first build.**
-* **Deploy**: merge to `main` and push. Hosts pick it up at 04:40, or use the
-  immediate path below.
+* **Deploy**: merge to `main` and push. Hosts pick it up at with the
+  auto-upgrade or use the immediate path below.
 * **Rollback**: `git revert` + push, or `nixos-rebuild --rollback` on the
   affected host when you need it now. `git log -p flake.lock` on `main` is the
   audit trail of what every host ran on a given day.
@@ -64,8 +71,8 @@ forgejo.
 
 `nixos-rebuild test/switch --flake .#<host>` still builds the working tree on
 demand, so day-to-day testing is unchanged. The catch: a machine left on a test
-build silently reverts to `main` at the next 04:40 upgrade, so re-apply the
-working tree after waking a machine you were mid-test on.
+build silently reverts to `main` at the next morning auto-upgrade, so re-apply
+the working tree after waking a machine you were mid-test on.
 
 To push an urgent change to another host immediately:
 
@@ -77,8 +84,8 @@ nixos-rebuild switch --flake .#<host> --target-host <host> --build-host <host> -
 ships the flake *and its resolved inputs* — so the target needs no checkout,
 and no deploy-key access of its own, for this path. `--sudo` authenticates
 through pam_rssh against the ssh agent, so it doesn't prompt. `main` stays the
-unattended path: anything deployed this way is overwritten at 04:40 unless it
-is also committed and pushed.
+unattended path: anything deployed this way is overwritten with the morning
+auto-upgrade unless it is also committed and pushed.
 
 ### Changing secrets
 
@@ -103,7 +110,7 @@ Service modules consume them with
 
 ## Adding / removing services and hosts
 
-### Which name goes where (the 2am map)
+### Domain naming conventions
 
 | name                                               | served by                                      | reachable from       | what it's for                                                                                                       |
 | -------------------------------------------------- | ---------------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------- |
@@ -294,7 +301,9 @@ for the system to notice that the AirVPN tunnel is actually down.
     d. tmuxStatusColor (str) - tmux status bar background color, for per-host
        visual distinction. Default "#cba6f7" (catppuccin mocha mauve).
 
-### Installing using [nixos-anywhere](https://github.com/nix-community/nixos-anywhere/blob/main/docs/quickstart.md)
+### Installing using nixos-anywhere
+
+<https://github.com/nix-community/nixos-anywhere/blob/main/docs/quickstart.md>
 
 1. Create new (Ubuntu is fine) cloud server. Add one of the public keys. Adjust
    DNS 'A' records if needed.
@@ -303,42 +312,102 @@ for the system to notice that the AirVPN tunnel is actually down.
 3. `nix run github:nix-community/nixos-anywhere -- --generate-hardware-config nixos-generate-config ./hosts/<host>/hardware-configuration.nix --flake .#<host> --target-host root@<ip or domain>`
 4. If problems arise, add `--no-reboot` to the above command so you can
    troubleshoot the new install.
-5. [[#post-install]]
+5. [Post install](#post-install) — sshd generates the host key on first boot,
+   so the rekey there is required before the config will build cleanly.
 
 ### Installing locally on a new machine using the ISO installer
 
-1. Boot installer.
-2. Mount flash drive DATA
-3. Install:
-```bash
-mkdir ./mnt
-sudo mount /dev/disk/by-label/DATA /home/nixos/mnt
-rsync -av mnt/nixos .
-cat /home/nixos/mnt/dotfiles/ssh-scotty/.ssh/id_ed25519.pub | sudo tee /root/.ssh/authorized_keys
-# OR sudo passwd root
-```
-Login via ssh from another machine (e.g. ssh root@192.168.200.103)
-```bash
-nix-shell -p git
-mount -o remount,size=8G /run/user/0  ## This is to prevent out of space error during build
-# Update device(s) in ~/mnt/nixos/nixos/hosts/<host>/disko-config.nix
-nix --experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko /home/nixos/mnt/nixos/nixos/hosts/<host>/disko-config.nix
-nixos-generate-config --no-filesystems --show-hardware-config --root /mnt --dir /home/nixos/mnt/nixos/nixos/hosts/<host>/
-nixos-install --flake /home/nixos/mnt/nixos/nixos#<host>
-cp -a /home/nixos/mnt/nixos /mnt/home/firecat53/ && chown -R 20000:100 /home/mnt/firecat53/nixos
-umount /mnt/boot
-umount /mnt
-zfs export rpool
-systemctl reboot
-```
-5. [[#post-install]]
+Two stages because a full host closure will not reliably build from a booted
+ISO — it has run the installer out of memory more than once, even at 8GB+.
 
+Stage 1 installs `#minimal` (`hosts/installer/minimal`): small enough to build
+without running out of memory, with no sops or home-manager. Install also
+generates a new SSH host key.
+
+Stage 2 re-keys the secrets to use the new host key and then builds the actual
+machine config.
+
+```bash
+# 1. Boot the ISO. Device keys from ssh-keys.nix are already authorized for
+#    the `nixos` user, so just ssh in.
+sudo mkdir -p /run/data && sudo mount /dev/disk/by-label/DATA /run/data
+cp -a /run/data/{nixos,shared,dotfiles} ~/
+NIXOS=~/nixos/nixos
+
+# 2. Partition (update device ids first).
+sudo disko --mode disko $NIXOS/hosts/<host>/disko-config.nix
+
+# 3. Hardware scan into the minimal target. Drop --no-filesystems if not disko.
+sudo nixos-generate-config --no-filesystems --show-hardware-config --root /mnt \
+  > $NIXOS/hosts/installer/minimal/hardware-configuration.nix
+
+# 4. Stage 1. --no-root-password: users.nix already sets initialHashedPassword.
+#    If the build runs out of space: sudo mount -o remount,size=8G /run/user/0
+sudo nixos-install --flake $NIXOS#minimal --no-root-password
+sudo cp -a ~/{nixos,shared,dotfiles} /mnt/home/firecat53/
+sudo chown -R 1000:1000 /mnt/home/firecat53/{nixos,shared,dotfiles}
+sudo umount -R /mnt && sudo zpool export -a && sudo systemctl reboot
+```
+
+Then [post install](#post-install).
+
+### Post install
+
+1. Change the `firecat53` and root passwords.
+2. Sync ~/nixos/ to the new machine (configs and secrets) if needed.
+3. Generate SSH keys per [SSH key generation](#ssh-key-generation-new-or-rebuilt-host).
+   Needed to push to forgejo in step 4.
+4. Rekey. Also update `hostKeys.<host>` in `ssh-keys.nix` and re-add the pubkey
+   as a read-only deploy key on the forgejo `nixos-secrets` repo — it is the
+   `my-secrets` deploy key too. Being read-only, it cannot push: that needs the
+   device key from step 3, or do the push from a working host.
+
+```bash
+# Add AGE-SECRET-KEY-1... from the pw vault for any machine using home-manager
+mkdir -p ~/.config/sops/age
+(umask 077; $EDITOR ~/.config/sops/age/keys.txt)
+export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
+
+# deriving the recipient - on the new host itself:
+ssh-to-age -i /etc/ssh/ssh_host_ed25519_key.pub
+# ... or remotely, for a host with no age key of its own:
+ssh-keyscan <hostname> | ssh-to-age
+
+# then update the sops config with the new age recipient
+cd ~/nixos/nixos-secrets
+$EDITOR .sops.yaml                # &<host> age1...
+sops updatekeys <host>/secrets.yaml common/secrets.yaml
+git commit -am 'Rekey <host>' && git push
+```
+5. Build the real config. `--override-input` covers the window
+   before the rekey reaches forgejo; afterwards refresh the lock and commit it.
+```bash
+cd ~/nixos/nixos
+nixos-rebuild switch --flake .#<host> \
+  --override-input my-secrets path:$HOME/nixos/nixos-secrets --sudo
+nix flake update my-secrets && git commit -am 'Rekey <host>' && git push
+```
+   Until that lock change is on `main`, the daily auto-upgrade rebuilds from a
+   `.sops.yaml` with the old host key and activation fails.
+
+   If the rekey was done remotely there is no local checkout to override
+   against: push it first, then bump the lock and
+   [deploy from the working host](#testing-and-deploying-without-waiting).
+6. `sudo nmcli connection import type wireguard file
+   /etc/wireguard/wg0.conf`
+   for networkmanager.
+7. Update syncthing device ID's if necessary. Re-add servers on phones and
+   wife's laptop if needed.
+        
 ### SSH key generation (new or rebuilt host)
 
+The **device** key (`devices.*` in `hosts/modules/common/ssh-keys.nix`) — not
+the host key, which sshd generates at stage-1 boot and the install procedure
+rekeys into `hostKeys.*` of that same file.
+
 Each desktop/laptop host gets its own SSH keypair — private halves never leave
-the box, only pubkeys land in `hosts/modules/common/ssh-keys.nix`. Sequence
-matters because the host can't reach itself via key auth until its pubkey is
-authorized elsewhere.
+the box, only pubkeys land in `ssh-keys.nix`. Sequence matters because the host
+can't reach itself via key auth until its pubkey is authorized elsewhere.
 
 1. **On the new/rebuilt host**, generate the device key as `firecat53`:
 ```bash
@@ -360,32 +429,6 @@ wl-copy < ~/.ssh/id_ed25519.pub
    homeserver). To rotate, generate one new keypair, update `autossh` in
    `ssh-keys.nix`, and re-encrypt `autossh-key` into every desktop sops file.
 
-### Post install
-
-1. *new host* Change `firecat53` user and root (only for local machine) passwords. 
-2. *new host* Generate SSH keys per [SSH key generation](#ssh-key-generation-new-or-rebuilt-host) above.
-3. *existing host* Sync ~/nixos/ directory to new machine (including nixos configs and secrets)
-4. *existing host* Update sops key after reinstall. Commit and sync then rebuild.
-```bash
-nix shell nixpkgs#ssh-to-age nixpkgs#sops
-ssh-keyscan <hostname> | ssh-to-age
-# Set `&<hostname> age.....` in nixos-secrets/.sops.yaml
-sops updatekeys nixos-secrets/<hostname>/secrets.yml
-sops updatekeys nixos-secrets/common/secrets.yml
-git add .sops.yaml <homename>/ && git commit -m 'Update sops keys'
-```
-        
-5. *existing host* After the sops key is updated, refresh the secrets input's
-   lock entry and rebuild on the target machine (commit the lock change):
-```bash
-nix flake update my-secrets
-```
-6. *new host* `sudo nmcli connection import type wireguard file
-   /etc/wireguard/wg0.conf`
-   for networkmanager.
-7. Update syncthing device ID's if necessary. Re-add servers on phones and
-   wife's laptop if needed.
-        
 ## Specific host instructions
 
 ### Minimal and Base Installs
@@ -405,7 +448,7 @@ nix flake update my-secrets
 
 ### BACKUP server
 
-1. [[#Installing locally on a new machine using the ISO installer]]
+1. [Install](#installing-locally-on-a-new-machine-using-the-iso-installer)
 3. `ssh-keygen -f /etc/ssh/backup && chown backup: /etc/ssh/backup`. Change
    `backupPull` to the public key in `ssh-keys.nix` and rebuild all servers.
 4. `sudo -i -u backup ssh -i /etc/ssh/backup <backup source hostname(s)>` and
@@ -413,7 +456,7 @@ nix flake update my-secrets
 
 ### LAPTOP/OFFICE desktops
 
-1. [[#Installing locally on a new machine using the ISO installer]]
+1. [Install](#installing-locally-on-a-new-machine-using-the-iso-installer)
 2. Login to Vaultwarden
 3. Login to Firefox Sync
     a. Extensions - ClearURLs, floccus, Gnome Shell integration, Proxy

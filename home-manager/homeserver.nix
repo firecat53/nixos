@@ -19,13 +19,9 @@ in
 
   programs.home-manager.enable = true;
 
-  # forgejo alias for flake-lock-update. Overrides the system-wide alias, whose
-  # host-key identity can't push. Deploy key: write on nixos, read on
-  # nixos-secrets (needed by `nix flake update`).
+  # For flake-lock-update. Deploy key: write on nixos, read on nixos-secrets.
   sops.secrets.nixos-ssh = { };
-  # Commit signing key for flake-lock-update. Also declared by wiki.nix
-  # (identical declarations merge); declared here so lock-bump signing
-  # doesn't silently depend on wiki.nix staying imported.
+  # Commit signing key for flake-lock-update and for wiki.nix 
   sops.secrets.signing-key = { };
   programs.ssh = {
     enable = true;
@@ -40,6 +36,8 @@ in
     };
   };
 
+  # Age key that decrypts the user-level secrets. Can't use host key for this as
+  # it is root owned.
   sops = {
     age.keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
     defaultSopsFile = "${secretspath}/homeserver/secrets.yaml";
