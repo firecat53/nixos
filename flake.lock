@@ -23,11 +23,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786726767,
-        "narHash": "sha256-u4GMNc28yLgkhQhUs/MtWofBHdTeMc3qQEsPysQQ7fg=",
+        "lastModified": 1786903711,
+        "narHash": "sha256-il+cz9kHFYbJZhsA3kEGxcGXW8SqCsp+sdI0zN7O994=",
         "owner": "firecat53",
         "repo": "bitwarden-menu",
-        "rev": "7c4633a5be0f80de4c311278716951f61e222633",
+        "rev": "292d1d1ee32e020d73d4cb003adb328251044f6f",
         "type": "github"
       },
       "original": {
