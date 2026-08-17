@@ -55,6 +55,7 @@
           path = "/mnt/downloads/blackhole";
           devices = [ "christina-laptop" ];
           id = "lduvp-dcpju";
+          ignorePerms = true; # Allow ACLs
         };
         "camera-chrystie" = {
           path = "/mnt/media/cameras/chrystie";
@@ -63,6 +64,7 @@
             "christina-laptop"
           ];
           id = "camera";
+          ignorePerms = true; # Allow ACLs
         };
         "camera-scotty" = {
           path = "/mnt/media/cameras/scotty";
@@ -87,6 +89,7 @@
           path = "/home/chryspie/Christina-docs";
           devices = [ "christina-laptop" ];
           id = "wxbmh-jtaq9";
+          ignorePerms = true; # Allow ACLs
         };
         "file_xfer" = {
           path = "/home/firecat53/.local/tmp/file_xfer";
@@ -134,6 +137,7 @@
           path = "/home/chryspie/pictures";
           devices = [ "christina-laptop" ];
           id = "efadj-qkslz";
+          ignorePerms = true; # Allow ACLs
         };
         "shared" = {
           path = "/home/firecat53/shared";
