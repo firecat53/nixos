@@ -244,11 +244,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786720173,
-        "narHash": "sha256-KsUc2lXCbi6wFbH6/Tgm8VQu+yDW2NtaGPg7lxQVQ0g=",
+        "lastModified": 1787443870,
+        "narHash": "sha256-ChpB5LSG1lzzOcZWsWKl9jX4tFfNwaPpiBA+RmyJRj4=",
         "owner": "firecat53",
         "repo": "keepmenu",
-        "rev": "5a26ef63f18cdd7e99eca5910fbc80d89684b68e",
+        "rev": "548673223a17b477d29cc00a522919b05055afa8",
         "type": "github"
       },
       "original": {
