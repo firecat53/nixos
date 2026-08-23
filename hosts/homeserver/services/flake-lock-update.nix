@@ -1,11 +1,16 @@
 # Nightly flake input update, pushed to forgejo `main`, which every host then
 # builds at its 04:40 nixos-upgrade. Runs on the homeserver because it's always
 # on. Works from its own clone so it doesn't touch anyone's working tree.
+#
+# Every host's toplevel is built before the push, so a broken input can't reach
+# all five at once. A failure leaves `main` on the last good lock and fails the
+# unit, which prometheus alerts on.
 { pkgs, ... }:
 let
   user = "firecat53";
   stateDir = "flake-lock-update";
   repo = "/var/lib/${stateDir}/nixos";
+  resultPrefix = "/var/lib/${stateDir}/result-";
 
   updateScript = pkgs.writeShellScript "flake-lock-update" ''
     set -euo pipefail
@@ -19,6 +24,30 @@ let
     git -C ${repo} checkout --force -B main FETCH_HEAD
 
     nix flake update --flake ${repo} --commit-lock-file
+
+    # Read the host list from the clone, so a host added to the flake is gated
+    # without touching this file. The install-media targets aren't deployed.
+    hosts=$(nix eval --raw ${repo}#nixosConfigurations --apply \
+      'cfgs: builtins.concatStringsSep " " (builtins.filter (h: h != "installer" && h != "minimal") (builtins.attrNames cfgs))')
+
+    # --out-link roots the current toplevel per host, so the weekly gc reclaims
+    # only the superseded ones instead of the whole desktop closure.
+    for host in $hosts; do
+      nix build ${repo}#nixosConfigurations."$host".config.system.build.toplevel \
+        --out-link ${resultPrefix}"$host"
+    done
+
+    # Drop roots for hosts no longer in the flake, which would otherwise pin a
+    # stale closure forever.
+    for link in ${resultPrefix}*; do
+      [ -e "$link" ] || [ -L "$link" ] || continue # also catches the unmatched glob
+      host=''${link#${resultPrefix}}
+      case " $hosts " in
+        *" $host "*) ;;
+        *) rm -f "$link" ;;
+      esac
+    done
+
     git -C ${repo} push origin main
   '';
 in

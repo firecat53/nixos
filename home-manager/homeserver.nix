@@ -21,7 +21,7 @@ in
 
   # For flake-lock-update. Deploy key: write on nixos, read on nixos-secrets.
   sops.secrets.nixos-ssh = { };
-  # Commit signing key for flake-lock-update and for wiki.nix 
+  # Commit signing key for flake-lock-update and for wiki.nix
   sops.secrets.signing-key = { };
   programs.ssh = {
     enable = true;
