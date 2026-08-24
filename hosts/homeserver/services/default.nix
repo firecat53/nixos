@@ -22,6 +22,7 @@
     ./misc.nix
     ./nextcloud.nix
     ./nginx.nix
+    ./nix-cache.nix
     ./peggy.nix
     ./permissions.nix
     ./pinchflat.nix

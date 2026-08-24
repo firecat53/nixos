@@ -1,12 +1,18 @@
 {
   config,
   inputs,
+  lib,
   pkgs,
   ...
 }:
 let
   user = "firecat53";
   upgradeFlake = "git+https://git.firecat53.me/firecat53/nixos.git?ref=main";
+
+  # The homeserver serves its own store; everything else pulls from it.
+  isCacheHost = config.networking.hostName == "homeserver";
+  # The VPS reaches it over wireguard, the rest over the LAN.
+  cacheHost = if config.isRemote then "10.200.200.6" else "192.168.200.101";
 in
 {
   nix.settings = {
@@ -21,7 +27,25 @@ in
       "${user}"
     ];
     download-buffer-size = 500000000;
+
+    # The homeserver's store as a substituter, preferred over cache.nixos.org
+    # (priority below its 40). Its flake-lock-update gate builds every host's
+    # toplevel nightly, so an upgrade mostly comes off the LAN. It serves only
+    # what it already has — there is no pull-through, so anything it lacks is
+    # fetched straight from the CDN. Unreachable is non-fatal: nix warns and
+    # falls through.
+    extra-substituters = lib.mkIf (!isCacheHost) [
+      "ssh://nix-ssh@${cacheHost}?ssh-key=/etc/ssh/ssh_host_ed25519_key&priority=10"
+    ];
+    extra-trusted-public-keys = lib.mkIf (!isCacheHost) [
+      "homeserver-cache-1:17mNIhyXn4afM9gcIAguyXnd+AkE96mc3dAlloUb8X0="
+    ];
   };
+
+  # nix-daemon does the ssh, so this cannot live in a shell profile. Without
+  # it an unreachable homeserver costs the OS TCP timeout (~2m13s) on every
+  # nix invocation instead of 3s — which is what the roaming laptop hits.
+  systemd.services.nix-daemon.environment.NIX_SSHOPTS = lib.mkIf (!isCacheHost) "-o ConnectTimeout=3";
 
   # Enable git
   programs.git = {
