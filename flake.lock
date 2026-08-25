@@ -23,11 +23,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787444697,
-        "narHash": "sha256-0//RZxMqpXuZGaKUKtCmIJXDp0ZbV81WEQxYuwFRv0I=",
+        "lastModified": 1787606074,
+        "narHash": "sha256-s5iDENBmrazt7Cd/ZOEAYMPGn27i2Wl5YqyPZXZw66U=",
         "owner": "firecat53",
         "repo": "bitwarden-menu",
-        "rev": "20818278e1fec00819bd9e0d64e231ab68eefa5f",
+        "rev": "984b251f8f90c856d74fe2a18c2f6a275641ecb0",
         "type": "github"
       },
       "original": {
@@ -403,11 +403,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1787414105,
-        "narHash": "sha256-8FnH9CMQCQ9i7d7xrXK30SBjgODxlkltCa0thsRgrxg=",
-        "rev": "a9e6d84f9c2f9012f5fe7d964a7851352300e61a",
+        "lastModified": 1787525875,
+        "narHash": "sha256-025An4mAUD6c++o1CFnUhajUJZQJSXRjIxhIGbsPOQ8=",
+        "rev": "a3b98866eecd08edac6e61a3081e69540a35020f",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixos/26.05/nixos-26.05.8255.a9e6d84f9c2f/nixexprs.tar.xz"
+        "url": "https://releases.nixos.org/nixos/26.05/nixos-26.05.8334.a3b98866eecd/nixexprs.tar.xz"
       },
       "original": {
         "type": "tarball",
