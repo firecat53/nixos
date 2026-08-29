@@ -3,11 +3,12 @@
   ...
 }:
 {
-  environment.systemPackages = with pkgs; [
-    searxng
+  environment.systemPackages = [
+    pkgs.unstable.searxng
   ];
   services.searx = {
     enable = true;
+    package = pkgs.unstable.searxng;
     settings = {
       server = {
         port = 8888;
