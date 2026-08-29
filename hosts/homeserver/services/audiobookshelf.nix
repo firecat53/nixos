@@ -11,6 +11,16 @@
     group = "users";
     dataDir = "audiobookshelf";
   };
+  # The library folders span three mounts, and a rebuild that cycles datapool
+  # (zfs-import-datapool -> mnt-downloads.mount) yanks them out from under a
+  # running scanner, which then marks every item it can no longer see as
+  # missing. Ordering on the mounts makes systemd stop and restart the service
+  # with them instead of letting it run across the gap.
+  systemd.services.audiobookshelf.unitConfig.RequiresMountsFor = [
+    "/mnt/media/audiobooks"
+    "/mnt/media/ebooks"
+    "/mnt/downloads"
+  ];
   # Publicly exposed with no forward-auth (the mobile apps need the API
   # directly), so the unit gets the full sandbox. It only *reads* the libraries:
   # storeCoverWithItem/storeMetadataWithItem are off and there are no podcast

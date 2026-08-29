@@ -25,6 +25,11 @@
     };
   };
 
+  # download/incomplete/watch dirs are all on datapool, and the module BindPaths
+  # them into its sandbox at unit start — without this, starting before the
+  # mount silently writes torrents to the root pool.
+  systemd.services.transmission.unitConfig.RequiresMountsFor = "/mnt/downloads";
+
   # Traefik routers/service (basicAuth + -noauth companion) generated from the
   # registry (transmission entry) by lan-proxy.nix.
 }
