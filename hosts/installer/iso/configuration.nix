@@ -25,6 +25,7 @@
     ../../modules/avahi.nix # so it answers to nixos.local without hunting for an IP
     ../../modules/common/env.nix
     ../../modules/common/nix.nix
+    ../../modules/common/options.nix
     ../../modules/common/packages.nix
     ../../modules/common/sshd.nix
     ../../modules/servers/neovim.nix
