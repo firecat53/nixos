@@ -38,6 +38,7 @@
     ./today.nix
     ./traefik.nix
     ./transmission.nix
+    ./unpackerr.nix
     ./vaultwarden.nix
   ];
 }
