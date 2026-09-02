@@ -25,6 +25,9 @@ in
     "${pkgs.coreutils}/bin/rm -f /var/lib/containers/storage/volumes/qbittorrent_config/_data/qBittorrent/lockfile"
     "${loadImage images.qbittorrent}"
   ];
+  # /mnt/downloads is bind-mounted into the container at start, so starting
+  # before datapool is mounted would silently write downloads to the root pool.
+  systemd.services.podman-qbittorrent.unitConfig.RequiresMountsFor = "/mnt/downloads";
   systemd.services.podman-socks-proxy.serviceConfig.ExecStartPre = lib.mkBefore [
     "${loadImage images.socks-proxy}"
   ];

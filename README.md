@@ -44,7 +44,12 @@ what the fleet runs.
 * **Lock bumps**: the `flake-lock-update` timer on `homeserver`
   (`hosts/homeserver/services/flake-lock-update.nix`) runs `nix flake update
   --commit-lock-file` at 0400 daily in its own clone under
-  `/var/lib/flake-lock-update`, then pushes `main`.
+  `/var/lib/flake-lock-update`, builds **every host's** toplevel, and only then
+  pushes `main`. A broken input fails the unit instead of reaching all five
+  hosts at once: `main` stays on the last good lock, the 0440 upgrades are
+  no-ops, and prometheus alerts on the failed unit. Each build is held by a
+  `result-<host>` symlink, which roots the current toplevel for the binary cache
+  below and lets the weekly gc reclaim only superseded ones.
 * **All five hosts** auto-upgrade at 0440 from
   `git+https://git.firecat53.me/firecat53/nixos.git?ref=main`. That repo is
   public, so the config side needs no credentials.
@@ -91,6 +96,37 @@ auto-upgrade unless it is also committed and pushed.
 
 `nixos-secrets` must be **pushed**, not just committed, before
 `nix flake update my-secrets` will see the change.
+
+### Binary cache
+
+`homeserver` serves its own `/nix/store` to the other hosts, so a nightly
+upgrade mostly comes off the LAN instead of `cache.nixos.org`.
+
+It is served over **ssh**, not http (`nix.sshServe` in
+`hosts/homeserver/services/nix-cache.nix`). `nix.sshServe` creates an
+unprivileged `nix-ssh` account whose only capability is
+`ForceCommand nix-store --serve`, read-only, with forwarding and TTY off.
+Authorization is the per-host key already in `ssh-keys.nix` — the clients are
+derived from `nixosConfigurations` ∩ `hostKeys`, so a new host is authorized
+once it exists in `flake.nix` and its host key is recorded, with no list to
+maintain (install media has no host key).
+
+Three things are easy to get wrong:
+
+* **Clients reject unsigned paths, whatever the transport.** Locally-built
+  paths carry no signature, so `homeserver` signs at build time via
+  `nix.settings.secret-key-files` (sops `nix-cache-key`); clients trust the
+  public half through `extra-trusted-public-keys`. `secret-key-files` only signs
+  paths built *after* it is enabled — sign what is already there once:
+
+  ```bash
+  sudo nix store sign --key-file /run/secrets/nix-cache-key --all
+  ```
+
+`priority=10` puts it ahead of `cache.nixos.org` (40), so anything `homeserver`
+has is preferred. **the garbage-collection policy is the retention policy**. If
+a path is deleted from the store it leaves the cache, so the cache holds the
+most recent builds but not much history.
 
 ## Local packages
 
