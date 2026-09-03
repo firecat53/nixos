@@ -374,11 +374,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1787736819,
-        "narHash": "sha256-IkjmqLoWzeqBAi1VIkdhDLMGjQDJ4suEDp59Zwxpswg=",
-        "rev": "9fbb54b33e91ee4ca368e35a78e0613c720600b3",
+        "lastModified": 1788316716,
+        "narHash": "sha256-7VBL4mi5M72FJtZOQt7SbCGWpGbsuH1ga6Zeu8bjtWk=",
+        "rev": "3ed67ec0a4d3c7ab4ae1f04f8ee8df07bfa506a2",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1062397.9fbb54b33e91/nixexprs.tar.xz"
+        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1066106.3ed67ec0a4d3/nixexprs.tar.xz"
       },
       "original": {
         "type": "tarball",
@@ -403,11 +403,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1787848966,
-        "narHash": "sha256-pbm8BrmtI4lOXt2syJ3FP12LjybYuiTdUO0GQrbQMk0=",
-        "rev": "d57af924f160a5084293c71c2043f058bd1cdb60",
+        "lastModified": 1788297115,
+        "narHash": "sha256-hpYgDbj2qNnk+GufyhrQ5mBnrLMvOazIaXw1DyO/BK4=",
+        "rev": "a3116115851d68b8952a2a4221cc25a84e56b532",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixos/26.05/nixos-26.05.8538.d57af924f160/nixexprs.tar.xz"
+        "url": "https://releases.nixos.org/nixos/26.05/nixos-26.05.8846.a3116115851d/nixexprs.tar.xz"
       },
       "original": {
         "type": "tarball",
@@ -441,11 +441,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786629091,
-        "narHash": "sha256-gkig4nPi1CWc4Z50GBsjE4ygSE7hMpl/TwID2an2Cck=",
+        "lastModified": 1788337237,
+        "narHash": "sha256-gkSH8VUtCo6hnysNmb9DbTuDepH2t5pv+QWjP75xKAk=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "a8627b21b9107c5711c96b84f32a9a4b3d45295f",
+        "rev": "fbf759290e0cb0a98dfc813a4eb7d53ad1dacb57",
         "type": "github"
       },
       "original": {
