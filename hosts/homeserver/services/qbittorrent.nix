@@ -54,7 +54,11 @@ in
     };
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "-${pkgs.podman}/bin/podman pod create -p 127.0.0.1:8081:8081 -p 2222:22 wg";
+      # Static IP so the host port-forward DNAT target never moves. The pod
+      # outlives reboots but its infra container doesn't, and an unclean
+      # netavark teardown leaves the old rules ahead of the new ones in
+      # NETAVARK-DN-*, silently blackholing 8081/2222 to a dead address.
+      ExecStart = "-${pkgs.podman}/bin/podman pod create --ip 10.88.255.10 -p 127.0.0.1:8081:8081 -p 2222:22 wg";
     };
     path = [
       pkgs.zfs
