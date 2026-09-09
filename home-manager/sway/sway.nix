@@ -165,8 +165,8 @@ in
           brightness = "${pkgs.brightnessctl}/bin/brightnessctl";
           browser = "${pkgs.firefox}/bin/firefox";
           bottom = "${pkgs.bottom}/bin/btm";
+          chroncal = "${config.programs.chroncal.package}/bin/chroncal";
           gh-dash = "${pkgs.gh-dash}/bin/gh-dash";
-          ikhal = "${pkgs.khal}/bin/ikhal";
           keepmenu = "${km}/bin/keepmenu";
           nmdm = "${pkgs.networkmanager_dmenu}/bin/networkmanager_dmenu";
           notify = "${pkgs.mako}/bin/makoctl";
@@ -191,7 +191,7 @@ in
           "${mod}+p" = "exec ${term} --title ${bottom} -e btm";
           "${mod}+z" = "exec ${term} --app-id Terminal --title Terminal -e ${tmux} new -d -A -s term";
 
-          "${mod}+${mod1}+c" = "exec ${term} --title calendar -e ${ikhal}";
+          "${mod}+${mod1}+c" = "exec ${term} --title calendar -e ${chroncal}";
           "${mod}+${mod1}+g" = "exec ${term} --title ${bottom} -e ${gh-dash}";
           "${mod}+${mod1}+j" = "exec ${rofimoji}";
           "${mod}+${mod1}+k" = "exec ${keepmenu}";

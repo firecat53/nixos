@@ -16,6 +16,10 @@
 
     catppuccin.url = "github:catppuccin/nix/release-26.05";
 
+    # Upstream targets nixos-unstable (needs go_1_26)
+    chroncal.url = "github:DouglasdeMoura/chroncal";
+    chroncal.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
     # Personal project flakes and secrets
 
     # Dashboard web assets; not a flake (its nix/ dir is the Pi kiosk image)
