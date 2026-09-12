@@ -1,6 +1,6 @@
 # ACLs and permissions for home folders
-# - Ensure services running with `nextcloud` or `users` group (on the server)
-#   can create/delete files
+# - Ensure services running with the `users` group (on the server) can
+#   create/delete files
 # - Ensure `firecat53` group is set for newly created files/directories
 #
 # One-time setting `setgid` after adding this config (run as root):

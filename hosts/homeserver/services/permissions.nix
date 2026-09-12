@@ -1,5 +1,5 @@
 # ACLs and permissions for media and home folders
-# - Ensure services running with `nextcloud` or `users` group can create/delete files
+# - Ensure services running with the `users` group can create/delete files
 # - Ensure `users` group is set for newly created files/directories
 #
 # One-time setting `setgid` after adding this config (run as root):

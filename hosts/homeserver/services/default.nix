@@ -20,7 +20,6 @@
     ./matrix-synapse.nix
     ./miniflux.nix
     ./misc.nix
-    ./nextcloud.nix
     ./nginx.nix
     ./nix-cache.nix
     ./peggy.nix

@@ -112,13 +112,6 @@ let
         }
         {
           label = "Nextcloud";
-          badge = "home";
-          url = "https://nc.firecat53.net";
-          icon = "nextcloud.svg";
-        }
-        {
-          label = "Nextcloud";
-          badge = "vps";
           url = "https://nc.firecat53.com";
           icon = "nextcloud.svg";
         }

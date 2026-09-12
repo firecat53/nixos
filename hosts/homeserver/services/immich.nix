@@ -1,8 +1,10 @@
 # Immich
+{ pkgs, ... }:
 {
   services.immich = {
     accelerationDevices = null; # Access all devices
     enable = true;
+    package = pkgs.unstable.immich;
     group = "users";
     machine-learning.enable = true;
     mediaLocation = "/mnt/media/immich";
@@ -11,6 +13,7 @@
   };
   services.immich-public-proxy = {
     enable = true;
+    package = pkgs.unstable.immich-public-proxy;
     port = 3030;
     immichUrl = "http://localhost:2283";
     settings = {

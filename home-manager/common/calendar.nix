@@ -1,11 +1,16 @@
 {
   config,
+  inputs,
   ...
 }:
 let
   userHome = "${config.home.homeDirectory}";
 in
 {
+  imports = [ inputs.chroncal.homeModules.chroncal ];
+
+  programs.chroncal.enable = true;
+
   programs.khal = {
     enable = true;
     locale = {
