@@ -10,7 +10,7 @@
 #   nix eval --json .#nixosConfigurations.homeserver.config.services.traefik.dynamicConfigOptions | jq
 #
 # Oddballs (path rules, extra middlewares, non-.lan hosts) stay hand-written in
-# their own service files: matrix-synapse, akkoma, nextcloud, nginx (lan apex).
+# their own service files: matrix-synapse, akkoma, nginx (lan apex).
 {
   lib,
   ...

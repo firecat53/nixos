@@ -71,8 +71,6 @@ in
         - "^4\\."  # Only major version 4.x
       sort_tags: semver
       max_tags: 1
-
-    - name: docker.io/collabora/code
   '';
   environment.etc."diun/images/desktops.yml".text = ''
     - name: library/archlinux:latest

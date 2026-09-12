@@ -153,7 +153,7 @@ Service modules consume them with
 | `*.lan.firecat53.net`                              | homeserver Traefik                             | LAN + wireguard only | the "home" name every homeserver web app gets (real LE certs, but the name resolves to a LAN address)               |
 | `*.firecat53.me`                                   | VPS Traefik                                    | internet             | public front door: proxies over wireguard to the homeserver `.lan` name, or to a VPS-local port                     |
 | `*.firecat53.com`                                  | VPS Traefik                                    | internet             | VPS-native public apps (grafana, VPS nextcloud, syncthing, Authelia portal, apex website)                           |
-| `firecat53.net` + subs (`matrix.`, `s.`, `nc.`, …) | homeserver Traefik directly (443 port-forward) | internet             | federated/public apps that must be reached directly (Matrix, Akkoma, Nextcloud) — hand-written, not in the registry |
+| `firecat53.net` + subs (`matrix.`, `s.`, …)        | homeserver Traefik directly (443 port-forward) | internet             | federated/public apps that must be reached directly (Matrix, Akkoma) — hand-written, not in the registry            |
 
 Rules of thumb:
 
@@ -255,8 +255,8 @@ resolution all disappear with it — and the dashboard assertion fails at build
 time if a tile still points at it. Remove OIDC from authelia.nix if necessary.
 
 **Oddballs stay hand-written** in their own service files (path-prefix rules,
-extra middlewares, non-`.lan` hosts): matrix-synapse, akkoma, nextcloud, and
-the nginx `lan.firecat53.net` apex. If a service outgrows the registry schema,
+extra middlewares, non-`.lan` hosts): matrix-synapse, akkoma, and the nginx
+`lan.firecat53.net` apex. If a service outgrows the registry schema,
 move it to a hand-written stanza rather than adding fields.
 
 ### Authelia: access control and OIDC
