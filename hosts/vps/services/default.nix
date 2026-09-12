@@ -13,7 +13,6 @@
     ./nginx.nix
     ./prometheus.nix
     ./rustdesk.nix
-    ./searx.nix
     ./syncthing.nix
     ./syncthing-discovery.nix
     ./traefik.nix

@@ -116,11 +116,6 @@ let
           icon = "nextcloud.svg";
         }
         {
-          label = "SearXNG";
-          url = me "search";
-          icon = "searxng.svg";
-        }
-        {
           label = "Stirling PDF";
           url = me "pdf";
           icon = "stirling-pdf.svg";

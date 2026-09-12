@@ -249,10 +249,6 @@
         }
       ];
     }; # microbin
-    search = {
-      port = 8888;
-      auth = true;
-    }; # searx
     prom = {
       port = 9090;
       auth = true;
