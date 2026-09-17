@@ -4,7 +4,6 @@
     ./audiobookshelf.nix
     ./backups.nix
     ./dashboard.nix
-    ./diun.nix
     ./esp-sync.nix
     ./flake-lock-update.nix
     ./forgejo.nix
