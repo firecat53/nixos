@@ -32,11 +32,6 @@
       bind C-n next-window
       bind C-p previous-window
       bind v run "tmux show-buffer | wl-paste > /dev/null"
-
-      # Define sessions
-      new -s term -n term -d -A
-      new -s comms -n comms -d -A neomutt
-      new -s music -n music -d -A
     '';
   };
   catppuccin.tmux = {

@@ -31,20 +31,62 @@ let
     fi
     printf '{"icon":"mail","state":"%s","text":"%s"}\n' "$state" "$count"
   '';
+  jq = "${pkgs.jq}/bin/jq";
+  swaymsg = "${pkgs.sway}/bin/swaymsg";
+  # Standalone foot: the foot server only starts with sway-session.target,
+  # racing the startup terminals below
+  term = "${pkgs.foot}/bin/foot";
+  neomutt = "${config.programs.neomutt.package}/bin/neomutt";
+  yazi = "${config.programs.yazi.package}/bin/yazi";
+  # Size foot itself at 80% of the output: a for_window `resize set` never
+  # reaches the hidden window, which reverts to foot's default size on show
+  scratchTerm = pkgs.writeShellScript "scratch-term" ''
+    size=$(${swaymsg} -t get_outputs | ${jq} -r '.[] | select(.focused)
+      | "\(.rect.width * 0.8 | floor)x\(.rect.height * 0.8 | floor)"')
+    exec ${term} --app-id scratchterm --window-size-pixels "$size"
+  '';
+  # Cycle through every window on the workspace, wrapping at the ends.
+  # `focus next` jumps to the adjacent output instead of wrapping
+  cycleFocus = pkgs.writeShellScript "cycle-focus" ''
+    id=$(${swaymsg} -t get_tree | ${jq} --argjson step "$1" '
+      [.. | objects | select(.type == "workspace" and any(.. | objects; .focused))]
+      | first // empty
+      | [.. | objects | select(.pid)]
+      | (map(.focused) | index(true)) as $i
+      | if $i == null then empty else .[($i + $step) % length].id end')
+    [ -n "$id" ] && ${swaymsg} "[con_id=$id] focus"
+  '';
+  scratchpadCount = pkgs.writeShellScript "scratchpad-count" ''
+    count() {
+      ${swaymsg} -t get_tree | ${jq} -c '
+        [.. | objects | select(.name == "__i3_scratch") | .floating_nodes[]] | length
+        | {text: (if . > 0 then " \(.)" else "" end), state: "info"}'
+    }
+    count
+    ${swaymsg} -r -m -t subscribe '["window", "workspace"]' | while read -r _; do count; done
+  '';
+  # Enter cancels; Tab then Enter exits
+  exitSway = pkgs.writeShellScript "exit-sway" ''
+    choice=$(printf 'Cancel\nExit sway\n' \
+      | ${config.programs.bemenu.package}/bin/bemenu --prompt 'Exit sway?')
+    [ "$choice" = "Exit sway" ] && ${swaymsg} exit
+  '';
 in
 {
   sops.secrets.openweathermap_api = { };
 
   wayland.windowManager.sway = {
     enable = true;
-    systemd.enable = true;
+    systemd = {
+      enable = true;
+      variables = [ "--all" ];
+    };
 
     config = {
 
       assigns = {
         "1" = [
           { app_id = "Terminal"; }
-          { class = "VSCodium"; }
         ];
         "2" = [
           { app_id = "firefox"; }
@@ -54,12 +96,10 @@ in
         ];
         "4" = [
           { app_id = "music"; }
-          { app_id = "ncspot"; }
           { class = "Spotify"; }
         ];
         "5" = [
           { app_id = "libreoffice.*"; }
-          { app_id = "pdfarranger"; }
           { app_id = "virt-manager"; }
           { app_id = "virt-viewer"; }
         ];
@@ -174,8 +214,6 @@ in
           pass_gui = "${pkgs.keepassxc}/bin/keepassxc";
           rofimoji = "${pkgs.rofimoji}/bin/rofimoji --selector fuzzel --skin-tone light";
           swaylock = "${pkgs.swaylock}/bin/swaylock";
-          term = "${pkgs.foot}/bin/footclient";
-          tmux = "${pkgs.tmux}/bin/tmux";
           todocalmenu = "${tdcm}/bin/todocalmenu -cmd bemenu -todo ${config.home.homeDirectory}/.local/share/nextcloud/calendars/";
           vim = "${pkgs.nvim-pkg}/bin/nvim";
           vol = "${pkgs.wireplumber}/bin/wpctl";
@@ -185,17 +223,16 @@ in
         lib.mkOptionDefault {
           ## General keybindings/apps
           "${mod}+i" = "exec ${nmdm}";
-          "${mod}+m" = "exec ${term} --app-id comms --title comms -e ${tmux} new -d -A -s comms";
+          "${mod}+m" = "exec ${term} --app-id comms --title comms ${neomutt}";
           "${mod}+n" =
             "exec ${term} --title Notes -e ${vim} '${config.home.homeDirectory}/docs/family/scott/wiki/quicknote.md'";
-          "${mod}+p" = "exec ${term} --title ${bottom} -e btm";
-          "${mod}+z" = "exec ${term} --app-id Terminal --title Terminal -e ${tmux} new -d -A -s term";
+          "${mod}+p" = "exec ${term} --title bottom ${bottom}";
 
           "${mod}+${mod1}+c" = "exec ${term} --title calendar -e ${chroncal}";
-          "${mod}+${mod1}+g" = "exec ${term} --title ${bottom} -e ${gh-dash}";
+          "${mod}+${mod1}+g" = "exec ${term} --title gh-dash ${gh-dash}";
           "${mod}+${mod1}+j" = "exec ${rofimoji}";
           "${mod}+${mod1}+k" = "exec ${keepmenu}";
-          "${mod}+${mod1}+l" = "exec ${swaylock} -i /tmp/wall.png";
+          "${mod}+${mod1}+l" = "exec ${swaylock}";
           "${mod}+${mod1}+m" =
             "exec ${term} ${andcli} -t aegis ${config.home.homeDirectory}/shared/passwords/aegis-latest.json";
           "${mod}+${mod1}+s" = "exec ${watson}";
@@ -206,10 +243,9 @@ in
 
           "${mod}+${mod1}+Shift+l" = "exec systemctl suspend";
 
-          "${mod}+Shift+m" = "exec ${term} --app-id music --title music -e ${tmux} new -d -A -s music";
+          "${mod}+Shift+m" = "exec ${term} --app-id music --title music";
           "${mod}+Shift+p" = "exec ${pass_gui}";
           "${mod}+Shift+w" = "exec ${browser}";
-          "${mod}+Shift+z" = "exec ${term} --app-id Term --title Term";
 
           ## Notifications
           "Control+grave" = "exec ${notify} dismiss";
@@ -232,6 +268,7 @@ in
 
           ## Modify default bindings
           "${mod}+Control+space" = "focus mode_toggle";
+          "${mod}+Shift+e" = "exec ${exitSway}";
           "${mod}+d" = ''exec j4-dmenu-desktop --dmenu="bemenu" --term="${term}"'';
 
           ## Shotman screenshots
@@ -241,8 +278,10 @@ in
 
           ## Motion bindings
           "${mod}+Tab" = "workspace back_and_forth";
-          "${mod1}+Tab" = "focus next";
-          "${mod1}+Shift+Tab" = "focus prev";
+          # Moved to extraConfig
+          "${mod}+0" = null;
+          "${mod1}+Tab" = "exec ${cycleFocus} 1";
+          "${mod1}+Shift+Tab" = "exec ${cycleFocus} -1";
         };
 
       modifier = "${mod}";
@@ -257,45 +296,51 @@ in
       };
 
       startup = [
+        # Scratchpad shell, yazi and a nixos shell on 1, mail on 3
+        { command = "${scratchTerm}"; }
+        { command = "${term} --app-id Terminal ${yazi}"; }
         {
-          command = "dbus-update-activation-environment --systemd --all && systemctl --user restart sway-session.target";
+          command = "${term} --app-id Terminal --working-directory ${config.home.homeDirectory}/nixos/nixos";
         }
-        { command = "systemctl --user restart wallpaper.service"; }
+        { command = "${term} --app-id comms --title comms ${neomutt}"; }
       ];
 
-      terminal = "${pkgs.foot}/bin/footclient";
+      terminal = term;
 
       window.commands = [
         {
           command = "floating enable";
           criteria = {
             app_id = "pinentry-qt";
-            title = "shotman";
           };
         }
         {
           command = "floating enable";
           criteria = {
-            workspace = "6";
+            title = "shotman";
           };
         }
         {
-          command = "move to workspace 1; workspace 1";
+          command = "floating enable, move position center, move scratchpad";
           criteria = {
-            class = "VSCod.*";
+            app_id = "scratchterm";
           };
         }
         {
           command = "move to workspace 4; workspace 4";
           criteria = {
             class = "Spotify";
-            app_id = "ncspot";
           };
         }
       ];
 
       workspaceLayout = "tabbed";
     };
+    # Sway names its first workspace after the earliest `workspace` binding,
+    # and the generated bindings sort Mod4+0 (10) ahead of Mod4+1
+    extraConfig = ''
+      bindsym ${mod}+0 workspace number 10
+    '';
     extraSessionCommands = ''
       export AWT_TOOLKIT="MToolkit"
       export BEMENU_BACKEND="$XDG_SESSION_TYPE"
@@ -359,13 +404,20 @@ in
             };
           }
           {
+            block = "custom";
+            command = "${scratchpadCount}";
+            persistent = true;
+            json = true;
+            hide_when_empty = true;
+          }
+          {
             block = "watson";
             show_time = false;
             state_path = "${config.home.homeDirectory}/docs/family/scott/src/state/watson/state";
           }
           {
             block = "custom";
-            command = "[ $(pgrep pianobar) ] && awk -F '=' '/^artist=/ ||
+            command = "pgrep -x pianobar >/dev/null && awk -F '=' '/^artist=/ ||
             /^title=/ {printf \"%s - \",$2}' ${config.xdg.configHome}/pianobar/nowplaying | sed 's/ - $//'";
             interval = 5;
           }

@@ -8,8 +8,11 @@
     wallpaper = {
       Unit = {
         Description = "Wallpaper switcher";
-        ConditionEnvironment = "DESKTOP_SESSION=sway";
+        # Start only once sway has exported SWAYSOCK to systemd
+        After = [ "sway-session.target" ];
+        PartOf = [ "sway-session.target" ];
       };
+      Install.WantedBy = [ "sway-session.target" ];
       Service = {
         Environment = "PATH=$PATH:${
           lib.makeBinPath [
@@ -27,11 +30,12 @@
     wallpaper = {
       Unit = {
         Description = "Wallpaper switcher";
+        PartOf = [ "sway-session.target" ];
       };
       Timer = {
         OnUnitActiveSec = "2m";
-        OnBootSec = "1m";
       };
+      Install.WantedBy = [ "sway-session.target" ];
     };
   };
 }
