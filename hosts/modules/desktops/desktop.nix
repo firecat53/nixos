@@ -5,10 +5,6 @@
 {
   services.xserver.enable = true;
 
-  # Bash integration: OSC 7 cwd reporting, so foot's spawn-terminal
-  # (ctrl+shift+n) opens in the current directory, plus prompt jumping
-  programs.foot.enable = true;
-
   # Graphical boot splash.
   boot = {
     plymouth.enable = true;

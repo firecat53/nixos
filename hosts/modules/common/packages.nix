@@ -11,6 +11,8 @@
     fd
     git
     jq
+    # So TERM=xterm-kitty works over ssh; ncurses ships no entry for it
+    kitty.terminfo
     lf
     nix-tree
     pciutils

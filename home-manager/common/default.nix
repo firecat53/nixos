@@ -6,7 +6,7 @@
     ./calendar.nix
     ./catppuccin.nix
     ./fonts.nix
-    ./foot.nix
+    ./kitty.nix
     ./git.nix
     ./gpg.nix
     ./imv.nix

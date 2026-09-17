@@ -33,17 +33,16 @@ let
   '';
   jq = "${pkgs.jq}/bin/jq";
   swaymsg = "${pkgs.sway}/bin/swaymsg";
-  # Standalone foot: the foot server only starts with sway-session.target,
-  # racing the startup terminals below
-  term = "${pkgs.foot}/bin/foot";
+  term = "${config.programs.kitty.package}/bin/kitty";
   neomutt = "${config.programs.neomutt.package}/bin/neomutt";
   yazi = "${config.programs.yazi.package}/bin/yazi";
-  # Size foot itself at 80% of the output: a for_window `resize set` never
-  # reaches the hidden window, which reverts to foot's default size on show
+  # Size the terminal itself at 80% of the output: a for_window `resize set`
+  # never reaches the hidden window, which reverts to its default size on show
   scratchTerm = pkgs.writeShellScript "scratch-term" ''
-    size=$(${swaymsg} -t get_outputs | ${jq} -r '.[] | select(.focused)
-      | "\(.rect.width * 0.8 | floor)x\(.rect.height * 0.8 | floor)"')
-    exec ${term} --app-id scratchterm --window-size-pixels "$size"
+    read -r width height < <(${swaymsg} -t get_outputs | ${jq} -r '.[] | select(.focused)
+      | "\(.rect.width * 0.8 | floor) \(.rect.height * 0.8 | floor)"')
+    exec ${term} --app-id scratchterm -o remember_window_size=no \
+      -o initial_window_width="$width" -o initial_window_height="$height"
   '';
   # Cycle through every window on the workspace, wrapping at the ends.
   # `focus next` jumps to the adjacent output instead of wrapping
@@ -347,7 +346,8 @@ in
       export EDITOR="nvim"
       export GDK_DPI_SCALE="1.25"
       export _JAVA_AWT_WM_NONREPARENTING="1"
-      export LESS="QiR"
+      # --no-vbell: -Q otherwise swaps in the terminfo flash, which kitty has
+      export LESS="-QiR --no-vbell"
       export LIBVIRT_DEFAULT_URI="qemu:///system"
       export NIXOS_OZONE_WL="1"
       export OPENWEATHERMAP_API_KEY=$(cat "${config.xdg.configHome}/sops-nix/secrets/openweathermap_api")
