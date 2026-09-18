@@ -63,11 +63,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789419819,
-        "narHash": "sha256-ugUUh9h8RDNUMRdXTG/AIfyERJZze4oqXaB+JI5m8SU=",
+        "lastModified": 1789696179,
+        "narHash": "sha256-5uEvEgfOu+9kTO4Jq0eh0uAsd2FnJ2ANpFyiz4wJRyg=",
         "owner": "DouglasdeMoura",
         "repo": "chroncal",
-        "rev": "269de9ec88b7a06c80eed6ac3707a6084c423ffc",
+        "rev": "2dbc00b4fb799af830e245635b183e7dd1bbb0ef",
         "type": "github"
       },
       "original": {
@@ -83,11 +83,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789164628,
-        "narHash": "sha256-ATPnnI1HUG4Wyvq+LIiVO+p+aKW/dfvmeehRpIdOCHM=",
+        "lastModified": 1789660342,
+        "narHash": "sha256-q9X86xOMsucynzMp4gVBphuXamj7mVKbcb0JA/CkuGo=",
         "ref": "refs/heads/main",
-        "rev": "36120e09755faa172062eee856a6831a65b17b04",
-        "revCount": 19,
+        "rev": "422f09b3b9ce3282404ec17beda42dc38bebf577",
+        "revCount": 20,
         "type": "git",
         "url": "https://git.firecat53.me/firecat53/crewsense.git"
       },
@@ -481,11 +481,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788914643,
-        "narHash": "sha256-4GuMPW90JSxXWDPUB9M+1m7fYbe3H0apOd86/zBQ2Kw=",
+        "lastModified": 1789691124,
+        "narHash": "sha256-k+I+R6uwHX3VcJ7326qLV6vCahZUgsVl+i8sSU/Stxk=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "13616fff713a9f94055c66f15687ebdc17a335df",
+        "rev": "1e73e8f7176d65e1b55e324de099bbfff4b2c574",
         "type": "github"
       },
       "original": {
