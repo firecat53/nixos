@@ -63,11 +63,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789696179,
-        "narHash": "sha256-5uEvEgfOu+9kTO4Jq0eh0uAsd2FnJ2ANpFyiz4wJRyg=",
+        "lastModified": 1789734382,
+        "narHash": "sha256-TldTQ9vilT3qCdTVWVu+EHBTB3nSJJ8f0EMhKE74704=",
         "owner": "DouglasdeMoura",
         "repo": "chroncal",
-        "rev": "2dbc00b4fb799af830e245635b183e7dd1bbb0ef",
+        "rev": "f9c3613054cb39a010760f11f503e21f63c6debf",
         "type": "github"
       },
       "original": {
@@ -83,11 +83,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1789660342,
-        "narHash": "sha256-q9X86xOMsucynzMp4gVBphuXamj7mVKbcb0JA/CkuGo=",
+        "lastModified": 1789751244,
+        "narHash": "sha256-6k9Ied6OKMxZ4AXL4ecblL0Pmclj/Dl1QaUNLfC4hZI=",
         "ref": "refs/heads/main",
-        "rev": "422f09b3b9ce3282404ec17beda42dc38bebf577",
-        "revCount": 20,
+        "rev": "d2514d8754ae87c6081c2278d25f736efa966a93",
+        "revCount": 21,
         "type": "git",
         "url": "https://git.firecat53.me/firecat53/crewsense.git"
       },
@@ -103,11 +103,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1781152676,
-        "narHash": "sha256-RxWs5ND31KzTG7wvMM+PMfUjyNpmIEr999lqNARaM5o=",
+        "lastModified": 1789770686,
+        "narHash": "sha256-uZkBR7yHdIKUFB5SZdfgh1qkGfI3XmYmI/lTiquxbck=",
         "owner": "nix-community",
         "repo": "disko",
-        "rev": "ff8702b4de27f72b4c78573dfb89ec74e36abdf1",
+        "rev": "725ea35e410ad83be4931d1bff7e090eacaf3563",
         "type": "github"
       },
       "original": {
@@ -413,11 +413,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1789546076,
-        "narHash": "sha256-vWkSk5bbfTqdtMoSgD9FshACO8JCvXTFi+3cqEp0mH0=",
-        "rev": "b1b875982b17dabde9b4a37f3e229e74913e6db3",
+        "lastModified": 1789684949,
+        "narHash": "sha256-TAKa57gfBM/9a4IZrFaIQZhnHs9mXIFPlZbYrvhnaMY=",
+        "rev": "e554fab72f81915600f3f449b786fd9af40439a5",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1074753.b1b875982b17/nixexprs.tar.xz"
+        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.11pre1075591.e554fab72f81/nixexprs.tar.xz"
       },
       "original": {
         "type": "tarball",
@@ -442,11 +442,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1789542786,
-        "narHash": "sha256-BGtBoaZNpOPDEBLTiWNFdYppnDjGhwrUq5/P15QwrrM=",
-        "rev": "4c7870105e7f1fdf9c48688c8d7efc21abf0688a",
+        "lastModified": 1789749394,
+        "narHash": "sha256-egdV7mLwirrhbokzBuZ4j1XCjoD5ujwMO371/9z+PM4=",
+        "rev": "cf9d2fb3e50fa1cd5114c47505ea9177f7ff5f49",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixos/26.05/nixos-26.05.9904.4c7870105e7f/nixexprs.tar.xz"
+        "url": "https://releases.nixos.org/nixos/26.05/nixos-26.05.10057.cf9d2fb3e50f/nixexprs.tar.xz"
       },
       "original": {
         "type": "tarball",
