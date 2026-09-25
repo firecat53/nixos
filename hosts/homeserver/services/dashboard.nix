@@ -31,6 +31,11 @@ let
           icon = "audiobookshelf.svg";
         }
         {
+          label = "Bazarr";
+          url = me "bazarr";
+          icon = "bazarr.png";
+        }
+        {
           label = "Immich";
           url = me "pics";
           icon = "immich.svg";

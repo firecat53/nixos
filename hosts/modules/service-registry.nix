@@ -136,6 +136,13 @@
       passHost = true;
       meRouter = true;
     };
+    bazarr = {
+      lan = "bazarr.lan.firecat53.net";
+      port = 6767;
+      auth = true;
+      passHost = true;
+      meRouter = true;
+    };
     radarr = {
       lan = "radarr.lan.firecat53.net";
       port = 7878;

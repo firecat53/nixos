@@ -167,6 +167,12 @@ in
 
         # --- Downloads / *arr --------------------------------------------
         (ep {
+          name = "bazarr";
+          group = "downloads";
+          url = "https://bazarr.lan.firecat53.net/api/system/ping";
+          conditions = ok200; # {"status":"OK"}, no API key needed
+        })
+        (ep {
           name = "radarr";
           group = "downloads";
           url = "https://radarr.lan.firecat53.net/ping";

@@ -3,6 +3,7 @@
     ./akkoma.nix
     ./audiobookshelf.nix
     ./backups.nix
+    ./bazarr.nix
     ./dashboard.nix
     ./esp-sync.nix
     ./flake-lock-update.nix
