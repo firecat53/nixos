@@ -8,6 +8,7 @@
     forwebmaster = "forwebmaster";
     scheduled = "Scheduled";
     sent = "Sent";
+    snoozed = "Snoozed";
     spam = "Spam";
     trash = "Trash";
   };
