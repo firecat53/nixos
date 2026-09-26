@@ -25,8 +25,8 @@
     '';
     shellAliases = {
       ".." = "cd ..";
-      ave = "ansible-vault edit --vault-password-file=${config.home.homeDirectory}/docs/family/scott/src/ansible/ansible_vault_password.py";
-      avv = "ansible-vault view --vault-password-file=${config.home.homeDirectory}/docs/family/scott/src/ansible/ansible_vault_password.py";
+      ave = "ansible-vault edit --vault-password-file=${config.home.homeDirectory}/docs/family/scott/src/ansible/ansible_vault_password.sh";
+      avv = "ansible-vault view --vault-password-file=${config.home.homeDirectory}/docs/family/scott/src/ansible/ansible_vault_password.sh";
       bu = "et backup -c 'tmux new-session -A -s term'";
       buw = "et firecat53@10.200.200.4 -c 'tmux new-session -A -s term'";
       pclean = "podman ps -a | grep -v 'CONTAINER\|_config\|_data\|_run' | cut -c-12 | xargs podman rm 2>/dev/null";

@@ -302,6 +302,9 @@ in
           command = "${term} --app-id Terminal --working-directory ${config.home.homeDirectory}/nixos/nixos";
         }
         { command = "${term} --app-id comms --title comms ${neomutt}"; }
+        # Unlock the device key into ssh-agent. A normal window, not an
+        # overlay prompt, so bwm can type the passphrase into it
+        { command = "${term} --app-id ssh-add ${pkgs.openssh}/bin/ssh-add"; }
       ];
 
       terminal = term;
@@ -311,6 +314,12 @@ in
           command = "floating enable";
           criteria = {
             app_id = "pinentry-qt";
+          };
+        }
+        {
+          command = "floating enable, resize set 600 150, move position center";
+          criteria = {
+            app_id = "ssh-add";
           };
         }
         {

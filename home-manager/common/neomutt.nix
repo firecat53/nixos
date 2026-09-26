@@ -49,6 +49,8 @@ in
       # Keep threads with unread mail open, since every folder opens collapsed
       collapse_unread = "no";
       confirm_append = "no";
+      # No keyring to check against, so skip PGP signature checks
+      crypt_verify_sig = "no";
       edit_headers = "yes";
       fast_reply = "yes";
       help = "no";
@@ -66,7 +68,6 @@ in
       pager_index_lines = "8";
       pager_read_delay = "3";
       pager_stop = "yes";
-      pgp_default_key = ''"${acct.gpg.key}"'';
       query_command = ''"khard email --parsable -a contacts-contacts %s"'';
       reflow_wrap = "85";
       reply_to = "yes";
@@ -373,10 +374,6 @@ in
       color body          color4 default  (^|[[:space:]])\\*[^[:space:]]+\\*([[:space:]]|$)
       color body          color4 default  (^|[[:space:]])_[^[:space:]]+_([[:space:]]|$)
       color body          color4 default  (^|[[:space:]])/[^[:space:]]+/([[:space:]]|$)
-
-      color body color2 default "^Good signature from:"
-      color body color1 default "^\\*BAD\\* signature from:"
-      color body color3 default "^(Problem signature from:|WARNING: .*)"
 
       color sidebar_flagged color1 default
       color sidebar_new     color10 default

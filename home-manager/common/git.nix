@@ -1,4 +1,6 @@
 {
+  imports = [ ../apps/git-allowed-signers.nix ];
+
   programs.git = {
     enable = true;
     settings = {
@@ -61,7 +63,8 @@
       "/dist/"
     ];
     signing = {
-      key = "2BD1E9815C541EA2";
+      format = "ssh";
+      key = "~/.ssh/id_ed25519.pub";
       signByDefault = true;
     };
   };

@@ -8,6 +8,8 @@
         ControlMaster = "auto";
         ControlPath = "~/.ssh/socket-%r@%h:%p";
         ControlPersist = "10m";
+        # Unlock the device key once per login; git signing and forwarding reuse it
+        AddKeysToAgent = "yes";
       };
       # NOTE: forwardAgent stays only on hosts where pam_rssh sudo auth is needed.
       ## Servers
@@ -125,6 +127,8 @@
       };
     };
   };
+  services.ssh-agent.enable = true;
+
   # Declare AUR SSH key
   sops.secrets.aur-key = { };
 }

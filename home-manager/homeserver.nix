@@ -9,6 +9,7 @@ in
 {
   imports = [
     ./apps/beets.nix
+    ./apps/git-allowed-signers.nix
     ./apps/mbsync.nix
     ./apps/vdirsyncer.nix
     ./apps/wiki.nix

@@ -18,6 +18,10 @@ in
 
   inherit autosshKey;
 
+  # Commit signing key for homeserver's unattended commits (the sops
+  # signing-key secret). Desktops sign with their device key.
+  signing = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAttS4qaAyFtTFdaIa6KCd529FmnZwILTDJ20MQIjtXY homeserver-signing";
+
   # The autossh key as authorized on the host: it may only open the hop to the
   # socks-proxy container, and gets no shell.
   autossh = ''restrict,permitopen="127.0.0.1:2222",command="/run/current-system/sw/bin/false" ${autosshKey}'';

@@ -22,10 +22,6 @@
         "bills@firecat53.net"
         "health@firecat53.net"
       ];
-      gpg = {
-        key = "2BD1E9815C541EA2";
-        signByDefault = true;
-      };
     };
   };
 }

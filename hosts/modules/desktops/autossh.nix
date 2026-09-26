@@ -19,7 +19,7 @@
   systemd.services.autossh-wg.serviceConfig = {
     Environment = [
       "AUTOSSH_GATETIME=0"
-      "SSH_AUTH_SOCK=/run/user/${toString config.users.users.firecat53.uid}/gnupg/S.gpg-agent.ssh"
+      "SSH_AUTH_SOCK=/run/user/${toString config.users.users.firecat53.uid}/ssh-agent"
     ];
   };
 }
