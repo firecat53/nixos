@@ -18,6 +18,12 @@ let
     ];
 in
 {
+  # Default terminal for anything launched via xdg-terminal-exec
+  xdg.terminal-exec = {
+    enable = true;
+    settings.default = [ "kitty.desktop" ];
+  };
+
   programs.kitty = {
     enable = true;
     font = {
