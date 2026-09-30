@@ -357,11 +357,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790190800,
-        "narHash": "sha256-yRUmW0C2ZccBrL7Znq/K70oqYvwqpdS31tKorzWyV/M=",
+        "lastModified": 1790784767,
+        "narHash": "sha256-NEw/f4OoNAX85GSKoiSQknajx5rPVEUUWRyS1RDzQTs=",
         "ref": "refs/heads/main",
-        "rev": "aaaf7eeec91dd6ae26c47879c3d09946d75f5a88",
-        "revCount": 178,
+        "rev": "a1881bfd7ce3d0f389b01094cb122d2cb1c1a485",
+        "revCount": 179,
         "type": "git",
         "url": "https://git.firecat53.me/firecat53/nix-neovim.git"
       },
