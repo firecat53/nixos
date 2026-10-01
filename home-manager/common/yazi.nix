@@ -26,7 +26,26 @@
             for = "unix";
           }
         ];
+        pager = [
+          {
+            run = "\${PAGER:-less} \"$@\"";
+            block = true;
+            desc = "Pager";
+            for = "unix";
+          }
+        ];
       };
+      # Mail files would go to xdg-open; read them in the pager in place instead
+      open.prepend_rules = [
+        {
+          mime = "message/*";
+          use = [
+            "pager"
+            "edit"
+            "reveal"
+          ];
+        }
+      ];
       plugin.prepend_fetchers = [
         {
           id = "git";
