@@ -36,17 +36,15 @@ let
   term = "${config.programs.kitty.package}/bin/kitty";
   neomutt = "${config.programs.neomutt.package}/bin/neomutt";
   yazi = "${config.programs.yazi.package}/bin/yazi";
-  # Size the terminal itself at 80% of the output: a for_window `resize set`
-  # never reaches the hidden window, which reverts to its default size on show
+  # Resize from sway once the window is mapped, so the size survives the trip
+  # through the scratchpad. Sizing kitty from get_outputs raced the output
+  # scale at login and left the window off screen. Not a for_window rule:
+  # after a reload sway re-runs those on the next title change, which hides
+  # the terminal when a command starts
   scratchTerm = pkgs.writeShellScript "scratch-term" ''
-    read -r width height < <(${swaymsg} -t get_outputs | ${jq} -r '.[] | select(.focused)
-      | "\(.rect.width * 0.8 | floor) \(.rect.height * 0.8 | floor)"')
-    ${term} --app-id scratchterm -o remember_window_size=no \
-      -o initial_window_width="$width" -o initial_window_height="$height" &
-    # Not a for_window rule: after a reload sway re-runs those on the next
-    # title change, which hides the terminal when a command starts
+    ${term} --app-id scratchterm -o remember_window_size=no &
     for _ in {1..50}; do
-      ${swaymsg} '[app_id="^scratchterm$"] floating enable, move position center, move scratchpad' \
+      ${swaymsg} '[app_id="^scratchterm$"] floating enable, resize set 75 ppt 75 ppt, move position center, move scratchpad' \
         >/dev/null 2>&1 && exit
       sleep 0.1
     done
