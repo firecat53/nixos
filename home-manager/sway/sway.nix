@@ -41,8 +41,15 @@ let
   scratchTerm = pkgs.writeShellScript "scratch-term" ''
     read -r width height < <(${swaymsg} -t get_outputs | ${jq} -r '.[] | select(.focused)
       | "\(.rect.width * 0.8 | floor) \(.rect.height * 0.8 | floor)"')
-    exec ${term} --app-id scratchterm -o remember_window_size=no \
-      -o initial_window_width="$width" -o initial_window_height="$height"
+    ${term} --app-id scratchterm -o remember_window_size=no \
+      -o initial_window_width="$width" -o initial_window_height="$height" &
+    # Not a for_window rule: after a reload sway re-runs those on the next
+    # title change, which hides the terminal when a command starts
+    for _ in {1..50}; do
+      ${swaymsg} '[app_id="^scratchterm$"] floating enable, move position center, move scratchpad' \
+        >/dev/null 2>&1 && exit
+      sleep 0.1
+    done
   '';
   # Cycle through every window on the workspace, wrapping at the ends.
   # `focus next` jumps to the adjacent output instead of wrapping
@@ -326,12 +333,6 @@ in
           command = "floating enable";
           criteria = {
             title = "shotman";
-          };
-        }
-        {
-          command = "floating enable, move position center, move scratchpad";
-          criteria = {
-            app_id = "scratchterm";
           };
         }
         {
