@@ -12,6 +12,7 @@
     ./imv.nix
     ./mail-folders.nix
     ./mail.nix
+    ./mime-defaults.nix
     ./mpv.nix
     ./neomutt.nix
     ./nix.nix

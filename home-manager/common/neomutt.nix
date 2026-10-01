@@ -387,11 +387,7 @@ in
     mimeType = [ "x-scheme-handler/mailto" ];
     noDisplay = true;
   };
-  # Set the default in place rather than via xdg.mimeApps: that would make
-  # mimeapps.list a read-only symlink, and firefox and others write to it
-  home.activation.mailtoHandler = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
-    run ${pkgs.xdg-utils}/bin/xdg-mime default neomutt.desktop x-scheme-handler/mailto
-  '';
+  mimeDefaults."neomutt.desktop" = [ "x-scheme-handler/mailto" ];
 
   xdg.configFile."neomutt/mailcap".text = ''
     # test= keeps the GUI viewers from firing on a bare tty (neomutt over ssh),
@@ -417,6 +413,12 @@ in
     application/vnd.openxmlformats-officedocument.wordprocessingml.document; libreoffice %s; nametemplate=%s.docx; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
     application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; libreoffice %s; nametemplate=%s.xlsx; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
     application/vnd.openxmlformats-officedocument.presentationml.presentation; libreoffice %s; nametemplate=%s.pptx; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
+    application/vnd.openxmlformats-officedocument.presentationml.slideshow; libreoffice %s; nametemplate=%s.ppsx; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
+    application/vnd.ms-word.document.macroenabled.12; libreoffice %s; nametemplate=%s.docm; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
+    application/vnd.ms-excel.sheet.macroenabled.12; libreoffice %s; nametemplate=%s.xlsm; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
+    application/vnd.ms-excel.sheet.binary.macroenabled.12; libreoffice %s; nametemplate=%s.xlsb; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
+    application/vnd.ms-powerpoint.presentation.macroenabled.12; libreoffice %s; nametemplate=%s.pptm; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
+    application/vnd.ms-powerpoint.slideshow.macroenabled.12; libreoffice %s; nametemplate=%s.ppsm; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
     application/vnd.oasis.opendocument.text; libreoffice %s; nametemplate=%s.odt; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
     application/vnd.oasis.opendocument.spreadsheet; libreoffice %s; nametemplate=%s.ods; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
     application/vnd.oasis.opendocument.presentation; libreoffice %s; nametemplate=%s.odp; test=test -n "$WAYLAND_DISPLAY$DISPLAY"
