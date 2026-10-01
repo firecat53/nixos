@@ -7,13 +7,7 @@
 {
   services.akkoma = {
     enable = true;
-    # Restore exec bits lost by mixRelease refactor. Drop once nixpkgs#568301
-    # reaches nixos-unstable.
-    package = pkgs.unstable.akkoma.overrideAttrs (old: {
-      postFixup = (old.postFixup or "") + ''
-        chmod +x $out/lib/fast_html-*/priv/fasthtml_worker $out/lib/majic-*/priv/libmagic_port
-      '';
-    });
+    package = pkgs.unstable.akkoma;
     config = {
       ":pleroma" = {
         ":instance" = {
