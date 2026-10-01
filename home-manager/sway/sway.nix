@@ -310,8 +310,12 @@ in
         }
         { command = "${term} --app-id comms --title comms ${neomutt}"; }
         # Unlock the device key into ssh-agent. A normal window, not an
-        # overlay prompt, so bwm can type the passphrase into it
-        { command = "${term} --app-id ssh-add ${pkgs.openssh}/bin/ssh-add"; }
+        # overlay prompt, so bwm can type the passphrase into it. Sized by
+        # kitty: a for_window `resize set` loses to kitty's remembered size,
+        # which lands after the centering and pushes the window off screen
+        {
+          command = "${term} --app-id ssh-add -o remember_window_size=no -o initial_window_width=72c -o initial_window_height=4c ${pkgs.openssh}/bin/ssh-add";
+        }
       ];
 
       terminal = term;
@@ -324,7 +328,7 @@ in
           };
         }
         {
-          command = "floating enable, resize set 600 150, move position center";
+          command = "floating enable, move position center";
           criteria = {
             app_id = "ssh-add";
           };
