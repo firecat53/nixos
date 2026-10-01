@@ -31,6 +31,16 @@
     target = "homeassistant/zbt2.xml";
   };
 
+  # Re-run the attach service whenever the hass VM starts (e.g. virsh shutdown/start
+  # without a host reboot), since live-attached USB devices are dropped when QEMU exits.
+  # --no-block is required: libvirtd waits on hooks, so calling virsh from here deadlocks.
+  virtualisation.libvirtd.hooks.qemu.hass-usb-reattach =
+    pkgs.writeShellScript "hass-usb-reattach-hook" ''
+      if [ "$1" = hass ] && [ "$2" = started ]; then
+        ${pkgs.systemd}/bin/systemctl start --no-block hass-usb-reattach.service
+      fi
+    '';
+
   # Attach the Thread + Zigbee USB radios to the hass VM after boot.
   systemd.services.hass-usb-reattach = {
     description = "Attach USB radios to hass VM";
