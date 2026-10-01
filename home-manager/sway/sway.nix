@@ -37,10 +37,9 @@ let
   neomutt = "${config.programs.neomutt.package}/bin/neomutt";
   yazi = "${config.programs.yazi.package}/bin/yazi";
   # Resize from sway once the window is mapped, so the size survives the trip
-  # through the scratchpad. Sizing kitty from get_outputs raced the output
-  # scale at login and left the window off screen. Not a for_window rule:
-  # after a reload sway re-runs those on the next title change, which hides
-  # the terminal when a command starts
+  # through the scratchpad. The hide is not a for_window rule: after a reload
+  # sway re-runs those on the next title change, which hides the terminal
+  # when a command starts. Only `floating enable` is, below
   scratchTerm = pkgs.writeShellScript "scratch-term" ''
     ${term} --app-id scratchterm -o remember_window_size=no &
     for _ in {1..50}; do
@@ -323,6 +322,14 @@ in
           command = "floating enable";
           criteria = {
             app_id = "pinentry-qt";
+          };
+        }
+        # Float at map, so kitty never gets the full-screen tiled size. If it
+        # commits that after scratchTerm's resize, sway keeps it off screen
+        {
+          command = "floating enable";
+          criteria = {
+            app_id = "scratchterm";
           };
         }
         {
