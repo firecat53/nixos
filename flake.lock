@@ -63,11 +63,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790699667,
-        "narHash": "sha256-J7LYLlk8kN2Qy4aPFBWNZMGA36rfBy3aVHeK8lKeqaw=",
+        "lastModified": 1790797991,
+        "narHash": "sha256-wOPuWI7YPSIqzcJ2X3yXpRXM5/eWkymgPBvy6v4gNPg=",
         "owner": "DouglasdeMoura",
         "repo": "chroncal",
-        "rev": "135b611149a913a9198ade1ca4357a157e40ff63",
+        "rev": "81dd37cee47eeebe97d1bda7acee6195b1d0463b",
         "type": "github"
       },
       "original": {
@@ -442,11 +442,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1790635395,
-        "narHash": "sha256-6AXgcEB8kiYLV1aewneIGmpljLLQcd2Xo/gmDYxvKYc=",
-        "rev": "7fc6f2c20af09cdcaf48b92ec3121860139ec668",
+        "lastModified": 1790750587,
+        "narHash": "sha256-neiwVQVB0ONcopw7wbiinq1vYtMOTjTLuEueGF9Ex1Y=",
+        "rev": "78e9c786dc08cd4f3420c2395cd977206a9b1da2",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixos/26.05/nixos-26.05.10882.7fc6f2c20af0/nixexprs.tar.xz"
+        "url": "https://releases.nixos.org/nixos/26.05/nixos-26.05.10927.78e9c786dc08/nixexprs.tar.xz"
       },
       "original": {
         "type": "tarball",
