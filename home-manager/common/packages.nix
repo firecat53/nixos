@@ -78,7 +78,6 @@ in
     inputs.todocalmenu.packages.${pkgs.stdenv.hostPlatform.system}.default
     ungoogled-chromium
     inputs.urlscan.packages.${pkgs.stdenv.hostPlatform.system}.default
-    inputs.watson-dmenu.packages.${pkgs.stdenv.hostPlatform.system}.default
     wl-clipboard
     zathura
     zoom-us

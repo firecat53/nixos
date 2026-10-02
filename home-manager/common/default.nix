@@ -25,7 +25,6 @@
     ./tmux.nix
     ./udiskie.nix
     ./uv.nix
-    ./watson.nix
     ./xdg.nix
     ./yazi.nix
     ./ydotool.nix

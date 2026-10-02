@@ -44,9 +44,6 @@
     urlscan.url = "github:firecat53/urlscan";
     urlscan.inputs.nixpkgs.follows = "nixpkgs";
 
-    watson-dmenu.url = "github:firecat53/watson-dmenu";
-    watson-dmenu.inputs.nixpkgs.follows = "nixpkgs";
-
     # Private repo; ssh alias and deploy key in common/sshd.nix.
     my-secrets.url = "git+ssh://forgejo/firecat53/nixos-secrets";
     my-secrets.flake = false;

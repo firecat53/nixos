@@ -13,7 +13,6 @@ let
   bwm = inputs.bwm.packages.${pkgs.stdenv.hostPlatform.system}.default;
   km = inputs.keepmenu.packages.${pkgs.stdenv.hostPlatform.system}.default;
   tdcm = inputs.todocalmenu.packages.${pkgs.stdenv.hostPlatform.system}.default;
-  wdm = inputs.watson-dmenu.packages.${pkgs.stdenv.hostPlatform.system}.default;
   inbox = "${config.accounts.email.accounts."firecat53.net".maildir.absPath}/${mailFolders.inbox}";
   # Mail is unread when its maildir filename carries no S flag. Counting new/
   # instead (what the maildir block does) misses nearly all of it: mbsync,
@@ -221,7 +220,6 @@ in
           vim = "${pkgs.nvim-pkg}/bin/nvim";
           vol = "${pkgs.wireplumber}/bin/wpctl";
           vol_gui = "${pkgs.pwvucontrol}/bin/pwvucontrol";
-          watson = "${wdm}/bin/watson_dmenu";
         in
         lib.mkOptionDefault {
           ## General keybindings/apps
@@ -238,7 +236,6 @@ in
           "${mod}+${mod1}+l" = "exec ${swaylock}";
           "${mod}+${mod1}+m" =
             "exec ${term} ${andcli} -t aegis ${config.home.homeDirectory}/shared/passwords/aegis-latest.json";
-          "${mod}+${mod1}+s" = "exec ${watson}";
           "${mod}+${mod1}+t" = "exec ${todocalmenu}";
           "${mod}+${mod1}+w" =
             ''exec ${term} --app-id Wiki --title Wiki -e ${vim} "${config.home.homeDirectory}/docs/family/scott/wiki/Home.md"'';
@@ -428,11 +425,6 @@ in
             persistent = true;
             json = true;
             hide_when_empty = true;
-          }
-          {
-            block = "watson";
-            show_time = false;
-            state_path = "${config.home.homeDirectory}/docs/family/scott/src/state/watson/state";
           }
           {
             block = "custom";

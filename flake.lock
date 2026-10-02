@@ -470,8 +470,7 @@
         "nixpkgs-unstable": "nixpkgs-unstable",
         "sops-nix": "sops-nix",
         "todocalmenu": "todocalmenu",
-        "urlscan": "urlscan",
-        "watson-dmenu": "watson-dmenu"
+        "urlscan": "urlscan"
       }
     },
     "sops-nix": {
@@ -561,26 +560,6 @@
       "original": {
         "owner": "firecat53",
         "repo": "urlscan",
-        "type": "github"
-      }
-    },
-    "watson-dmenu": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1781291378,
-        "narHash": "sha256-yQZD1LDGp4qfREi2TAHhrB4d2WTG2GfRL4ntn/bpVvI=",
-        "owner": "firecat53",
-        "repo": "watson-dmenu",
-        "rev": "5bfe4dd7120471d0d9ed8f834fec394d54b9952b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "firecat53",
-        "repo": "watson-dmenu",
         "type": "github"
       }
     }
