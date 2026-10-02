@@ -134,10 +134,6 @@
           title = "Todocalmenu";
           filters = "is:open repo:firecat53/todocalmenu";
         }
-        {
-          title = "Todotxtmenu";
-          filters = "is:open repo:firecat53/todotxtmenu";
-        }
       ];
       defaults = {
         view = "issues";
