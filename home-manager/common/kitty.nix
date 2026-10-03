@@ -43,6 +43,9 @@ in
     keybindings = {
       "ctrl+shift+h" = nvimPager "@screen_scrollback";
       "ctrl+shift+g" = nvimPager "@last_cmd_output";
+      # The built-in search_scrollback sends `/`, a forward search from the
+      # bottom that never matches; search backward instead
+      "ctrl+shift+/" = "combine : ${nvimPager "@screen_scrollback"} : send_key ?";
       "ctrl+shift+enter" = "new_window_with_cwd";
       "ctrl+shift+n" = "new_os_window_with_cwd";
       "super+z" = "launch --type=os-window --cwd=current ${config.programs.yazi.package}/bin/yazi";

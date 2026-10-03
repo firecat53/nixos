@@ -364,6 +364,8 @@ in
       export _JAVA_AWT_WM_NONREPARENTING="1"
       # --no-vbell: -Q otherwise swaps in the terminfo flash, which kitty has
       export LESS="-QiR --no-vbell"
+      # Print Nerd Font private-use glyphs instead of <U+E0A0> escapes
+      export LESSUTFCHARDEF="E000-F8FF:p,F0000-FFFFD:p,100000-10FFFD:p"
       export LIBVIRT_DEFAULT_URI="qemu:///system"
       export NIXOS_OZONE_WL="1"
       export OPENWEATHERMAP_API_KEY=$(cat "${config.xdg.configHome}/sops-nix/secrets/openweathermap_api")
