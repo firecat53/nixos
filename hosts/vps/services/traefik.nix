@@ -4,7 +4,10 @@
   ...
 }:
 {
-  imports = [ ../../modules/traefik-base.nix ];
+  imports = [
+    ../../modules/traefik-base.nix
+    ../../modules/crowdsec.nix
+  ];
 
   traefikBase = {
     dashboardHost = "monitor.firecat53.com";
