@@ -62,8 +62,17 @@
   # See home-manager/bash.nix for exports/bin and $XDG_DATA_DIRS config
   services.flatpak.enable = true;
 
-  # Allow /dev/uinput access for users (ydotool)
+  # Kill leftover session processes (e.g. bwm daemon) when sway exits so the
+  # session actually closes. User services under user@.service are unaffected.
+  services.logind.settings.Login.KillUserProcesses = true;
+
+  # Serial port access (e.g. Web Serial in Chromium for USB-serial devices)
+  users.users.firecat53.extraGroups = [ "dialout" ];
+
   services.udev.extraRules = ''
+    # Allow /dev/uinput access for users (ydotool)
     KERNEL=="uinput", GROUP="users", MODE="0660",  OPTIONS+="static_node=uinput"
+    # VIA (Chromium WebHID) access to Keychron keyboards for the active seat user
+    KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="3434", TAG+="uaccess"
   '';
 }
