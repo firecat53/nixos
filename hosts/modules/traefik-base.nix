@@ -120,13 +120,10 @@
         };
         tls = {
           options = {
+            # curvePreferences left at Go's defaults (X25519MLKEM768, X25519, ...)
             default = {
               minVersion = "VersionTLS13";
               sniStrict = true;
-              curvePreferences = [
-                "CurveP521"
-                "CurveP384"
-              ];
             };
           };
         };
