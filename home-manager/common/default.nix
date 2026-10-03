@@ -14,6 +14,7 @@
     ./mail.nix
     ./mime-defaults.nix
     ./mpv.nix
+    ./navi.nix
     ./neomutt.nix
     ./nix.nix
     ./notmuch.nix
