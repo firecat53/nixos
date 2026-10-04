@@ -1,7 +1,8 @@
 # CrowdSec for internet-facing hosts: parses sshd + Traefik access logs, pulls
 # the community blocklist, and bans offenders in iptables (before the TLS
 # handshake reaches Traefik). Private/wireguard ranges are whitelisted, so the
-# VPS -> homeserver proxy hop can't get banned.
+# VPS -> homeserver proxy hop can't get banned; so are the hosts' public IPs
+# (the tunnel endpoints) and a few app-client false positives.
 {
   config,
   lib,
@@ -24,6 +25,26 @@ in
       parsers = [ "crowdsecurity/whitelists" ];
     };
     localConfig = {
+      parsers.s02Enrich = [
+        {
+          name = "firecat53/whitelists";
+          description = "Our own hosts and known app-client false positives";
+          whitelist = {
+            reason = "own hosts / app clients";
+            # Home and VPS public IPs: a ban on either drops the wireguard tunnel
+            ip = [
+              "50.46.34.102"
+              "5.78.80.98"
+            ];
+            expression = [
+              # Finamp fetches hundreds of /Items/<id> at once -> http-crawl-non_statics
+              "evt.Meta.target_fqdn == 'jellyfin.firecat53.me' && evt.Meta.http_status matches '^[23]'"
+              # Audiobookshelf 404s for every author without a photo -> http-probing
+              "evt.Meta.target_fqdn == 'books.firecat53.me' && evt.Meta.http_status == '404' && evt.Meta.http_path matches '^/api/authors/[^/]+/image([?]|$)'"
+            ];
+          };
+        }
+      ];
       acquisitions = [
         {
           source = "journalctl";
@@ -104,6 +125,16 @@ in
       config.services.crowdsec.settings.general;
   # - the bouncer requires bouncer-register but isn't ordered after it
   systemd.services.crowdsec-firewall-bouncer.after = [ "crowdsec-firewall-bouncer-register.service" ];
+  # Local parsers/scenarios change files under /etc but not the unit, so
+  # crowdsec would keep running the old ones
+  systemd.services.crowdsec.restartTriggers = [
+    (builtins.toJSON config.services.crowdsec.localConfig)
+  ];
+  # update-hub reloads crowdsec as the unprivileged crowdsec user, which polkit
+  # denies, and the unit has no ExecReload anyway; "+" restarts it as root
+  # (still unfixed in unstable)
+  systemd.services.crowdsec-update-hub.serviceConfig.ExecStartPost =
+    lib.mkForce "+systemctl try-restart crowdsec.service";
   systemd.services.crowdsec-firewall-bouncer-register.serviceConfig = {
     StateDirectory = lib.mkForce "crowdsec-firewall-bouncer-register";
     ReadWritePaths = [ "/var/lib/crowdsec" ];
