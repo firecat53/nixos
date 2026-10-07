@@ -1,5 +1,4 @@
 {
-  config,
   lib,
   pkgs,
   ...
@@ -48,7 +47,6 @@ in
       "ctrl+shift+/" = "combine : ${nvimPager "@screen_scrollback"} : send_key ?";
       "ctrl+shift+enter" = "new_window_with_cwd";
       "ctrl+shift+n" = "new_os_window_with_cwd";
-      "super+z" = "launch --type=os-window --cwd=current ${config.programs.yazi.package}/bin/yazi";
     };
   };
 }

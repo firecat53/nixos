@@ -67,6 +67,20 @@ let
     count
     ${swaymsg} -r -m -t subscribe '["window", "workspace"]' | while read -r _; do count; done
   '';
+  # Yazi in the focused kitty's foreground directory (kitty's --cwd=current),
+  # or ~ when no kitty is focused. A sway binding, so it works from anywhere
+  yaziHere = pkgs.writeShellScript "yazi-here" ''
+    dir=$HOME
+    pid=$(${swaymsg} -t get_tree | ${jq} '.. | objects | select(.focused) | .pid // empty')
+    case $(readlink /proc/$pid/exe 2>/dev/null) in
+      ${config.programs.kitty.package}/*)
+        shell=$(ps -o pid=,comm= --ppid "$pid" | awk '$2 != "kitten" { print $1; exit }')
+        fg=$(ps -o tpgid= -p "$shell" 2>/dev/null)
+        dir=$(readlink /proc/''${fg// /}/cwd 2>/dev/null || echo "$HOME")
+        ;;
+    esac
+    cd "$dir" && exec ${term} ${yazi}
+  '';
   # Enter cancels; Tab then Enter exits
   exitSway = pkgs.writeShellScript "exit-sway" ''
     choice=$(printf 'Cancel\nExit sway\n' \
@@ -269,6 +283,7 @@ in
           ## Modify default bindings
           "${mod}+Control+space" = "focus mode_toggle";
           "${mod}+Shift+e" = "exec ${exitSway}";
+          "${mod}+z" = "exec ${yaziHere}";
           "${mod}+d" = ''exec j4-dmenu-desktop --dmenu="bemenu" --term="${term}"'';
 
           ## Shotman screenshots
