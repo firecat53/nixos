@@ -3,5 +3,6 @@
     ./backups.nix
     ./jamia-backups.nix
     ./janet-backups.nix
+    ./kopia-clients.nix
   ];
 }

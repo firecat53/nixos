@@ -1,7 +1,5 @@
-# Note: remember to run smbpasswd -a jamia to add allowed user
 {
   lib,
-  pkgs,
   ...
 }:
 {
@@ -13,11 +11,6 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGEMEF0OPuDZZQm3pq2o+OSnYz+E2vLLYDUUDMy7++gQ BigApple@BigApple.local"
     ];
   };
-
-  # Install kopia for looking at backups
-  environment.systemPackages = with pkgs; [
-    kopia
-  ];
 
   # Ensure /home/jamia/backups is mounted at boot.
   # Ensure ZFS properties set `canmount=true` and `mountpoint=/home/jamia/backups`

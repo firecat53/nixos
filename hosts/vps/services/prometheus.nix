@@ -290,6 +290,43 @@
               }
             ];
           }
+          # Family Mac Kopia backups on the backup host: metric written by the
+          # kopia-snapshot-exporter timer (see hosts/backup/services/kopia-clients.nix).
+          {
+            name = "kopia";
+            rules = [
+              {
+                alert = "KopiaBackupStale";
+                expr = "time() - kopia_snapshot_last_end_timestamp_seconds > 7 * 86400";
+                for = "1h";
+                labels.severity = "warning";
+                annotations = {
+                  summary = "Kopia backup stale ({{ $labels.client }})";
+                  description = "Newest Kopia snapshot from {{ $labels.client }}'s Mac is over 7 days old. Check their Kopia app and wireguard.\n  VALUE = {{ $value | humanizeDuration }}";
+                };
+              }
+              {
+                alert = "KopiaCheckFailed";
+                expr = "kopia_check_success == 0";
+                for = "1h";
+                labels.severity = "warning";
+                annotations = {
+                  summary = "Kopia repo check failed ({{ $labels.client }})";
+                  description = "kopia-snapshot-exporter on backup could not open {{ $labels.client }}'s repo or found no snapshots. See journalctl -u kopia-snapshot-exporter.";
+                };
+              }
+              {
+                alert = "KopiaCheckStale";
+                expr = "time() - node_textfile_mtime_seconds{file='kopia.prom'} > 86400";
+                for = "10m";
+                labels.severity = "warning";
+                annotations = {
+                  summary = "Kopia snapshot exporter is stale";
+                  description = "kopia.prom on backup has not been updated in > 24h: the kopia-snapshot-exporter timer is failing.";
+                };
+              }
+            ];
+          }
         ];
       })
     ];
