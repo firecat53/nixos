@@ -9,7 +9,29 @@ in
 {
   imports = [ inputs.chroncal.homeModules.chroncal ];
 
-  programs.chroncal.enable = true;
+  programs.chroncal = {
+    enable = true;
+    # unset means `service run` only fires alarms and never syncs
+    settings.sync.interval = "15m";
+  };
+
+  # Declarative equivalent of `chroncal service install`, which would bake a
+  # store path into an imperative unit file
+  systemd.user.services.chroncal-alarm = {
+    Unit.Description = "chroncal alarms and CalDAV sync";
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${config.programs.chroncal.package}/bin/chroncal service run";
+    };
+  };
+  systemd.user.timers.chroncal-alarm = {
+    Unit.Description = "chroncal alarm timer";
+    Timer = {
+      OnCalendar = "*-*-* *:*:00";
+      Persistent = true;
+    };
+    Install.WantedBy = [ "timers.target" ];
+  };
 
   programs.khal = {
     enable = true;
