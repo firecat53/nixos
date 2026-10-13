@@ -48,7 +48,7 @@ in
     rendercv
     pkgs.unstable.spotatui
     sshfs
-    tabview
+    inputs.tabview.packages.${pkgs.stdenv.hostPlatform.system}.default
     todoman
     w3m
     # Development tools

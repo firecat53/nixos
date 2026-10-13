@@ -469,6 +469,7 @@
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "sops-nix": "sops-nix",
+        "tabview": "tabview",
         "todocalmenu": "todocalmenu",
         "urlscan": "urlscan"
       }
@@ -520,6 +521,26 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "tabview": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791854236,
+        "narHash": "sha256-WtMrTZVGCrnwQ3uzgHIJlGNlHEEeoSg65bCmjfCKQHM=",
+        "owner": "firecat53",
+        "repo": "tabview",
+        "rev": "6524260788edffd58d1908c7f65416f5a5f0ad1a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "firecat53",
+        "repo": "tabview",
         "type": "github"
       }
     },
