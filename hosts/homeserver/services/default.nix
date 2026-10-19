@@ -2,7 +2,6 @@
   imports = [
     ./akkoma.nix
     ./audiobookshelf.nix
-    ./audiomuse.nix
     ./backups.nix
     ./bazarr.nix
     ./dashboard.nix
