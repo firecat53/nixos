@@ -113,6 +113,12 @@
       basicAuth = true;
       vpsBypass = true;
     };
+    audiomuse = {
+      # AudioMuse-AI (oci-container)
+      lan = "audiomuse.lan.firecat53.net";
+      port = 8010;
+      auth = true;
+    };
     jackett = {
       lan = "jackett.lan.firecat53.net";
       port = 9117;
