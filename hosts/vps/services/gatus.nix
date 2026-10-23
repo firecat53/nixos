@@ -22,15 +22,11 @@ let
   # Homeserver wireguard IP (single source of truth in service-registry.nix)
   inherit (import ../../modules/service-registry.nix) hsIP;
 
-  # Matrix alert room internal id. NOT a secret (just an identifier, useless
-  # without the access token + room membership)
-  matrixRoomId = "!KpLUPKbxnaqAQdTnqG:firecat53.net";
-
-  # Alert every endpoint to Matrix. Tunables: confirm down after 3 failed
+  # Alert every endpoint to ntfy. Tunables: confirm down after 3 failed
   # checks, resolved after 2 successes, and notify on recovery.
-  matrixAlerts = [
+  ntfyAlerts = [
     {
-      type = "matrix";
+      type = "ntfy";
       "failure-threshold" = 3;
       "success-threshold" = 2;
       "send-on-resolved" = true;
@@ -38,7 +34,7 @@ let
   ];
 
   # Add secondary email notifier for more critical items (traefik, matrix, etc)
-  matrixAndEmail = matrixAlerts ++ [
+  ntfyAndEmail = ntfyAlerts ++ [
     {
       type = "email";
       "failure-threshold" = 3;
@@ -59,7 +55,7 @@ let
       url,
       conditions,
       client ? null,
-      alerts ? matrixAlerts,
+      alerts ? ntfyAlerts,
     }:
     {
       inherit
@@ -79,7 +75,7 @@ let
     group = "network";
     interval = "1m";
     conditions = [ "[CONNECTED] == true" ];
-    alerts = matrixAlerts;
+    alerts = ntfyAlerts;
   };
 
   ok200 = [
@@ -88,10 +84,9 @@ let
   ];
 in
 {
-  # --- Matrix alert token (sops) -------------------------------------------
-  sops.secrets.gatus-matrix-token = { };
+  sops.secrets.ntfy-gatus-token = { };
   sops.templates."gatus.env".content = ''
-    MATRIX_ACCESS_TOKEN=${config.sops.placeholder.gatus-matrix-token}
+    NTFY_TOKEN=${config.sops.placeholder.ntfy-gatus-token}
     SMTP_PASSWORD=${config.sops.placeholder.email-password}
   '';
 
@@ -113,13 +108,13 @@ in
         path = "/var/lib/gatus/data.db";
       };
 
-      alerting.matrix = {
-        "server-url" = "https://matrix.firecat53.net";
-        "internal-room-id" = matrixRoomId;
-        "access-token" = "\${MATRIX_ACCESS_TOKEN}";
+      alerting.ntfy = {
+        url = "https://ntfy.firecat53.com";
+        topic = "gatus";
+        token = "\${NTFY_TOKEN}";
       };
 
-      # Secondary notifier (see matrixAndEmail).
+      # Secondary notifier (see ntfyAndEmail).
       alerting.email = {
         from = "noreply@firecat53.net";
         username = "scott@firecat53.net";
@@ -142,7 +137,7 @@ in
           group = "public";
           url = "https://matrix.firecat53.net/_matrix/federation/v1/version";
           conditions = ok200;
-          alerts = matrixAndEmail;
+          alerts = ntfyAndEmail;
         })
 
         # --- Media --------------------------------------------------------
@@ -300,7 +295,7 @@ in
             "[STATUS] == 401"
             certOk
           ];
-          alerts = matrixAndEmail;
+          alerts = ntfyAndEmail;
         })
 
         # --- Network (raw TCP) -------------------------------------------

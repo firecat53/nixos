@@ -1,7 +1,7 @@
 # Gatus - declarative status/health monitoring
 #
 #   - VPS apps with a public *.firecat53.com endpoint that is NOT behind
-#     Authelia (grafana, nextcloud, nginx, apparatus) are probed end-to-end over
+#     Authelia (grafana, nextcloud, nginx, apparatus, ntfy) are probed end-to-end over
 #     their real public URL. That tests DNS + the VPS Traefik + the wildcard
 #     cert (cert-expiry conditions included) + the backend in one shot.
 #   - Microbin lives behind Authelia at mb.firecat53.me, but paste assets are
@@ -24,22 +24,19 @@ let
   # LAN hosts.
   hassIP = "192.168.200.102"; # Omada controller runs in the Home Assistant VM
 
-  # Matrix alert room internal id.
-  matrixRoomId = "!KpLUPKbxnaqAQdTnqG:firecat53.net";
-
-  # Alert every endpoint to Matrix. Confirm down after 3 failed checks, resolved
+  # Alert every endpoint to ntfy. Confirm down after 3 failed checks, resolved
   # after 2 successes, notify on recovery.
-  matrixAlerts = [
+  ntfyAlerts = [
     {
-      type = "matrix";
+      type = "ntfy";
       "failure-threshold" = 3;
       "success-threshold" = 2;
       "send-on-resolved" = true;
     }
   ];
 
-  # Add a secondary email notifier for critical infra (Traefik) if Matrix is down
-  matrixAndEmail = matrixAlerts ++ [
+  # Add a secondary email notifier for critical infra (Traefik, ntfy itself)
+  ntfyAndEmail = ntfyAlerts ++ [
     {
       type = "email";
       "failure-threshold" = 3;
@@ -59,7 +56,7 @@ let
       url,
       conditions,
       client ? null,
-      alerts ? matrixAlerts,
+      alerts ? ntfyAlerts,
     }:
     {
       inherit
@@ -84,7 +81,7 @@ let
       inherit name url group;
       interval = "1m";
       conditions = [ "[CONNECTED] == true" ];
-      alerts = matrixAlerts;
+      alerts = ntfyAlerts;
     };
 
   # HTTPS (public) -> status + cert expiry. HTTP (over wg) -> status only.
@@ -95,9 +92,9 @@ let
   status200 = [ "[STATUS] == 200" ];
 in
 {
-  sops.secrets.gatus-matrix-token = { };
+  sops.secrets.ntfy-gatus-token = { };
   sops.templates."gatus.env".content = ''
-    MATRIX_ACCESS_TOKEN=${config.sops.placeholder.gatus-matrix-token}
+    NTFY_TOKEN=${config.sops.placeholder.ntfy-gatus-token}
     SMTP_PASSWORD=${config.sops.placeholder.email-password}
   '';
 
@@ -116,13 +113,13 @@ in
         path = "/var/lib/gatus/data.db";
       };
 
-      alerting.matrix = {
-        "server-url" = "https://matrix.firecat53.net";
-        "internal-room-id" = matrixRoomId;
-        "access-token" = "\${MATRIX_ACCESS_TOKEN}";
+      alerting.ntfy = {
+        url = "https://ntfy.firecat53.com";
+        topic = "gatus";
+        token = "\${NTFY_TOKEN}";
       };
 
-      # Secondary notifier (see matrixAndEmail).
+      # Secondary notifier (see ntfyAndEmail).
       alerting.email = {
         from = "noreply@firecat53.net";
         username = "scott@firecat53.net";
@@ -154,6 +151,12 @@ in
           conditions = ok200; # pocketbase {"code":200,...}
         })
         (ep {
+          name = "ntfy";
+          url = "https://ntfy.firecat53.com/v1/health";
+          conditions = ok200; # {"healthy":true}
+          alerts = ntfyAndEmail; # ntfy alerts can't report ntfy being down
+        })
+        (ep {
           name = "microbin";
           url = "https://mb.firecat53.me/favicon.ico";
           # /favicon.ico is in microbin's Authelia bypass list (registry.nix
@@ -183,7 +186,7 @@ in
             "[STATUS] == 401"
             certOk
           ];
-          alerts = matrixAndEmail;
+          alerts = ntfyAndEmail;
         })
 
         # --- Syncthing / LAN devices (raw TCP) ---------------------------

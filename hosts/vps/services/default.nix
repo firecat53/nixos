@@ -11,6 +11,7 @@
     ./mysql.nix
     ./nextcloud.nix
     ./nginx.nix
+    ./ntfy.nix
     ./prometheus.nix
     ./rustdesk.nix
     ./syncthing.nix

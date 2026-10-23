@@ -152,7 +152,7 @@ Service modules consume them with
 | -------------------------------------------------- | ---------------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | `*.lan.firecat53.net`                              | homeserver Traefik                             | LAN + wireguard only | the "home" name every homeserver web app gets (real LE certs, but the name resolves to a LAN address)               |
 | `*.firecat53.me`                                   | VPS Traefik                                    | internet             | public front door: proxies over wireguard to the homeserver `.lan` name, or to a VPS-local port                     |
-| `*.firecat53.com`                                  | VPS Traefik                                    | internet             | VPS-native public apps (grafana, VPS nextcloud, syncthing, Authelia portal, apex website)                           |
+| `*.firecat53.com`                                  | VPS Traefik                                    | internet             | VPS-native public apps (grafana, VPS nextcloud, ntfy, syncthing, Authelia portal, apex website)                     |
 | `firecat53.net` + subs (`matrix.`, `s.`, …)        | homeserver Traefik directly (443 port-forward) | internet             | federated/public apps that must be reached directly (Matrix, Akkoma) — hand-written, not in the registry            |
 
 Rules of thumb:
@@ -294,6 +294,32 @@ In general, VPS services are monitored from the Gatus instance on homeserver and
 homeserver LAN services are monitored from Gatus on VPS via a
 wireguard tunnel. Prometheus scrapes metrics from all the servers and feeds
 Alertmanager and Grafana.
+
+### Notifications (ntfy)
+
+ntfy (`vps services/ntfy.nix`, `ntfy.firecat53.com`) is the push server for
+everything:
+
+- **Gatus alerts** from both instances publish to the `gatus` topic with the
+  `ntfy-gatus-token` secret (same value in `vps` and `homeserver` secrets).
+  Critical endpoints (Traefik, Matrix, ntfy itself) also email, so an ntfy or
+  VPS outage still gets reported; homeserver Gatus probes `/v1/health`.
+- **UnifiedPush distributor** for Android apps, replacing NextPush. ntfy also
+  serves the Matrix push gateway at `/_matrix/push/v1/notify`, so Synapse needs
+  no config.
+
+Access is `deny-all` by default. Users and tokens are declarative
+(`NTFY_AUTH_USERS` / `NTFY_AUTH_TOKENS` rendered from sops into `ntfy.env`);
+manage them there rather than with the `ntfy user`/`ntfy token` CLI. `up*` topics are anonymous write-only so app servers can
+push; the phone reads them as `firecat53` (admin, hash in `ntfy-admin-hash`).
+
+To add a token: `ntfy token generate`, add it to the host's secrets, then append
+`user:token:label` to `NTFY_AUTH_TOKENS` (comma-separated). Password hashes come
+from `ntfy user hash`.
+
+Phone setup: ntfy app → add server `https://ntfy.firecat53.com`, log in as
+`firecat53`, use WebSockets, set ntfy as the UnifiedPush distributor, subscribe
+to `gatus`.
 
 ### Podman healthchecks
 
