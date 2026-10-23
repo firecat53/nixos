@@ -123,7 +123,10 @@ in
         storage.local.path = "/var/lib/authelia-main/db.sqlite3";
         notifier.filesystem.filename = "/var/lib/authelia-main/notification.txt";
 
-        # OIDC client configurations
+        # OIDC client configurations. All clients are self-hosted apps, so
+        # consent_mode = "implicit" skips the consent screen (default "auto"
+        # means explicit consent on every authorization). LubeLogger in
+        # particular re-runs the flow daily (hardcoded 1-day OIDC cookie).
         identity_providers.oidc.clients = [
           # Immich
           {
@@ -132,6 +135,7 @@ in
             client_secret = "$pbkdf2-sha512$310000$xhCohOhUKduv1okrZ0FAng$jNLWkEu2Mw/ntWsOJTaMawu7n9Vy.VBUY.IMNcg7uxlx0/RbNw9AiOlDFVM5TAi8PrIAx58myEoNlIkcRAGrmQ"; # digest only
             public = false;
             authorization_policy = "two_factor";
+            consent_mode = "implicit";
             require_pkce = false;
             pkce_challenge_method = "";
             redirect_uris = [
@@ -161,6 +165,7 @@ in
             client_secret = "$pbkdf2-sha512$310000$nQGmwUlTUkoYdgTKUGgvtA$XBz433wudd0m3CBizBZ57Oc6laTWLGCZsEYjXxCywvsi8vmpOXk6y/IqjD7CKEWgEjgM.CkxmuRH4o7vX/Kiow"; # digest only
             public = false;
             authorization_policy = "two_factor";
+            consent_mode = "implicit";
             require_pkce = true;
             pkce_challenge_method = "S256";
             redirect_uris = [
@@ -190,6 +195,7 @@ in
             client_secret = "$pbkdf2-sha512$310000$G8hOOzVyFP2Sbt6kTryaRQ$RX9SXgQmIdGtpH6iVUiXs6R1d9oBiiOc.Xq0Iot05WYG3wWNdXtlcbGdJ91Mr9pQ1coEsloL7IuC5qxZ/wZZzg"; # digest only
             public = false;
             authorization_policy = "two_factor";
+            consent_mode = "implicit";
             require_pkce = false;
             pkce_challenge_method = "";
             redirect_uris = [
@@ -213,6 +219,7 @@ in
             client_secret = "$pbkdf2-sha512$310000$adwMtGDrSWrSEfVR61IbKw$2uS8YrQ.6WKmFv6bi9qLAdF/e/m7bNdHZ0CvvzdmOnHSCphVcqtXk5TUC2.2mk2Fdy1YLAcrJF3fbcA28hbl7Q"; # digest only
             public = false;
             authorization_policy = "two_factor";
+            consent_mode = "implicit";
             require_pkce = false;
             pkce_challenge_method = "";
             redirect_uris = [
@@ -236,6 +243,7 @@ in
             client_secret = "$pbkdf2-sha512$310000$eo9SYAQLcLdyqft5Q3Bzkg$JcqHU9Mt8.R.TVzfWdJOSXkpGxDKKIXEWNP0DhNj1MvpriaPQ1FNblLdi0/DsovA299SHco8Jfg7Pdm67XGBmg"; # digest only
             public = false;
             authorization_policy = "two_factor";
+            consent_mode = "implicit";
             require_pkce = true;
             pkce_challenge_method = "S256";
             redirect_uris = [
