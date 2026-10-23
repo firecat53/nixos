@@ -63,11 +63,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792505762,
-        "narHash": "sha256-4XYyEmxFX64tSVEht6EdvErt6Yah5avttT3aDs2DAdY=",
+        "lastModified": 1792698456,
+        "narHash": "sha256-Q6FSeI2dFD9V/sQSLl0i05X7/QfuL8dok2UpyY9N1hs=",
         "owner": "DouglasdeMoura",
         "repo": "chroncal",
-        "rev": "23a5c43d26d59526cdfa7891332579e553cc6514",
+        "rev": "3fe4d9b1a89110b714726ee1f07dc7f2d9a7de2d",
         "type": "github"
       },
       "original": {
