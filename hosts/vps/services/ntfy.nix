@@ -25,6 +25,9 @@ in
       base-url = "https://${fqdn}";
       behind-proxy = true;
       auth-default-access = "deny-all";
+      # Web app is static and public; gate it behind a login screen.
+      enable-login = true;
+      require-login = true;
       # UnifiedPush app servers (incl. Synapse's Matrix gateway) publish
       # anonymously; the phone subscribes as firecat53.
       auth-access = [ "*:up*:write-only" ];
