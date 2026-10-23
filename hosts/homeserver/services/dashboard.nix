@@ -155,6 +155,11 @@ let
           url = "https://matrix.to/#/@firecat53:firecat53.net";
           icon = "matrix.svg";
         }
+        {
+          label = "ntfy";
+          url = "https://ntfy.firecat53.com";
+          icon = "ntfy.svg";
+        }
       ];
     }
     {
