@@ -63,11 +63,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792698456,
-        "narHash": "sha256-Q6FSeI2dFD9V/sQSLl0i05X7/QfuL8dok2UpyY9N1hs=",
+        "lastModified": 1792815551,
+        "narHash": "sha256-t3JKYEUj7XYqrPza9+z+8NjlyCbxRpo9l/Y/AOh7Qlg=",
         "owner": "DouglasdeMoura",
         "repo": "chroncal",
-        "rev": "3fe4d9b1a89110b714726ee1f07dc7f2d9a7de2d",
+        "rev": "c9df4211c3dee80cfdc2051581e092ed289b05b9",
         "type": "github"
       },
       "original": {
@@ -262,11 +262,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792438572,
-        "narHash": "sha256-5mQQOcggBRBXB7NlzUxO0dbvQN4euJOISjNybrtfxPk=",
+        "lastModified": 1792818383,
+        "narHash": "sha256-199i7ubVSXTMl+0AAlL7cVCXSjcI+jWByMcimYjeMX0=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "24f8f8e786f87d6a818e1746cb2389bf922afdab",
+        "rev": "24f2190587513b9c2f73db112a17844ae912d965",
         "type": "github"
       },
       "original": {
@@ -335,11 +335,11 @@
     "my-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1792764601,
-        "narHash": "sha256-dWBYcFppDPlpjkPQumRHR2rkBZwHwt/gXbR3UP45jgw=",
+        "lastModified": 1792776482,
+        "narHash": "sha256-+SVPXgL5OilRTGz+ocoT3sJYcyYy5y3Y1B418B/+11s=",
         "ref": "refs/heads/main",
-        "rev": "31641fd53499d9f1505f6a0cf38d7e046ee38413",
-        "revCount": 48,
+        "rev": "b799cffe63625815460733de9fe6c11352f62e1d",
+        "revCount": 50,
         "type": "git",
         "url": "ssh://forgejo/firecat53/nixos-secrets"
       },
@@ -481,11 +481,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792308394,
-        "narHash": "sha256-r4G33ygU307QCwyngAS6E9BMhnCRPyZrL7UxRCMrqo0=",
+        "lastModified": 1792809984,
+        "narHash": "sha256-KV+CaZX7QS0hcdKxwGKehDb1jmUgx6lbkTPpaoIW5Nw=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "a1438ca361b05d1e70854d5495abcb34fdf6ff47",
+        "rev": "442449fa7b1fe6c692d0103ac9fc8f9e82931cf3",
         "type": "github"
       },
       "original": {
