@@ -7,6 +7,22 @@
 let
   inherit (pkgs) lib;
 
+  # 5.3.0 is banned by a tracker. Hold at 5.2.2 once nixpkgs moves past it;
+  # until then this is just the nixpkgs package (no rebuild).
+  qbittorrent-nox =
+    if lib.versionOlder pkgs.qbittorrent-nox.version "5.3.0" then
+      pkgs.qbittorrent-nox
+    else
+      pkgs.qbittorrent-nox.overrideAttrs (_: rec {
+        version = "5.2.2";
+        src = pkgs.fetchFromGitHub {
+          owner = "qbittorrent";
+          repo = "qBittorrent";
+          tag = "release-${version}";
+          hash = "sha256-5lGv1ajuDE/DTqUbnVeRRBcXntrzn6bs72mZbQMf7Fc=";
+        };
+      });
+
   # Seed config for a fresh /config volume; qbittorrent owns the file after that.
   # Pinning the session to wireguard0 is what keeps traffic off a leaked default
   # route.
@@ -29,7 +45,7 @@ let
       lib.makeBinPath [
         pkgs.coreutils
         pkgs.python3 # search plugins
-        pkgs.qbittorrent-nox
+        qbittorrent-nox
       ]
     }
 
@@ -54,7 +70,7 @@ pkgs.dockerTools.streamLayeredImage {
     # Tracker announces are mostly https; without these every one of them fails
     # certificate verification.
     pkgs.dockerTools.caCertificates
-    pkgs.qbittorrent-nox
+    qbittorrent-nox
   ];
   extraCommands = ''
     mkdir -p bin config data etc
