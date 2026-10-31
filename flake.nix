@@ -41,7 +41,7 @@
     tabview.url = "github:firecat53/tabview";
     tabview.inputs.nixpkgs.follows = "nixpkgs";
 
-    todocalmenu.url = "github:firecat53/todocalmenu";
+    todocalmenu.url = "git+https://git.firecat53.me/firecat53/todocalmenu";
     todocalmenu.inputs.nixpkgs.follows = "nixpkgs";
 
     urlscan.url = "github:firecat53/urlscan";

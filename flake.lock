@@ -551,17 +551,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1781291967,
-        "narHash": "sha256-MmjmsVXa9qd85wSMtAcQWA2J1cciyFX8rbef1/lGFNk=",
-        "owner": "firecat53",
-        "repo": "todocalmenu",
-        "rev": "abe94a1d2792baa2c5ec7be55b66cbd092e6aba1",
-        "type": "github"
+        "lastModified": 1793462041,
+        "narHash": "sha256-oiUMTbytaabUp6aA849pCAblcWmcxkbOThr+kgiijo8=",
+        "ref": "refs/heads/main",
+        "rev": "ef98a8c891a76f6209ef00fa4dd4e19202f31cf0",
+        "revCount": 22,
+        "type": "git",
+        "url": "https://git.firecat53.me/firecat53/todocalmenu"
       },
       "original": {
-        "owner": "firecat53",
-        "repo": "todocalmenu",
-        "type": "github"
+        "type": "git",
+        "url": "https://git.firecat53.me/firecat53/todocalmenu"
       }
     },
     "urlscan": {
