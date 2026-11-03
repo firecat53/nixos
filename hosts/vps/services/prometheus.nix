@@ -252,7 +252,7 @@
               }
               {
                 alert = "ZFSErrorExporterStale";
-                expr = "time() - node_textfile_mtime_seconds{file='zfs_errors.prom'} > 7200";
+                expr = "time() - node_textfile_mtime_seconds{file=~'.*/zfs_errors.prom'} > 7200";
                 for = "10m";
                 labels.severity = "warning";
                 annotations = {
@@ -280,7 +280,7 @@
               }
               {
                 alert = "AirVPNPortCheckStale";
-                expr = "time() - node_textfile_mtime_seconds{file='airvpn.prom'} > 1800";
+                expr = "time() - node_textfile_mtime_seconds{file=~'.*/airvpn.prom'} > 1800";
                 for = "5m";
                 labels.severity = "warning";
                 annotations = {
@@ -317,7 +317,7 @@
               }
               {
                 alert = "KopiaCheckStale";
-                expr = "time() - node_textfile_mtime_seconds{file='kopia.prom'} > 86400";
+                expr = "time() - node_textfile_mtime_seconds{file=~'.*/kopia.prom'} > 86400";
                 for = "10m";
                 labels.severity = "warning";
                 annotations = {

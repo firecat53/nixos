@@ -4,9 +4,10 @@
 # (airvpn_forwarded_port_up). Prometheus scrapes the VPS node-exporter already,
 # and the alert rules live in prometheus.nix -> existing Alertmanager email.
 #
-# If the API query fails (or the session isn't found) the script does NOT
-# rewrite the metric file: a transient API blip then surfaces as staleness
-# (node_textfile_mtime_seconds), not a false "port down".
+# If the API query fails the script does NOT rewrite the metric file: a
+# transient API blip then surfaces as staleness (node_textfile_mtime_seconds),
+# not a false "port down". A successful query with no matching session means
+# the tunnel itself is down, so that writes port_up=0.
 {
   config,
   pkgs,
@@ -70,6 +71,10 @@ let
             raise
 
 
+    class NoSession(Exception):
+        pass
+
+
     def get_exit_ip(api_key):
         r = requests.get(
             "https://airvpn.org/api/userinfo/",
@@ -83,16 +88,22 @@ let
         for session in data.get("sessions", []):
             if session.get("device_name") == DEVICE:
                 return session.get("exit_ipv4")
-        raise RuntimeError(f"no active AirVPN session named {DEVICE!r}")
+        raise NoSession(f"no active AirVPN session named {DEVICE!r}")
 
 
     def main():
         api_key = read_secret(API_KEY_PATH)
         try:
             exit_ip = get_exit_ip(api_key)
+        except NoSession as e:
+            # The API answered and the tunnel isn't connected: that's a real
+            # outage, so report it as down rather than letting it go stale.
+            print(f"{e}; reporting port down", file=sys.stderr)
+            write_metrics(0, "none")
+            return
         except (requests.RequestException, ValueError, RuntimeError) as e:
-            # Leave the previous metric file in place; staleness alert covers
-            # a sustained API/script outage.
+            # Leave the previous metric file in place; the staleness alert
+            # covers a sustained API/script outage.
             print(f"Could not determine AirVPN exit IP: {e}", file=sys.stderr)
             sys.exit(0)
 

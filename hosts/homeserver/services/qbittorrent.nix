@@ -121,8 +121,19 @@ in
       "--cap-add=NET_ADMIN" # wg-quick: interface, policy routing, its own rules
       "--cap-add=NET_RAW" # the config's PostUp ping
       "--dns=172.16.0.1"
+      # Unhealthy (3 failed checks, ~5 min) -> kill, so the unit fails and
+      # systemd's Restart=on-failure brings the tunnel back up.
+      "--health-on-failure=kill"
       "--pod=wg"
     ];
+  };
+  # Bounded self-heal: at most 3 restarts an hour. Past that the unit stays
+  # failed and HostSystemdServiceCrashed (prometheus on the VPS) notifies.
+  # A start at boot counts too, so a tunnel broken from boot gets 2 retries.
+  systemd.services.podman-wireguard-client = {
+    startLimitIntervalSec = 3600;
+    startLimitBurst = 3;
+    serviceConfig.RestartSec = "30s";
   };
   # For wireguard-client
   boot.kernel.sysctl."net.ipv4.conf.all.src_valid_mark" = 1;

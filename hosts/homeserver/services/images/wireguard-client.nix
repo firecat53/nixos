@@ -40,13 +40,21 @@ let
         exit 1
     fi
 
+    # The interface lives in the pod's netns, which outlives this container.
+    # After a kill (healthcheck --health-on-failure=kill) the shutdown trap
+    # never ran, so clear the leftovers or wg-quick up fails on "exists".
+    if ip link show ${interface} >/dev/null 2>&1; then
+        echo "Removing stale ${interface} from a previous run" >&2
+        wg-quick down ${interface} || ip link delete ${interface}
+    fi
+
     wg-quick up ${interface}
 
     # Keep the LAN reachable through the original gateway
     if [ -n "''${LOCAL_NETWORKS:-}" ]; then
         eval "$(ip r l | grep -v "${interface}\|kernel" | awk '{print "GW="$3"\nINT="$5}')"
         for network in ''${LOCAL_NETWORKS//,/ }; do
-            ip route add "$network" via "$GW" dev "$INT"
+            ip route replace "$network" via "$GW" dev "$INT"
         done
     fi
 
@@ -96,6 +104,9 @@ pkgs.dockerTools.streamLayeredImage {
       Interval = 90000000000; # 90s, in nanoseconds
       Timeout = 30000000000;
       StartPeriod = 30000000000;
+      # Consecutive failures before the container counts as unhealthy, which
+      # triggers --health-on-failure (see qbittorrent.nix).
+      Retries = 3;
     };
   };
 }
