@@ -14,9 +14,16 @@ in
     })
   ];
 
+  sops.secrets.hass-mcp-url = { };
+
   programs.claude-code = {
     enable = true;
-    package = pkgs.unstable.claude-code;
+    # Expanded in the hass and nixos repos' .mcp.json; scoped to claude, not
+    # every shell
+    package = pkgs.writeShellScriptBin "claude" ''
+      export HASS_MCP_URL="$(< ${config.sops.secrets.hass-mcp-url.path})"
+      exec ${pkgs.unstable.claude-code}/bin/claude "$@"
+    '';
     context = ''
       # Global Instructions
 
@@ -30,6 +37,7 @@ in
       voiceEnabled = false;
       agentPushNotifEnabled = true;
       awaySummaryEnabled = false;
+      enabledMcpjsonServers = [ "home-assistant" ];
       permissions = {
         defaultMode = "auto";
         allow = [
@@ -49,7 +57,6 @@ in
           "$defaults"
           "Bash(hatch publish:*)"
           "Bash(bw:*)"
-          "Bash(nixos-rebuild switch:*)"
         ];
       };
       enabledPlugins = {

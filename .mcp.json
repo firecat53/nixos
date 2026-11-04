@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "home-assistant": {
+      "type": "http",
+      "url": "${HASS_MCP_URL}"
+    }
+  }
+}
