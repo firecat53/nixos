@@ -11,16 +11,15 @@
 
   traefikBase = {
     dashboardHost = "monitor.lan.firecat53.net";
-    acmeDnsProvider = "cloudflare";
+    acmeDnsProvider = "porkbun";
     acmeResolvers = [ "1.1.1.1:53" ];
   };
 
-  sops.secrets.cf-api-token = {
+  # Porkbun API token for DNS-01 certs (firecat53.net and *.lan.firecat53.net)
+  sops.secrets.porkbun-api-keys = {
     mode = "0440";
     owner = config.users.users.traefik.name;
     group = config.users.users.traefik.group;
   };
-  systemd.services.traefik.environment = {
-    CF_DNS_API_TOKEN_FILE = "${config.sops.secrets.cf-api-token.path}";
-  };
+  systemd.services.traefik.serviceConfig.EnvironmentFile = config.sops.secrets.porkbun-api-keys.path;
 }
