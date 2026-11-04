@@ -1,13 +1,69 @@
 {
+  config,
   pkgs,
   ...
 }:
+let
+  claudeState = "${config.home.homeDirectory}/docs/family/scott/src/state/claude";
+in
 {
   home.packages = [
-    pkgs.unstable.claude-code
     pkgs.unstable.files-to-prompt
     (pkgs.unstable.llm.withPlugins {
       llm-anthropic = true;
     })
   ];
+
+  programs.claude-code = {
+    enable = true;
+    package = pkgs.unstable.claude-code;
+    context = ''
+      # Global Instructions
+
+      - **NixOS user**: Don't run package manager commands (pacman, apt, pip, etc.) to check if tools are installed — they will fail or be irrelevant. Use web search to find documentation for tools that aren't available locally.
+    '';
+    settings = {
+      model = "opus";
+      effortLevel = "high";
+      tui = "fullscreen";
+      voice.enabled = false;
+      voiceEnabled = false;
+      agentPushNotifEnabled = true;
+      awaySummaryEnabled = false;
+      permissions = {
+        defaultMode = "auto";
+        allow = [
+          "Bash(dig +short *)"
+          "Bash(getent ahostsv4 *)"
+        ];
+      };
+      autoMode = {
+        allow = [
+          "$defaults"
+          "Bash(make test:*)"
+          "Bash(make man)"
+          "Bash(make venv)"
+          "Bash(gh repo view:*)"
+        ];
+        soft_deny = [
+          "$defaults"
+          "Bash(hatch publish:*)"
+          "Bash(bw:*)"
+          "Bash(nixos-rebuild switch:*)"
+        ];
+      };
+      enabledPlugins = {
+        "gopls-lsp@claude-plugins-official" = false;
+        "lua-lsp@claude-plugins-official" = true;
+        "rust-analyzer-lsp@claude-plugins-official" = false;
+      };
+    };
+  };
+
+  # Session transcripts and plans synced via syncthing so /resume works on
+  # both desktops
+  home.file = {
+    ".claude/projects".source = config.lib.file.mkOutOfStoreSymlink "${claudeState}/projects";
+    ".claude/plans".source = config.lib.file.mkOutOfStoreSymlink "${claudeState}/plans";
+  };
 }
