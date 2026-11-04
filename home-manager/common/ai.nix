@@ -29,47 +29,13 @@ in
 
       - **NixOS user**: Don't run package manager commands (pacman, apt, pip, etc.) to check if tools are installed — they will fail or be irrelevant. Use web search to find documentation for tools that aren't available locally.
     '';
-    settings = {
-      model = "opus";
-      effortLevel = "high";
-      tui = "fullscreen";
-      voice.enabled = false;
-      voiceEnabled = false;
-      agentPushNotifEnabled = true;
-      awaySummaryEnabled = false;
-      enabledMcpjsonServers = [ "home-assistant" ];
-      permissions = {
-        defaultMode = "auto";
-        allow = [
-          "Bash(dig +short *)"
-          "Bash(getent ahostsv4 *)"
-        ];
-      };
-      autoMode = {
-        allow = [
-          "$defaults"
-          "Bash(make test:*)"
-          "Bash(make man)"
-          "Bash(make venv)"
-          "Bash(gh repo view:*)"
-        ];
-        soft_deny = [
-          "$defaults"
-          "Bash(hatch publish:*)"
-          "Bash(bw:*)"
-        ];
-      };
-      enabledPlugins = {
-        "gopls-lsp@claude-plugins-official" = false;
-        "lua-lsp@claude-plugins-official" = true;
-        "rust-analyzer-lsp@claude-plugins-official" = false;
-      };
-    };
   };
 
-  # Session transcripts and plans synced via syncthing so /resume works on
-  # both desktops
+  # Transcripts, plans and settings synced via syncthing so /resume works on
+  # both desktops. settings.json stays mutable so /config, /permissions and
+  # /auto-mode-setup can write it
   home.file = {
+    ".claude/settings.json".source = config.lib.file.mkOutOfStoreSymlink "${claudeState}/settings.json";
     ".claude/projects".source = config.lib.file.mkOutOfStoreSymlink "${claudeState}/projects";
     ".claude/plans".source = config.lib.file.mkOutOfStoreSymlink "${claudeState}/plans";
   };
