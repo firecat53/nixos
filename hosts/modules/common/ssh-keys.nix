@@ -56,7 +56,6 @@ in
         "192.168.200.101"
         "10.200.200.6"
         "lan.firecat53.net"
-        "firecat53.net"
       ];
       publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINe/I1ay/pp2nqJlF+m1yCEcxiNvg9tc+WynujnzTqcD";
     };
