@@ -190,10 +190,6 @@ in
         })
 
         # --- Syncthing / LAN devices (raw TCP) ---------------------------
-        (tcp {
-          name = "syncthing-vps";
-          url = "tcp://${vpsIP}:22000";
-        })
         (ep {
           name = "omada";
           group = "network";

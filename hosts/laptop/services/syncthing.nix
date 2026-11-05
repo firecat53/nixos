@@ -31,13 +31,6 @@
         "scott-office" = {
           id = "4L73OQJ-4T6KOAR-5TJLKKY-ANBRCCB-KAOBFM7-LWVGPFK-QQ643GT-H4LIXAH";
         };
-        "vps" = {
-          id = "EPFW7TB-MUV25YB-P2SM66L-ENLRREJ-UJIRELD-QC2FWM4-RVSLFJY-7YWXCQ6";
-          addresses = [
-            "quic://firecat53.com:22000"
-            "tcp://firecat53.com:22000"
-          ];
-        };
       };
       folders = {
         "camera-scotty" = {
@@ -103,7 +96,6 @@
           devices = [
             "homeserver"
             "scott-office"
-            "vps"
           ];
           id = "srv";
         };

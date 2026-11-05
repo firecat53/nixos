@@ -18,7 +18,7 @@ let
   mw = auth: [ "headers" ] ++ lib.optional auth "authelia";
 
   # Prefix generated router/service names with "me-" to avoid clashing with the
-  # existing *.firecat53.com routers (e.g. syncthing) on this host.
+  # existing *.firecat53.com routers (e.g. grafana) on this host.
   renamed = fn: set: lib.mapAttrs' (name: s: lib.nameValuePair "me-${name}" (fn name s)) set;
 
   mkRemoteRouter = name: s: {

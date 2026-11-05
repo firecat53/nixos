@@ -15,7 +15,6 @@
     ./ntfy.nix
     ./prometheus.nix
     ./rustdesk.nix
-    ./syncthing.nix
     ./syncthing-discovery.nix
     ./traefik.nix
   ];

@@ -29,10 +29,9 @@ let
   protected = lib.filterAttrs (_: s: s.auth) allServices;
   protectedDomains = map (n: "${n}.firecat53.me") (lib.attrNames protected);
 
-  # Protected hosts that aren't registry entries: the VPS's own syncthing GUI
-  # and Traefik dashboard live on firecat53.com with hand-written routers.
+  # Protected hosts that aren't registry entries: the VPS's Traefik dashboard
+  # lives on firecat53.com with a hand-written router.
   extraProtectedDomains = [
-    "syncthing.firecat53.com"
     "monitor.firecat53.com"
   ];
 

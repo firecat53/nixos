@@ -1,6 +1,5 @@
 # akkoma
 {
-  config,
   pkgs,
   ...
 }:
@@ -42,11 +41,6 @@
     ];
   };
   services.traefik.dynamicConfigOptions.http = {
-    middlewares.firecat53-redirect.redirectRegex = {
-      regex = "^https://firecat53\\.net(.*)$";
-      replacement = "https://s.firecat53.net$1";
-      permanent = true;
-    };
     routers = {
       akkoma = {
         rule = "Host(`s.firecat53.net`)";
@@ -62,28 +56,11 @@
         entrypoints = [ "websecure" ];
         tls.certResolver = "le";
       };
-      firecat53-redirect = {
-        rule = "Host(`firecat53.net`)";
-        service = "firecat53-redirect";
-        middlewares = [
-          "headers"
-          "firecat53-redirect"
-        ];
-        entrypoints = [ "websecure" ];
-        tls.certResolver = "le";
-      };
     };
     services = {
       akkoma.loadBalancer.servers = [
         {
           url = "http://localhost:4000";
-        }
-      ];
-
-      firecat53-redirect.loadBalancer.servers = [
-        {
-          # Dummy backend; redirect middleware handles the response
-          url = "http://localhost:${builtins.toString config.services.nginx.defaultHTTPListenPort}";
         }
       ];
     };

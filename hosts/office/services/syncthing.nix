@@ -31,13 +31,6 @@
         "scott-laptop" = {
           id = "ERJHQAD-KWQH5ZJ-CAV3ZFL-IR6ECOQ-EHVL7GY-6MY5A5M-IORUVXI-NSBYOQE";
         };
-        "vps" = {
-          id = "EPFW7TB-MUV25YB-P2SM66L-ENLRREJ-UJIRELD-QC2FWM4-RVSLFJY-7YWXCQ6";
-          addresses = [
-            "quic://firecat53.com:22000"
-            "tcp://firecat53.com:22000"
-          ];
-        };
       };
       folders = {
         "camera-scotty" = {
@@ -101,7 +94,6 @@
         "srv" = {
           path = "/home/firecat53/.local/srv";
           devices = [
-            "vps"
             "homeserver"
             "scott-laptop"
           ];

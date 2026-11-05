@@ -24,13 +24,6 @@
         "scott-cell" = {
           id = "6LDX7IF-D2MWKOW-APU3AUX-WXNBWFG-PNIUAPB-QKTWZHF-7MKLPBI-M6E6AQE";
         };
-        "vps" = {
-          id = "EPFW7TB-MUV25YB-P2SM66L-ENLRREJ-UJIRELD-QC2FWM4-RVSLFJY-7YWXCQ6";
-          addresses = [
-            "quic://firecat53.com:22000"
-            "tcp://firecat53.com:22000"
-          ];
-        };
         "scott-laptop" = {
           id = "ERJHQAD-KWQH5ZJ-CAV3ZFL-IR6ECOQ-EHVL7GY-6MY5A5M-IORUVXI-NSBYOQE";
         };
@@ -156,7 +149,6 @@
           devices = [
             "scott-laptop"
             "scott-office"
-            "vps"
           ];
           id = "srv";
         };

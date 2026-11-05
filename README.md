@@ -152,8 +152,8 @@ Service modules consume them with
 | -------------------------------------------------- | ---------------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------- |
 | `*.lan.firecat53.net`                              | homeserver Traefik                             | LAN + wireguard only | the "home" name every homeserver web app gets (real LE certs, but the name resolves to a LAN address)               |
 | `*.firecat53.me`                                   | VPS Traefik                                    | internet             | public front door: proxies over wireguard to the homeserver `.lan` name, or to a VPS-local port                     |
-| `*.firecat53.com`                                  | VPS Traefik                                    | internet             | VPS-native public apps (grafana, VPS nextcloud, ntfy, syncthing, Authelia portal, apex website)                     |
-| `firecat53.net` + subs (`matrix.`, `s.`, …)        | homeserver Traefik directly (443 port-forward) | internet             | federated/public apps that must be reached directly (Matrix, Akkoma) — hand-written, not in the registry            |
+| `*.firecat53.com`                                  | VPS Traefik                                    | internet             | VPS-native public apps (grafana, VPS nextcloud, ntfy, Authelia portal); apex website proxied to homeserver nginx    |
+| `firecat53.net` + subs (`matrix.`, `s.`, `sm.`)    | VPS Traefik → homeserver Traefik over wireguard | internet            | federated apps (Matrix, Akkoma) and the apex website — hand-written in `vps/services/proxy-net.nix`, not the registry |
 
 Rules of thumb:
 
