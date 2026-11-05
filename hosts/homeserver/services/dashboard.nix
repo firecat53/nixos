@@ -215,12 +215,6 @@ let
           icon = "syncthing.svg";
         }
         {
-          label = "Syncthing";
-          badge = "vps";
-          url = "https://syncthing.firecat53.com";
-          icon = "syncthing.svg";
-        }
-        {
           label = "Traefik";
           badge = "home";
           url = "https://monitor.lan.firecat53.net";
