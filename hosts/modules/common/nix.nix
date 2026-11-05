@@ -67,9 +67,6 @@ in
 
   nixpkgs.config = {
     allowUnfree = true;
-    permittedInsecurePackages = [
-      "olm-3.2.16" # Required by gomuks
-    ];
   };
 
   # `pkgs.unstable.<name>` for packages needed from nixos-unstable

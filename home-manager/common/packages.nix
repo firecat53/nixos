@@ -40,7 +40,6 @@ in
     andcli
     bitwarden-cli
     exiftool
-    gomuks
     hcloud
     home-manager
     jellyfin-tui
