@@ -529,7 +529,7 @@ wl-copy < ~/.ssh/id_ed25519.pub
 ```bash
 cd home/firecat53/docs/family/scott/src/dotfiles
 stow -t /home/firecat53/ --dotfiles stow/
-stow gomuks music passwords python ssh-scotty
+stow gpg-scotty projects
 ```
  
 ### Homeserver
