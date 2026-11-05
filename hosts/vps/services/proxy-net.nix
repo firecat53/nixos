@@ -2,7 +2,7 @@
 # firecat53.net / firecat53.com static site.
 #
 # TLS terminates here; requests go over wireguard to the homeserver's Traefik
-# with the real Host header, so its routers (akkoma.nix, matrix-synapse.nix,
+# with the real Host header, so its routers (akkoma.nix, matrix-continuwuity.nix,
 # nginx.nix) match unchanged.
 let
   inherit (import ../../modules/service-registry.nix) hsIP;

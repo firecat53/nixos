@@ -152,7 +152,7 @@ let
         }
         {
           label = "Matrix";
-          url = "https://matrix.to/#/@firecat53:firecat53.net";
+          url = "https://matrix.to/#/@scott:firecat53.net";
           icon = "matrix.svg";
         }
         {

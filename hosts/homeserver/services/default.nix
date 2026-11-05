@@ -17,7 +17,7 @@
     ./jellyfin.nix
     ./lan-proxy.nix
     ./lubelogger.nix
-    ./matrix-synapse.nix
+    ./matrix-continuwuity.nix
     ./miniflux.nix
     ./misc.nix
     ./nginx.nix

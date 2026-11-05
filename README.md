@@ -255,7 +255,7 @@ resolution all disappear with it — and the dashboard assertion fails at build
 time if a tile still points at it. Remove OIDC from authelia.nix if necessary.
 
 **Oddballs stay hand-written** in their own service files (path-prefix rules,
-extra middlewares, non-`.lan` hosts): matrix-synapse, akkoma, and the nginx
+extra middlewares, non-`.lan` hosts): matrix-continuwuity, akkoma, and the nginx
 `lan.firecat53.net` apex. If a service outgrows the registry schema,
 move it to a hand-written stanza rather than adding fields.
 

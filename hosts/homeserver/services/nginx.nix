@@ -27,7 +27,7 @@ in
     virtualHosts."lan.firecat53.net".locations = site // {
       "/rss/".alias = "/srv/rss/";
     };
-    # Matrix .well-known locations are added in matrix-synapse.nix
+    # /.well-known/matrix/ is routed to continuwuity (matrix-continuwuity.nix)
     virtualHosts."firecat53.net".locations = site // {
       # Everything else (webfinger, host-meta, nodeinfo, old links) is Akkoma's
       "/".return = "301 https://s.firecat53.net$request_uri";
