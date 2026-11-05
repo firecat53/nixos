@@ -20,10 +20,6 @@
       devices = {
         "homeserver" = {
           id = "3WS2YZY-BCZNA5N-ZNBCA5G-JNPVFLA-FJQI2VQ-BAM5LK5-UVLWWGM-4DWTRQM";
-          addresses = [
-            "quic://firecat53.net:22000"
-            "tcp://firecat53.net:22000"
-          ];
         };
         "scott-cell" = {
           id = "6LDX7IF-D2MWKOW-APU3AUX-WXNBWFG-PNIUAPB-QKTWZHF-7MKLPBI-M6E6AQE";
