@@ -22,4 +22,9 @@
     group = config.users.users.traefik.group;
   };
   systemd.services.traefik.serviceConfig.EnvironmentFile = config.sops.secrets.porkbun-api-keys.path;
+
+  # Keep the client IP the VPS proxy reports, e.g. for Akkoma's rate limiting
+  services.traefik.staticConfigOptions.entryPoints.websecure.forwardedHeaders.trustedIPs = [
+    "10.200.200.5" # vps
+  ];
 }

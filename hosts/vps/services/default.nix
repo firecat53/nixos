@@ -7,6 +7,7 @@
     ./gatus.nix
     ./grafana.nix
     ./proxy-me.nix
+    ./proxy-net.nix
     ./microbin.nix
     ./mysql.nix
     ./nextcloud.nix
