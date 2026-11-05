@@ -14,6 +14,12 @@ let
 in
 {
   services.traefik.dynamicConfigOptions.http = {
+    # The homeserver's sniStrict rejects SNI-less handshakes to its IP. One
+    # fixed SNI is enough; its routers then match on the passed Host header.
+    serversTransports.wg-homeserver-net = {
+      serverName = "firecat53.net";
+      insecureSkipVerify = true;
+    };
     routers.firecat53-net = {
       rule = builtins.concatStringsSep " || " (map (h: "Host(`${h}`)") hosts);
       service = "firecat53-net";
@@ -22,7 +28,7 @@ in
     };
     services.firecat53-net.loadBalancer = {
       passHostHeader = true;
-      serversTransport = "wg-homeserver";
+      serversTransport = "wg-homeserver-net";
       servers = [ { url = "https://${hsIP}"; } ];
     };
   };
