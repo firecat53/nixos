@@ -31,6 +31,7 @@ in
         server = "${fqdn}:443";
       };
       url_preview_domain_explicit_allowlist = [ "*" ];
+      new_user_displayname_suffix = "🐇";
       # First-account bootstrap only; remove once @scott exists
       allow_registration = true;
       registration_token_file = "/run/credentials/continuwuity.service/registration-token";
