@@ -335,11 +335,11 @@
     "my-secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1793911195,
-        "narHash": "sha256-mVIDAZMN/vO0QKS2zPUwXMHd/CYd1rLmeseJerintUk=",
+        "lastModified": 1793913662,
+        "narHash": "sha256-cepc/RtiJGzL62DKvM7wJ60/LfFGlbiK7cAzxdxwYCs=",
         "ref": "refs/heads/main",
-        "rev": "e314834a68cbd364cba813bdf8aa7d16199ce354",
-        "revCount": 54,
+        "rev": "f1c228ea819a8f0a641528f333e4c593f529d0b7",
+        "revCount": 55,
         "type": "git",
         "url": "ssh://forgejo/firecat53/nixos-secrets"
       },

@@ -1,6 +1,5 @@
 # Continuwuity Matrix homeserver (public via the VPS, see vps/services/proxy-net.nix)
 {
-  config,
   pkgs,
   ...
 }:
@@ -17,8 +16,6 @@ let
   };
 in
 {
-  sops.secrets.continuwuity-registration-token = { };
-
   services.matrix-continuwuity = {
     enable = true;
     # The default 0.5.x is marked insecure (SEC8); 26.x carries the fix
@@ -32,15 +29,8 @@ in
       };
       url_preview_domain_explicit_allowlist = [ "*" ];
       new_user_displayname_suffix = "🐇";
-      # First-account bootstrap only; remove once @scott exists
-      allow_registration = true;
-      registration_token_file = "/run/credentials/continuwuity.service/registration-token";
     };
   };
-  # DynamicUser can't read sops files directly
-  systemd.services.continuwuity.serviceConfig.LoadCredential = [
-    "registration-token:${config.sops.secrets.continuwuity-registration-token.path}"
-  ];
 
   services.traefik.dynamicConfigOptions.http = {
     routers = {
