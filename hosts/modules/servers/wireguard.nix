@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   ...
 }:
 let
@@ -45,9 +46,15 @@ in
       #address = ["10.200.200.6/32"]; Set in configuration.nix for each host
       DHCP = "no";
       dns = [ "10.200.200.1" ];
+      # Remote hosts: only .lan names go to opnsense, whose LAN overrides
+      # (e.g. firecat53.net -> 192.168.200.101) aren't routable from outside.
+      domains = lib.mkIf config.isRemote [ "~lan.firecat53.net" ];
       linkConfig.RequiredForOnline = "no";
       networkConfig = {
         IPv4Forwarding = "yes";
+      }
+      // lib.optionalAttrs config.isRemote {
+        DNSDefaultRoute = false;
       };
     };
   };
