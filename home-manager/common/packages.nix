@@ -61,6 +61,7 @@ in
     dmenu
     electrum
     firefox
+    fluffychat
     hunspell
     hunspellDicts.en-us-large
     imv
