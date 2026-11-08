@@ -24,6 +24,7 @@
     ./nix-cache.nix
     ./peggy.nix
     ./permissions.nix
+    ./phanpy.nix
     ./pinchflat.nix
     ./postgresql.nix
     ./qbittorrent.nix

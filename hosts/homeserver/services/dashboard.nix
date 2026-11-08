@@ -160,6 +160,11 @@ let
           url = "https://ntfy.firecat53.com";
           icon = "ntfy.svg";
         }
+        {
+          label = "Phanpy";
+          url = me "phanpy";
+          icon = "phanpy.svg";
+        }
       ];
     }
     {

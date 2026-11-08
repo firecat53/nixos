@@ -113,6 +113,12 @@
       basicAuth = true;
       vpsBypass = true;
     };
+    phanpy = {
+      # Akkoma web client (static site served by nginx, defaultHTTPListenPort)
+      lan = "phanpy.lan.firecat53.net";
+      port = 8080;
+      auth = true;
+    };
     jackett = {
       lan = "jackett.lan.firecat53.net";
       port = 9117;
