@@ -30,6 +30,13 @@ in
       url_preview_domain_explicit_allowlist = [ "*" ];
       new_user_displayname_suffix = "🐇";
     };
+    # MatrixRTC calls via LiveKit on the VPS (vps/services/livekit.nix)
+    settings.global.matrix_rtc.foci = [
+      {
+        type = "livekit";
+        livekit_service_url = "https://livekit.firecat53.com";
+      }
+    ];
   };
 
   services.traefik.dynamicConfigOptions.http = {

@@ -6,6 +6,7 @@
     ./bfd-services.nix
     ./gatus.nix
     ./grafana.nix
+    ./livekit.nix
     ./proxy-me.nix
     ./proxy-net.nix
     ./microbin.nix

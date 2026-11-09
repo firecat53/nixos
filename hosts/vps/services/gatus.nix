@@ -139,6 +139,12 @@ in
           conditions = ok200;
           alerts = ntfyAndEmail;
         })
+        (ep {
+          name = "livekit";
+          group = "public";
+          url = "https://livekit.firecat53.com/healthz";
+          conditions = ok200;
+        })
 
         # --- Media --------------------------------------------------------
         (ep {
