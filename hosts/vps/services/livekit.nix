@@ -7,7 +7,7 @@
 }:
 let
   fqdn = "livekit.firecat53.com";
-  jwtPort = 8081; # 8080 is nginx
+  jwtPort = 8089; # 8080 nginx, 8081 microbin
   router = rule: service: {
     inherit rule service;
     middlewares = [ "headers" ];
