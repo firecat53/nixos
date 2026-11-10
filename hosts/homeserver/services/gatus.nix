@@ -1,7 +1,7 @@
 # Gatus - declarative status/health monitoring
 #
 #   - VPS apps with a public *.firecat53.com endpoint that is NOT behind
-#     Authelia (grafana, nextcloud, nginx, apparatus, ntfy) are probed end-to-end over
+#     Authelia (grafana, nextcloud, nginx, apparatus, ntfy, livekit) are probed end-to-end over
 #     their real public URL. That tests DNS + the VPS Traefik + the wildcard
 #     cert (cert-expiry conditions included) + the backend in one shot.
 #   - Microbin lives behind Authelia at mb.firecat53.me, but paste assets are
@@ -155,6 +155,11 @@ in
           url = "https://ntfy.firecat53.com/v1/health";
           conditions = ok200; # {"healthy":true}
           alerts = ntfyAndEmail; # ntfy alerts can't report ntfy being down
+        })
+        (ep {
+          name = "livekit";
+          url = "https://livekit.firecat53.com/healthz";
+          conditions = ok200;
         })
         (ep {
           name = "microbin";
