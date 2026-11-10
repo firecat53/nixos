@@ -158,8 +158,13 @@ in
         })
         (ep {
           name = "livekit";
+          url = "https://livekit.firecat53.com/";
+          conditions = ok200; # SFU answers "OK" at /
+        })
+        (ep {
+          name = "livekit-jwt";
           url = "https://livekit.firecat53.com/healthz";
-          conditions = ok200;
+          conditions = ok200; # /healthz is routed to lk-jwt-service
         })
         (ep {
           name = "microbin";
