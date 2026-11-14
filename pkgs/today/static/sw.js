@@ -1,4 +1,4 @@
-const CACHE = "today-shell-v4";
+const CACHE = "today-shell-v6";
 const SHELL = [
   "/static/style.css",
   "/static/app.js",

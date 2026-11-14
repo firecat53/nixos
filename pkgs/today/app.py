@@ -217,6 +217,116 @@ def insert_workout(text: str, d: date, time: str, exercises: str, intensity: str
     return "\n".join(new_block + lines) + ("\n" if text.endswith("\n") else "")
 
 
+# --- hydroponics/log.md insertion ---------------------------------------------
+
+FILL_RE = re.compile(r"^## Fill (\d+) [-—] (\d{4}-\d{2}-\d{2})")
+NUM_RE = re.compile(r"^\d+(\.\d+)?$")
+
+
+def hydro_path() -> Path:
+    return WIKI_DIR / "hydroponics" / "log.md"
+
+
+def num(form, key: str) -> str:
+    """A numeric form field as typed (comma decimal tolerated), or ''."""
+    v = (form.get(key) or "").strip().replace(",", ".")
+    return v if NUM_RE.match(v) else ""
+
+
+def one_line(s: str) -> str:
+    return " ".join((s or "").split())
+
+
+def format_hydro_line(d: date, f: dict[str, str]) -> str:
+    """'* date | pH / EC / °C | +additions -> after | notes | **Harv** n'."""
+    parts = [d.isoformat()]
+    if f["ph"] or f["ec"] or f["temp"]:
+        parts.append(" / ".join(f[k] or "-" for k in ("ph", "ec", "temp")))
+    adds = [
+        f"{f[k]} {label}"
+        for k, label in (
+            ("water", "L water"),
+            ("flora", "ml Flora"),
+            ("calmag", "ml CaliMagic"),
+            ("phdown", "ml pH down"),
+            ("phup", "ml pH up"),
+        )
+        if f[k]
+    ]
+    after = " / ".join(f[k] or "-" for k in ("after_ph", "after_ec")) if f["after_ph"] or f["after_ec"] else ""
+    if adds or after:
+        seg = "+" + ", ".join(adds) if adds else ""
+        if after:
+            seg = f"{seg} -> {after}".strip()
+        parts.append(seg)
+    if f["notes"]:
+        parts.append(f["notes"])
+    if f["harvest"]:
+        parts.append(f"**Harv** {f['harvest']} head{'' if f['harvest'] == '1' else 's'}")
+    return "* " + " | ".join(parts)
+
+
+def newest_section(lines: list[str]) -> tuple[int, int] | None:
+    """(heading_idx, end_idx) of the first '## ' section; the log is newest-first."""
+    start = next((i for i, l in enumerate(lines) if l.startswith("## ")), None)
+    if start is None:
+        return None
+    end = next((i for i in range(start + 1, len(lines)) if lines[i].startswith("## ")), len(lines))
+    return start, end
+
+
+def insert_hydro_line(text: str, line: str) -> str:
+    """Put the line above the newest section's first bullet."""
+    lines = text.splitlines()
+    sec = newest_section(lines)
+    if sec is None:
+        out = lines + ([""] if lines and lines[-1].strip() else []) + [line]
+        return "\n".join(out) + "\n"
+    start, end = sec
+    first = next((i for i in range(start + 1, end) if lines[i].startswith("* ")), None)
+    if first is not None:
+        out = lines[:first] + [line] + lines[first:]
+    else:
+        # No bullets yet: after the section's preamble (recipe lines)
+        last = max(i for i in range(start, end) if lines[i].strip())
+        out = lines[: last + 1] + ["", line] + lines[last + 1 :]
+    return "\n".join(out) + "\n"
+
+
+def insert_hydro_fill(text: str, d: date, volume: str, recipe: str) -> str:
+    """Start a new '## Fill N' section above the newest one."""
+    lines = text.splitlines()
+    n = max((int(m.group(1)) for l in lines if (m := FILL_RE.match(l))), default=0) + 1
+    block = [f"## Fill {n} - {d.isoformat()}" + (f" ({volume} L)" if volume else ""), ""]
+    if recipe:
+        block += [f"Recipe: {recipe}", ""]
+    block += [f"* {d.isoformat()} | **Res** full reservoir change", ""]
+    sec = newest_section(lines)
+    if sec is None:
+        out = lines + ([""] if lines and lines[-1].strip() else []) + block
+    else:
+        out = lines[: sec[0]] + block + lines[sec[0] :]
+    return "\n".join(out).rstrip("\n") + "\n"
+
+
+def hydro_status() -> dict:
+    path = hydro_path()
+    if not path.exists():
+        return {"fill": None, "recipe": "", "recent": ""}
+    lines = path.read_text().splitlines()
+    sec = newest_section(lines)
+    if sec is None:
+        return {"fill": None, "recipe": "", "recent": ""}
+    body = lines[sec[0] + 1 : sec[1]]
+    m = FILL_RE.match(lines[sec[0]])
+    fill = None
+    if m:
+        fill = {"n": m.group(1), "day": (date.today() - date.fromisoformat(m.group(2))).days}
+    recipe = next((l[len("Recipe:") :].strip() for l in body if l.startswith("Recipe:")), "")
+    recent = "\n".join([l for l in body if l.startswith("* ")][:3])
+    return {"fill": fill, "recipe": recipe, "recent": recent}
+
+
 # --- Routes -------------------------------------------------------------------
 
 @app.route("/sw.js")
@@ -249,6 +359,7 @@ def index():
         diary_relpath=rel,
         diary_text=diary_text,
         books=incomplete_books(),
+        hydro=hydro_status(),
     )
 
 
@@ -349,6 +460,37 @@ def post_book_want():
         f.seek(0)
         f.truncate()
         f.write(new_text)
+    return redirect(url_for("index"))
+
+
+@app.post("/hydro")
+def post_hydro():
+    f = {
+        k: num(request.form, k)
+        for k in ("ph", "ec", "temp", "water", "flora", "calmag", "phdown", "phup", "after_ph", "after_ec", "harvest")
+    }
+    f["notes"] = one_line(request.form.get("notes"))
+    if not any(f.values()):
+        return redirect(url_for("index"))
+    with locked(hydro_path(), "r+") as fh:
+        text = fh.read()
+        new_text = insert_hydro_line(text, format_hydro_line(date.today(), f))
+        fh.seek(0)
+        fh.truncate()
+        fh.write(new_text)
+    return redirect(url_for("index"))
+
+
+@app.post("/hydro/fill")
+def post_hydro_fill():
+    volume = num(request.form, "volume")
+    recipe = one_line(request.form.get("recipe"))
+    with locked(hydro_path(), "r+") as fh:
+        text = fh.read()
+        new_text = insert_hydro_fill(text, date.today(), volume, recipe)
+        fh.seek(0)
+        fh.truncate()
+        fh.write(new_text)
     return redirect(url_for("index"))
 
 

@@ -130,6 +130,56 @@ button:active { transform: translateY(1px); }
   }
 }
 
+.hydro {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+}
+
+.hydro .readings {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.hydro .adds {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.hydro textarea { margin-bottom: 0; }
+
+h2 small {
+  font-size: 0.8rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  margin-left: 0.4rem;
+}
+
+/* Full-width 44px tap target, set apart from the inputs around it */
+summary {
+  color: var(--muted);
+  min-height: 44px;
+  line-height: 44px;
+  margin: 0.25rem 0;
+  padding: 0 0.8rem;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.hydro-recent { margin-top: 0.6rem; }
+
+.newfill { margin-top: 0.6rem; }
+.newfill form { margin-top: 0.5rem; }
+
+@media (min-width: 480px) {
+  .hydro .adds { grid-template-columns: repeat(4, 1fr); }
+}
+
 .books {
   list-style: none;
   padding: 0;

@@ -41,6 +41,42 @@
     </section>
 
     <section class="card">
+      <h2><a href="{{ gollum_base }}/hydroponics/log">Hydroponics</a>{% if hydro.fill %}
+        <small>fill {{ hydro.fill.n }} · day {{ hydro.fill.day }}</small>{% endif %}</h2>
+      <form method="post" action="{{ url_for('post_hydro') }}" class="hydro">
+        <div class="readings">
+          <input name="ph" placeholder="pH" inputmode="decimal" autocomplete="off">
+          <input name="ec" placeholder="EC" inputmode="decimal" autocomplete="off">
+          <input name="temp" placeholder="°C" inputmode="decimal" autocomplete="off">
+        </div>
+        <details>
+          <summary>Additions / harvest</summary>
+          <div class="adds">
+            <input name="water" placeholder="Water L" inputmode="decimal" autocomplete="off">
+            <input name="flora" placeholder="Flora ml each" inputmode="decimal" autocomplete="off">
+            <input name="calmag" placeholder="CaliMagic ml" inputmode="decimal" autocomplete="off">
+            <input name="phdown" placeholder="pH down ml" inputmode="decimal" autocomplete="off">
+            <input name="phup" placeholder="pH up ml" inputmode="decimal" autocomplete="off">
+            <input name="harvest" placeholder="Heads harvested" inputmode="numeric" autocomplete="off">
+            <input name="after_ph" placeholder="pH after" inputmode="decimal" autocomplete="off">
+            <input name="after_ec" placeholder="EC after" inputmode="decimal" autocomplete="off">
+          </div>
+        </details>
+        <input name="notes" placeholder="Notes">
+        <button type="submit">Log</button>
+      </form>
+      {% if hydro.recent %}<pre class="diary hydro-recent">{{ hydro.recent }}</pre>{% endif %}
+      <details class="newfill">
+        <summary>New reservoir fill</summary>
+        <form method="post" action="{{ url_for('post_hydro_fill') }}" class="hydro">
+          <input name="volume" placeholder="Volume L" inputmode="decimal" autocomplete="off">
+          <textarea name="recipe" rows="3" placeholder="Recipe">{{ hydro.recipe }}</textarea>
+          <button type="submit">Start fill</button>
+        </form>
+      </details>
+    </section>
+
+    <section class="card">
       <h2><a href="{{ gollum_base }}/books">Add book</a></h2>
       <form method="post" action="{{ url_for('post_book_new') }}" class="newbook">
         <input name="author" placeholder="Author" required>
