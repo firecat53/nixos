@@ -45,8 +45,8 @@
         <small>fill {{ hydro.fill.n }} · day {{ hydro.fill.day }}</small>{% endif %}</h2>
       <form method="post" action="{{ url_for('post_hydro') }}" class="hydro">
         <div class="readings">
-          <input name="ph" placeholder="pH" inputmode="decimal" autocomplete="off">
           <input name="ec" placeholder="EC" inputmode="decimal" autocomplete="off">
+          <input name="ph" placeholder="pH" inputmode="decimal" autocomplete="off">
           <input name="temp" placeholder="°C" inputmode="decimal" autocomplete="off">
         </div>
         <details>
@@ -58,8 +58,8 @@
             <input name="phdown" placeholder="pH down ml" inputmode="decimal" autocomplete="off">
             <input name="phup" placeholder="pH up ml" inputmode="decimal" autocomplete="off">
             <input name="harvest" placeholder="Heads harvested" inputmode="numeric" autocomplete="off">
-            <input name="after_ph" placeholder="pH after" inputmode="decimal" autocomplete="off">
             <input name="after_ec" placeholder="EC after" inputmode="decimal" autocomplete="off">
+            <input name="after_ph" placeholder="pH after" inputmode="decimal" autocomplete="off">
           </div>
         </details>
         <input name="notes" placeholder="Notes">
