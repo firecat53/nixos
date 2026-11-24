@@ -146,5 +146,8 @@
 
   networking.networkmanager.enable = true;
 
+  # Headroom for nixos-install builds, which have run the ISO out of memory.
+  zramSwap.enable = true;
+
   system.stateVersion = "26.05";
 }

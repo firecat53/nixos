@@ -389,6 +389,12 @@ generates a new SSH host key.
 Stage 2 re-keys the secrets to use the new host key and then builds the actual
 machine config.
 
+Before starting, a `hosts/<host>/` directory with a `disko-config.nix` for this
+machine must exist. For a brand new host, create it first per
+[Minimal and Base Installs](#minimal-and-base-installs). You can do that on the
+booted ISO after step 1 (edit the copy in `~/nixos/nixos`), since the disk ids
+come from the target machine: `ls -l /dev/disk/by-id/`.
+
 ```bash
 # 1. Boot the ISO. Device keys from ssh-keys.nix are already authorized for
 #    the `nixos` user, so just ssh in.
@@ -396,11 +402,13 @@ sudo mkdir -p /run/data && sudo mount /dev/disk/by-label/DATA /run/data
 cp -a /run/data/{nixos,shared,dotfiles} ~/
 NIXOS=~/nixos/nixos
 
-# 2. Partition (update device ids first).
+# 2. Partition. hosts/<host>/disko-config.nix must already exist with this
+#    machine's /dev/disk/by-id/ device(s) (see above).
 sudo disko --mode disko $NIXOS/hosts/<host>/disko-config.nix
 
-# 3. Hardware scan into the minimal target. Drop --no-filesystems if not disko.
-sudo nixos-generate-config --no-filesystems --show-hardware-config --root /mnt \
+# 3. Hardware scan into the minimal target. No --no-filesystems, even with
+#    disko: #minimal doesn't import disko, so this is its only fileSystems.
+sudo nixos-generate-config --show-hardware-config --root /mnt \
   > $NIXOS/hosts/installer/minimal/hardware-configuration.nix
 
 # 4. Stage 1. --no-root-password: users.nix already sets initialHashedPassword.
@@ -496,7 +504,8 @@ wl-copy < ~/.ssh/id_ed25519.pub
 ### Minimal and Base Installs
 
 1. Copy/rename desired exmaple directory to hosts/xxxxx.
-2. Update CHANGEME items (disk device id, disk encryption, etc).
+2. Update CHANGEME items (disk device id, disk encryption, etc). Get the
+   device id from the target machine: `ls -l /dev/disk/by-id/`.
 3. Update configuration as desired.
     a. If using base-btrfs with encryption, rename `disko-config-luks.nix` to
     `disko-config.nix`
@@ -506,7 +515,8 @@ wl-copy < ~/.ssh/id_ed25519.pub
     b. Add new host to nixos-secrets/.sops.yml
     c. `sops updatekeys` happens after install
     d. Update flake inputs
-6. [Install using nixos-anywhere](#installing-using-nixos-anywhere)
+6. Install using [nixos-anywhere](#installing-using-nixos-anywhere) or the
+   [ISO installer](#installing-locally-on-a-new-machine-using-the-iso-installer).
 
 ### BACKUP server
 

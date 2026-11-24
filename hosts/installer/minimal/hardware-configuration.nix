@@ -4,6 +4,7 @@
 #   nixos-generate-config --show-hardware-config --root /mnt \
 #     > hosts/installer/minimal/hardware-configuration.nix
 #
-# Add --no-filesystems if disko is providing them.
+# Never add --no-filesystems: #minimal doesn't import disko, so this is its
+# only fileSystems source.
 {
 }

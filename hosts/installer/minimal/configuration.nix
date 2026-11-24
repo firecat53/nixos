@@ -42,6 +42,9 @@
 
   networking.networkmanager.enable = true;
 
+  # Headroom for the stage-2 build of the full host config.
+  zramSwap.enable = true;
+
   # Enough to finish the sops rekey from here if it was not done from the ISO.
   environment.systemPackages = with pkgs; [
     age
