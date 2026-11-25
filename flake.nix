@@ -72,15 +72,17 @@
       # Usage:
       #   Default x86_64:  mkSystem { host = "hostname"; };
       #   Custom system:   mkSystem { host = "hostname"; system = "aarch64-linux"; };
+      #   Other file:      mkSystem { host = "hostname"; file = "desktop.nix"; };
       mkSystem =
         {
           host,
+          file ? "configuration.nix",
           system ? "x86_64-linux",
         }:
         nixpkgs.lib.nixosSystem {
           modules = [
             { nixpkgs.hostPlatform = system; }
-            ./hosts/${host}/configuration.nix
+            ./hosts/${host}/${file}
           ];
           specialArgs = {
             inherit inputs outputs;
@@ -90,6 +92,12 @@
     {
       nixosConfigurations = {
         backup = mkSystem { host = "backup"; };
+        # Throwaway installs for testing hardware or VMs
+        generic-desktop = mkSystem {
+          host = "generic";
+          file = "desktop.nix";
+        };
+        generic-server = mkSystem { host = "generic"; };
         homeserver = mkSystem { host = "homeserver"; };
         installer = mkSystem { host = "installer/iso"; };
         laptop = mkSystem { host = "laptop"; };

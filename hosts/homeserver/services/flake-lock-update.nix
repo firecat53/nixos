@@ -26,10 +26,10 @@ let
     nix flake update --flake ${repo} --commit-lock-file
 
     # Read the host list from the clone, so a host added to the flake is gated
-    # without touching this file. The install-media targets are dropped here and
-    # gated by evaluation just below.
+    # without touching this file. The install-media and generic targets are
+    # dropped here and gated by evaluation just below.
     hosts=$(nix eval --raw ${repo}#nixosConfigurations --apply \
-      'cfgs: builtins.concatStringsSep " " (builtins.filter (h: h != "installer" && h != "minimal") (builtins.attrNames cfgs))')
+      'cfgs: builtins.concatStringsSep " " (builtins.filter (h: !(builtins.elem h [ "installer" "minimal" "generic-desktop" "generic-server" ])) (builtins.attrNames cfgs))')
 
     # Evaluate the minimal config. 
     nix eval --raw ${repo}#packages.x86_64-linux.installer-iso.drvPath >/dev/null
@@ -37,6 +37,10 @@ let
     # so one is supplied here to get its toplevel past the assertion.
     nix eval --raw ${repo}#nixosConfigurations.minimal --apply \
       'cfg: (cfg.extendModules { modules = [ { fileSystems."/" = { device = "/dev/null"; fsType = "ext4"; }; } ]; }).config.system.build.toplevel.drvPath' >/dev/null
+    # Throwaway installs; not worth building and rooting nightly.
+    for host in generic-desktop generic-server; do
+      nix eval --raw ${repo}#nixosConfigurations."$host".config.system.build.toplevel.drvPath >/dev/null
+    done
 
     # --out-link roots the current toplevel per host, so the weekly gc reclaims
     # only the superseded ones instead of the whole desktop closure.

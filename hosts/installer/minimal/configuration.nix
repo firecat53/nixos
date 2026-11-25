@@ -19,9 +19,14 @@
     ../../modules/common/sshd.nix
     ../../modules/common/tz_locale.nix
     ../../modules/common/users.nix
+    ../../modules/servers/neovim.nix
   ];
 
   networking.hostName = "minimal";
+
+  # nix.nix would upgrade to forgejo's #minimal, whose hardware config is the
+  # placeholder. Stage 2 replaces this system anyway.
+  system.autoUpgrade.enable = lib.mkForce false;
 
   # Arbitrary; stage 2 sets the host's real one.
   networking.hostId = "0badc0de";

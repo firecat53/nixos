@@ -13,7 +13,10 @@
 * Examples:
     + Flake install w/ home-manager and sops.
         - Encrypted or unencrypted `base-btrfs` or `base-zfs`
-    + Bare minimum flake install for testing. `base-minimal`
+* Generic `generic-server` / `generic-desktop` (`hosts/generic`) - throwaway
+  installs for testing hardware or VMs, independent of the rest of the repo
+  except `ssh-keys.nix`. Desktop is COSMIC, with sway as a second session. See
+  [Generic installs](#generic-installs).
 * Installer/rescue ISO `hosts/installer/iso` - custom auto-build monthly into
   /mnt/downloads/iso for use with the trusty-boot-key project.
 * Stage-1 install target `minimal` (`hosts/installer/minimal`) - bootable, no
@@ -420,6 +423,24 @@ sudo umount -R /mnt && sudo zpool export -a && sudo systemctl reboot
 ```
 
 Then [post install](#post-install).
+
+### Generic installs
+
+One stage, no hardware scan or device-id edits: nixpkgs'
+`profiles/all-hardware.nix` (the installer ISO's broad initrd driver set)
+stands in for `hardware-configuration.nix`, and `--disk` picks the target disk. UEFI
+only (see the comment in `hosts/generic/configuration.nix` for BIOS).
+
+```bash
+# Boot the ISO, ssh in, copy the repo as in step 1 above, then:
+ls -l /dev/disk/by-id/
+sudo disko-install --flake $NIXOS#generic-desktop --disk main /dev/disk/by-id/<disk>
+```
+
+Log in as `firecat53` (initial password `firecat53`, change it), or
+`ssh firecat53@nixos.local`. No autoUpgrade: update with
+`nixos-rebuild switch --flake ~/nixos/nixos#generic-desktop --sudo` from a copy
+of the repo.
 
 ### Post install
 
