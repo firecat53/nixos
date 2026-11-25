@@ -88,6 +88,8 @@ in
   hardware.enableRedistributableFirmware = true;
   hardware.cpu.amd.updateMicrocode = true;
   hardware.cpu.intel.updateMicrocode = true;
+  # Optimus laptops where nouveau locks up the machine (e.g. Yoga 710, GM108):
+  # boot.blacklistedKernelModules = [ "nouveau" ];
 
   services.btrfs.autoScrub.enable = true;
   services.fwupd.enable = true;
