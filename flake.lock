@@ -3,11 +3,11 @@
     "bfd-apparatus": {
       "flake": false,
       "locked": {
-        "lastModified": 1795369103,
-        "narHash": "sha256-oJK9LNrQjXZpblVK0bAs9TuQWooQ1d2hgeDG90wSpTI=",
+        "lastModified": 1795717960,
+        "narHash": "sha256-wCyz5/DSnLxOf7/xmOJnBWCwAlQujwGjJ0nh3ErEa0I=",
         "ref": "refs/heads/main",
-        "rev": "b3130f4cc5731afcbb6c8fee19b575b9504449fa",
-        "revCount": 69,
+        "rev": "27613a4a53901b4eab550a5cbe87d6df79263a7b",
+        "revCount": 70,
         "type": "git",
         "url": "https://git.firecat53.me/firecat53/BFD-apparatus.git"
       },
